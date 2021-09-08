@@ -1,0 +1,16 @@
+---
+title: 'flextable formatting'
+output: beamer_presentation
+---
+    
+    
+ 
+    
+    
+```{r}
+    library(flextable)
+    ft <- flextable(head(mtcars))
+    ft <- autofit(ft)
+    ft
+```
+  

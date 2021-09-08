@@ -1,0 +1,348 @@
+---
+title: "Thema 2: Bayes-Modelle einer kleinen Welt"
+subtitle: "QM2, ReThink_v1, Kap. 2"
+author: Prof. Sauer
+date: WiSe 21
+lang: de-DE
+bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+institute: AWM, HS Ansbach
+header-includes:
+- \usepackage{booktabs}
+output:
+  beamer_presentation:
+    toc: true
+    theme: "Berkeley"
+    #colortheme: "dolphin"
+    # fonttheme: "structurebold"
+    keep_tex: true
+    includes:
+      in_header: preamble.tex    
+---
+
+
+```{r global-knitr-options, include=FALSE}
+knitr::opts_chunk$set(fig.pos = 'H',
+  fig.asp = 0.618,
+  fig.center = "align",
+  fig.width = 5,
+  out.width = "70%",
+  fig.cap = "", 
+  fig.path = "",
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  cache = FALSE,
+  fig.show = "hold")
+```
+
+
+```{r echo = FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(flextable)
+```
+
+
+
+
+# Kleine Welt, große Welt
+
+
+
+
+## Behaims Globus, Kolumbus glücklicher Fehler
+
+```{r, echo = FALSE} 
+knitr::include_graphics(file.path("img", "Behaim.jpg"))
+```
+
+[Quelle](https://de.wikipedia.org/wiki/Martin_Behaims_Erdapfel#/media/Datei:RavensteinBehaim.jpg)
+
+
+
+## Kleine Welt, große Welt
+
+
+:::::: {.columns}
+::: {.column width="50%"}
+### Kleine Welt 
+- Die Welt, wie sie der Golem sieht
+- entspricht dem Modell
+
+
+::: 
+::: {.column width="50%"}
+### Große Welt
+- Die Welt, wie sie in Wirklichkeit ist
+- entspricht nicht (zwangsläufig) dem Modell
+:::
+::::::
+
+
+- Die kleine Welt ist nicht die große Welt.
+- Was in der kleinen Welt funktioniert, muss nicht in der großen Welt funktionieren.
+- Modelle zeigen immer nur die kleine Welt: Vorsicht vor schnellen Schlüssen und vermeintlicher Gewissheit.
+
+
+
+# Bayes-Statistik als Zählen
+
+
+## Murmeln im Säckchen
+
+- Sie haben ein Säckchen mit vier Murmeln darin. 
+
+- Sie wissen nicht, welche Farben die Murmeln haben.
+
+- Murmeln gibt's in zwei Farben: weiß (W) oder blau (B).
+
+- Es gibt daher fünf *Hypothesen* zur Farbe der Murmeln im Säckchen: WWWW, BWWW, BBWW, BBBW, BBBB.
+
+- Unsere Aufgabe ist, die Wahrscheinlichkeiten der Hypothesen nach Ziehen von Murmeln zu bestimmen.
+
+
+
+```{r, echo = FALSE, out.width="50%"} 
+
+source("R-Code/img2111.R")
+
+```
+
+
+
+
+## Unsere Daten
+
+
+- Wir ziehen eine Murmel, merken uns die Farbe und legen sie zurück. Das wiederholen wir noch zwei Mal (Ziehen mit Zurücklegen). 
+
+- Wir erhalten: BWB. 
+
+- Voilà: unsere Daten.
+
+```{r, echo = FALSE} 
+#knitr::include_graphics(file.path("img", "img2112.png"))
+source("R-Code/img2112.R")
+```
+
+
+[@kurz_statistical_2021]
+
+## Zugmöglichkeiten laut Hypothese [BWWW], 1. Zug
+
+Wenn Hypothese [BWWW] der Fall sein sollte, dann können wir im *ersten* Zug entweder die eine blaue Murmel erwischen oder eine der drei weißen.
+
+```{r, echo = FALSE, out.width="70%"} 
+#knitr::include_graphics(file.path("img", "img2113.png"))
+source("R-Code/img2113.R")
+```
+
+Nachdem wir die Murmel gezogen haben (und die Farbe gemerkt haben), legen wir sie wieder ins Säckchen: Ziehen mit Zurücklegen.
+
+
+
+## Zugmöglichkeiten laut Hypothese [BWWW], 1. und 2. Zug
+
+Wenn Hypothese [BWWW] der Fall sein sollte, dann haben wir im *zweiten* Zug natürlich die gleichen Möglichkeiten wie im ersten.
+
+Zug 1 und Zug 2 zusammen genommen gibt es $16=4\cdot4=4^2$ Kombinationen an gezogenen Murmeln:
+
+```{r, echo = FALSE, out.width="50%"} 
+#knitr::include_graphics(file.path("img", "img2113.png"))
+source("R-Code/img2114.R")
+```
+
+Die ersten vier Kombinationen sind: BB, BW, BW, BW
+
+
+
+
+
+## Zugmöglichkeiten laut Hypothese [BWWW], 1.-3. Zug
+
+
+
+Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann $4\cdot4\cdot4=4^3=64$ Kombinationen, drei Murmeln zu ziehen.
+
+```{r, echo = FALSE, out.width="50%"} 
+#knitr::include_graphics(file.path("img", "img2113.png"))
+source("R-Code/img2115.R")
+```
+
+
+## Welche Züge sind logisch möglich?
+
+
+- Einige Kombinationen ("Pfade") lassen sich nicht mit unseren Daten (BWB) vereinbaren.
+- Z.B. alle Kombinationen die mit W beginnen, sind nicht mit unseren Daten zu vereinbaren.
+
+```{r fig.show = "hold", out.width=c("49%", "49%")}
+source("R-Code/img2116.R")
+source("R-Code/img2117.R")
+```
+
+Nur 3 der 64 "Pfade" (Kombinationen) sind mit unseren Daten logisch zu vereinbaren.
+
+## Kombinationen pro Hypothese
+
+```{r results='asis'}
+source("R-Code/tab21.R")
+```
+
+- Die Häufigkeiten der Kombinationen (Pfade) ist proportional zur Plausibilität einer Hypothese.
+
+- Zusätzlich müssten wir noch beachten, ob bestimmte Hypothesen *per se* bzw. *a priori* wahrscheinlicher sind. So könnten blaue Murmeln selten sein. 
+
+- Gehen wir der Einfachheit halber zunächst davon aus, dass alle Hypothesen apriori gleich wahrscheinlich sind.
+
+
+## Pfadbaum für alle vier Hypothesen
+
+```{r, echo = FALSE} 
+knitr::include_graphics(file.path("img", "img2118.png"))
+```
+
+
+## Wir ziehen einer vierte Murmel: B
+
+- Gehen wir zunächst davon aus, dass alle Hypothesen apriori gleich wahrscheinlich sind.
+- Wir ziehen  wieder eine Murmel. Sie ist blau (B)!
+- Jetzt könnten wir den Pfadbaum für vier (statt drei) Züge aufmalen.
+- Oder wir machen ein *Update*: Wir aktualisieren die bisherigen Kombinationshäufigkeiten um die neuen Daten. Die *alten* Daten dienen dabei als *Priori-Informationen* für die *neuen* Daten.
+
+## Priori-Information nutzen
+
+Mit den Daten BWBB ist die Hypothese [BBBW] am wahrscheinlichsten:
+
+```{r results = "asis"}
+source("R-Code/tab22.R")
+```
+
+Hyp: Hypothese
+
+PB: Anzahl von Pfaden für B
+
+HA: alte (bisherige) Häufigkeiten
+
+HN: neue (geupdatete) Häufigkeiten
+
+
+## Murmelfabrik streikt: Blaue Murmeln jetzt sehr selten!
+
+- Berücksichtigen wir jetzt die Information, dass apriori (bevor wir die Daten gesehen haben), einige Hypothesen wahrscheinlicher (plausibler) sind als andere.
+
+- Hier ist die Hypothese [BBWW] am wahrscheinlichsten:
+
+```{r results = "asis"}
+source("R-Code/tab23.R")
+```
+
+HF: Häufigkeit des Säckchentyps laut Fabrik.
+
+
+
+## Zählen mit großen Zahlen nervt
+
+- Malen Sie mal den Pfadbaum für 10 Züge ...
+
+- Eine Umrechnung der Häufigkeiten in *Anteile* macht das Rechnen einfacher.
+
+- Dazu definieren wir die *geupdatete Plausibilität einer Hypothese nach Kenntnis der Daten*:
+
+$$\text{Plausibilität von [BWWW] nach Kenntnis von BWB}$$
+$$\propto$$
+$$\text{Anzahl möglicher Pfade bei [BWWW] für BWB}$$
+$$\times$$
+$$\text{Priori-Plausibilität von [BWWW]}$$
+
+- $\propto$: proportional zu
+
+
+## Plausibilität berechnen
+
+- Sei $p$ der Anteil blauer Murmeln. Bei Hypothese [BWWW] gilt dann: $p=1/4 = 0.25$. Sei $D_{neu} =$ BWB, die Daten:
+
+
+$$\text{Plausibilität von }p\text{ nach Kenntnis von }D_{neu}$$
+$$\propto$$
+$$\text{Anzahl Pfade von }p\text{ für }D_{neu}$$
+$$\times$$
+$$\text{Priori-Plausibilität von }p$$
+
+"Für jeden Wert von $p$ beurteilen wir dessen Plausibilität als umso höher, je mehr Pfade durch den Pfadbaum führen und je höher die Plausibilität des Werts von $p$ von vornherein ist."
+
+
+
+## Von Plausibilität zur Wahrscheinlichkeit
+
+- Teilen wir die Anzahl Pfade einer Hypothese durch die Anzahl aller Pfade (aller Hypothesen), so bekommen wir einen Anteil. Damit haben wir eine Wahrscheinlichkeit:
+
+
+$$\text{Pl von }p\text{ mit Daten }D_{neu} =$$
+$$\frac{\text{Anzahl Pfade von }p\text{ für }D_{neu}\times \text{Prior-Pl von }p}{\text{Summe aller Pfade}}$$
+
+Pl: Plausibilität
+
+
+## Plausibilität pro Hypothese
+
+```{r results = "asis"}
+source("R-Code/tab24.R")
+```
+
+
+p: Anteil blauer Murmeln (Priori-Information)
+
+AP: Anzahl von möglichen Pfaden
+
+Pl: Plausibilität
+
+
+```{r echo = TRUE}
+AP <- c(0, 3, 8, 9, 0)
+Pl <- AP / sum(AP)
+Pl
+```
+
+
+## Fachbegriffe
+
+- Kennwerte laut einer Hypothese, wie den Anteil blauer Murmeln $p$ bezeichnet man als *Parameter*.
+
+- Den Anteil gültiger Pfade pro Hypothese (bzw. pro Wert von $p$) bezeichnet man als *Likelihood*.
+
+- Die Priori-Plausibilität nennt man *Priori-Wahrscheinlichkeit*.
+
+- Die neue, geupdatete Plausibilität für einen bestimmten Wert von $p$ nennt man *Posteriori-Wahrscheinlichkeit*.
+
+# Hinweise
+
+
+## Lehrbuch und Homepage des Lehrbuchs
+
+Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+
+- Kapitel 2 aus @McElreath2016 ("ReThink_v1")
+- R-Code für die Diagramme stammt aus @kurz_statistical_2021
+
+
+
+
+
+
+## Literatur {#literatur}
+
+
+
+
+
+<div id="refs"></div>
+
+
+
+
+
+
+
+
