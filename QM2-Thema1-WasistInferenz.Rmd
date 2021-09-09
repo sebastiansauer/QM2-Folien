@@ -1,0 +1,785 @@
+---
+title: "Thema 1: Was ist Inferenzstatistik?"
+subtitle: "QM2, ROS, Kap. 1, ReThink_v1, Kap. 1"
+author: Prof. Sauer
+date: WiSe 21
+lang: de-DE
+bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+institute: AWM, HS Ansbach
+header-includes:
+- \usepackage{booktabs}
+output:
+  beamer_presentation:
+    toc: true
+    theme: "Berkeley"
+    #colortheme: "dolphin"
+    # fonttheme: "structurebold"
+    keep_tex: false 
+    includes:
+      in_header: libs/preamble.tex    
+---
+
+
+```{r global-knitr-options, include=FALSE}
+knitr::opts_chunk$set(fig.pos = 'H',
+  fig.asp = 0.618,
+  fig.center = "align",
+  fig.width = 5,
+  out.width = "70%",
+  fig.cap = "", 
+  fig.path = "",
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  cache = TRUE,
+  fig.show = "hold")
+```
+
+
+```{r echo = FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+
+
+# Was ist Inferenzstatistik?
+
+
+## Deskriptiv- vs. Inferenzstatistik
+
+
+```{r echo = FALSE}
+knitr::include_graphics("/Users/sebastiansaueruser/Google Drive/research/Publikationen/In_Arbeit/Statistik__21/images/Rahmen/desk_vs_inf.pdf")
+```
+
+
+## Wozu ist die Inferenstatistik da?
+
+
+\begin{alertblock}{Definition}
+Inferenzstatistik ist ein Verfahren, das mathematische Modelle verwendet, um von einer bestimmten Datenlage, die eine Stichprobe einer Grundgesamtheit darstellt, allgemeine Schlüsse zu ziehen.
+\end{alertblock}
+
+
+
+
+<!-- ## Die drei Aufgaben der Inferenzstatistik -->
+
+
+<!-- 1. Von der Stichprobe auf die Grundgesamtheit schließen  -->
+
+<!-- 2. Von der Experimental- auf die Kontrollgruppe zu schließen -->
+
+<!-- 3. Vom beobachteten Messwert auf das zugrundeliegende Konstrukt zu schließen -->
+
+
+## Deskriptiv- und Inferenzstatistik gehen Hand in Hand
+
+
+Für jede Kennzahl der Deskriptivstatistik (d.h. Stichprobendaten) kann man die Methoden der Inferenzstatistik verwenden (auf eine Grundgesamtheit schließen), z.B.:
+
+
+
+```{r echo = FALSE}
+x <- tribble(
+    ~Kennwert, ~Stichprobe, ~Grundgesamtheit,
+  "Mittelwert", "$\\bar{X}$", "$\\mu$",
+  "Streuung", "$sd$", "$\\sigma$",
+  "Anteil", "$p$", "$\\pi$",
+  "Korrelation", "$r$", "$\\rho$" ,
+  "Regression", "$b$", "$\\beta$"
+  
+)
+
+kable(x, format = "latex", escape = FALSE, booktabs = FALSE) %>%
+  kable_styling(position = "center")
+```
+
+
+Für Stichprobendaten verwendet man lateinische Buchstaben ($X, p, b, \ldots$); für Populationsdaten verwendet man griechische Buchstaben.
+
+
+## Schätzen von Parametern einer Grundgesamtheit
+
+
+Meist begnügt man sich nicht mit Aussagen für eine Stichprobe, sondern will auf eine Grundgesamtheit verallgemeinern.
+
+Leider sind die Parameter einer Grundgesamtheit zumeist unbekannt, daher muss man sich mit *Schätzungen* begnügen.
+
+Schätzwerte werden mit einem "Dach" über dem Kennwert gekennzeichnet, z.B.
+
+
+```{r echo = FALSE}
+x <- tribble(
+    ~Kennwert, ~Stichprobe, ~Grundgesamtheit, ~Schätzwert,
+  "Mittelwert", "$\\bar{X}$", "$\\mu$", "$\\hat{\\mu}$",
+  "Streuung", "$sd$", "$\\sigma$", "$\\hat{\\sigma}$",
+  "Anteil", "$p$", "$\\pi$", "$\\hat{\\pi}$",
+  "Korrelation", "$r$", "$\\rho$", "$\\hat{\\rho}$" ,
+  "Regression", "$b$", "$\\beta$", "$\\hat{\\beta}$"
+  
+)
+
+kable(x, format = "latex", escape = FALSE, booktabs = FALSE) %>%
+  kable_styling(position = "center")
+```
+
+
+
+## Beispiel für eine inferenzstatistische Fragestellung
+
+
+
+- Sie testen zwei Varianten Ihres Webshops (V1 und V2), die sich im Farbschema unterscheiden und ansonsten identisch sind.
+
+- Hat das Farbschema einen Einfluss auf den Umsatz?
+
+- Dazu vergleichen Sie den mittleren Umsatz pro Tag von V1 vs. V2, $\bar{X}_{V1}$ und $\bar{X}_{V2}$.
+
+- Die Mittelwerte unterscheiden sich etwas, $\bar{X}_{V1} > \bar{X}_{V2}$
+
+- Sind diese Unterschiede "zufällig" oder "substanziell"? Gilt also $\mu_{V1} > \mu_{V2}$ oder  $\mu_{V1} \le \mu_{V2}$?
+
+
+## Was heißt "zufällig"?
+
+
+\begin{alertblock}{Definition}
+Unter einem zufälligen Ereignis (random) verstehen wir ein Ereignis, das nicht (komplett) vorherzusehen ist, wie etwa die Augenzahl Ihres nächsten Würferwurfs. Zufällig bedeutet nicht (zwangsläufig), dass es keine Ursachen gibt. So gehorchen die Bewegungen eines Würfels den Gesetzen der Physik, nur sind uns diese oder die genauen Randbedingungen nicht unbekannt (ausreichend) bekannt.
+\end{alertblock}
+
+
+
+# Regression und Inferenz
+
+
+## Für jede Fragestellung einen anderen Test
+
+
+```{r echo = FALSE, fig.align="center", out.height="50%"}
+knitr::include_graphics("img/entscheidungsbaum.pdf")
+```
+
+
+[Quelle](https://md.psych.bio.uni-goettingen.de/mv/entscheidungsbaum.pdf)
+
+
+## Oder man nimmt einfach immer die Regression
+
+
+```{r echo = FALSE, fig.align="center", out.width="70%"}
+
+include_graphics("img/linear_tests_cheat_sheet.png")
+
+```
+
+[Quelle](https://lindeloev.github.io/tests-as-linear/)
+
+
+
+## To rule 'em all
+
+
+```{r echo = FALSE, fig.align="center", out.width="50%"}
+
+include_graphics("img/einring.jpg")
+
+```
+
+
+
+
+[Quelle](https://imgflip.com/i/5m9qrp)
+
+
+## Was war noch mal die Regression?
+
+- Regression (Regressionsanalyse) ist eine Methode, um Zielvariablen in Abhängigkeit der Ausprägung von Prädiktorvariablen von Beobachtungen vorherzusagen. 
+
+- Dabei erlaubt die Regression die Quantifizierung der Ungewissheit der Vorhersagen.
+
+
+```{r echo = FALSE,  out.width=c("40%", "40%")}
+
+include_graphics("img/fig1-1a.png")
+include_graphics("img/fig1-1b.png")
+```
+
+[Quelle](https://avehtari.github.io/ROS-Examples/ElectionsEconomy/hibbs.html)
+
+
+## In voller Pracht: Die Regressionsgleichung
+
+
+
+$$y = \beta_0 + \beta_1x + \epsilon$$
+
+
+
+- $y$: Zielvariable (vorherzusagen)
+- $\beta_0$: Achsenabschnitt
+- $\beta_1$: Regressionsgewicht (Steigung der Regressionsgeraden)
+- $\epsilon$: "Fehler"; Einflüsse auf $y$, die das Modell nicht kennt
+
+
+
+## Datenbeispiel
+
+
+```{r echo = TRUE, results = "hide"}
+data(mtcars)
+library(rstanarm)
+lm1 <- stan_glm(mpg ~ hp, data = mtcars)
+```
+
+
+```{r echo = TRUE, results = "hide"}
+print(lm1)
+```
+
+```
+            Median MAD_SD
+(Intercept) 30.0    1.7  
+hp          -0.1    0.0  
+
+Auxiliary parameter(s):
+      Median MAD_SD
+sigma 3.9    0.5   
+```
+
+
+
+## Visualisierung zum Datenbeispiel
+
+
+```{r}
+lm1_glm <- lm(mpg ~ hp, data = mtcars)
+
+mtcars <- 
+  mtcars %>% 
+  mutate(pred = 30 - hp*0.07)
+
+
+pred_interval <-
+  tibble(
+    hp = seq(min(mtcars$hp), max(mtcars$hp), by = 1),
+    mpg = predict(lm1_glm, newdata = data.frame(hp)),
+    lwr = mpg - 2*3,
+    upr = mpg + 2*3
+  )
+
+```
+
+
+```{r plot1}
+plot1 <- 
+  ggplot(mtcars,
+       aes(x = hp, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  annotate("point", x = 200, 
+           y = predict(lm1_glm, newdata = data.frame(hp = 200)),
+           color = "red",
+           alpha = .5,
+           size = 5)
+plot1
+```
+
+
+
+
+Rot markiert: Der *vorhergesagte* Wert von `mpg` für `hp=200` (Punktschätzung).
+
+
+## Der Punktschätzer berücksichtigt nicht die Ungewissheit des Models
+
+Mindestens zwei Arten von Ungewissheit müssen wir in unseren Vorhersagen berücksichtigen:
+
+- zur Lage der Regressionsgeraden ($\beta_0$, $\beta_1$)
+- zu Einflüssen, die unser Modell nicht kennt ($\epsilon$)
+
+:::::: {.columns}
+::: {.column width="50%"}
+### Ungewissheit in $\beta_0, \beta1$
+```{r plt-uncert-beta0beta1}
+plot2 <- 
+  ggplot(mtcars,
+       aes(x = hp, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  annotate("point", x = 200, 
+           y = predict(lm1_glm, newdata = data.frame(hp = 200)),
+           color = "red",
+           alpha = .5,
+           size = 5)
+plot2
+```
+
+::: 
+::: {.column width="50%"}
+### Ungewissheit in $\epsilon$
+
+```{r plot-uncertainty-eps}
+ggplot(mtcars) +
+  aes(x = hp, y = mpg) +
+  geom_point()+
+  geom_ribbon(data = pred_interval,
+              aes(ymin = lwr, ymax = upr,
+                  y = mpg,
+                  x = hp),
+              fill = "blue",
+              alpha = .1) + 
+  geom_smooth(method = "lm", se = FALSE) +
+  annotate("point", x = 200, 
+           y = predict(lm1_glm, newdata = data.frame(hp = 200)),
+           color = "red",
+           alpha = .5,
+           size = 5)
+
+
+```
+
+
+:::
+::::::
+
+
+
+## Vorhersage-Intervall: berücksichtigt Ungewissheit in $\beta_0, \beta_1, \epsilon$
+
+Das Vorhersage-Intervall berücksichtigt Ungewissheit in $\beta_0, \beta_1, \epsilon$ bei der Vorhersage von $\hat{y_i}$.
+
+
+```{r plot-pred-interval}
+pred_interval2 <-
+  predict(lm1_glm, 
+          newdata = data.frame(hp = pred_interval$hp), 
+          interval = "prediction") %>% 
+  as_tibble() %>% 
+  rename(mpg = fit) %>% 
+  mutate(hp = pred_interval$hp)
+
+
+
+ggplot(mtcars) +
+  aes(x = hp, y = mpg) +
+  geom_point()+
+  geom_ribbon(data = pred_interval2,
+              aes(ymin = lwr, ymax = upr,
+                  y = mpg,
+                  x = hp),
+              fill = "blue",
+              alpha = .1) + 
+  geom_smooth(method = "lm", se = FALSE) +
+  annotate("point", x = 200, 
+           y = predict(lm1_glm, newdata = data.frame(hp = 200)),
+           color = "red",
+           alpha = .5,
+           size = 5)
+```
+
+
+
+
+## Wozu man die Regression benutzt
+
+
+- Vorhersagen
+
+- Zusammenhänge untersuchen
+
+- Adjustieren (Zusammenhänge korrigieren)
+
+- Kausalinferenz
+
+
+
+## In Experimenten kann man die Ergebnisse kausal interpretieren^[Wenn alles gut läuft.]
+
+
+
+```{r echo = FALSE,  out.width=c("40%", "40%")}
+include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCausal/figs/overview_1a.pdf")
+include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCausal/figs/overview_1b.pdf")
+```
+
+
+
+## Die lineare Regression ist erstaunlich flexibel
+
+Z.B. 
+
+- *Nichtlineare* Zusammenhänge
+
+- Interaktionen
+
+```{r echo = FALSE,  out.width=c("40%", "40%")}
+include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCausal/figs/overview_2a.pdf")
+include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/Interactions/figs/interactions_male.pdf")
+```
+
+
+## Häufig sind Gruppen nicht direkt vergleichbar
+
+
+- *Beispiel*: Die Heilungsraten in der Experimentalgruppe waren höher als in der Kontrollgruppe. Allerdings waren die Personen der Experimentalgrupe auch gesünder (als die Personne der Kontrollgruppe). Um den Kausaleffekt der Behandlung zu schätzen, müssen solche vorab bestehenden Unterschiede zwischen den Gruppen berücksichtigt (adjustiert) werden.
+
+
+```{r out.width = "40%"}
+include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCausal/figs/overview_3.pdf")
+```
+
+
+## Keine vorschnelle Kausalinterpretation
+
+
+- Kausalinterpretationen statistischer Ergebnisse (z.B. Mittelwertsdifferenz von Behandlungs- vs. Kontrollgruppe) ist nur möglich, wenn
+    - die Studie gut kontrolliert und randomisiert ist (und die Stichprobe groß ist) oder
+    - bestehende Unterschiede nicht randomisiert, aber  kontrolliert wurden oder
+    -  diese gemessen und in der Regressionsanalyse berücksichtigt wurden
+    
+    
+Ansonsten muss auf eine Kausalinterpretation verzichtet werden.
+
+Allerdings ist es möglich, Art und Stärke von Zusammenhängen zu schätzen.
+
+
+
+# Klassische vs. Bayes-Inferenz
+
+
+## Klassische Inferenz: Frequentismus
+
+
+- Die Berücksichtigung von Vorwissen zum Sachgegenstand wird vom Frequentismus als subjektiv zurückgewiesen.
+- Nur die Daten selber fließen in die Ergebnisse ein
+- Wahrscheinlichkeit wird über relative Häufigkeiten definiert.
+- Es ist nicht möglich, die Wahrscheinlichkeit einer Hypothese anzugeben. 
+- Stattdessen wird angegeben, wie häufig eine vergleichbare Datenlage zu erwarten ist, wenn die Hypothese gilt und der Versuch sehr häufig wiederholt ist.
+- Ein Großteil der Forschung (in den Sozialwissenschaften) verwendet diesen Ansatz.
+
+
+## Bayesianische Inferenz
+
+- Vorwissen (Priori-Wissen) fließt explizit in die Analyse ein (zusammen mit den Daten).
+- *Wenn* das Vorwissen gut ist, wird die Vorhersage genauer, ansonsten ungenauer.
+- Die Wahl des Vorwissens muss explizit (kritisierbar) sein.
+- In der Bayes-Inferenz sind Wahrscheinlichkeitsaussagen für Hypothesen möglich.
+- Die Bayes-Inferenz erfordert mitunter viel Rechenzeit und ist daher erst in den letzten Jahren (für gängige Computer) komfortabel geworden.
+
+
+## Vergleich von Wahrscheinlichkeitsaussagen
+
+
+
+::: columns
+
+:::: column
+### Frequentismus
+
+- zentrale Statistik: *p-Wert*
+
+- "Wie wahrscheinlich ist der Wert der Teststatistik (oder noch extereme Werte), vorausgesetzt die Nullhypothese gilt und man wiederholt den Versuch unendlich oft (unter gleichen Bedingungen aber zufällig verschieden)?"
+
+::::
+
+:::: column
+### Bayes-Statistik
+
+- zentrale Statistik: *Posterior-Verteilung*
+
+- "Wie wahrscheinlich ist die Forschungshypothese, jetzt nachdem wir die Daten kennen laut unserem Modell?"
+::::
+
+:::
+
+
+## Frequentist und Bayesianer
+
+
+```{r out.width="40%"}
+include_graphics("img/frequentists-vs-bayesians-2x.png")
+```
+
+
+[Quelle](https://xkcd.com/1132/)
+
+
+## Beispiel zum Nutzen von Apriori-Wissen 1
+
+
+- Ein Betrunkener behauptet, er könne hellsehen.
+
+- Er wirft eine Münze 10 Mal und sagt jedes Mal korrekt vorher, welche Seite oben landen wird.
+
+- Die Wahrscheinlichkeit dieses Ergebnisses ist sehr gering ($2^{-10}$) unter der Hypothese, dass die Münze fair ist, dass Ergebnis also "zufällig" ist.
+
+- Unser Vorwissen lässt uns allerdings trotzdem an der Hellsichtigkeit des Betrunkenen zweifeln, so dass die meisten von uns  die Hypothese von der Zufälligkeit des Ergebnisses wohl nicht verwerfen.
+
+
+
+## Beispiel zum Nutzen von Apriori-Wissen 2
+
+- Eine Studie fand einen "großen Effekt" auf das Einkommen von Babies, eine Stunde pro Woche während zwei Jahren an einem psychosozialen Entwicklungsprogramm teilnahmen (im Vergleich zu einer Kontrollgruppe), $n=127$.
+
+- Nach 20 Jahren war das mittlere Einkommen der Experimentalgruppe um 42% höher (als in der Kontrollgruppe) mit einem Konfidenzintervall von 
+[+2%,+98%].
+
+- Allerdings lässt uns unser Vorwissen vermuten, dass so ein Treatment das Einkommen nach 20 Jahren kaum verdoppeln lässt. Wir würden den Effekt lieber in einem konservativeren Intervall schätzen (enger um Null).
+
+
+## Regression in R, der schnelle Weg zum Glück
+
+
+*Bayesianische* Inferenz in der Regression:
+
+```{r eval = FALSE, echo = TRUE}
+lm1 <- stan_glm(y ~ x, data = meine_daten)
+```
+
+
+*Klassische* Inferenz in der Regression:
+
+
+```{r eval = FALSE, echo = TRUE}
+lm1 <- lm(y ~ x, data = meine_daten)
+```
+
+
+
+# Modelle
+
+
+## Was ist ein (statistisches) Modell?
+
+- Ein Modell ist ein vereinfachtes Abbild der Wirklichkeit, z.B. in Form einer Landkarte, eines Modellauto oder einer Gleichung [@sauer_moderne_2019].
+
+- Greift relevante Aspekte der Wirklichkeit heraus (und vernachlässigt andere).
+
+
+```{r, echo = FALSE} 
+knitr::include_graphics(file.path("img", "Modell-crop.pdf"))
+```
+
+
+
+## Beispiel für ein statistisches Modell
+
+
+$$E = \beta_0 + \beta_1\cdot L + \epsilon,$$
+
+wobei $E$ für *Erfolg in der Klausur* steht, $L$ für die *Lernzeit* und $\epsilon$ für den "Fehler" des Modells, sprich sonstige Einflussgrößen, die im Modell nicht berücksichtigt werden.
+
+
+## Der Golem von Prag
+
+
+:::::: {.columns}
+::: {.column width="50%"}
+```{r, echo = FALSE, out.width="50%"} 
+knitr::include_graphics(file.path("img", "170px-Golem_and_Loew.jpg"))
+```
+[Quelle](https://de.wikipedia.org/wiki/Golem)
+
+::: 
+::: {.column width="50%"}
+
+
+Der Golem von Prag, eine vom Menschen geschaffene Kreatur gewaltiger Kraft, die Befehle wörtlich ausführt. 
+
+Bei kluger Führung kann ein Golem Nützliches vollbringen.
+
+Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
+:::
+::::::
+
+
+## Wissenschaftliche Modelle sind wie Golems
+
+:::::: {.columns}
+::: {.column width="50%"}
+### Golem
+- Besteht aus Lehm
+- Belebt durch "Wahrheit"
+- Mächtig
+- dumm
+- Führt Befehle wörtlich aus
+- Missbrauch leicht möglich
+- Märchen
+::: 
+::: {.column width="50%"}
+### Modell
+- Besteht aus ~~Lehm~~Silikon
+- Belebt durch Wahrheit (?)
+- Manchmal mächtig
+- einfacher als die Wirklichkeit
+- Führt Befehle wörtlich aus
+- Missbrauch leicht möglich
+- Nicht einmal falsch
+:::
+::::::
+
+*Wir bauen Golems.*
+
+
+
+
+
+
+
+# Wachstumsprozesse
+
+## Seerose
+
+- Eine Seerose wächst auf einem Teich. [Schön.](https://www.flickr.com/photos/182338742@N07/49286585198/in/faves-193287163@N02/)
+- Tag 1: 1 Seerose. Tag 2: 2 Seerosen. Tag 3: 4 Seerosen, etc.
+- Am Tag 100 ist der See komplett mit Seerosen bedeckt.
+
+**An welchem Tag ist der See zu 50% mit Seerosen bedeckt?**
+
+
+## Wachstumsschritte der Seerose
+
+
+$$\text{Menge} = 2^{\text{Tage}}$$
+
+:::::: {.columns}
+::: {.column width="50%"}
+
+```{r tab11noeval, results = "hide", eval = TRUE, echo = TRUE}
+d <- tibble(Tag = 0:10,
+       Menge = 2^Tag) 
+```
+::: 
+::: {.column width="50%"}
+```{r tab11, results = "asis"}
+tab11 <-
+  tibble(Tag = 0:10,
+         Menge = 2^Tag) %>% 
+  kable()
+
+print(tab11)
+```
+:::
+::::::
+
+
+
+
+
+
+## Der Logarithmus gibt die Anzahl der (Wachstums-)Tage
+
+
+```{r}
+log(d$Menge, base = 2)
+```
+
+
+*Logarithmieren* liefert von einer Zahl (hier `Menge`) den Exponenten zu einer Basis (hier `2`) zurück.
+
+Umgekehrt liefert *Potenzieren* zu einer Basis (hier `2`) die `Menge` zurück.
+
+```{r}
+2^d$Tag
+```
+
+
+Wachstumsprozesse sind oft multiplikativ, z.B. eine Seerose, die sich in einem Zeitabschnitt $t$ verdoppelt.
+
+## Rechenregeln für Potenzen
+
+
+- $a^n = a \cdot a \cdot a \ldots a$ ($n$ Faktoren, $n \in \mathbb{N}$)
+- $a^1 = a$
+- $a^0 = 1$
+- $a^{-n} = \frac{1}{a^n}$
+- $a^{\frac{1}{n}} = \sqrt[n]{a}$
+- $a^n \cdot a^m = a^{n+m}$
+- $\frac{a^n}{a^m} = a^{n-m}$
+- $a^n \cdot a^m = (a\cdot b)^n$
+- $\frac{a^n}{b^n} = \left(\frac{a}{b}\right)^n$
+- $(a^n)^m = a^{(n\cdot m)}$
+
+
+## Logarithmus
+
+### Definition
+
+Die Zahl $x \in \mathbb{R}$ mit $b^x=a$ heißt Logarithmus von $a$ zur Basis $b$. Sie wird mit $x = log_b(a)$ bezeichnet [@cramer_vorkurs_2015]. Dabei seien $a,b > 0$ mit $b \ne1$.
+
+
+```{r}
+log(c(2, 4, 8), base = 2)
+log(c(10, 100, 1000), base = 10)
+log(c(2.71, 2.71^2)) %>% round()
+```
+
+
+Gängige Basen sind 2, 10 und $e$ (Eulersche Zahl: $2.7178...$).
+
+$$\text{log}_b(1)=0,\quad \text{log}_b(b)=1, \quad b^{\text{log_b(a)}=a},\quad  \text{log}_b(b^a)=a$$
+
+
+### Rechenregeln zum Logarithmus
+
+
+- $\text{log}_c(a\cdot b) = \text{log}_c(a) + \text{log}_c(b)$
+- $\text{log}_c(\frac{a}{b}) = \text{log}_c(a) - \text{log}_c(b)$
+- $\text{log}_c(b^a) = a \cdot \text{log}_c(b)$
+
+# Wahrscheinlichkeit
+
+## Was ist Wahrscheinlichkeit?
+
+### Definition
+Die Wahrscheinlichkeit $p$ quantifiziert Ungewissheit im Hinblick auf eine Aussage $A$, gegeben eines Hintergrundwissen $H$. $p=0$ heißt, wir halten die Ausage für falsch; $p=1$ heißt, wir halten die Aussage für richtig. $0<p<1$ heißt, wir sind (mehr oder weniger) unsicher bzgl. der Aussage.
+
+- A: "Sokrates ist sterblich."; H: "Alle Menschen sind sterblich und Sokrates ist ein Mensch." $\implies p(A|H) = 1$.
+
+- A: "Die Münze zeigt Kopf.; H: "Wir haben keinen Grund anzunehmen, dass eine der beiden Seiten häufiger oben liegt oder das sonst etwas passiert." $\implies p(A|H)=1/2$.
+
+- A: "Schorsch, das rosa Einhort, mag Bier."; H: "50% der rosa Einhörner mögen Bier." $\implies (pA|H) = 1/2$.
+
+
+
+# Verteilungen
+
+## Normalverteilungen
+
+## Binomialverteilung
+
+
+
+
+
+# Hinweise
+
+
+## Lehrbuch und Homepage des Lehrbuchs
+
+Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+
+- Kapitel 1 aus @gelman_regression_2021, *Regression and other Stories* (mit "ROS" abgekürzt)
+
+- Kapitel 1 aus @McElreath2016 ("ReThink_v1")
+
+- Rechenregeln sind z.B. in @cramer_vorkurs_2015 (Kap. 3) oder ähnlichen Lehrbüchern nachzulesen.
+
+Weitere Literaturhinweise sind am Ende der jeweiligen Kapitel der Lehrbücher zu finden.
+
+R-Code zum Buch ROS findet sich auf der [Homepage](https://avehtari.github.io/ROS-Examples/examples.html) des Buchs.
+
+
+
+
+## Literatur {#literatur}
+
+
+
+
+
+<div id="refs"></div>
+
