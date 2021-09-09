@@ -629,7 +629,7 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 
 
 
-# Wachstumsprozesse
+# Wachstum
 
 ## Seerose
 
@@ -706,12 +706,10 @@ Wachstumsprozesse sind oft multiplikativ, z.B. eine Seerose, die sich in einem Z
 
 ## Logarithmus
 
-### Definition
-
 Die Zahl $x \in \mathbb{R}$ mit $b^x=a$ heißt Logarithmus von $a$ zur Basis $b$. Sie wird mit $x = log_b(a)$ bezeichnet [@cramer_vorkurs_2015]. Dabei seien $a,b > 0$ mit $b \ne1$.
 
 
-```{r}
+```{r echo = TRUE}
 log(c(2, 4, 8), base = 2)
 log(c(10, 100, 1000), base = 10)
 log(c(2.71, 2.71^2)) %>% round()
@@ -720,34 +718,196 @@ log(c(2.71, 2.71^2)) %>% round()
 
 Gängige Basen sind 2, 10 und $e$ (Eulersche Zahl: $2.7178...$).
 
-$$\text{log}_b(1)=0,\quad \text{log}_b(b)=1, \quad b^{\text{log_b(a)}=a},\quad  \text{log}_b(b^a)=a$$
 
 
-### Rechenregeln zum Logarithmus
 
+## Rechenregeln zum Logarithmus
+
+- $\text{log}_b(1)=0$
+- $\text{log}_b(b)=1$
+- $b^{\text{log}_b(a)}=a$
+- $\text{log}_b(b^a)=a$
 
 - $\text{log}_c(a\cdot b) = \text{log}_c(a) + \text{log}_c(b)$
 - $\text{log}_c(\frac{a}{b}) = \text{log}_c(a) - \text{log}_c(b)$
 - $\text{log}_c(b^a) = a \cdot \text{log}_c(b)$
 
+
+
+
 # Wahrscheinlichkeit
 
 ## Was ist Wahrscheinlichkeit?
 
-### Definition
-Die Wahrscheinlichkeit $p$ quantifiziert Ungewissheit im Hinblick auf eine Aussage $A$, gegeben eines Hintergrundwissen $H$. $p=0$ heißt, wir halten die Ausage für falsch; $p=1$ heißt, wir halten die Aussage für richtig. $0<p<1$ heißt, wir sind (mehr oder weniger) unsicher bzgl. der Aussage.
+
+Die Wahrscheinlichkeit $p$ quantifiziert Ungewissheit im Hinblick auf eine Aussage bzw. ein Ereignis $A$, gegeben eines Hintergrundwissen $H$. $p=0$ heißt, wir halten die Aussage (das Ereignis) für falsch (unmöglich); $p=1$ heißt, wir halten die Aussage (das Ereignis) für wahr (sicher). $0<p<1$ heißt, wir sind (mehr oder weniger) unsicher bzgl. der Aussage bzw. ob das Ereignis zutrifft.
 
 - A: "Sokrates ist sterblich."; H: "Alle Menschen sind sterblich und Sokrates ist ein Mensch." $\implies p(A|H) = 1$.
 
 - A: "Die Münze zeigt Kopf.; H: "Wir haben keinen Grund anzunehmen, dass eine der beiden Seiten häufiger oben liegt oder das sonst etwas passiert." $\implies p(A|H)=1/2$.
 
-- A: "Schorsch, das rosa Einhort, mag Bier."; H: "50% der rosa Einhörner mögen Bier." $\implies (pA|H) = 1/2$.
+- A: "Schorsch, das rosa Einhort, mag Bier."; H: "50% der rosa Einhörner mögen Bier." $\implies p(A|H) = 1/2$.
 
+
+## Eigenschaften der Wahrscheinlichkeiten
+
+Axiome von Kolmogorow:
+
+1. $p(A) \ge 0$ (Nichtnegativität)
+2. $p(A) + p(\neg A) = 1$ (Normierung; $\neg A$ ist das logische Gegenteil von $A$)
+3. Die Wahrscheinlichkeit zweier unabhängiger Ereignisse ist die Summe ihrer einzelnen Wahrscheinlichkeiten: $p(A_1 \cap A_2) = p(A_1) + p(A_2)$
+
+Bedingte Wahrscheinlichkeit:
+
+- p(A|H): Die Wahrscheinlichkeit von $A$, gegeben $H$. Bespiel: Die Wahrscheinlichkeit eine 6 zu würfeln (A), gegeben, dass der Würfel "fair" ist (H), d.h. wir kein Wissen haben, dass eine Augenzahl häufiger auftritt, ist $1/6$.
+
+
+## Wahrscheinlichkeit ist abhängig vom Hintergrundwissen
+
+
+Ich habe gerade einen Stift in meiner Hosentasche (links oder rechts). Wie groß ist die Wahrscheinlichkeit, dass der Stift in meiner linken Tasche ist (und nicht in der rechten)?
+
+Bezogen auf *Ihr* Hintergrundwissen gilt: $p(\text{A="Stift links"|H="kein besonderes Wissen zu der Frage"}) = 1/2$.
+
+Bezogen auf *mein* Hintergrundwissen gilt: $p(\text{A="Stift links"|H="Der Stift ist links"}) = 1$.
+
+@briggs_uncertainty_2016
 
 
 # Verteilungen
 
-## Normalverteilungen
+## Häufigkeitsverteilung
+
+:::::: {.columns}
+::: {.column width="50%"}
+
+Die Verteilung eines *diskreten* Merkmals $X$ mit $k$ Ausprägungen zeigt, wie häufig die einzelnen Ausprägungen sind.
+
+
+```{r echo = TRUE}
+mtcars %>% 
+  count(cyl)
+```
+::: 
+::: {.column width="50%"}
+
+Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
+
+```{r}
+mtcars %>% 
+  ggplot(aes(x = hp)) +
+  geom_histogram()
+```
+:::
+::::::
+
+
+
+## Wahrscheinlichkeitsverteilung
+
+
+Eine Wahrscheinlichkeitsverteilung des Merkmals $X$ ordnet jeder der $k$ Ausprägungen $X=x$ eine Wahrscheinlichkeit $p$ zu. So hat die Variable *Geschlecht eines Babies* die beiden Ausprägungen *Mädchen* und *Junge* mit den Wahrscheinlichkeiten $p_M = 51.2\%$ bzw. $p_J = 48.8\%$ [@gelman_regression_2021].
+
+Bei *stetigen* Merkmalen geht man von unendlich vielen Ausprägungen aus; die Wahrscheinlichkeit einer bestimmten Ausprägung ist (praktisch) Null: $p(X=x_j)=0, \quad j=1,...,k$. Daher gibt man stattdessen die *Dichte* der Wahrscheinlichkeit an: Das ist die Wahrscheinlichkeit(smasse) pro eine Einheit von $X$.
+
+
+
+## Beispiele für  Wahrscheinlichkeitsverteilungen
+
+
+:::::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) +
+  labs(y = "Dichte", x = "Merkmal, X")
+```
+
+Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 40%.
+
+::: 
+::: {.column width="50%"}
+
+```{r}
+#source: https://dk81.github.io/dkmathstats_site/rmath-uniform-plots.html
+
+uniform_Plot <- function(a, b){
+  xvals <- data.frame(x = c(a, b)) #Range for x-values
+  
+  ggplot(data.frame(x = xvals), 
+         aes(x = x)) + xlim(c(a, b)) + ylim(0, 1/(b - a)) +
+    stat_function(fun = dunif, args = list(min = a, max = b), 
+                  geom = "area", 
+                  fill = "green", alpha = 0.35) + 
+    stat_function(fun = dunif, args = list(min = a, max = b)) +
+    labs(x = "X", y = "Dichte")  +
+    geom_vline(xintercept = a, linetype = "dashed", colour = "red") +
+    geom_vline(xintercept = b, linetype = "dashed", colour = "red")
+  
+}
+
+uniform_Plot(-1, 1)
+uniform_Plot(0, 3)
+```
+Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 50% bzw. 33%.
+:::
+::::::
+
+
+## Normal auf dem Fußballfeld
+
+Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds (eng). Auf Kommando werfen alle jeweils eine Münze; bei Kopf geht man einen Schritt nach links, bei Zahl nach rechts. Das wird 16 Mal wiederholt. Wie wird die Verteilung der Positionen wohl aussehen?
+
+
+```{r}
+source("R-Code/img13.R")
+```
+
+
+## Normal durch Addieren
+
+Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erzeugt eine Normalverteilung; egal aus welcher Verteilung die Zufallswerte kommen (Zentraler Grenzwertsatz).
+
+
+```{r out.width="70%"}
+source("R-Code/img14.R")
+```
+
+
+## Gesetz der großen Zahl
+
+
+Zieht man (zufällig) immer mehr Werte aus einer Verteilung^[mit endlichem Mittelwert], nähert sich der Mittelwert der Stichprobe immer mehr mit dem Mittelwert^[oft als Erwartungswert bezeichnet] der Verteilung an [@taleb2019technical].
+
+
+
+```{r}
+source("R-Code/img15.R")
+```
+
+
+## Normalverteilung in der Natur
+
+:::::: {.columns}
+::: {.column width="50%"}
+CONTENT HERE
+::: 
+::: {.column width="50%"}
+CONTENT HERE
+:::
+::::::
+
+
+## Nicht verwechseln
+
+```{r, echo = FALSE} 
+knitr::include_graphics(file.path("img", "ch33910.f1.jpg"))
+```
+
+
+@freeman_visual_2006
+
 
 ## Binomialverteilung
 

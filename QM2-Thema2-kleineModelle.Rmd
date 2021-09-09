@@ -14,9 +14,9 @@ output:
     theme: "Berkeley"
     #colortheme: "dolphin"
     # fonttheme: "structurebold"
-    keep_tex: true
+    keep_tex: false 
     includes:
-      in_header: preamble.tex    
+      in_header: libs/preamble.tex    
 ---
 
 
