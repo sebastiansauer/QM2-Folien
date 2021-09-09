@@ -1,0 +1,21 @@
+---
+title: "A Diagram"
+output: beamer_presentation
+---
+
+```{r echo = FALSE}
+library(nomnoml)
+```
+
+```{r, out.width="90%", echo = FALSE}
+nomnoml("
+#direction: down
+[<start> start] -> 1/2[K]
+[<start> start] -> 1/2[Z]
+[K] -> 1/2[KK = 2K]
+[K] -> 1/2[KZ = 1K]
+
+[Z] -> 1/2[ZK = 1K]
+[Z] -> 1/2[ZZ = 0k]
+")
+```
