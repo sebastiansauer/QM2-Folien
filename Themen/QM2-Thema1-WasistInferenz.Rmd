@@ -430,6 +430,7 @@ include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCaus
 ## Kausalmodell eines einfachen Experiments
 
 
+
 ```{r dag1}
 dagify(y ~ x,
        y ~ z,
@@ -440,7 +441,29 @@ dagify(y ~ x,
   theme_dag()
 ```
 
+Statistiken in (gut gemachten) Experimenten können kausal interpretiert werden: Der statistische Zusammenhang von *Impfung* auf *Symptome* entspricht dem kausalen Effekt.
 
+
+## Beobachtungsstudien
+
+[Männer aufgepasst: Glatze macht Corona?!](https://www.webmd.com/lung/news/20200615/male-baldness-may-increase-severe-covid-19-risk)
+
+
+```{r dag2, out.width="50%"}
+dagify(y ~ z,
+       x ~ z,
+       labels = c(x = "Glatze",
+                  y = "Corona-Symptome",
+                  z = "Alter")) %>% 
+  ggdag_dseparated(from = "x",
+                   to = "y") +
+  #ggdag(use_labels = "label") +
+  theme_dag()
+```
+
+Nein! Statistiken in Beobachtungsstudien dürfen nicht direkt kausal interpretiert werden.
+
+Laut diesem Modell gibt es keinen kausalen Zusammenhang von *Glatze* zu *Corona*. Der statistische Zusammenhang ist ein *Scheinzusammenhang* (nichtkausal).
 
 ## Die lineare Regression ist erstaunlich flexibel
 
@@ -1083,7 +1106,7 @@ ggplot(muenzvert) +
 
 ## Verteilung nach 10 Münzwürfen
 
-Wir werfen sehr oft ($10^4$ mal) 10 Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
+Wir werfen sehr oft ($10^4$ mal) *10* Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
 
 ```{r}
 muenzvert <- rbinom(n = 10000, size = 10,
@@ -1096,11 +1119,12 @@ ggplot(muenzvert) +
 ```
 
 
+Extreme Trefferzahlen sind selten; mittlere Trefferzahlen häufiger. 
 
 
 ## Verteilung nach 20 Münzwürfen
 
-Wir werfen sehr oft 20 Münzen:
+Wir werfen sehr oft ($10^4$ mal) *20* Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
 
 ```{r}
 muenzvert <- rbinom(n = 10000, size = 20,
@@ -1112,7 +1136,7 @@ ggplot(muenzvert) +
        y = "Häufigkeit")
 ```
 
-
+Extreme Trefferzahlen sind selten; mittlere Trefferzahlen häufiger. 
 
 ## Münzen werfen mit R
 
