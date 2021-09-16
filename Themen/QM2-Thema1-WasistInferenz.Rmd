@@ -16,14 +16,15 @@ output:
     # fonttheme: "structurebold"
     keep_tex: false 
     includes:
-      in_header: libs/preamble.tex    
+      in_header: ../libs/preamble.tex    
 editor_options: 
   chunk_output_type: console
 ---
 
 
 ```{r global-knitr-options, include=FALSE}
-knitr::opts_chunk$set(fig.pos = 'H',
+knitr::opts_chunk$set(
+  fig.pos = 'H',
   fig.asp = 0.618,
   fig.center = "align",
   fig.width = 5,
@@ -34,8 +35,12 @@ knitr::opts_chunk$set(fig.pos = 'H',
   message = FALSE,
   warning = FALSE,
   cache = TRUE,
-  base.dir = "img",
   fig.show = "hold")
+
+knitr::opts_knit$set(
+  #base.dir = "img",
+  root.dir = rprojroot::find_rstudio_root_file()
+)
 
 knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 ```
@@ -46,7 +51,13 @@ library(tidyverse)
 library(knitr)
 library(kableExtra)
 library(nomnoml)
+library(ggdag)
 ```
+
+```{r}
+source("R-Code/img.R")
+```
+
 
 
 ```{r}
@@ -168,7 +179,7 @@ Unter einem zufälligen Ereignis (random) verstehen wir ein Ereignis, das nicht 
 
 
 ```{r echo = FALSE, fig.align="center", out.height="80%"}
-knitr::include_graphics("img/entscheidungsbaum.pdf")
+img("entscheidungsbaum.pdf")
 ```
 
 
@@ -178,9 +189,9 @@ knitr::include_graphics("img/entscheidungsbaum.pdf")
 ## Oder man nimmt einfach immer die Regression
 
 
-```{r echo = FALSE, fig.align="center", out.width="70%"}
+```{r cheat_sheet_regr, echo = FALSE, fig.align="center", out.width="70%"}
 
-include_graphics("img/linear_tests_cheat_sheet.png")
+img("linear_tests_cheat_sheet.png")
 
 ```
 
@@ -191,9 +202,9 @@ include_graphics("img/linear_tests_cheat_sheet.png")
 ## To rule 'em all
 
 
-```{r echo = FALSE, fig.align="center", out.width="50%"}
+```{r einring, echo = FALSE, fig.align="center", out.width="50%"}
 
-include_graphics("img/einring.jpg")
+img("einring.jpg")
 
 ```
 
@@ -210,10 +221,10 @@ include_graphics("img/einring.jpg")
 - Dabei erlaubt die Regression die Quantifizierung der Ungewissheit der Vorhersagen.
 
 
-```{r echo = FALSE,  out.width=c("40%", "40%")}
+```{r plot-regr-uncertainty, echo = FALSE,  out.width=c("40%", "40%")}
 
-include_graphics("img/fig1-1a.png")
-include_graphics("img/fig1-1b.png")
+img("fig1-1a.png")
+img("fig1-1b.png")
 ```
 
 [Quelle](https://avehtari.github.io/ROS-Examples/ElectionsEconomy/hibbs.html)
@@ -416,6 +427,20 @@ include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCaus
 ```
 
 
+## Kausalmodell eines einfachen Experiments
+
+
+```{r dag1}
+dagify(y ~ x,
+       y ~ z,
+       labels = c(x = "Impfung",
+                  y = "Symptome",
+                  z = "Sonstige")) %>% 
+  ggdag(use_labels = "label") +
+  theme_dag()
+```
+
+
 
 ## Die lineare Regression ist erstaunlich flexibel
 
@@ -469,7 +494,7 @@ Allerdings ist es möglich, Art und Stärke von Zusammenhängen zu schätzen.
 
 
 ```{r, echo = FALSE} 
-knitr::include_graphics(file.path("img", "Modell-crop.pdf"))
+img("Modell-crop.pdf")
 ```
 
 
@@ -488,7 +513,7 @@ wobei $E$ für *Erfolg in der Klausur* steht, $L$ für die *Lernzeit* und $\epsi
 :::::: {.columns}
 ::: {.column width="50%"}
 ```{r, echo = FALSE, out.width="50%"} 
-knitr::include_graphics(file.path("img", "170px-Golem_and_Loew.jpg"))
+img("170px-Golem_and_Loew.jpg")
 ```
 [Quelle](https://de.wikipedia.org/wiki/Golem)
 
@@ -593,7 +618,7 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 
 
 ```{r out.width="40%"}
-include_graphics("img/frequentists-vs-bayesians-2x.png")
+img("frequentists-vs-bayesians-2x.png")
 ```
 
 
@@ -830,7 +855,7 @@ Bei *stetigen* Merkmalen geht man von unendlich vielen Ausprägungen aus; die Wa
 
 
 
-## Beispiele für  Wahrscheinlichkeitsverteilungen
+## Beispiele für  Wahrscheinlichkeitsdichte
 
 
 :::::: {.columns}
@@ -914,7 +939,7 @@ source("R-Code/img14.R")
 ## Nicht verwechseln
 
 ```{r, echo = FALSE, out.width="50%"} 
-knitr::include_graphics(file.path("img", "ch33910.f1.jpg"))
+img("ch33910.f1.jpg")
 ```
 
 
@@ -1058,7 +1083,7 @@ ggplot(muenzvert) +
 
 ## Verteilung nach 10 Münzwürfen
 
-Wir werfen sehr oft 10 Münzen:
+Wir werfen sehr oft ($10^4$ mal) 10 Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
 
 ```{r}
 muenzvert <- rbinom(n = 10000, size = 10,
