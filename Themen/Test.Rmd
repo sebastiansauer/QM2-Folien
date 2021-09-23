@@ -1,6 +1,6 @@
 ---
-title: "TEST/Entwicklung"
-subtitle: "QM2"
+title: "Thema 1: Was ist Inferenzstatistik?"
+subtitle: "QM2, ROS, Kap. 1, ReThink_v1, Kap. 1"
 author: Prof. Sauer
 date: WiSe 21
 lang: de-DE
@@ -8,15 +8,15 @@ bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-se
 institute: AWM, HS Ansbach
 header-includes:
 - \usepackage{booktabs}
-output: html_document
-  # beamer_presentation:
-  #   toc: true
-  #   theme: "Berkeley"
-  #   #colortheme: "dolphin"
-  #   # fonttheme: "structurebold"
-  #   keep_tex: false 
-  #   includes:
-  #     in_header: ../libs/preamble.tex    
+output:
+  beamer_presentation:
+    toc: true
+    theme: "Berkeley"
+    #colortheme: "dolphin"
+    # fonttheme: "structurebold"
+    keep_tex: false 
+    includes:
+      in_header: ../libs/preamble.tex    
 editor_options: 
   chunk_output_type: console
 ---
@@ -34,13 +34,13 @@ knitr::opts_chunk$set(
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
-  cache = FALSE,
+  cache = TRUE,
   fig.show = "hold")
 
-# knitr::opts_knit$set(
-#   base.dir = "img",
-#   root.dir = rprojroot::find_rstudio_root_file()
-# )
+knitr::opts_knit$set(
+  #base.dir = "img",
+  root.dir = rprojroot::find_rstudio_root_file()
+)
 
 knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 ```
@@ -49,8 +49,7 @@ knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 ```{r echo = FALSE}
 library(tidyverse)
 library(knitr)
-#library(dagitty)
-library(ggdag)
+library(patchwork)
 ```
 
 ```{r}
@@ -58,42 +57,28 @@ source("R-Code/img.R")
 ```
 
 
+
+
+
+
 ```{r}
 theme_set(theme_minimal())
 ```
 
+# Was ist Inferenzstatistik?
 
 
-## Test 1
 
-```{r dag1}
-dagify(y ~ x,
-       y ~ z,
-       labels = c(x = "Impfung",
-                  y = "Symptome",
-                  z = "Sonstige")) %>% 
-  ggdag(use_labels = "label") +
-  theme_dag()
+\hyphenation{Wahr-schein-lichk-keit} 
+
+
+
+
+
+## Deskriptiv- vs. Inferenzstatistik
+
+
+```{r echo = FALSE}
+knitr::include_graphics("/Users/sebastiansaueruser/Google Drive/research/Publikationen/In_Arbeit/Statistik__21/images/Rahmen/desk_vs_inf.pdf")
 ```
-
-
-```{r dag2}
-dagify(y ~ x,
-       y ~ z,
-       x ~ z,
-       labels = c(x = "Impfung",
-                  y = "Symptome",
-                  z = "Sonstige")) %>% 
-  ggdag() +
-  theme_dag()
-```
-
-
-```{r}
-confounder_triangle(x = "Glatze", y = "Corona", z = "Alter",
-                    x_y_associated = FALSE) %>% 
-  ggdag_dconnected(text = FALSE, use_labels = "label")
-```
-
-
 

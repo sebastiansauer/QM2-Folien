@@ -50,8 +50,9 @@ knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
-library(nomnoml)
+#library(nomnoml)
 library(ggdag)
+library(patchwork)
 ```
 
 ```{r}
@@ -70,9 +71,6 @@ theme_set(theme_minimal())
 ```
 
 # Was ist Inferenzstatistik?
-
-
-\hyphenation{Wahr-schein-lichk-keit} 
 
 
 
@@ -165,15 +163,15 @@ kable(x, format = "latex", escape = FALSE, booktabs = FALSE) %>%
 
 
 
-Sie testen zwei Varianten Ihres Webshops (V1 und V2), die sich im Farbschema unterscheiden und ansonsten identisch sind.
-
-- Hat das Farbschema einen Einfluss auf den Umsatz?
+Sie testen zwei Varianten Ihres Webshops (V1 und V2), die sich im Farbschema unterscheiden und ansonsten identisch sind: Hat das Farbschema einen Einfluss auf den Umsatz?
 
 - Dazu vergleichen Sie den mittleren Umsatz pro Tag von V1 vs. V2, $\bar{X}_{V1}$ und $\bar{X}_{V2}$.
 
 - Die Mittelwerte unterscheiden sich etwas, $\bar{X}_{V1} > \bar{X}_{V2}$
 
 - Sind diese Unterschiede "zufällig" oder "substanziell"? Gilt also $\mu_{V1} > \mu_{V2}$ oder  $\mu_{V1} \le \mu_{V2}$?
+
+- Wie groß ist die Wahrscheinlichkeit^[oft mit *Pr* oder *p* abgekürzt, für *probability*] $Pr(\mu_{V1} > \mu_{V2)}$
 
 
 ## Was heißt "zufällig"?
@@ -241,7 +239,7 @@ img("einring.jpg")
 
 - Regression (Regressionsanalyse) ist eine Methode, um Zielvariablen in Abhängigkeit der Ausprägung von Prädiktorvariablen von Beobachtungen vorherzusagen. 
 
-- Dabei erlaubt die Regression die Quantifizierung der Ungewissheit der Vorhersagen.
+- Dabei erlaubt die Regression, unter gewissen Annahmen, die Quantifizierung der Ungewissheit der Vorhersagen.
 
 
 ```{r plot-regr-uncertainty, echo = FALSE,  out.width=c("40%", "40%")}
@@ -535,10 +533,7 @@ Generell bieten sich es an, zur Modellierung von Wachstumsprozessen auf exponenz
 ## So sieht exponenzielles Wachstum aus
 
 
-:::::: {.columns}
-::: {.column width="50%"}
-\tiny
-```{r echo = TRUE}
+```{r echo = FALSE}
 euler_e <- 2.71
 d2 <- 
   tibble(
@@ -548,21 +543,22 @@ d2 <-
     y = y_hat + e
   )
 ```
-\normalsize
-::: 
-::: {.column width="50%"}
-```{r}
+
+```{r fig.asp = .5}
 ggplot(d2) +
   aes(x = x, y = y) +
   geom_point() +
   geom_smooth()
 ```
 
-:::
-::::::
 
 
-Steigt X um 1 Einheit, so steigt Y um einen konstanten Faktor: exponentielles Wachstum.
+- Steigt $X$ um 1 Einheit, so steigt $Y$ um einen konstanten Faktor: exponentielles Wachstum.
+
+- Beispiel: Verdopplung: $1,2,4,...$, nach 10 Schritten: $2^{10}=1024$, nach 20 Schritten: $2^{20} \approx 10^6$. 
+
+- Exponenzielles Wachstum wächst am Anfang (scheinbar) langsam, später sehr schnell. Die Geschwindigkeit wird leicht unterschätzt.
+
 
 
 
@@ -903,39 +899,138 @@ lm1 <- lm(y ~ x, data = meine_daten)
 
 Die Wahrscheinlichkeit $p$ quantifiziert *Ungewissheit* im Hinblick auf eine Aussage bzw. ein Ereignis $A$, gegeben eines Hintergrundwissen $H$. $p=0$ heißt, wir halten die Aussage (das Ereignis) für falsch (unmöglich); $p=1$ heißt, wir halten die Aussage (das Ereignis) für wahr (sicher). $0<p<1$ heißt, wir sind (mehr oder weniger) unsicher bzgl. der Aussage bzw. ob das Ereignis zutrifft.
 
-- A: "Sokrates ist sterblich."; H: "Alle Menschen sind sterblich und Sokrates ist ein Mensch." $\implies p(A|H) = 1$.
+- $p(\text{Kopf werfen mit einer fairen Münze}) = 1/2$.
 
-- A: "Die Münze zeigt Kopf.; H: "Wir haben keinen Grund anzunehmen, dass eine der beiden Seiten häufiger oben liegt oder das sonst etwas passiert." $\implies p(A|H)=1/2$.
+- $p(\text{eine 6 würfeln mit einer fairen Würfel}) = 1/6$.
 
-- A: "Schorsch, das rosa Einhort, mag Bier."; H: "50% der rosa Einhörner mögen Bier." $\implies p(A|H) = 1/2$.
+- $p(\text{Entweder ist heute Montag oder nicht}) = 1$.
 
-
-## Eigenschaften der Wahrscheinlichkeiten
-
-Axiome von Kolmogorow:
-
-1. $p(A) \ge 0$ (Nichtnegativität)
-2. $p(A) + p(\neg A) = 1$ (Normierung; $\neg A$ ist das logische Gegenteil von $A$)
-3. Die Wahrscheinlichkeit zweier unabhängiger Ereignisse ist die Summe ihrer einzelnen Wahrscheinlichkeiten: $p(A_1 \cap A_2) = p(A_1) + p(A_2)$
-
-Bedingte Wahrscheinlichkeit:
-
-- p(A|H): Die Wahrscheinlichkeit von $A$, gegeben $H$. Bespiel: Die Wahrscheinlichkeit eine 6 zu würfeln (A), gegeben, dass der Würfel "fair" ist (H), d.h. wir kein Wissen haben, dass eine Augenzahl häufiger auftritt, ist $1/6$.
+- $p(\text{Berlin ist die Hauptstadt von Frankreich}) = 0$.
 
 
-## Wahrscheinlichkeit ist abhängig vom Hintergrundwissen
+
+## Additionsregel
+
+
+Die Wahrscheinlichkeit, dass mindestens eines der beiden sich ausschließenden Ereignissen $A$ und $B$ der Fall ist, ist durch die Additionsregel gegeben:
+
+$Pr(\text{A oder B}) = Pr(A \cup B) = Pr(A) + Pr(B)$
+
+Beim Würfelwurf:
+
+$Pr(1 \cup 2) = Pr(1) + Pr(2) = 1/6 + 1/6 = 1/3$
+
+
+## Unabhängigkeit zweier Ereignisse
+
+Zwei Ereignisse sind *unabhängig*, wenn Kenntnis des einen uns keine Information gibt, ob das andere der Fall ist.
+
+Angenommen wir werfen zwei faire Münzen. Wir wissen, die erste Münze zeigt *Kopf*. Dieses Wissen gibt uns keine weitere Information, welche Seite bei der zweiten Münze oben liegt.
+
+Auf der anderen Seite sind Aktienkurs häufig voneinander abhängig. Weiß man, dass eine Aktie gestiegen ist, so ist es (häufig) wahrscheinlich, dass die andere auch gestiegen ist.
+
+
+## Multiplikationsregel für unabhängige Ereignisse
+
+Seien $A$ und $B$ zwei unabhängige Ereignisse, dann nennt man die *gemeinsame Wahrscheinlichkeit* $Pr(A,B)$, die Wahrscheinlichkeit, dass beide Ereignisse eintreten. Sie berechnet sich als Produkt der jeweiligen Wahrscheinlichkeiten von $A$ und $B$:
+
+$$Pr(A \text{ und } B ) = Pr(A \cap B) = Pr(A) \cdot Pr(B)$$
+
+Wirft man zwei faire Münze, so ist die Wahrscheinlichkeit, dass beide Kopf zeigen: $Pr(KK) = Pr(K) \cdot Pr(K) = 1/2 \cdot 1/2 = 1/4$.
+
+
+
+## Wahrscheinlichkeit ist abhängig vom Hintergrundwissen ($H$)
+
+
+ $Pr(A|H)$: Die Wahrscheinlichkeit von $A$, *gegeben* $H$. 
+ 
+ - A: "Sokrates ist sterblich."; H: "Alle Menschen sind sterblich und Sokrates ist ein Mensch." $\implies Pr(A|H) = 1$.
+
+- A: "Die Münze zeigt Kopf"; H: "Wir haben keinen Grund anzunehmen, dass eine der beiden Seiten häufiger oben liegt oder das sonst etwas passiert." $\implies Pr(A|H)=1/2$.
+
+- A: "Schorsch, das rosa Einhort, mag Bier."; H: "50% der rosa Einhörner mögen Bier." $\implies Pr(A|H) = 1/2$.
+
+- Die Wahrscheinlichkeit eine 6 zu würfeln (A), gegeben dem Hintergrundwissen (H), dass der Würfel "fair" ist, d.h. wir kein Wissen haben, dass eine Augenzahl häufiger auftritt, ist $1/6$.
+
+
+
+
+
+
+## Hintergrundwissen ist subjektiv
 
 
 Ich habe gerade einen Stift in meiner Hosentasche (links oder rechts). Wie groß ist die Wahrscheinlichkeit, dass der Stift in meiner linken Tasche ist (und nicht in der rechten)?
 
-Bezogen auf *Ihr* Hintergrundwissen gilt: $p(\text{A="Stift links"|H="kein besonderes Wissen zu der Frage"}) = 1/2$.
+Bezogen auf *Ihr* Hintergrundwissen gilt: $Pr(\text{A="Stift links"|H="kein besonderes Wissen zu der Frage"}) = 1/2$.
 
-Bezogen auf *mein* Hintergrundwissen gilt: $p(\text{A="Stift links"|H="Der Stift ist links"}) = 1$.
+Bezogen auf *mein* Hintergrundwissen gilt: $Pr(\text{A="Stift links"|H="Der Stift ist links"}) = 1$.
 
 @briggs_uncertainty_2016
 
 
 
+
+## Bedingte Wahrscheinlichkeit
+
+$Pr(A|H)$ ist die Wahrscheinlichkeit, dass $A$ eintritt, *gegeben* bzw. *unter der Bedingung*, dass $H$ eingetreten ist bzw. wir davon ausgehen.
+
+Beispiel aus der letzten Klausur:
+
+```{r}
+tibble::tribble(
+               ~., ~"bestanden (B)", ~"nicht (¬B)", ~SUMME,
+   "hat gelernt (l)",        36L,             6L,    42L,
+  "nicht (¬l)",        12L,            24L,    36L,
+          "SUMME",        48L,            30L,    78L
+  ) %>%  
+  kbl()
+
+```
+
+
+
+$Pr(B) = 48/78 \qquad Pr(l) = 42/78$
+
+$Pr(B|l) = 36/42 \approx 0.86 \qquad Pr(l|B) = 42/48 \approx 0.88$
+
+
+
+## Formel der bedingten Wahrscheinlichkeit
+
+$$Pr(B|l) = \frac{Pr(B \cap l)}{Pr(l)}$$
+
+```{r}
+tibble::tribble(
+               ~., ~"bestanden (B)", ~"nicht (¬B)", ~SUMME,
+   "hat gelernt (l)",        36L,             6L,    42L,
+  "nicht (¬l)",        12L,            24L,    36L,
+          "SUMME",        48L,            30L,    78L
+  ) %>%  
+  kbl()
+
+```
+
+
+$Pr(B \cap l) = 36/78 \approx 0.46 \qquad Pr(l) = 42/78 \approx 0.54$
+
+$Pr(B|l)\approx \frac{0.46}{0.54} \approx 0.85$
+
+
+
+## Visualierung zur Wahrscheinlichkeit
+
+
+```{r out.width="70%", eval = TRUE, fig.width=7}
+source("R-Code/img16.R")
+
+```
+
+
+$Pr(A,B) = Pr(A) \cdot Pr(B) = 50\% \cdot 50\% = 25\%$
+
+$Pr(A|B) = Pr(A,B) / Pr(B) = 25\% / 50\% = 50\%$
 
 
 ```{r child_verteilungen, eval = FALSE, child = "children/Verteilungen.Rmd"}
