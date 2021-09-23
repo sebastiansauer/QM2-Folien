@@ -72,3 +72,11 @@ nomnoml("
 [Regression] -> [...]
         ",
 png = "img/regression-specialcases.png")
+
+
+
+nomnoml("
+        [Priori-Vert.] -> [Likelihood]
+        [Likelihood] -> [Posteriori-Vert]
+        ",
+        png = "img/bayesupdate.png")

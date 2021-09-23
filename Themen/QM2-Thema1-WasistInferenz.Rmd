@@ -62,8 +62,6 @@ source("R-Code/img.R")
 
 
 
-\hyphenation{Wahr-schein-lichk-keit} 
-
 
 
 
@@ -72,6 +70,10 @@ theme_set(theme_minimal())
 ```
 
 # Was ist Inferenzstatistik?
+
+
+\hyphenation{Wahr-schein-lichk-keit} 
+
 
 
 ## Deskriptiv- vs. Inferenzstatistik
