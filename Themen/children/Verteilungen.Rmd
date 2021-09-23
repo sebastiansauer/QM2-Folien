@@ -1,0 +1,299 @@
+# Verteilungen
+
+## Häufigkeitsverteilung
+
+:::::: {.columns}
+::: {.column width="50%"}
+
+Die Verteilung eines *diskreten* Merkmals $X$ mit $k$ Ausprägungen zeigt, wie häufig die einzelnen Ausprägungen sind.
+
+
+```{r echo = TRUE}
+mtcars %>% 
+  count(cyl)
+```
+::: 
+::: {.column width="50%"}
+
+Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
+
+```{r}
+mtcars %>% 
+  ggplot(aes(x = hp)) +
+  geom_histogram()
+```
+:::
+::::::
+
+
+
+## Wahrscheinlichkeitsverteilung
+
+
+Eine Wahrscheinlichkeitsverteilung des Merkmals $X$ ordnet jeder der $k$ Ausprägungen $X=x$ eine Wahrscheinlichkeit $p$ zu. So hat die Variable *Geschlecht eines Babies* die beiden Ausprägungen *Mädchen* und *Junge* mit den Wahrscheinlichkeiten $p_M = 51.2\%$ bzw. $p_J = 48.8\%$ [@gelman_regression_2021].
+
+Bei *stetigen* Merkmalen geht man von unendlich vielen Ausprägungen aus; die Wahrscheinlichkeit einer bestimmten Ausprägung ist (praktisch) Null: $p(X=x_j)=0, \quad j=1,...,k$. Daher gibt man stattdessen die *Dichte* der Wahrscheinlichkeit an: Das ist die Wahrscheinlichkeit(smasse) pro eine Einheit von $X$.
+
+
+
+## Beispiele für  Wahrscheinlichkeitsdichte
+
+
+:::::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) +
+  labs(y = "Dichte", x = "Merkmal, X")
+```
+
+Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 40%.
+
+::: 
+::: {.column width="50%"}
+
+```{r}
+#source: https://dk81.github.io/dkmathstats_site/rmath-uniform-plots.html
+
+uniform_Plot <- function(a, b){
+  xvals <- data.frame(x = c(a, b)) #Range for x-values
+  
+  ggplot(data.frame(x = xvals), 
+         aes(x = x)) + xlim(c(a, b)) + ylim(0, 1/(b - a)) +
+    stat_function(fun = dunif, args = list(min = a, max = b), 
+                  geom = "area", 
+                  fill = "green", alpha = 0.35) + 
+    stat_function(fun = dunif, args = list(min = a, max = b)) +
+    labs(x = "X", y = "Dichte")  +
+    geom_vline(xintercept = a, linetype = "dashed", colour = "red") +
+    geom_vline(xintercept = b, linetype = "dashed", colour = "red")
+  
+}
+
+uniform_Plot(-1, 1)
+uniform_Plot(0, 3)
+```
+Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 50% bzw. 33%.
+:::
+::::::
+
+
+## Gesetz der großen Zahl
+
+
+Zieht man (zufällig) immer mehr Werte aus einer Verteilung^[mit endlichem Mittelwert], nähert sich der Mittelwert der Stichprobe immer mehr mit dem Mittelwert^[oft als Erwartungswert bezeichnet] der Verteilung an [@taleb2019technical].
+
+
+
+```{r}
+source("R-Code/img15.R")
+```
+
+
+
+
+
+## Normal auf dem Fußballfeld
+
+Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds (eng). Auf Kommando werfen alle jeweils eine Münze; bei Kopf geht man einen Schritt nach links, bei Zahl nach rechts. Das wird 16 Mal wiederholt. Wie wird die Verteilung der Positionen wohl aussehen?
+
+
+```{r}
+source("R-Code/img13.R")
+```
+
+
+## Normal durch Addieren
+
+Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erzeugt eine Normalverteilung; egal aus welcher Verteilung die Zufallswerte kommen (Zentraler Grenzwertsatz).
+
+
+```{r out.width="70%"}
+source("R-Code/img14.R")
+```
+
+
+
+
+
+## Nicht verwechseln
+
+```{r, echo = FALSE, out.width="50%"} 
+img("ch33910.f1.jpg")
+```
+
+
+@freeman_visual_2006
+
+
+## Normalverteilung vs. randlastige Verteilungen
+
+
+```{r}
+ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1), color = "blue") +
+  labs(y = "Dichte", x = "Merkmal, X") +
+  stat_function(fun = dt, n = 101, args = list(df = 1, ncp =0), color = "red") +
+  labs(caption = "Blau: Normalverteilung\nRot: randlastige Verteilung (t-Verteilung mit df=1)")
+```
+
+
+Bei randlastigen Verteilungen ("fat tails") kommen Extremereignisse viel häufiger vor als bei Normalverteilungen. Deshalb ist es wichtig sein, zu wissen, ob eine Normalverteilung oder eine randlastige Verteilung vorliegt. Viele statistische Methoden sind nicht zuverlässig bei (stark) randlastigen Methoden [@taleb2019technical].
+
+
+## Beispiele für Normal- und randlastige Verteilungen
+
+
+:::::: {.columns}
+::: {.column width="50%"}
+### Normal verteilt
+
+- Größe 
+- Münzwürfe
+- Gewicht
+- IQ
+- Blutdruck
+- Ausschuss einer Maschine
+::: 
+
+::: {.column width="50%"}
+### Randlastig verteilt
+
+- Vermögen
+- Verkaufte Bücher
+- Ruhm
+- Aktienkurse
+- Erdbeben
+- Pandemien
+- Kriege
+- Erfolg auf Tinder
+- Meteroritengröße
+- Stadtgrößen
+:::
+::::::
+
+
+
+
+
+
+
+
+## Münzen werfen als Baum: nach 2 Würfen
+
+
+Wir zählen, wie oft Kopf (K) geworfen wird:
+
+```{r, out.width="90%", echo = FALSE}
+knitr::include_graphics(file.path("img", "muenz1.png"))
+```
+
+## Münzen werfen als Baum: nach 3 Würfen
+
+Wir zählen, wie oft Kopf (K) geworfen wird:
+
+```{r, out.width="90%", fig.asp = 2, echo = FALSE}
+knitr::include_graphics(file.path("img", "muenz1.png))
+```
+
+
+
+## Verteilung nach 3 Münzwürfen
+
+Wir werfen sehr oft 3 Münzen:
+
+```{r}
+muenzvert <- rbinom(n = 10000, size = 3,
+                                    prob = c(1/2, 1/2)) %>% 
+  as_tibble()
+ggplot(muenzvert) +
+  geom_bar(aes(x = value)) +
+  labs(x = "Anzahl Kopf",
+       y = "Häufigkeit")
+```
+
+
+
+
+## Verteilung nach 10 Münzwürfen
+
+Wir werfen sehr oft ($10^4$ mal) *10* Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
+
+```{r}
+muenzvert <- rbinom(n = 10000, size = 10,
+                                    prob = c(1/2, 1/2)) %>% 
+  as_tibble()
+ggplot(muenzvert) +
+  geom_bar(aes(x = value)) +
+  labs(x = "Anzahl Kopf",
+       y = "Häufigkeit")
+```
+
+
+Extreme Trefferzahlen sind selten; mittlere Trefferzahlen häufiger. 
+
+
+## Verteilung nach 20 Münzwürfen
+
+Wir werfen sehr oft ($10^4$ mal) *20* Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
+
+```{r}
+muenzvert <- rbinom(n = 10000, size = 20,
+                                    prob = c(1/2, 1/2)) %>% 
+  as_tibble()
+ggplot(muenzvert) +
+  geom_bar(aes(x = value)) +
+  labs(x = "Anzahl Kopf",
+       y = "Häufigkeit")
+```
+
+Extreme Trefferzahlen sind selten; mittlere Trefferzahlen häufiger. 
+
+## Münzen werfen mit R
+
+:::::: {.columns}
+::: {.column width="50%"}
+10 Mal 1 Münze werfen
+\tiny
+```{r echo = TRUE}
+rbinom(10, 1, 1/2)
+```
+\normalsize
+
+::: 
+::: {.column width="50%"}
+10000 Mal 10 Münzen werfen
+
+```{r echo = TRUE}
+muenzvert <- 
+  rbinom(1e04, 10, .5) %>% 
+  as_tibble()
+ggplot(muenzvert, 
+       aes(x = value)) + 
+  geom_bar()
+```
+:::
+::::::
+
+
+
+
+
+
+## Definition
+
+Die Binomialverteilung beschreibt die Anzahl der Treffer (z.B. "Kopf") in einer Serie von gleichartigen und unabhängen Versuchen, die genau zwei mögliche Ergebnisse haben ("Treffer" vs. "Niete").
+
+Einsatzmöglichkeiten: Münzwürfe (Kopf/Zahl), Geburten (Mädchen/Junge), Zustand (ok/defekt), Diagnose (krank/gesund), Jobentscheidung (einstellen/nicht), Finanzinvestion (kaufen/nicht) ...
+
+## Wahrscheinlichkeit berechnen mit R
+
+Ein Prof. stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen richtig zu raten?^[Hey, endlich mal was für echte Leben!]
+
+
+```{r echo = TRUE}
+dbinom(x = 15, size = 20, prob = .5)
+```
+
+
