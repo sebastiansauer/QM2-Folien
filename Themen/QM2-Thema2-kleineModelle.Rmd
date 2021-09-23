@@ -102,6 +102,17 @@ img("Behaim.jpg")
 
 
 
+## So denkt unser Bayes-Golem
+
+
+```{r out.width="100%"}
+img("bayesupdate2.png")
+```
+
+
+
+
+
 # Bayes-Statistik als Zählen
 
 
@@ -115,7 +126,7 @@ img("Behaim.jpg")
 
 - Es gibt daher fünf *Hypothesen* zur Farbe der Murmeln im Säckchen: [WWWW], [BWWW], [BBWW], [BBBW], [BBBB.]
 
-- Unsere Aufgabe ist, die Wahrscheinlichkeiten der Hypothesen nach Ziehen von Murmeln zu bestimmen.
+- Unser Ziel ist, die Wahrscheinlichkeiten der Hypothesen nach Ziehen von Murmeln zu bestimmen.
 
 
 
@@ -133,9 +144,7 @@ source("R-Code/img2111.R")
 
 - Wir ziehen eine Murmel, merken uns die Farbe und legen sie zurück. Das wiederholen wir noch zwei Mal (Ziehen mit Zurücklegen). 
 
-- Wir erhalten: BWB. 
-
-- Voilà: unsere Daten.
+- Wir erhalten: **BWB**. Voilà: unsere Daten.
 
 ```{r, echo = FALSE} 
 #knitr::include_graphics(file.path("img", "img2112.png"))
@@ -275,7 +284,7 @@ $$\text{Priori-Plausibilität von [BWWW]}$$
 
 ## Plausibilität berechnen
 
-- Sei $p$ der Anteil blauer Murmeln. Bei Hypothese [BWWW] gilt dann: $p=1/4 = 0.25$. Sei $D_{neu} =$ BWB, die Daten:
+- Sei $p$ der Anteil blauer Murmeln. Bei Hypothese [BWWW] gilt, dann ist $p=1/4 = 0.25$. Sei $D_{neu} =$ BWB, die Daten:
 
 
 $$\text{Plausibilität von }p\text{ nach Kenntnis von }D_{neu}$$
@@ -284,7 +293,7 @@ $$\text{Anzahl Pfade von }p\text{ für }D_{neu}$$
 $$\times$$
 $$\text{Priori-Plausibilität von }p$$
 
-"Für jeden Wert von $p$ beurteilen wir dessen Plausibilität als umso höher, je mehr Pfade durch den Pfadbaum führen und je höher die Plausibilität des Werts von $p$ von vornherein ist."
+Für jeden Wert von $p$ beurteilen wir dessen Plausibilität als umso höher, je mehr Pfade durch den Pfadbaum führen und je höher die Plausibilität des Werts von $p$ von vornherein ist.
 
 
 
@@ -306,11 +315,9 @@ source("R-Code/tab24.R")
 ```
 
 
-p: Anteil blauer Murmeln (Priori-Information)
+p: Anteil blauer Murmeln (Priori-Wissen)
 
-AP: Anzahl von möglichen Pfaden
-
-Pl: Plausibilität
+AP: Anzahl von möglichen Pfaden; Pl: Plausibilität
 
 
 ```{r echo = TRUE}
@@ -530,7 +537,7 @@ source("R-Code/img241.R")
 
 ## Gitterwerte in R berechnen
 
-
+\footnotesize
 ```{r echo = TRUE}
 d <-
   tibble(
@@ -543,10 +550,11 @@ d <-
       Likelihood = dbinom(6, size = 9, prob = p_Gitter),
       # berechen unstand. Posteriori-Werte:
       unstd_Post = Likelihood * Priori,
-      # berechne stand. Posteriori-Werte (summiert zu 1)
+      # berechne stand. Posteriori-Werte (summiert zu 1):
       Post = unstd_Post / sum(unstd_Post))  
 ```
 
+\normalsize
 
 ## Unsere Gitter-Daten
 
@@ -556,7 +564,7 @@ d %>%
 ```
 
 
-## Mehr Gittwerte, glattere Annäherung
+## Mehr Gitterwerte, glattere Annäherung
 
 
 ```{r out.width="100%"}
@@ -593,6 +601,7 @@ precis(globus_qa)
 source("R-Code/img243.R")
 ```
 
+Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 
 
 # Hinweise

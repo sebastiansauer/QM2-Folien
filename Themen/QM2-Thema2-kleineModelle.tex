@@ -230,6 +230,12 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}{So denkt unser Bayes-Golem}
+\protect\hypertarget{so-denkt-unser-bayes-golem}{}
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{/Users/sebastiansaueruser/github-repos/QM2-Folien/img/bayesupdate2} \end{figure}
+\end{frame}
+
 \hypertarget{bayes-statistik-als-zuxe4hlen}{%
 \section{Bayes-Statistik als
 Zählen}\label{bayes-statistik-als-zuxe4hlen}}
@@ -252,7 +258,7 @@ Zählen}\label{bayes-statistik-als-zuxe4hlen}}
 \end{itemize}
 
 \begin{figure}[H]
-\includegraphics[width=0.5\linewidth]{unnamed-chunk-5-1} \end{figure}
+\includegraphics[width=0.5\linewidth]{unnamed-chunk-6-1} \end{figure}
 \end{frame}
 
 \begin{frame}{Unsere Daten}
@@ -268,7 +274,7 @@ Zählen}\label{bayes-statistik-als-zuxe4hlen}}
 \end{itemize}
 
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-6-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-7-1} \end{figure}
 
 (Kurz 2021)
 \end{frame}
@@ -280,7 +286,7 @@ Wenn Hypothese {[}BWWW{]} der Fall sein sollte, dann können wir im
 drei weißen.
 
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-7-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-8-1} \end{figure}
 
 Nachdem wir die Murmel gezogen haben (und die Farbe gemerkt haben),
 legen wir sie wieder ins Säckchen: Ziehen mit Zurücklegen.
@@ -295,7 +301,7 @@ Zug 1 und Zug 2 zusammen genommen gibt es \(16=4\cdot4=4^2\)
 Kombinationen an gezogenen Murmeln:
 
 \begin{figure}[H]
-\includegraphics[width=0.5\linewidth]{unnamed-chunk-8-1} \end{figure}
+\includegraphics[width=0.5\linewidth]{unnamed-chunk-9-1} \end{figure}
 
 Die ersten vier Kombinationen sind: BB, BW, BW, BW
 \end{frame}
@@ -306,7 +312,7 @@ Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann
 \(4\cdot4\cdot4=4^3=64\) Kombinationen, drei Murmeln zu ziehen.
 
 \begin{figure}[H]
-\includegraphics[width=0.5\linewidth]{unnamed-chunk-9-1} \end{figure}
+\includegraphics[width=0.5\linewidth]{unnamed-chunk-10-1} \end{figure}
 \end{frame}
 
 \begin{frame}{Welche Züge sind logisch möglich?}
@@ -322,7 +328,7 @@ Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann
 \end{itemize}
 
 \begin{figure}[H]
-\includegraphics[width=0.33\linewidth]{unnamed-chunk-10-1} \includegraphics[width=0.33\linewidth]{unnamed-chunk-10-2} \end{figure}
+\includegraphics[width=0.33\linewidth]{unnamed-chunk-11-1} \includegraphics[width=0.33\linewidth]{unnamed-chunk-11-2} \end{figure}
 
 Nur 3 der 64 ``Pfade'' (Kombinationen) sind mit unseren Daten logisch zu
 vereinbaren.
@@ -616,7 +622,7 @@ oder Land (L). Den Versuch wiederholen Sie 9 Mal.
 \begin{frame}{Wissen updaten: Wir füttern Daten in das Modell}
 \protect\hypertarget{wissen-updaten-wir-fuxfcttern-daten-in-das-modell}{}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{unnamed-chunk-18-1} \end{figure}
+\includegraphics[width=1\linewidth]{unnamed-chunk-19-1} \end{figure}
 \end{frame}
 
 \begin{frame}{Erinnern wir uns an das Urnen-Beispiel}
@@ -685,7 +691,7 @@ Obergrenze 1.
 \begin{block}{Binomialverteilung}
 \protect\hypertarget{binomialverteilung}{}
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-21-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-22-1} \end{figure}
 \end{block}
 \end{column}
 
@@ -693,7 +699,7 @@ Obergrenze 1.
 \begin{block}{Gleichverteilung}
 \protect\hypertarget{gleichverteilung}{}
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-22-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-23-1} \end{figure}
 \end{block}
 \end{column}
 \end{columns}
@@ -737,7 +743,7 @@ dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
 \[\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}\]
 
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-23-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-24-1} \end{figure}
 \end{frame}
 
 \hypertarget{bayes-berechnen-mit-r}{%
@@ -766,6 +772,8 @@ dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
 
 \begin{frame}[fragile]{Gitterwerte in R berechnen}
 \protect\hypertarget{gitterwerte-in-r-berechnen}{}
+\footnotesize
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{d }\OtherTok{\textless{}{-}}
@@ -783,6 +791,8 @@ dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
       \AttributeTok{Post =}\NormalTok{ unstd\_Post }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(unstd\_Post))  }
 \end{Highlighting}
 \end{Shaded}
+
+\normalsize
 \end{frame}
 
 \begin{frame}{Unsere Gitter-Daten}
@@ -814,10 +824,10 @@ p\_Gitter & Priori & Likelihood & unstd\_Post & Post\\
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Mehr Gittwerte, glattere Annäherung}
-\protect\hypertarget{mehr-gittwerte-glattere-annuxe4herung}{}
+\begin{frame}{Mehr Gitterwerte, glattere Annäherung}
+\protect\hypertarget{mehr-gitterwerte-glattere-annuxe4herung}{}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{unnamed-chunk-26-1} \end{figure}
+\includegraphics[width=1\linewidth]{unnamed-chunk-27-1} \end{figure}
 \end{frame}
 
 \begin{frame}[fragile]{Quadratische Anpassung}
@@ -850,7 +860,7 @@ p\_Gitter & Priori & Likelihood & unstd\_Post & Post\\
 
 \begin{verbatim}
 ##        mean        sd      5.5%     94.5%
-## p 0.6666668 0.1571337 0.4155368 0.9177969
+## p 0.6666669 0.1571337 0.4155368 0.9177969
 \end{verbatim}
 
 \normalsize
@@ -860,7 +870,9 @@ p\_Gitter & Priori & Likelihood & unstd\_Post & Post\\
 Verteilung}
 \protect\hypertarget{je-gruxf6uxdfer-n-desto-glatter-die-anpassung-an-die-wahre-verteilung}{}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{unnamed-chunk-28-1} \end{figure}
+\includegraphics[width=1\linewidth]{unnamed-chunk-29-1} \end{figure}
+
+Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 \end{frame}
 
 \hypertarget{hinweise}{%
