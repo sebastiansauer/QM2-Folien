@@ -90,6 +90,17 @@
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 %\setbeamertemplate{page number in head/foot}[totalframenumber]
 \setbeamertemplate{footline}[frame number]
+
+
+\hyphenation{Wahr-schein-lichk-keit} 
+\hyphenation{Posteriori-wahr-schein-lichk-keit} 
+
+
+\leftskip = 0pt 
+\rightskip = 0pt 
+
+\def\hyph{-\penalty0\hskip0pt\relax}
+
 \ifXeTeX
   % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
   \usepackage{polyglossia}
@@ -103,9 +114,9 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\usepackage{csquotes}
 
 \title{Thema 1: Was ist Inferenzstatistik?}
-\subtitle{QM2, ROS, Kap. 1, ReThink\_v1, Kap. 1}
 \author{Prof.~Sauer}
 \date{WiSe 21}
 \institute{AWM, HS Ansbach}
@@ -116,64 +127,39 @@
 \begin{frame}[allowframebreaks]
   \tableofcontents[hideallsubsections]
 \end{frame}
-\begin{frame}{Was ist Inferenzstatistik?}
-\protect\hypertarget{was-ist-inferenzstatistik}{}
-\hyphenation{Wahr-schein-lichk-keit}
+\hypertarget{wahrscheinlichkeit}{%
+\section{Wahrscheinlichkeit}\label{wahrscheinlichkeit}}
 
-\begin{block}{Deskriptiv- vs.~Inferenzstatistik}
-\protect\hypertarget{deskriptiv--vs.-inferenzstatistik}{}
-\tikzset{
-zahl/.style={fill=blue!70!yellow, text=black, label=center:\textsf{\Large Z}},
-kopf/.style={fill=orange!90!blue, label=center:\textsf{\Large K}}
-}
+\begin{frame}{Bayes' \enquote{Theorem}}
+\protect\hypertarget{bayes-theorem}{}
+\begin{alertblock}{Formel Bayes' Theorem}
+$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
+\end{alertblock}
 
-\begin{tikzpicture}
-[scale=1.5, transform shape,
-thick,
-every node/.style={draw, circle, minimum size=10mm},
-grow=down, %Zeichenrichtung
-level 1/.style={sibling distance=3cm},
-level 2/.style={sibling distance=4cm},
-level 3/.style={sibling distance=2cm},
-level distance=1.25cm]
+\begin{itemize}
+\item
+  Bestandteile:
 
-\node[fill=gray!40, shape=rectangle, rounded corners, minimum width = 6cm] {Münzwurf}
-child{ node[shape=circle split,draw,line width=1pt,minimum size=10mm,inner sep=0mm, font=\sffamily\large, rotate=30] (Start) { \rotatebox{-30}{K} \nodepart{lower} \rotatebox{-30}{Z}}
-child {node[kopf] (A) {}
-child {node[kopf] (B) {}}
-child {node[zahl] (C) {}}
-}
-child {node[zahl] (D) {}
-child {node[kopf] (E) {}}
-child {node[zahl] (F) {}}
-}
-};
-
-%Füllung der Wurzel = "Start"
-\begin{scope}[on background layer, rotate=30]
-\fill[kopf] (Start.base) ([xshift=0mm]Start.east) arc (0:180:5mm)--cycle;
-\fill[zahl] (Start.base) ([xshift= 0pt]Start.west) arc (180:360:5mm)--cycle;
-\end{scope}
-
-%Beschriftung
-\path (Start) -- (A) node [draw=none, near start, left] {$0.5$};
-\path (A) -- (B) node [draw=none, near start, left] {$0.5$};
-\path (A) -- (C) node [draw=none, near start, right] {$0.5$};
-\path (Start) -- (D) node [draw=none, near start, right] {$0.5$};
-\path (D) -- (E) node [draw=none, near start, left] {$0.5$};
-\path (D) -- (F) node [draw=none, near start, right] {$0.5$};
-%
-\node[below=11pt, draw=none, name=X] at (B) {$0.25$};
-\node[below=11pt, draw=none] at (C) {$0.25$};
-\node[below=11pt, draw=none, name=Y] at (E) {$0.25$};
-\node[below=11pt, draw=none] at (F) {$0.25$};
-%
-\draw[densely dashed, rounded corners, thin] (X.south west) rectangle (Y.north east);
-
-\end{tikzpicture}
-
-\%===========
-\end{block}
+  \begin{itemize}
+  \item
+    Posteriori-Wahrscheinlichkeit: \(Pr_{Post} := Pr(H|D)\)
+  \item
+    Likelihood: \(L := Pr(D|H)\)
+  \item
+    Priori-Wahrscheinlichkeit: \(Pr_{Priori} := Pr(H)\)
+  \item
+    Evidenz: \(E := Pr(D)\)
+  \end{itemize}
+\item
+  Bayes' Theorem gibt die \(Pr_{Post}\) an, wenn man die Gleichung mit
+  der \(Pr_{Priori}\) und dem \(L\) füttert.
+\item
+  Bayes' Theorem wird häufig verwendet, um die \(Pr_{Post}\) zu
+  quantifizieren.
+\item
+  Die \(Pr_{Post}\) ist proportional zu \(L\) mal \(Pr_{Priori}\) der
+  Hypothese.
+\end{itemize}
 \end{frame}
 
 \end{document}

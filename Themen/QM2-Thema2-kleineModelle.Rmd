@@ -7,7 +7,10 @@ lang: de-DE
 bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
 institute: AWM, HS Ansbach
 header-includes:
-- \usepackage{booktabs}
+  - \usepackage{booktabs}
+  - \usepackage{csquotes}
+  - \usepackage{xspace}
+  - \usepackage[ngerman]{babel}
 output:
   beamer_presentation:
     toc: true
@@ -16,7 +19,10 @@ output:
     # fonttheme: "structurebold"
     keep_tex: true 
     includes:
-      in_header: ../libs/preamble.tex    
+      in_header: ../libs/preamble.tex   
+      
+#numbersections: yes
+csquotes: TRUE        
 ---
 
 
@@ -207,7 +213,7 @@ source("R-Code/img2116.R")
 source("R-Code/img2117.R")
 ```
 
-Nur 3 der 64 "Pfade" (Kombinationen) sind mit unseren Daten logisch zu vereinbaren.
+Nur 3 der 64 "Pfade" (Kombinationen), die Hypothese [BWWW] vorgibt, sind mit unseren Daten logisch zu vereinbaren.
 
 ## Kombinationen für Hypothesen 
 
@@ -348,6 +354,7 @@ Pl
 2. Schritt: Mit den Likelihoods *updaten* wir unsere Priori-Verteilung. Die Wahrscheinlichkeit jeder Hypothese verändert sich entsprechend der Daten. Es resultiert die *Posteriori-Verteilung*.
 
 
+
 # Ein erstes Modell
 
 ## Welcher Anteil der Erdoberfläche ist mit Wasser bedeckt?
@@ -408,7 +415,9 @@ img("bayesupdate.png")
 
 Wir nehmen an, dass die Daten unabhängig voneinander entstehen und sich der Parameterwert nicht zwischenzeitlich ändert.
 
-Dann kann man die Wahrscheinlichkeit ($Pr$), $W$ mal Wasser und $L$ mal Land zu beobachten, wenn die Wahrscheinlichkeit für Wasser $p$ beträgt, mit der *Binomialverteilung* berechnen:
+Dann kann man die Wahrscheinlichkeit ($Pr$), $W$ mal Wasser und $L$ mal Land zu beobachten, wenn die Wahrscheinlichkeit für Wasser $p$ beträgt, mit der *Binomialverteilung* berechnen.
+
+Die Binomialverteilung zeigt die Verteilung der Häufigkeit (Wahrscheinlichkeit) der Ereignisse (z.B. 2 Mal Kopf) beim wiederholten Münzwurf (und allen vergleichbaren Zufallsexperimenten)^["Münzwurfverteilung"].
 
 
 $$Pr(W,L|p) = \frac{(W+L)!}{W!L!}p^W(1-p)^L$$
@@ -416,11 +425,39 @@ $$Pr(W,L|p) = \frac{(W+L)!}{W!L!}p^W(1-p)^L$$
 
 ## Binomialverteilung mit R
 
-Was ist der Anteil der gültigen Pfade, um 6 mal $W$ bei $N=W+L=9$ Würfen zu bekommen, wenn wir von $p=1/2$ ausgehen?
 
-```{r}
+
+Was ist der Anteil der gültigen Pfade (Wahrscheinlichkeit), um 6 mal $W$ bei $N=W+L=9$ Würfen zu bekommen, wenn wir von $p=1/2$ ausgehen?
+
+```{r echo = TRUE}
 dbinom(x = 6, size = 9, prob = 1/2)
 ```
+
+Was ist die Wahrscheinlichkeit für $W=9$ bei $N=9$ und $p=1/2$?
+
+```{r echo = TRUE}
+dbinom(x = 9, size = 9, prob = 1/2)
+```
+
+
+
+## Beispiele zur Berechnung einer binomial verteilte Wahrscheinlichkeit 
+
+Ein Prof. stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen richtig zu raten?^[Hey, endlich mal was für echte Leben!]
+
+
+```{r echo = TRUE}
+dbinom(x = 15, size = 20, prob = .5)
+```
+
+
+Was ist die Wahrscheinlichkeit bei 3 Münzwürfen 3 Treffer (Kopf) zu erzielen?
+
+```{r echo = TRUE}
+dbinom(3, 3, 1/2)
+```
+
+
 
 
 
@@ -453,9 +490,12 @@ dbinom(0:9, 9, 1/2) %>%
          Treffer = seq(0,9)) %>% 
   ggplot(aes(x = Treffer, y = Wahrscheinlichkeit)) +
   geom_segment(aes(xend = Treffer, yend = 0)) + 
-  geom_point(color = "red", size = 5, alpha = .5)
+  geom_point(color = "red", size = 5, alpha = .5) +
+  scale_x_continuous(breaks = 0:9)
 
 ```
+
+$N=9, p = 1/2$
 
 ::: 
 ::: {.column width="50%"}
@@ -480,13 +520,16 @@ uniform_Plot <- function(a, b){
 uniform_Plot(0, 1)
 ```
 
-
+$Min = 0, Max = 1$
 :::
 ::::::
 
 
 
-## Bayes' Theorem 1/2: Gemeinsame Wahrscheinlichkeit
+
+
+
+## Herleitung Bayes' Theorem 1/2: Gemeinsame Wahrscheinlichkeit
 
 Die Wahrscheinlichkeit für *Regen* und *kalt* ist gleich der Wahrscheinlihckeit von *Regen*, *gegeben kalt* mal der Wahrscheinlicht von *kalt*. Entsprechend gilt: Die Wahrscheinlichkeit von $W$, $L$ und $p$ ist das Produkt von $Pr(W,L|p)$ und der Prior-Wahrscheinlichkeit $Pr(p)$:
 
@@ -497,7 +540,7 @@ Genauso gilt: Die Wahrscheinlichkeit von *Regen* und *kalt* ist gleich der Warhs
 $$Pr(W,L,p) = Pr(p|W,L) \cdot Pr(W, L)$$
 
 
-## Bayes' Theorem 2/2: Posteriori-Wahrscheinlichkeit
+## Herleitung Bayes' Theorem 2/2: Posteriori-Wahrscheinlichkeit
 
 Wir setzen die letzten beiden Gleichungen gleich:
 
@@ -509,6 +552,35 @@ $$Pr(p|W,L) = \frac{Pr(W,L|p) Pr(p)}{Pr(W,L)}$$
 
 
 $Pr(W,L)$ nennt man die *mittlere Wahrscheinlichkeit der Daten* oder *Evidenz*. Die Evidenz berechnet sich als Mittelwert der Likelihoods über alle Werte von $p$. Die Aufgabe dieser Größe ist nur dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
+
+
+## Bayes' Theorem
+
+
+
+\begin{alertblock}{Formel Bayes' Theorem}
+$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
+\end{alertblock}
+
+
+
+
+- Bestandteile:
+
+    - Posteriori-Wahrscheinlichkeit: $Pr_{Post}  := Pr(H|D)$
+
+    - Likelihood: $L := Pr(D|H)$
+
+    - Priori-Wahrscheinlichkeit: $Pr_{Priori} := Pr(H)$
+
+    - Evidenz: $E := Pr(D)$
+
+- Bayes' Theorem gibt die $Pr_{Post}$ an, wenn man die Gleichung mit der $Pr_{Priori}$ und dem $L$ füttert.
+
+- Bayes' Theorem wird häufig verwendet, um die $Pr_{Post}$ zu quantifizieren. 
+
+- Die $Pr_{Post}$ ist proportional zu $L \times Pr_{Priori}$.
+
 
 
 
@@ -564,7 +636,7 @@ d %>%
 ```
 
 
-## Mehr Gitterwerte, glattere Annäherung
+## $Pr_{Post}$ zeigt, wie plausibel wir jeden Wert von $p$ halten
 
 
 ```{r out.width="100%"}
@@ -572,30 +644,34 @@ source("R-Code/img242.R")
 ```
 
 
-## Quadratische Anpassung
+Mehr Gitterwerte glätten die Annäherung.
 
-- Komfortabler noch ist die *quadratische Anpassung*, die bestimmte statistische Eigenschaften von linearen Modellen ausnutzt:
+## Quadratische Anpassung^[Quadratic Approximation]
+
+- Komfortabler noch ist die *quadratische Anpassung*, die bestimmte statistische Eigenschaften von linearen Modellen ausnutzt.
+
+- Der R-Befehl `quap` gibt zentrale Statistiken zu den Parametern des Modells zurück.
 
 \tiny
 ```{r echo = TRUE}
 library(rethinking)
 
-globus_qa <- quap(
-  alist(
+globus_qa <- quap(  # "quadratic approximation"
+  alist(  # definiere die Modellgleichungen
     W ~ dbinom(W + L, p),  # Likelihood ist binomial verteilt
     p ~ dunif(0, 1)        # Priori ist gleich (uniform) verteilt
   ), 
-  data = list(W = 6, L = 3)
+  data = list(W = 6, L = 3)  # Daten
 )
 
-# Gib mir die zentralen Ergebnisse:
-precis(globus_qa)
+
+precis(globus_qa)  # Gibt uns die zentralen Ergebnisse
 ```
 
 \normalsize
 
 
-## Je größer $n$, desto glatter die Anpassung an die wahre Verteilung
+## Je größer die Stichprobe ($N$), desto zuverlässiger wird unsere Berechnung
 
 ```{r out.width="100%"}
 source("R-Code/img243.R")
@@ -603,6 +679,16 @@ source("R-Code/img243.R")
 
 Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 
+
+## Zusammenfassung
+
+- In unserem Modell haben wir Annahmen zu $Pr_{Priori}$ und $L$ getroffen.
+
+- Auf dieser Basis hat der Golem sein Wissen geupdated zu $Pr_{Post}$.
+
+- Mit der Gitter-Methode haben wir viele Hypothesen (Parameterwerte) untersucht und jeweils die $Pr_{Post}$ berechnet.
+
+- Unser Modell bildet die kleine Welt ab; ob es in der großen Welt nützlich ist, steht auf einem anderen Blatt.
 
 # Hinweise
 

@@ -163,6 +163,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\usepackage{csquotes}
 
 \title{Thema 2: Bayes-Modelle einer kleinen Welt}
 \subtitle{QM2, ReThink\_v1, Kap. 2}
@@ -253,8 +254,8 @@ Zählen}\label{bayes-statistik-als-zuxe4hlen}}
   Es gibt daher fünf \emph{Hypothesen} zur Farbe der Murmeln im
   Säckchen: {[}WWWW{]}, {[}BWWW{]}, {[}BBWW{]}, {[}BBBW{]}, {[}BBBB.{]}
 \item
-  Unsere Aufgabe ist, die Wahrscheinlichkeiten der Hypothesen nach
-  Ziehen von Murmeln zu bestimmen.
+  Unser Ziel ist, die Wahrscheinlichkeiten der Hypothesen nach Ziehen
+  von Murmeln zu bestimmen.
 \end{itemize}
 
 \begin{figure}[H]
@@ -268,9 +269,7 @@ Zählen}\label{bayes-statistik-als-zuxe4hlen}}
   Wir ziehen eine Murmel, merken uns die Farbe und legen sie zurück. Das
   wiederholen wir noch zwei Mal (Ziehen mit Zurücklegen).
 \item
-  Wir erhalten: BWB.
-\item
-  Voilà: unsere Daten.
+  Wir erhalten: \textbf{BWB}. Voilà: unsere Daten.
 \end{itemize}
 
 \begin{figure}[H]
@@ -320,8 +319,8 @@ Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann
 \begin{itemize}
 \tightlist
 \item
-  Einige Kombinationen (``Pfade'') der Hypothese {[}BWWW{]} lassen sich
-  nicht mit unseren Daten (BWB) vereinbaren.
+  Einige Kombinationen (\enquote{Pfade}) der Hypothese {[}BWWW{]} lassen
+  sich nicht mit unseren Daten (BWB) vereinbaren.
 \item
   Z.B. alle Kombinationen die mit W beginnen, sind nicht mit unseren
   Daten zu vereinbaren.
@@ -330,15 +329,15 @@ Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann
 \begin{figure}[H]
 \includegraphics[width=0.33\linewidth]{unnamed-chunk-11-1} \includegraphics[width=0.33\linewidth]{unnamed-chunk-11-2} \end{figure}
 
-Nur 3 der 64 ``Pfade'' (Kombinationen) sind mit unseren Daten logisch zu
-vereinbaren.
+Nur 3 der 64 \enquote{Pfade} (Kombinationen), die Hypothese {[}BWWW{]}
+vorgibt, sind mit unseren Daten logisch zu vereinbaren.
 \end{frame}
 
 \begin{frame}{Kombinationen für Hypothesen}
 \protect\hypertarget{kombinationen-fuxfcr-hypothesen}{}
 \begin{tabular}{l|l}
 \hline
-Hypothese & Häufigkeit WBW\\
+Hypothese & Häufigkeit BWB\\
 \hline
 [W W W W] & 0 * 4 * 0 = 0\\
 \hline
@@ -478,17 +477,17 @@ HF: Häufigkeit des Säckchentyps laut Fabrik.
 \begin{itemize}
 \tightlist
 \item
-  Sei \(p\) der Anteil blauer Murmeln. Bei Hypothese {[}BWWW{]} gilt
-  dann: \(p=1/4 = 0.25\). Sei \(D_{neu} =\) BWB, die Daten:
+  Sei \(p\) der Anteil blauer Murmeln. Bei Hypothese {[}BWWW{]} gilt,
+  dann ist \(p=1/4 = 0.25\). Sei \(D_{neu} =\) BWB, die Daten:
 \end{itemize}
 
 \[\text{Plausibilität von }p\text{ nach Kenntnis von }D_{neu}\]
 \[\propto\] \[\text{Anzahl Pfade von }p\text{ für }D_{neu}\] \[\times\]
 \[\text{Priori-Plausibilität von }p\]
 
-``Für jeden Wert von \(p\) beurteilen wir dessen Plausibilität als umso
+Für jeden Wert von \(p\) beurteilen wir dessen Plausibilität als umso
 höher, je mehr Pfade durch den Pfadbaum führen und je höher die
-Plausibilität des Werts von \(p\) von vornherein ist.''
+Plausibilität des Werts von \(p\) von vornherein ist.
 \end{frame}
 
 \begin{frame}{Von Plausibilität zur Wahrscheinlichkeit}
@@ -525,11 +524,9 @@ Hyp & p & AP & Pl\\
 \hline
 \end{tabular}
 
-p: Anteil blauer Murmeln (Priori-Information)
+p: Anteil blauer Murmeln (Priori-Wissen)
 
-AP: Anzahl von möglichen Pfaden
-
-Pl: Plausibilität
+AP: Anzahl von möglichen Pfaden; Pl: Plausibilität
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -651,18 +648,72 @@ der Parameterwert nicht zwischenzeitlich ändert.
 
 Dann kann man die Wahrscheinlichkeit (\(Pr\)), \(W\) mal Wasser und
 \(L\) mal Land zu beobachten, wenn die Wahrscheinlichkeit für Wasser
-\(p\) beträgt, mit der \emph{Binomialverteilung} berechnen:
+\(p\) beträgt, mit der \emph{Binomialverteilung} berechnen.
+
+Die Binomialverteilung zeigt die Verteilung der Häufigkeit
+(Wahrscheinlichkeit) der Ereignisse (z.B. 2 Mal Kopf) beim wiederholten
+Münzwurf (und allen vergleichbaren Zufallsexperimenten)\footnote<.->{\enquote{Münzwurfverteilung}}.
 
 \[Pr(W,L|p) = \frac{(W+L)!}{W!L!}p^W(1-p)^L\]
 \end{frame}
 
 \begin{frame}[fragile]{Binomialverteilung mit R}
 \protect\hypertarget{binomialverteilung-mit-r}{}
-Was ist der Anteil der gültigen Pfade, um 6 mal \(W\) bei \(N=W+L=9\)
-Würfen zu bekommen, wenn wir von \(p=1/2\) ausgehen?
+Was ist der Anteil der gültigen Pfade (Wahrscheinlichkeit), um 6 mal
+\(W\) bei \(N=W+L=9\) Würfen zu bekommen, wenn wir von \(p=1/2\)
+ausgehen?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dbinom}\NormalTok{(}\AttributeTok{x =} \DecValTok{6}\NormalTok{, }\AttributeTok{size =} \DecValTok{9}\NormalTok{, }\AttributeTok{prob =} \DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.1640625
+\end{verbatim}
+
+Was ist die Wahrscheinlichkeit für \(W=9\) bei \(N=9\) und \(p=1/2\)?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dbinom}\NormalTok{(}\AttributeTok{x =} \DecValTok{9}\NormalTok{, }\AttributeTok{size =} \DecValTok{9}\NormalTok{, }\AttributeTok{prob =} \DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.001953125
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Beispiele zur Berechnung einer binomial verteilte
+Wahrscheinlichkeit}
+\protect\hypertarget{beispiele-zur-berechnung-einer-binomial-verteilte-wahrscheinlichkeit}{}
+Ein Prof.~stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß
+ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen
+richtig zu raten?\footnote<.->{Hey, endlich mal was für echte Leben!}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dbinom}\NormalTok{(}\AttributeTok{x =} \DecValTok{15}\NormalTok{, }\AttributeTok{size =} \DecValTok{20}\NormalTok{, }\AttributeTok{prob =}\NormalTok{ .}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.01478577
+\end{verbatim}
+
+Was ist die Wahrscheinlichkeit bei 3 Münzwürfen 3 Treffer (Kopf) zu
+erzielen?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dbinom}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.125
 \end{verbatim}
 \end{frame}
 
@@ -672,11 +723,11 @@ Wir fassen das Globusmodell so zusammen:
 
 \[W \sim \text{Bin}(N,p),\]
 
-Lies: ``W ist \emph{bin}omial verteilt mit den Parametern \(N\) und
-\(p\)''. \(N\) gibt die Anzahl der Globuswürfe an: \(N=W+L\).
+Lies: \enquote{W ist \emph{bin}omial verteilt mit den Parametern \(N\)
+und \(p\)}. \(N\) gibt die Anzahl der Globuswürfe an: \(N=W+L\).
 
 Unser Vorab-Wissen zu \(p\) sei, dass uns alle Werte gleich plausibel
-erscheinen (``uniform''):
+erscheinen (\enquote{uniform}):
 
 \[p \sim \text{Unif}(0,1).\]
 
@@ -691,7 +742,9 @@ Obergrenze 1.
 \begin{block}{Binomialverteilung}
 \protect\hypertarget{binomialverteilung}{}
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-22-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-25-1} \end{figure}
+
+\(N=9, p = 1/2\)
 \end{block}
 \end{column}
 
@@ -699,14 +752,17 @@ Obergrenze 1.
 \begin{block}{Gleichverteilung}
 \protect\hypertarget{gleichverteilung}{}
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-23-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-26-1} \end{figure}
+
+\(Min = 0, Max = 1\)
 \end{block}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Bayes' Theorem 1/2: Gemeinsame Wahrscheinlichkeit}
-\protect\hypertarget{bayes-theorem-12-gemeinsame-wahrscheinlichkeit}{}
+\begin{frame}{Herleitung Bayes' Theorem 1/2: Gemeinsame
+Wahrscheinlichkeit}
+\protect\hypertarget{herleitung-bayes-theorem-12-gemeinsame-wahrscheinlichkeit}{}
 Die Wahrscheinlichkeit für \emph{Regen} und \emph{kalt} ist gleich der
 Wahrscheinlihckeit von \emph{Regen}, \emph{gegeben kalt} mal der
 Wahrscheinlicht von \emph{kalt}. Entsprechend gilt: Die
@@ -722,8 +778,9 @@ Wahrscheinlichkeit von \emph{Regen}:
 \[Pr(W,L,p) = Pr(p|W,L) \cdot Pr(W, L)\]
 \end{frame}
 
-\begin{frame}{Bayes' Theorem 2/2: Posteriori-Wahrscheinlichkeit}
-\protect\hypertarget{bayes-theorem-22-posteriori-wahrscheinlichkeit}{}
+\begin{frame}{Herleitung Bayes' Theorem 2/2:
+Posteriori-Wahrscheinlichkeit}
+\protect\hypertarget{herleitung-bayes-theorem-22-posteriori-wahrscheinlichkeit}{}
 Wir setzen die letzten beiden Gleichungen gleich:
 
 \[Pr(W,L|p) \cdot Pr(p) = Pr(p|W,L) \cdot (W,L)\]
@@ -738,12 +795,43 @@ Likelihoods über alle Werte von \(p\). Die Aufgabe dieser Größe ist nur
 dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
 \end{frame}
 
+\begin{frame}{Bayes' Theorem}
+\protect\hypertarget{bayes-theorem}{}
+\begin{alertblock}{Formel Bayes' Theorem}
+$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
+\end{alertblock}
+
+\begin{itemize}
+\item
+  Bestandteile:
+
+  \begin{itemize}
+  \item
+    Posteriori-Wahrscheinlichkeit: \(Pr_{Post} := Pr(H|D)\)
+  \item
+    Likelihood: \(L := Pr(D|H)\)
+  \item
+    Priori-Wahrscheinlichkeit: \(Pr_{Priori} := Pr(H)\)
+  \item
+    Evidenz: \(E := Pr(D)\)
+  \end{itemize}
+\item
+  Bayes' Theorem gibt die \(Pr_{Post}\) an, wenn man die Gleichung mit
+  der \(Pr_{Priori}\) und dem \(L\) füttert.
+\item
+  Bayes' Theorem wird häufig verwendet, um die \(Pr_{Post}\) zu
+  quantifizieren.
+\item
+  Die \(Pr_{Post}\) ist proportional zu \(L \times Pr_{Priori}\).
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Posteriori als Produkt von Priori und Likelihood}
 \protect\hypertarget{posteriori-als-produkt-von-priori-und-likelihood}{}
 \[\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}\]
 
 \begin{figure}[H]
-\includegraphics[width=0.7\linewidth]{unnamed-chunk-24-1} \end{figure}
+\includegraphics[width=0.7\linewidth]{unnamed-chunk-27-1} \end{figure}
 \end{frame}
 
 \hypertarget{bayes-berechnen-mit-r}{%
@@ -755,8 +843,8 @@ dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
 \begin{enumerate}
 \tightlist
 \item
-  Teile den Wertebereich des Parameter in ein ``Gitter'' auf, z.B.
-  \(0.1, 0.2, ..., 0.9, 1\) (``Gitterwerte'').
+  Teile den Wertebereich des Parameter in ein \enquote{Gitter} auf, z.B.
+  \(0.1, 0.2, ..., 0.9, 1\) (\enquote{Gitterwerte}).
 \item
   Bestimme den Priori-Wert des Parameters für jeden Gitterwert.
 \item
@@ -787,7 +875,7 @@ dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
       \AttributeTok{Likelihood =} \FunctionTok{dbinom}\NormalTok{(}\DecValTok{6}\NormalTok{, }\AttributeTok{size =} \DecValTok{9}\NormalTok{, }\AttributeTok{prob =}\NormalTok{ p\_Gitter),}
       \CommentTok{\# berechen unstand. Posteriori{-}Werte:}
       \AttributeTok{unstd\_Post =}\NormalTok{ Likelihood }\SpecialCharTok{*}\NormalTok{ Priori,}
-      \CommentTok{\# berechne stand. Posteriori{-}Werte (summiert zu 1)}
+      \CommentTok{\# berechne stand. Posteriori{-}Werte (summiert zu 1):}
       \AttributeTok{Post =}\NormalTok{ unstd\_Post }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(unstd\_Post))  }
 \end{Highlighting}
 \end{Shaded}
@@ -824,19 +912,25 @@ p\_Gitter & Priori & Likelihood & unstd\_Post & Post\\
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Mehr Gitterwerte, glattere Annäherung}
-\protect\hypertarget{mehr-gitterwerte-glattere-annuxe4herung}{}
+\begin{frame}{\(Pr_{Post}\) zeigt, wie plausibel wir jeden Wert von
+\(p\) halten}
+\protect\hypertarget{pr_post-zeigt-wie-plausibel-wir-jeden-wert-von-p-halten}{}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{unnamed-chunk-27-1} \end{figure}
+\includegraphics[width=1\linewidth]{unnamed-chunk-30-1} \end{figure}
+
+Mehr Gitterwerte glätten die Annäherung.
 \end{frame}
 
-\begin{frame}[fragile]{Quadratische Anpassung}
+\begin{frame}[fragile]{Quadratische Anpassung\footnote<.->{Quadratic
+  Approximation}}
 \protect\hypertarget{quadratische-anpassung}{}
 \begin{itemize}
-\tightlist
 \item
   Komfortabler noch ist die \emph{quadratische Anpassung}, die bestimmte
-  statistische Eigenschaften von linearen Modellen ausnutzt:
+  statistische Eigenschaften von linearen Modellen ausnutzt.
+\item
+  Der R-Befehl \texttt{quap} gibt zentrale Statistiken zu den Parametern
+  des Modells zurück.
 \end{itemize}
 
 \tiny
@@ -845,22 +939,22 @@ p\_Gitter & Priori & Likelihood & unstd\_Post & Post\\
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(rethinking)}
 
-\NormalTok{globus\_qa }\OtherTok{\textless{}{-}} \FunctionTok{quap}\NormalTok{(}
-  \FunctionTok{alist}\NormalTok{(}
+\NormalTok{globus\_qa }\OtherTok{\textless{}{-}} \FunctionTok{quap}\NormalTok{(  }\CommentTok{\# "quadratic approximation"}
+  \FunctionTok{alist}\NormalTok{(  }\CommentTok{\# definiere die Modellgleichungen}
 \NormalTok{    W }\SpecialCharTok{\textasciitilde{}} \FunctionTok{dbinom}\NormalTok{(W }\SpecialCharTok{+}\NormalTok{ L, p),  }\CommentTok{\# Likelihood ist binomial verteilt}
 \NormalTok{    p }\SpecialCharTok{\textasciitilde{}} \FunctionTok{dunif}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)        }\CommentTok{\# Priori ist gleich (uniform) verteilt}
 \NormalTok{  ), }
-  \AttributeTok{data =} \FunctionTok{list}\NormalTok{(}\AttributeTok{W =} \DecValTok{6}\NormalTok{, }\AttributeTok{L =} \DecValTok{3}\NormalTok{)}
+  \AttributeTok{data =} \FunctionTok{list}\NormalTok{(}\AttributeTok{W =} \DecValTok{6}\NormalTok{, }\AttributeTok{L =} \DecValTok{3}\NormalTok{)  }\CommentTok{\# Daten}
 \NormalTok{)}
 
-\CommentTok{\# Gib mir die zentralen Ergebnisse:}
-\FunctionTok{precis}\NormalTok{(globus\_qa)}
+
+\FunctionTok{precis}\NormalTok{(globus\_qa)  }\CommentTok{\# Gibt uns die zentralen Ergebnisse}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##        mean        sd      5.5%     94.5%
-## p 0.6666669 0.1571337 0.4155368 0.9177969
+## p 0.6666671 0.1571337 0.4155372 0.9177971
 \end{verbatim}
 
 \normalsize
@@ -870,9 +964,26 @@ p\_Gitter & Priori & Likelihood & unstd\_Post & Post\\
 Verteilung}
 \protect\hypertarget{je-gruxf6uxdfer-n-desto-glatter-die-anpassung-an-die-wahre-verteilung}{}
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{unnamed-chunk-29-1} \end{figure}
+\includegraphics[width=1\linewidth]{unnamed-chunk-32-1} \end{figure}
 
 Grau: Quadratische Anpassung; schwarz: wahre Verteilung
+\end{frame}
+
+\begin{frame}{Zusammenfassung}
+\protect\hypertarget{zusammenfassung-1}{}
+\begin{itemize}
+\item
+  In unserem Modell haben wir Annahmen zu \(Pr_{Priori}\) und \(L\)
+  getroffen.
+\item
+  Auf dieser Basis hat der Golem sein Wissen geupdated zu \(Pr_{Post}\).
+\item
+  Mit der Gitter-Methode haben wir viele Hypothesen (Parameterwerte)
+  untersucht und jeweils die \(Pr_{Post}\) berechnet.
+\item
+  Unser Modell bildet die kleine Welt ab; ob es in der großen Welt
+  nützlich ist, steht auf einem anderen Blatt.
+\end{itemize}
 \end{frame}
 
 \hypertarget{hinweise}{%
@@ -886,7 +997,7 @@ Dieses Skript bezieht sich auf folgende
 \begin{itemize}
 \tightlist
 \item
-  Kapitel 2 aus McElreath (2016) (``ReThink\_v1'')
+  Kapitel 2 aus McElreath (2016) (\enquote{ReThink\_v1})
 \item
   R-Code für die Diagramme stammt aus Kurz (2021)
 \end{itemize}

@@ -16,7 +16,7 @@ t <-
 tab21 <-
 t %>%
   transmute(Hypothese = str_c("[", d1, " ", d2, " ", d3, " ", d4, "]"),
-            `Häufigkeit WBW` = str_c(blue1, " * ", white, " * ", blue2, " = ", product)) %>%
+            `Häufigkeit BWB` = str_c(blue1, " * ", white, " * ", blue2, " = ", product)) %>%
   kable()
   # flextable() %>%
   # width(j = 1:2, width = c(1, 2)) %>%

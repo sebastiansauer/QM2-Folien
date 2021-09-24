@@ -266,13 +266,4 @@ Die Binomialverteilung beschreibt die Anzahl der Treffer (z.B. "Kopf") in einer 
 
 Einsatzmöglichkeiten: Münzwürfe (Kopf/Zahl), Geburten (Mädchen/Junge), Zustand (ok/defekt), Diagnose (krank/gesund), Jobentscheidung (einstellen/nicht), Finanzinvestion (kaufen/nicht) ...
 
-## Wahrscheinlichkeit berechnen mit R
-
-Ein Prof. stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen richtig zu raten?^[Hey, endlich mal was für echte Leben!]
-
-
-```{r echo = TRUE}
-dbinom(x = 15, size = 20, prob = .5)
-```
-
 
