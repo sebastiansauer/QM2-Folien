@@ -46,6 +46,11 @@ knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 ```
 
 
+```{r}
+options("knitr.graphics.auto_pdf" = FALSE)
+```
+
+
 ```{r echo = FALSE}
 library(tidyverse)
 library(knitr)
@@ -78,11 +83,15 @@ theme_set(theme_minimal())
 
 
 ```{r echo = FALSE}
-knitr::include_graphics("/Users/sebastiansaueruser/Google Drive/research/Publikationen/In_Arbeit/Statistik__21/images/Rahmen/desk_vs_inf.pdf")
+knitr::include_graphics("/Users/sebastiansaueruser/Google Drive/research/Publikationen/In_Arbeit/Statistik__21/images/Rahmen/desk_vs_inf-crop.pdf")
 ```
 
+*Deskriptivstastistik* fasst Stichprobenmerkmale zu Kennzahlen (Statistiken) zusammen.
 
-## Wozu ist die Inferenstatistik da?
+*Inferenzstatistik* schließt von Statistiken auf Parameter (Kennzahlen von Grundgesamtheiten).
+
+
+## Wozu ist die Inferenstatistik gut?
 
 \begin{alertblock}{Inferenz}
 Inferenz bedeutet logisches Schließen; auf Basis von vorliegenden Wissen wird neues Wissen generiert.
@@ -129,7 +138,7 @@ kable(x, format = "latex", escape = FALSE, booktabs = FALSE) %>%
 ```
 
 
-Für Stichprobendaten verwendet man lateinische Buchstaben ($X, p, b, \ldots$); für Populationsdaten verwendet man griechische Buchstaben.
+Für Statistiken (Stichprobe) verwendet man lateinische Buchstaben ($X, p, b, \ldots$); für Parameter (Population) verwendet man griechische Buchstaben.
 
 
 ## Schätzen von Parametern einer Grundgesamtheit
@@ -171,7 +180,7 @@ Sie testen zwei Varianten Ihres Webshops (V1 und V2), die sich im Farbschema unt
 
 - Sind diese Unterschiede "zufällig" oder "substanziell"? Gilt also $\mu_{V1} > \mu_{V2}$ oder  $\mu_{V1} \le \mu_{V2}$?
 
-- Wie groß ist die Wahrscheinlichkeit^[oft mit *Pr* oder *p* abgekürzt, für *probability*] $Pr(\mu_{V1} > \mu_{V2)}$
+- Wie groß ist die Wahrscheinlichkeit^[oft mit *Pr* oder *p* abgekürzt, für *probability*] $Pr(\mu_{V1} > \mu_{V2)}$?
 
 
 ## Was heißt "zufällig"?
@@ -218,6 +227,13 @@ img("linear_tests_cheat_sheet.png")
 img("regression-specialcases.png")
 ```
 
+- *t-Test*: Unterscheiden sich zwei (metrische) Mittelwerte?
+- *Wilcoxon-Test*: Unterscheiden sich zwei Verteilungen?
+- *Korrelastionstest*: Korrelieren zwei Merkmale?
+- *Varianzanalye*: Unterscheiden sich die (metrischen) Mittelwerte in zwei oder mehr Gruppen?
+- $\chi^2$-*Test*: Hängen zwei nominale Merkmale zusammen?
+
+Diese (und mehr) Fragestellungen können mit der Regression beantwortet werden.
 
 
 ## To rule 'em all
@@ -251,6 +267,24 @@ img("fig1-1b.png")
 [Quelle](https://avehtari.github.io/ROS-Examples/ElectionsEconomy/hibbs.html)
 
 
+## Beispiele zur Quantifizierung von Ungewissheit
+
+
+- Morgen regnet's $\Leftrightarrow$ Morgen wird es hier mit einer Wahrscheinlichkeit von 97% mehr als 0 mm Niederschlag geben.
+
+- Methode $A$ ist besser als Methode $B$ $\Leftrightarrow$ Mit einer Wahrscheinlichkeit von 57% ist der Mittelwert für Methode $A$ höher als für Methode $B$.
+
+- Die Maschine fällt demnächst aus $\Leftrightarrow$ Mit einer Wahrscheinlichkeit von 97% wird die Maschine in den nächsten 1-3 Tagen ausfallen, laut unserem Modell.
+
+- Die Investition lohnt sich $\Leftrightarrow$ Die Invesition hat einen Erwartungswert von 42 Euro; mit 90% Wahrscheinlichkeit liegt der zu erwartende Gewinn zwischen -10000 und 100 Euro.
+
+
+
+
+
+
+
+
 ## Die Regressionsgleichung
 
 In voller Pracht:
@@ -260,7 +294,7 @@ $$y = \beta_0 + \beta_1x + \epsilon$$
 
 
 
-- $y$: Zielvariable (vorherzusagen)
+- $y$: Zielvariable^[Abhängige Variabe, Kriterium] (vorherzusagen)
 - $\beta_0$: Achsenabschnitt
 - $\beta_1$: Regressionsgewicht (Steigung der Regressionsgeraden)
 - $\epsilon$: "Fehler"; Einflüsse auf $y$, die das Modell nicht kennt
@@ -713,14 +747,14 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 
 - zentrale Statistik: *p-Wert*
 
-- "Wie wahrscheinlich ist der Wert der Teststatistik (oder noch extremere Werte), vorausgesetzt die Nullhypothese gilt und man wiederholt den Versuch unendlich oft (unter gleichen Bedingungen aber zufällig verschieden)?"
+- "Wie wahrscheinlich ist der Wert der Teststatistik (oder noch extremere Werte), vorausgesetzt die Nullhypothese gilt und man wiederholt den Versuch unendlich oft (mit gleichen Bedingungen aber zufällig verschieden)?"
 
 ::::
 
 :::: column
 ### Bayes-Statistik
 
-- zentrale Statistik: *Posterior-Verteilung*
+- zentrale Statistik: *Posteriori^[synonym: Posterior]-Verteilung*
 
 - "Wie wahrscheinlich ist die Forschungshypothese, jetzt nachdem wir die Daten kennen laut unserem Modell?"
 ::::
@@ -909,6 +943,17 @@ Die Wahrscheinlichkeit $p$ quantifiziert *Ungewissheit* im Hinblick auf eine Aus
 
 
 
+## Zufallsexperiment
+
+- Als Zufallsexperiment bezeichnen wir einen Vorgang, bei dem wir wissen, was alles passieren könnte, aber nicht sicher sind, was genau passiert.
+
+- Die Menge der möglichen Ergebnisse nennt man *Grundraum* (*Ergebnisraum*) $\Omega$. Beim Würfelwurf: $\Omega = \{1, 2, 3, 4, 5, 6\}$
+
+- Jede Teilmenge $A \subseteq \Omega$ nennt man ein *Ereignis*. Beim Würfelwurf: z.B. $A = \{2, 4, 6\}$, eine gerade Zahl werfen.
+
+
+
+
 ## Additionsregel
 
 
@@ -916,18 +961,45 @@ Die Wahrscheinlichkeit, dass mindestens eines der beiden sich ausschließenden E
 
 $Pr(\text{A oder B}) = Pr(A \cup B) = Pr(A) + Pr(B)$
 
-Beim Würfelwurf:
+Beispiel: Wahrscheinlichkeit mit einem "fairen" Würfel eine 1 oder 2 zu werfen:
 
 $Pr(1 \cup 2) = Pr(1) + Pr(2) = 1/6 + 1/6 = 1/3$
 
 
 ## Unabhängigkeit zweier Ereignisse
 
-Zwei Ereignisse sind *unabhängig*, wenn Kenntnis des einen uns keine Information gibt, ob das andere der Fall ist.
+Zwei Ereignisse sind *(stochastisch) unabhängig*, wenn Kenntnis des einen uns keine Information gibt, ob das andere der Fall ist. Ansonsten nennt man die beiden Ergeignisse (stochastisch) abhängig.
 
 Angenommen wir werfen zwei faire Münzen. Wir wissen, die erste Münze zeigt *Kopf*. Dieses Wissen gibt uns keine weitere Information, welche Seite bei der zweiten Münze oben liegt.
 
 Auf der anderen Seite sind Aktienkurs häufig voneinander abhängig. Weiß man, dass eine Aktie gestiegen ist, so ist es (häufig) wahrscheinlich, dass die andere auch gestiegen ist.
+
+*Achtung:* Stochastische (Un)abhängigkeit impliziert nicht kausale (Un)abhängigkeit.
+
+
+## Beispiele für abhängige und unabhängige Ereignisse $A$ und $B$
+
+:::::: {.columns}
+::: {.column width="50%"}
+*Unabhängig*
+
+- Münzwurf 1 (A) und Münzwurf 2 (B), jeweils fair
+- Meine Stimmung (A) und ob das heutige Datum eine Primzahl ist (B)
+- Zwei Passanten getrennt zu ihrer Meinung zu einem politischen Thema befragen
+- Die Körpergröße zweier zufällig gezogener Personen (A und B) 
+::: 
+::: {.column width="50%"}
+*Abhängig*
+
+- Körpergröße zweier Geschwister (A und B)
+- Lernleistung zwier Schüleris A und B der gleichen Klasse
+- PS-Zahl (A) und Spritverbrauch (B)
+- Augenzahl beim zweimaligen Wurf (A und B) eines gezinkten Würfels
+- Geschlecht (A) und ob die Person Papst ist (B)
+:::
+::::::
+
+
 
 
 ## Multiplikationsregel für unabhängige Ereignisse
@@ -937,6 +1009,81 @@ Seien $A$ und $B$ zwei unabhängige Ereignisse, dann nennt man die *gemeinsame W
 $$Pr(A \text{ und } B ) = Pr(A \cap B) = Pr(A) \cdot Pr(B)$$
 
 Wirft man zwei faire Münze, so ist die Wahrscheinlichkeit, dass beide Kopf zeigen: $Pr(KK) = Pr(K) \cdot Pr(K) = 1/2 \cdot 1/2 = 1/4$.
+
+
+## Beispiele für die Multiplikationsregel unabhängiger Ereignisse
+
+- Zwei Mal hintereinander eine 6 werfen (fairer Würfel): $Pr(6, 6) = Pr(6) \cdot Pr(6) = 1/6 \cdot 1/6 = 1/36$.
+
+- Beim Lotto wird erst die Zahl $42$ und dann die Zahl $1$ gezogen: $Pr(42,1)=1/49 \cdot 1/48 \approx  `r round(1/49*1/48, 5)`$.
+
+- Bei der Klausur alle 10 Richtig-Falsch-Fragen *r*ichtig zu raten: $Pr(20r) = 1/2^{20} \approx  `r round(1/2^10, 5)`$.
+
+- Wenn man in der Disko 10 Personen anspricht, Korb-Wahrscheinlichkeit $p(K)=9/10$ beträgt, wie hoch ist die Wahrscheinlichkeit    nicht alleine nach hause zugehen? $Pr(\neg0) = 1-0.9^{10} \approx  `r round(1-0.9^10, 5)`$.
+
+- Ei Forscheri führt 10 statistische Tests durch, jeweils mit 10% Gefahr, dass ein falsch-positives Ergebnis zustande kommt. Wie hoch ist die Wahrscheinlichkeit für mindestens 1 falsch-positives Ergebnis? $Pr(\neg 0 FP) = 1 - 0.9^{10} \approx `r round(1 - 0.9^10, 2)`$
+
+
+
+
+
+
+
+## Münzen werfen als Baum: Anzahl *Kopf* nach 2 Würfen
+
+
+
+:::::: {.columns}
+::: {.column width="50%"}
+
+
+```{r, out.width="100%", echo = FALSE}
+img("muenz1.png")
+
+```
+
+::: 
+::: {.column width="50%"}
+```{r}
+tibble::tribble(
+  ~Ereignis,               ~Pr,
+       "0K", "1/2 * 1/2 = 1/4",
+       "1K", "1/4 + 1/4 = 1/2",
+       "2K", "1/2 * 1/2 = 1/4"
+  ) %>% 
+  kbl()
+  
+```
+
+
+:::
+::::::
+
+
+
+## Münzen werfen als Baum: Anzahl *Kopf* nach 3 Würfen
+
+
+
+
+
+```{r, out.width="70%", echo = FALSE}
+img("muenz2.png")
+
+```
+
+```{r}
+tibble::tribble(
+  ~Ereignis,                     ~Pr,
+       "0K", "1/2 * 1/2 * 1/2 = 1/8",
+       "1K", "1/8 + 1/8 + 1/8 = 3/8",
+       "2K",          "3 * 1/8 = 3/8",
+       "3K", "1/2 * 1/2 * 1/2 = 1/8"
+  ) %>% 
+  kbl()
+  
+```
+
 
 
 
@@ -974,33 +1121,21 @@ Bezogen auf *mein* Hintergrundwissen gilt: $Pr(\text{A="Stift links"|H="Der Stif
 
 ## Bedingte Wahrscheinlichkeit
 
-$Pr(A|H)$ ist die Wahrscheinlichkeit, dass $A$ eintritt, *gegeben* bzw. *unter der Bedingung*, dass $H$ eingetreten ist bzw. wir davon ausgehen.
+Wie groß ist die Wahrscheinlichkeit:
 
-Beispiel aus der letzten Klausur:
+- die Klausur zu bestehen, *wenn* man gelernt hat?
+- von schlechter Laune, *gegeben* es ist Montag?
+- schwer an Corona zu erkranken, *unter der Bedingung*, man ist geimpft? 
 
-```{r}
-tibble::tribble(
-               ~., ~"bestanden (B)", ~"nicht (¬B)", ~SUMME,
-   "hat gelernt (l)",        36L,             6L,    42L,
-  "nicht (¬l)",        12L,            24L,    36L,
-          "SUMME",        48L,            30L,    78L
-  ) %>%  
-  kbl()
-
-```
+$Pr(A|H)$ ist die Wahrscheinlichkeit, dass $A$ eintritt, *gegeben* bzw. *unter der Bedingung*, dass $H$ eingetreten ist.
 
 
-
-$Pr(B) = 48/78 \qquad Pr(l) = 42/78$
-
-$Pr(B|l) = 36/42 \approx 0.86 \qquad Pr(l|B) = 42/48 \approx 0.88$
-
-
-
-## Formel der bedingten Wahrscheinlichkeit
+Formel der bedingten Wahrscheinlichkeit:
 
 $$Pr(B|l) = \frac{Pr(B \cap l)}{Pr(l)}$$
 
+## Beispiel aus der letzten Klausur
+
 ```{r}
 tibble::tribble(
                ~., ~"bestanden (B)", ~"nicht (¬B)", ~SUMME,
@@ -1012,14 +1147,23 @@ tibble::tribble(
 
 ```
 
-
-$Pr(B \cap l) = 36/78 \approx 0.46 \qquad Pr(l) = 42/78 \approx 0.54$
-
-$Pr(B|l)\approx \frac{0.46}{0.54} \approx 0.85$
+\vspace{1cm}
 
 
+Randwahrscheinlichkeit: $Pr(B) = 48/78 \approx 0.61 \quad Pr(l) = 42/78 \approx 0.54$
 
-## Visualierung zur Wahrscheinlichkeit
+Bedingte Wahrscheinlichkeit: $Pr(B|l) = 36/42 \approx \frac{0.46}{0.54} \approx 0.86 \quad Pr(l|B) = 42/48 \approx 0.88$
+
+
+
+
+Gemeinsame Wahrscheinlichkeit: $Pr(B \cap l) = Pr(l \cap B) = Pr(B,l) = Pr(l,B) = 36/78 \approx 0.46$
+
+
+
+
+
+## Visualierung zur Wahrscheinlichkeit zweier unabhängiger Ereignisse
 
 
 ```{r out.width="70%", eval = TRUE, fig.width=7}
@@ -1036,6 +1180,34 @@ $Pr(A|B) = Pr(A,B) / Pr(B) = 25\% / 50\% = 50\%$
 ```{r child_verteilungen, eval = FALSE, child = "children/Verteilungen.Rmd"}
 
 ```
+
+
+## Visualisierung zweier abhängiger Ereignisse
+
+Sind die Ereignisse *Tod durch Covid* bzw. *Impfquote* und *Land* voneinander abhängig?
+
+```{r}
+source("R-Code/covid01.R")
+```
+
+
+:::::: {.columns}
+::: {.column width="50%"}
+```{r}
+plot_covid1
+```
+
+::: 
+::: {.column width="50%"}
+```{r}
+plot_covid2
+```
+:::
+::::::
+
+
+@owidcoronavirus
+
 
 
 # Hinweise 

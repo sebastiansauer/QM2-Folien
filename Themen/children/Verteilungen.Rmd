@@ -178,27 +178,6 @@ Bei randlastigen Verteilungen ("fat tails") kommen Extremereignisse viel häufig
 
 
 
-
-
-## Münzen werfen als Baum: nach 2 Würfen
-
-
-Wir zählen, wie oft Kopf (K) geworfen wird:
-
-```{r, out.width="90%", echo = FALSE}
-knitr::include_graphics(file.path("img", "muenz1.png"))
-```
-
-## Münzen werfen als Baum: nach 3 Würfen
-
-Wir zählen, wie oft Kopf (K) geworfen wird:
-
-```{r, out.width="90%", fig.asp = 2, echo = FALSE}
-knitr::include_graphics(file.path("img", "muenz1.png))
-```
-
-
-
 ## Verteilung nach 3 Münzwürfen
 
 Wir werfen sehr oft 3 Münzen:
