@@ -1,8 +1,8 @@
 ---
 title: "Thema 2: Bayes-Modelle einer kleinen Welt"
-subtitle: "QM2, ReThink_v1, Kap. 2"
+subtitle: "QM2, ReThink, Kap. 2"
 author: Prof. Sauer
-date: WiSe 21
+date: "`r Sys.Date()`"
 lang: de-DE
 bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
 institute: AWM, HS Ansbach
@@ -90,7 +90,7 @@ img("Behaim.jpg")
 ::: {.column width="50%"}
 ### Kleine Welt 
 - Die Welt, wie sie der Golem sieht
-- entspricht dem Modell
+- entspricht dem Modell (zwangläufig)
 
 
 ::: 
@@ -106,7 +106,7 @@ img("Behaim.jpg")
 - Was in der kleinen Welt funktioniert, muss nicht in der großen Welt funktionieren.
 - Modelle zeigen immer nur die kleine Welt: Vorsicht vor schnellen Schlüssen und vermeintlicher Gewissheit.
 
-
+\includegraphics[width=1em]{../img/weight.pdf} Nennen Sie ein Beispiel, in dem ein Modell nicht (exakt) der Wirklichkeit entspricht!
 
 ## So denkt unser Bayes-Golem
 
@@ -117,7 +117,7 @@ img("bayesupdate2.png")
 
 
 
-
+\includegraphics[width=1em]{../img/weight.pdf} Bayes-Inferenz ähnelt dem Lernen von Menschen. Geben Sie ein Beispiel von Lernen bei Menschen, das oben dargestelltem Prozess ähnelt!
 
 # Bayes-Statistik als Zählen
 
@@ -160,6 +160,10 @@ source("R-Code/img2112.R")
 
 [@kurz_statistical_2021]
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Wie groß ist die Stichprobe ($N$)? Ist die Wahrscheinlichkeit für *B* in jedem Zug gleich?
+
+
 ## Zugmöglichkeiten laut Hypothese [BWWW], 1. Zug
 
 Wenn Hypothese [BWWW] der Fall sein sollte, dann können wir im *ersten* Zug entweder die eine blaue Murmel erwischen oder eine der drei weißen.
@@ -172,6 +176,8 @@ source("R-Code/img2113.R")
 Nachdem wir die Murmel gezogen haben (und die Farbe gemerkt haben), legen wir sie wieder ins Säckchen: Ziehen mit Zurücklegen.
 
 
+\includegraphics[width=1em]{../img/weight.pdf} Wie viele Elementarereignisse hat dieses Zufallsexperiment? Sind alle gleich wahrscheinlich?
+
 
 ## Zugmöglichkeiten laut Hypothese [BWWW], 1. und 2. Zug
 
@@ -179,13 +185,13 @@ Wenn Hypothese [BWWW] der Fall sein sollte, dann haben wir im *zweiten* Zug nat�
 
 Zug 1 und Zug 2 zusammen genommen gibt es $16=4\cdot4=4^2$ Kombinationen an gezogenen Murmeln:
 
-```{r, echo = FALSE, out.width="50%"} 
+```{r, echo = FALSE, out.width="50%", fig.asp=.5} 
 #knitr::include_graphics(file.path("img", "img2113.png"))
 source("R-Code/img2114.R")
+
 ```
 
-Die ersten vier Kombinationen sind: BB, BW, BW, BW
-
+\includegraphics[width=1em]{../img/weight.pdf} Ist jedes Elementarereignis (z.B. BB, BW,...) gleich wahrscheinlich?
 
 
 
@@ -201,6 +207,8 @@ Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann $4\cdot4\cdot4=4^3=64$ Ko
 source("R-Code/img2115.R")
 ```
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Wie wahrscheinlich ist ein bestimmtes dieser 64 Ereignisse (unter der Annahme gleicher Wahrscheinlichkeit)?
 
 ## Welche Züge sind logisch möglich?
 
@@ -221,7 +229,7 @@ Nur 3 der 64 "Pfade" (Kombinationen), die Hypothese [BWWW] vorgibt, sind mit uns
 source("R-Code/tab21.R")
 ```
 
-- Die Häufigkeiten der Kombinationen (Pfade) ist proportional zur Plausibilität einer Hypothese.
+- Die Häufigkeiten der Kombinationen (Pfade) ist proportional zur Plausibilität einer Hypothese: Je mehr Pfade laut Hypothese, desto wahrscheinlicher die Hypothese (unter sonst gleichen Bedingungen).
 
 - Zusätzlich müssten wir noch beachten, ob bestimmte Hypothesen *per se* bzw. *a priori* wahrscheinlicher sind. So könnten blaue Murmeln selten sein. Gehen wir der Einfachheit halber zunächst davon aus, dass alle Hypothesen apriori gleich wahrscheinlich sind.
 
@@ -303,6 +311,7 @@ Für jeden Wert von $p$ beurteilen wir dessen Plausibilität als umso höher, je
 
 
 
+
 ## Von Plausibilität zur Wahrscheinlichkeit
 
 - Teilen wir die Anzahl Pfade einer Hypothese durch die Anzahl aller Pfade (aller Hypothesen), so bekommen wir einen Anteil. Damit haben wir eine Wahrscheinlichkeit:
@@ -313,6 +322,8 @@ $$\frac{\text{Anzahl Pfade von }p\text{ für }D_{neu}\times \text{Prior-Pl von }
 
 Pl: Plausibilität
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Was muss passieren, dass der Bruch gleich Null ist?
 
 ## Plausibilität pro Hypothese
 
@@ -342,6 +353,9 @@ Pl
 - Die Priori-Plausibilität nennt man *Priori-Wahrscheinlichkeit*.
 
 - Die neue, geupdatete Plausibilität für einen bestimmten Wert von $p$ nennt man *Posteriori-Wahrscheinlichkeit*.
+
+
+\includegraphics[width=1em]{../img/weight.pdf} Erklären Sie die Begriffe dem nächsten Menschen, den Sie treffen!
 
 
 ## Zusammenfassung
@@ -377,12 +391,20 @@ Sie werden einen Globus-Ball in die Luft und fangen in wieder auf. Sie notieren 
 $$W \quad L \quad W \quad W \quad W \quad L \quad W \quad L \quad W$$
 
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Besorgen Sie sich einen Globus (zur Not eine Münze) und stellen Sie den Versuch nach!
+
 ## Der datengenierende Prozess: Wie entstanden die Daten?
 
 1. Der wahre Anteil von Wasser der Erdoberfläche ist $p$.
 2. Ein Wurf des Globusballes hat die Wahrscheinlichkeit $p$, eine $W$-Beobachtung zu erzeugen.
 3. Die Würfe des Globusballes sind unabhängig voneinander.
 4. Wir haben kein Vorwissen über $p$; jeder Wert ist uns gleich wahrscheinlich.
+
+
+
+\includegraphics[width=1em]{../img/weight.pdf} Welche Annahmen würden Sie ändern? Welche könnte man wegnehmen? Welche hinzufügen? Was wären die Konsequenzen?
+
 
 ## Wissen updaten: Wir füttern Daten in das Modell
 
@@ -403,7 +425,7 @@ source("R-Code/img221.R")
 
 - Für jede Hypothese (d.h. jeden *Parameterwert* $p$) möchten wir den Anteil (die Wahrscheinlichkeit) gültiger Kombinationen wissen. Das gibt uns den *Likelihood*.
 
-- Dann gewichten wir den Likelihood mit dem Vorabwissen, so dass wir die *Posteriori-Verteilung* bekommen.
+- Dann gewichten wir den Likelihood mit dem Vorabwissen, so dass wir die *Posteriori-Verteilung*^[Anstatt von *Priori* liest man auch *Prior*; anstatt *Posteriori* auch *Posterior*] bekommen.
 
 
 ```{r}
@@ -441,9 +463,9 @@ dbinom(x = 9, size = 9, prob = 1/2)
 
 
 
-## Beispiele zur Berechnung einer binomial verteilte Wahrscheinlichkeit 
+## Beispiele zur Berechnung einer binomial verteilten Wahrscheinlichkeit 
 
-Ein Prof. stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen richtig zu raten?^[Hey, endlich mal was für echte Leben!]
+Ei Professori stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen richtig zu raten?^[Hey, endlich mal was für echte Leben!]
 
 
 ```{r echo = TRUE}
@@ -451,7 +473,7 @@ dbinom(x = 15, size = 20, prob = .5)
 ```
 
 
-Was ist die Wahrscheinlichkeit bei 3 Münzwürfen 3 Treffer (Kopf) zu erzielen?
+Was ist die Wahrscheinlichkeit bei 3 Münzwürfen (genau) 3 Treffer (Kopf) zu erzielen?
 
 ```{r echo = TRUE}
 dbinom(3, 3, 1/2)
@@ -474,7 +496,7 @@ Unser Vorab-Wissen zu $p$ sei, dass uns alle Werte gleich plausibel erscheinen (
 
 $$p \sim \text{Unif}(0,1).$$
 
-Lies: $p$ ist gleich (uniform) verteilt mit der Untergrenze 0 und der Obergrenze 1.
+Lies: "$p$ ist gleich (uniform) verteilt mit der Untergrenze 0 und der Obergrenze 1".
 
 
 ## So sehen die Verteilungen aus
@@ -526,7 +548,7 @@ $Min = 0, Max = 1$
 
 
 
-
+\includegraphics[width=1em]{../img/weight.pdf} Was fällt Ihnen bei der Binomialverteilung auf? Ist sie symmetrisch? Verändert sich die Wahrscheinlichkeit linear? Was fällt Ihnen bei der Gleichverteilung auf?
 
 
 ## Herleitung Bayes' Theorem 1/2: Gemeinsame Wahrscheinlichkeit
@@ -535,7 +557,7 @@ Die Wahrscheinlichkeit für *Regen* und *kalt* ist gleich der Wahrscheinlihckeit
 
 $$Pr(W,L,p) = Pr(W,L|p) \cdot Pr(p)$$
 
-Genauso gilt: Die Wahrscheinlichkeit von *Regen* und *kalt* ist gleich der Warhscheinlichkeit *kalt, wennn's regnet* mal der Wahrscheinlichkeit von *Regen*:
+Genauso gilt: Die Wahrscheinlichkeit von *Regen* und *kalt* ist gleich der Wahrscheinlichkeit *kalt, wenn's regnet* mal der Wahrscheinlichkeit von *Regen*:
 
 $$Pr(W,L,p) = Pr(p|W,L) \cdot Pr(W, L)$$
 
@@ -636,6 +658,10 @@ d %>%
 ```
 
 
+\includegraphics[width=1em]{../img/weight.pdf} Was wohl mit *Post* passiert, wenn wir *Priori* ändern?
+
+
+
 ## $Pr_{Post}$ zeigt, wie plausibel wir jeden Wert von $p$ halten
 
 
@@ -690,6 +716,9 @@ Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 
 - Unser Modell bildet die kleine Welt ab; ob es in der großen Welt nützlich ist, steht auf einem anderen Blatt.
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Wenn Sie auf einen Prozentwert für $W$ tippen müssten, welchen würden Sie nehmen, laut dem Modell (und gegeben der Daten)?
+
 # Hinweise
 
 
@@ -697,7 +726,7 @@ Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 
 Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
 
-- Kapitel 2 aus @McElreath2016 ("ReThink_v1")
+- Kapitel 2 aus @mcelreath_statistical_2020
 - R-Code für die Diagramme stammt aus @kurz_statistical_2021
 
 

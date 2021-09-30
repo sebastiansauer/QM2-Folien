@@ -77,7 +77,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Thema 1: Was ist Inferenzstatistik?},
+  pdftitle={TEST},
   pdfauthor={Prof.~Sauer},
   pdflang={de-DE},
   hidelinks,
@@ -94,12 +94,15 @@
 
 \hyphenation{Wahr-schein-lichk-keit} 
 \hyphenation{Posteriori-wahr-schein-lichk-keit} 
+%\newcommand*{\hyphenate}[1]{{\enablehyphenation #1}}
+
+%\setdefaultlanguage[babelshorthands=true]{german}
 
 
 \leftskip = 0pt 
 \rightskip = 0pt 
 
-\def\hyph{-\penalty0\hskip0pt\relax}
+%\def\hyph{-\penalty0\hskip0pt\relax}
 
 \ifXeTeX
   % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
@@ -116,7 +119,7 @@
 \fi
 \usepackage{csquotes}
 
-\title{Thema 1: Was ist Inferenzstatistik?}
+\title{TEST}
 \author{Prof.~Sauer}
 \date{WiSe 21}
 \institute{AWM, HS Ansbach}
@@ -130,36 +133,19 @@
 \hypertarget{wahrscheinlichkeit}{%
 \section{Wahrscheinlichkeit}\label{wahrscheinlichkeit}}
 
-\begin{frame}{Bayes' \enquote{Theorem}}
+\begin{frame}{Bayes' \enquote{Theorem} \ldots{}}
 \protect\hypertarget{bayes-theorem}{}
-\begin{alertblock}{Formel Bayes' Theorem}
-$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
-\end{alertblock}
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
 
-\begin{itemize}
-\item
-  Bestandteile:
+Ein langes Wort ist Ein langes Wort ist
+Oberweserdampfschifffahrtsgesellschaftskapitän. Danach kommt ganz viel
+Text.
 
-  \begin{itemize}
-  \item
-    Posteriori-Wahrscheinlichkeit: \(Pr_{Post} := Pr(H|D)\)
-  \item
-    Likelihood: \(L := Pr(D|H)\)
-  \item
-    Priori-Wahrscheinlichkeit: \(Pr_{Priori} := Pr(H)\)
-  \item
-    Evidenz: \(E := Pr(D)\)
-  \end{itemize}
-\item
-  Bayes' Theorem gibt die \(Pr_{Post}\) an, wenn man die Gleichung mit
-  der \(Pr_{Priori}\) und dem \(L\) füttert.
-\item
-  Bayes' Theorem wird häufig verwendet, um die \(Pr_{Post}\) zu
-  quantifizieren.
-\item
-  Die \(Pr_{Post}\) ist proportional zu \(L\) mal \(Pr_{Priori}\) der
-  Hypothese.
-\end{itemize}
+Ein langes Wort ist Ein langes Wort ist
+Oberweserdampfschifffahrts-gesellschaftskapitän. Danach kommt ganz viel
+Text.
 \end{frame}
 
 \end{document}

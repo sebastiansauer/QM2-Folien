@@ -1,5 +1,5 @@
 ---
-title: "Thema 1: Was ist Inferenzstatistik?"
+title: TEST
 author: Prof. Sauer
 date: WiSe 21
 lang: de-DE
@@ -12,6 +12,10 @@ header-includes:
   - \usepackage[ngerman]{babel}
 #  - \usepackage[T1]{fontenc}
   - \usepackage{mathtools}
+  - \usepackage{polyglossia}
+  - \usepackage{fontspec}
+
+  - \usepackage{ragged2e}
 output:
   beamer_presentation:
     toc: true
@@ -76,29 +80,17 @@ theme_set(theme_minimal())
 
 
 
-## Bayes' "Theorem"
+## Bayes' "Theorem" ...
 
-\begin{alertblock}{Formel Bayes' Theorem}
-$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
-\end{alertblock}
-
-
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
 
 
-- Bestandteile:
 
-    - Posteriori-Wahrscheinlichkeit: $Pr_{Post}  := Pr(H|D)$
+Ein langes Wort ist Ein langes Wort ist Oberweserdampfschifffahrtsgesellschaftskapitän. Danach kommt ganz viel Text.
 
-    - Likelihood: $L := Pr(D|H)$
 
-    - Priori-Wahrscheinlichkeit: $Pr_{Priori} := Pr(H)$
-
-    - Evidenz: $E := Pr(D)$
-
-- Bayes' Theorem gibt die $Pr_{Post}$ an, wenn man die Gleichung mit der $Pr_{Priori}$ und dem $L$ füttert.
-
-- Bayes' Theorem wird häufig verwendet, um die $Pr_{Post}$ zu quantifizieren. 
-
-- Die $Pr_{Post}$ ist proportional zu $L$  mal $Pr_{Priori}$ der Hypothese.
+  Ein langes Wort ist Ein langes Wort ist Oberweserdampfschifffahrts\-gesellschaftskapitän. Danach kommt ganz viel Text.
 
 

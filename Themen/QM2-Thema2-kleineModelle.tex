@@ -166,9 +166,9 @@
 \usepackage{csquotes}
 
 \title{Thema 2: Bayes-Modelle einer kleinen Welt}
-\subtitle{QM2, ReThink\_v1, Kap. 2}
+\subtitle{QM2, ReThink, Kap. 2}
 \author{Prof.~Sauer}
-\date{WiSe 21}
+\date{2021-09-30}
 \institute{AWM, HS Ansbach}
 
 \begin{document}
@@ -199,7 +199,7 @@
 \item
   Die Welt, wie sie der Golem sieht
 \item
-  entspricht dem Modell
+  entspricht dem Modell (zwangläufig)
 \end{itemize}
 \end{block}
 \end{column}
@@ -229,12 +229,19 @@
   Modelle zeigen immer nur die kleine Welt: Vorsicht vor schnellen
   Schlüssen und vermeintlicher Gewissheit.
 \end{itemize}
+
+\includegraphics[width=1em]{../img/weight.pdf} Nennen Sie ein Beispiel,
+in dem ein Modell nicht (exakt) der Wirklichkeit entspricht!
 \end{frame}
 
 \begin{frame}{So denkt unser Bayes-Golem}
 \protect\hypertarget{so-denkt-unser-bayes-golem}{}
 \begin{figure}[H]
 \includegraphics[width=1\linewidth]{/Users/sebastiansaueruser/github-repos/QM2-Folien/img/bayesupdate2} \end{figure}
+
+\includegraphics[width=1em]{../img/weight.pdf} Bayes-Inferenz ähnelt dem
+Lernen von Menschen. Geben Sie ein Beispiel von Lernen bei Menschen, das
+oben dargestelltem Prozess ähnelt!
 \end{frame}
 
 \hypertarget{bayes-statistik-als-zuxe4hlen}{%
@@ -276,6 +283,10 @@ Zählen}\label{bayes-statistik-als-zuxe4hlen}}
 \includegraphics[width=0.7\linewidth]{unnamed-chunk-7-1} \end{figure}
 
 (Kurz 2021)
+
+\includegraphics[width=1em]{../img/weight.pdf} Wie groß ist die
+Stichprobe (\(N\))? Ist die Wahrscheinlichkeit für \emph{B} in jedem Zug
+gleich?
 \end{frame}
 
 \begin{frame}{Zugmöglichkeiten laut Hypothese {[}BWWW{]}, 1. Zug}
@@ -289,6 +300,10 @@ drei weißen.
 
 Nachdem wir die Murmel gezogen haben (und die Farbe gemerkt haben),
 legen wir sie wieder ins Säckchen: Ziehen mit Zurücklegen.
+
+\includegraphics[width=1em]{../img/weight.pdf} Wie viele
+Elementarereignis hat dieses Zufallsexperiment? Sind alle gleich
+wahrscheinlich?
 \end{frame}
 
 \begin{frame}{Zugmöglichkeiten laut Hypothese {[}BWWW{]}, 1. und 2. Zug}
@@ -302,7 +317,8 @@ Kombinationen an gezogenen Murmeln:
 \begin{figure}[H]
 \includegraphics[width=0.5\linewidth]{unnamed-chunk-9-1} \end{figure}
 
-Die ersten vier Kombinationen sind: BB, BW, BW, BW
+\includegraphics[width=1em]{../img/weight.pdf} Ist jedes
+Elementarereignis (z.B. BB, BW,\ldots) gleich wahrscheinlich?
 \end{frame}
 
 \begin{frame}{Zugmöglichkeiten laut Hypothese {[}BWWW{]}, 1.-3. Zug}
@@ -312,6 +328,10 @@ Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann
 
 \begin{figure}[H]
 \includegraphics[width=0.5\linewidth]{unnamed-chunk-10-1} \end{figure}
+
+\includegraphics[width=1em]{../img/weight.pdf} Wie wahrscheinlich ist
+ein bestimmtes dieser 64 Ereignisse (unter der Annahme gleicher
+Wahrscheinlichkeit)?
 \end{frame}
 
 \begin{frame}{Welche Züge sind logisch möglich?}
@@ -354,7 +374,8 @@ Hypothese & Häufigkeit BWB\\
 \begin{itemize}
 \item
   Die Häufigkeiten der Kombinationen (Pfade) ist proportional zur
-  Plausibilität einer Hypothese.
+  Plausibilität einer Hypothese: Je mehr Pfade laut Hypothese, desto
+  wahrscheinlicher die Hypothese (unter sonst gleichen Bedingungen).
 \item
   Zusätzlich müssten wir noch beachten, ob bestimmte Hypothesen
   \emph{per se} bzw. \emph{a priori} wahrscheinlicher sind. So könnten
@@ -504,6 +525,9 @@ Plausibilität des Werts von \(p\) von vornherein ist.
 \[\frac{\text{Anzahl Pfade von }p\text{ für }D_{neu}\times \text{Prior-Pl von }p}{\text{Summe aller Pfade}}\]
 
 Pl: Plausibilität
+
+\includegraphics[width=1em]{../img/weight.pdf} Was muss passieren, dass
+der Bruch gleich Null ist?
 \end{frame}
 
 \begin{frame}[fragile]{Plausibilität pro Hypothese}
@@ -556,6 +580,9 @@ AP: Anzahl von möglichen Pfaden; Pl: Plausibilität
   Die neue, geupdatete Plausibilität für einen bestimmten Wert von \(p\)
   nennt man \emph{Posteriori-Wahrscheinlichkeit}.
 \end{itemize}
+
+\includegraphics[width=1em]{../img/weight.pdf} Erklären Sie die Begriffe
+dem nächsten Menschen, den Sie treffen!
 \end{frame}
 
 \begin{frame}{Zusammenfassung}
@@ -597,6 +624,9 @@ oder Land (L). Den Versuch wiederholen Sie 9 Mal.
 \end{columns}
 
 \[W \quad L \quad W \quad W \quad W \quad L \quad W \quad L \quad W\]
+
+\includegraphics[width=1em]{../img/weight.pdf} Besorgen Sie sich einen
+Globus (zur Not eine Münze) und stellen Sie den Versuch nach!
 \end{frame}
 
 \begin{frame}{Der datengenierende Prozess: Wie entstanden die Daten?}
@@ -614,6 +644,10 @@ oder Land (L). Den Versuch wiederholen Sie 9 Mal.
   Wir haben kein Vorwissen über \(p\); jeder Wert ist uns gleich
   wahrscheinlich.
 \end{enumerate}
+
+\includegraphics[width=1em]{../img/weight.pdf} Welche Annahmen würden
+Sie ändern? Welche könnte man wegnehmen? Welche hinzufügen? Was wären
+die Konsequenzen?
 \end{frame}
 
 \begin{frame}{Wissen updaten: Wir füttern Daten in das Modell}
@@ -634,7 +668,9 @@ oder Land (L). Den Versuch wiederholen Sie 9 Mal.
   gibt uns den \emph{Likelihood}.
 \item
   Dann gewichten wir den Likelihood mit dem Vorabwissen, so dass wir die
-  \emph{Posteriori-Verteilung} bekommen.
+  \emph{Posteriori-Verteilung}\footnote<.->{Anstatt von \emph{Priori}
+    liest man auch \emph{Prior}; anstatt \emph{Posteriori} auch
+    \emph{Posterior}} bekommen.
 \end{itemize}
 
 \begin{figure}[H]
@@ -686,12 +722,13 @@ Was ist die Wahrscheinlichkeit für \(W=9\) bei \(N=9\) und \(p=1/2\)?
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile]{Beispiele zur Berechnung einer binomial verteilte
-Wahrscheinlichkeit}
-\protect\hypertarget{beispiele-zur-berechnung-einer-binomial-verteilte-wahrscheinlichkeit}{}
-Ein Prof.~stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß
-ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen
-richtig zu raten?\footnote<.->{Hey, endlich mal was für echte Leben!}
+\begin{frame}[fragile]{Beispiele zur Berechnung einer binomial
+verteilten Wahrscheinlichkeit}
+\protect\hypertarget{beispiele-zur-berechnung-einer-binomial-verteilten-wahrscheinlichkeit}{}
+Ei Professori stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie
+groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15
+Fragen richtig zu raten?\footnote<.->{Hey, endlich mal was für echte
+  Leben!}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -703,8 +740,8 @@ richtig zu raten?\footnote<.->{Hey, endlich mal was für echte Leben!}
 ## [1] 0.01478577
 \end{verbatim}
 
-Was ist die Wahrscheinlichkeit bei 3 Münzwürfen 3 Treffer (Kopf) zu
-erzielen?
+Was ist die Wahrscheinlichkeit bei 3 Münzwürfen (genau) 3 Treffer (Kopf)
+zu erzielen?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -731,8 +768,8 @@ erscheinen (\enquote{uniform}):
 
 \[p \sim \text{Unif}(0,1).\]
 
-Lies: \(p\) ist gleich (uniform) verteilt mit der Untergrenze 0 und der
-Obergrenze 1.
+Lies: \enquote{\(p\) ist gleich (uniform) verteilt mit der Untergrenze 0
+und der Obergrenze 1}.
 \end{frame}
 
 \begin{frame}{So sehen die Verteilungen aus}
@@ -758,6 +795,10 @@ Obergrenze 1.
 \end{block}
 \end{column}
 \end{columns}
+
+\includegraphics[width=1em]{../img/weight.pdf} Was fällt Ihnen bei der
+Binomialverteilung auf? Ist sie symmetrisch? Verändert sich die
+Wahrscheinlichkeit linear? Was fällt Ihnen bei der Gleichverteilung auf?
 \end{frame}
 
 \begin{frame}{Herleitung Bayes' Theorem 1/2: Gemeinsame
@@ -772,7 +813,7 @@ Wahrscheinlichkeit von \(W\), \(L\) und \(p\) ist das Produkt von
 \[Pr(W,L,p) = Pr(W,L|p) \cdot Pr(p)\]
 
 Genauso gilt: Die Wahrscheinlichkeit von \emph{Regen} und \emph{kalt}
-ist gleich der Warhscheinlichkeit \emph{kalt, wennn's regnet} mal der
+ist gleich der Wahrscheinlichkeit \emph{kalt, wenn's regnet} mal der
 Wahrscheinlichkeit von \emph{Regen}:
 
 \[Pr(W,L,p) = Pr(p|W,L) \cdot Pr(W, L)\]
@@ -910,6 +951,9 @@ p\_Gitter & Priori & Likelihood & unstd\_Post & Post\\
 1.00 & 1 & 0.00 & 0.00 & 0.00\\
 \hline
 \end{tabular}
+
+\includegraphics[width=1em]{../img/weight.pdf} Was wohl mit \emph{Post}
+passiert, wenn wir \emph{Priori} ändern?
 \end{frame}
 
 \begin{frame}{\(Pr_{Post}\) zeigt, wie plausibel wir jeden Wert von
@@ -954,15 +998,15 @@ Mehr Gitterwerte glätten die Annäherung.
 
 \begin{verbatim}
 ##        mean        sd      5.5%     94.5%
-## p 0.6666671 0.1571337 0.4155372 0.9177971
+## p 0.6666664 0.1571338 0.4155362 0.9177966
 \end{verbatim}
 
 \normalsize
 \end{frame}
 
-\begin{frame}{Je größer \(n\), desto glatter die Anpassung an die wahre
-Verteilung}
-\protect\hypertarget{je-gruxf6uxdfer-n-desto-glatter-die-anpassung-an-die-wahre-verteilung}{}
+\begin{frame}{Je größer die Stichprobe (\(N\)), desto zuverlässiger wird
+unsere Berechnung}
+\protect\hypertarget{je-gruxf6uxdfer-die-stichprobe-n-desto-zuverluxe4ssiger-wird-unsere-berechnung}{}
 \begin{figure}[H]
 \includegraphics[width=1\linewidth]{unnamed-chunk-32-1} \end{figure}
 
@@ -984,6 +1028,10 @@ Grau: Quadratische Anpassung; schwarz: wahre Verteilung
   Unser Modell bildet die kleine Welt ab; ob es in der großen Welt
   nützlich ist, steht auf einem anderen Blatt.
 \end{itemize}
+
+\includegraphics[width=1em]{../img/weight.pdf} Wenn Sie auf einen
+Prozentwert für \(W\) tippen müssten, welchen würden Sie nehmen, laut
+dem Modell (und gegeben der Daten)?
 \end{frame}
 
 \hypertarget{hinweise}{%
@@ -997,7 +1045,7 @@ Dieses Skript bezieht sich auf folgende
 \begin{itemize}
 \tightlist
 \item
-  Kapitel 2 aus McElreath (2016) (\enquote{ReThink\_v1})
+  Kapitel 2 aus McElreath (2020)
 \item
   R-Code für die Diagramme stammt aus Kurz (2021)
 \end{itemize}
@@ -1012,9 +1060,10 @@ Kurz, A. Solomon. 2021. \emph{Statistical Rethinking with Brms, Ggplot2,
 and the Tidyverse: {Second} Edition}.
 \url{https://bookdown.org/content/4857/}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-McElreath2016}{}}%
-McElreath, Richard. 2016. \emph{Statistical {Rethinking}}. 1. Aufl. {New
-York City, NY}: {CRC Press}.
+\leavevmode\vadjust pre{\hypertarget{ref-mcelreath_statistical_2020}{}}%
+McElreath, Richard. 2020. \emph{Statistical Rethinking: A {Bayesian}
+Course with Examples in {R} and {Stan}}. 2. Aufl. {CRC} Texts in
+Statistical Science. {Boca Raton}: {Taylor and Francis, CRC Press}.
 
 \end{CSLReferences}
 \end{frame}

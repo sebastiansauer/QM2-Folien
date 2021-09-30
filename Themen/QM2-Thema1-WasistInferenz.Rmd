@@ -1,13 +1,16 @@
 ---
 title: "Thema 1: Was ist Inferenzstatistik?"
-subtitle: "QM2, ROS, Kap. 1, ReThink_v1, Kap. 1"
+subtitle: "QM2, ROS, Kap. 1, ReThink, Kap. 1"
 author: Prof. Sauer
-date: WiSe 21
+date: "`r Sys.Date()`"
 lang: de-DE
 bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
 institute: AWM, HS Ansbach
 header-includes:
-- \usepackage{booktabs}
+  - \usepackage{booktabs}
+  - \usepackage{csquotes}
+  - \usepackage{xspace}
+  - \usepackage[ngerman]{babel}
 output:
   beamer_presentation:
     toc: true
@@ -19,6 +22,9 @@ output:
       in_header: ../libs/preamble.tex    
 editor_options: 
   chunk_output_type: console
+  
+#numbersections: yes
+csquotes: TRUE     
 ---
 
 
@@ -81,6 +87,11 @@ theme_set(theme_minimal())
 
 ## Deskriptiv- vs. Inferenzstatistik
 
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
+
+
 
 ```{r echo = FALSE}
 knitr::include_graphics("/Users/sebastiansaueruser/Google Drive/research/Publikationen/In_Arbeit/Statistik__21/images/Rahmen/desk_vs_inf-crop.pdf")
@@ -89,6 +100,8 @@ knitr::include_graphics("/Users/sebastiansaueruser/Google Drive/research/Publika
 *Deskriptivstastistik* fasst Stichprobenmerkmale zu Kennzahlen (Statistiken) zusammen.
 
 *Inferenzstatistik* schließt von Statistiken auf Parameter (Kennzahlen von Grundgesamtheiten).
+
+\includegraphics[width=1em]{../img/weight.pdf} Schließen Sie die Augen und zeichnen Sie obiges Diagramm!
 
 
 ## Wozu ist die Inferenstatistik gut?
@@ -99,11 +112,11 @@ Inferenz bedeutet logisches Schließen; auf Basis von vorliegenden Wissen wird n
 
 
 \begin{alertblock}{Inferenstatistik}
-Inferenzstatistik ist ein Verfahren, das mathematische Modelle verwendet, um von einer bestimmten Datenlage, die eine Stichprobe einer Grundgesamtheit darstellt, allgemeine Schlüsse zu ziehen.
+Inferenzstatistik ist ein Verfahren, das mathematische Modelle (oft aus der Stochastik) verwendet, um von einer bestimmten Datenlage, die eine Stichprobe einer Grundgesamtheit darstellt, allgemeine Schlüsse zu ziehen.
 \end{alertblock}
 
 
-
+\includegraphics[width=1em]{../img/weight.pdf} Heute Nacht vor dem Schlafen wiederholen Sie die Definition. Üben Sie jetzt schon mal.
 
 <!-- ## Die drei Aufgaben der Inferenzstatistik -->
 
@@ -118,7 +131,7 @@ Inferenzstatistik ist ein Verfahren, das mathematische Modelle verwendet, um von
 ## Deskriptiv- und Inferenzstatistik gehen Hand in Hand
 
 
-Für jede Kennzahl der Deskriptivstatistik (d.h. Stichprobendaten) kann man die Methoden der Inferenzstatistik verwenden (auf eine Grundgesamtheit schließen), z.B.:
+Für jede Statistik (Kennzahl  von Stichprobendaten) kann man die Methoden der Inferenzstatistik verwenden, z.B.:
 
 
 
@@ -138,7 +151,9 @@ kable(x, format = "latex", escape = FALSE, booktabs = FALSE) %>%
 ```
 
 
-Für Statistiken (Stichprobe) verwendet man lateinische Buchstaben ($X, p, b, \ldots$); für Parameter (Population) verwendet man griechische Buchstaben.
+Für Statistiken (Stichprobe) verwendet man lateinische Buchstaben; für Parameter (Population) verwendet man griechische Buchstaben.
+
+\includegraphics[width=1em]{../img/weight.pdf} Geben Sie die griechischen Buchstaben für typische Statistiken an!
 
 
 ## Schätzen von Parametern einer Grundgesamtheit
@@ -178,10 +193,12 @@ Sie testen zwei Varianten Ihres Webshops (V1 und V2), die sich im Farbschema unt
 
 - Die Mittelwerte unterscheiden sich etwas, $\bar{X}_{V1} > \bar{X}_{V2}$
 
-- Sind diese Unterschiede "zufällig" oder "substanziell"? Gilt also $\mu_{V1} > \mu_{V2}$ oder  $\mu_{V1} \le \mu_{V2}$?
+- Sind diese Unterschiede "zufällig" oder "substanziell"? Gilt also $\mu_{V1} > \mu_{V2}$ oder gilt  $\mu_{V1} \le \mu_{V2}$?
 
-- Wie groß ist die Wahrscheinlichkeit^[oft mit *Pr* oder *p* abgekürzt, für *probability*] $Pr(\mu_{V1} > \mu_{V2)}$?
+- Wie groß ist die Wahrscheinlichkeit^[oft mit *Pr* oder *p* abgekürzt, für *probability*] $Pr(\mu_{V1} > \mu_{V2})$?
 
+
+\includegraphics[width=1em]{../img/weight.pdf} *Predictive Maintenance* ist ein Anwendungsfeld inferenzstatistische Modellierung. Lesen Sie dazu S. 3 [dieses Berichts](https://www.rolandberger.com/publications/publication_pdf/roland_berger_vdma_predictive_maintenance_d_1.pdf)!
 
 ## Was heißt "zufällig"?
 
@@ -190,6 +207,8 @@ Sie testen zwei Varianten Ihres Webshops (V1 und V2), die sich im Farbschema unt
 Unter einem zufälligen Ereignis (random) verstehen wir ein Ereignis, das nicht (komplett) vorherzusehen ist, wie etwa die Augenzahl Ihres nächsten Würfelwurfs. Zufällig bedeutet nicht (zwangsläufig), dass das Ereignisse keine Ursachen besitzt. So gehorchen die Bewegungen eines Würfels den Gesetzen der Physik, nur sind uns diese oder die genauen Randbedingungen nicht (ausreichend) bekannt.
 \end{alertblock}
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Welche physikalischen Randbedingungen wirken wohl auf einen Münzwurf ein?
 
 
 # Regression und Inferenz
@@ -253,9 +272,9 @@ img("einring.jpg")
 
 ## Was war noch mal die Regression?
 
-- Regression (Regressionsanalyse) ist eine Methode, um Zielvariablen in Abhängigkeit der Ausprägung von Prädiktorvariablen von Beobachtungen vorherzusagen. 
+- Mit der Regression kann man Zielvariablen in Abhängigkeit von Prädiktorvariablen vorherzusagen. 
 
-- Dabei erlaubt die Regression, unter gewissen Annahmen, die Quantifizierung der Ungewissheit der Vorhersagen.
+- Dabei erlaubt die Regression die Quantifizierung der Ungewissheit der Vorhersagen.
 
 
 ```{r plot-regr-uncertainty, echo = FALSE,  out.width=c("40%", "40%")}
@@ -267,18 +286,28 @@ img("fig1-1b.png")
 [Quelle](https://avehtari.github.io/ROS-Examples/ElectionsEconomy/hibbs.html)
 
 
+\includegraphics[width=1em]{../img/weight.pdf} Erläutern Sie die Grundidee der Regression!
+
 ## Beispiele zur Quantifizierung von Ungewissheit
 
 
-- Morgen regnet's $\Leftrightarrow$ Morgen wird es hier mit einer Wahrscheinlichkeit von 97% mehr als 0 mm Niederschlag geben.
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
+
+
+
+- Morgen regnet's $\Leftrightarrow$ Morgen wird es hier mehr als 0 mm Niederschlag geben ($p=97\%$).
 
 - Methode $A$ ist besser als Methode $B$ $\Leftrightarrow$ Mit einer Wahrscheinlichkeit von 57% ist der Mittelwert für Methode $A$ höher als für Methode $B$.
 
 - Die Maschine fällt demnächst aus $\Leftrightarrow$ Mit einer Wahrscheinlichkeit von 97% wird die Maschine in den nächsten 1-3 Tagen ausfallen, laut unserem Modell.
 
-- Die Investition lohnt sich $\Leftrightarrow$ Die Invesition hat einen Erwartungswert von 42 Euro; mit 90% Wahrscheinlichkeit liegt der zu erwartende Gewinn zwischen -10000 und 100 Euro.
+- Die Investition lohnt sich $\Leftrightarrow$ Die Invesition hat einen Erwartungswert von 42 Euro; mit 90% Wahrscheinlichkeit wird der  Gewinn zwischen -10000 und 100 Euro.
 
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Geben Sie weitere Beispiele an!
 
 
 
@@ -300,6 +329,7 @@ $$y = \beta_0 + \beta_1x + \epsilon$$
 - $\epsilon$: "Fehler"; Einflüsse auf $y$, die das Modell nicht kennt
 
 
+\includegraphics[width=1em]{../img/weight.pdf} Geben Sie ein Beispiel an, das die Teile der Regressionsgleichung aufgreift.
 
 ## Datenbeispiel
 
@@ -349,7 +379,7 @@ pred_interval <-
 ```
 
 
-```{r plot1}
+```{r plot1, fig.asp=0.5}
 plot1 <- 
   ggplot(mtcars,
        aes(x = hp, y = mpg)) +
@@ -361,12 +391,15 @@ plot1 <-
            alpha = .5,
            size = 5)
 plot1
+
 ```
 
 
 
 
-Rot markiert: Der *vorhergesagte* Wert von `mpg` für `hp=200` (Punktschätzung).
+Rot markiert: Die Punktschätzugn von `mpg` für `hp=200`.
+
+\includegraphics[width=1em]{../img/weight.pdf} Geben Sie ein vergleichbares Beispiel an!
 
 
 ## Der Punktschätzer berücksichtigt nicht die Ungewissheit des Models
@@ -457,9 +490,14 @@ ggplot(mtcars) +
 ```
 
 
-
+\includegraphics[width=1em]{../img/weight.pdf} Interpretieren Sie den Ungewissheitskorridor!
 
 ## Wozu man die Regression benutzt
+
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
+
 
 
 - *Vorhersagen* (Wie stehen die Aktien morgen? Wann wird die Maschine ausfallen?)
@@ -470,6 +508,8 @@ ggplot(mtcars) +
 
 - *Kausalinferenz* (Wie groß ist der kausale Einfluss von Lernzeit auf den Klausurerfolg?)
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Geben Sie weitere Beispiele an!
 
 
 ## In Experimenten kann man die Ergebnisse kausal interpretieren
@@ -483,6 +523,9 @@ include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCaus
 
 
 In einem gut gemachten Experiment geben die Koeffizienten der Regression den kausalen Effekt wider.
+
+
+\includegraphics[width=1em]{../img/weight.pdf} Begründen Sie obige Aussage!
 
 
 ## Kausalmodell eines einfachen Experiments
@@ -523,6 +566,9 @@ dagify(y ~ z,
 
 Laut diesem Modell gibt es keinen kausalen Zusammenhang von *Glatze* zu *Corona*. Der statistische Zusammenhang ist ein *Scheinzusammenhang* (nichtkausal).
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Finden Sie ein weiteres Beispiel für einen Scheinzusammenhang!
+
 ## Die lineare Regression ist erstaunlich flexibel
 
 Z.B. 
@@ -536,6 +582,7 @@ include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCaus
 include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/Interactions/figs/interactions_male.pdf")
 ```
 
+\includegraphics[width=1em]{../img/weight.pdf} Nennen Sie je ein Beispiel!
 
 ## Beispiel für nichtlineare Modelle: Die Log-Y-Regression
 
@@ -553,6 +600,14 @@ $e$ ist die Eulersche Zahl: 2.71...
 
 
 ## Beispiele für exponentielle Zusammenhänge
+
+
+
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
+
+
 
 
 - Eine Bakterienmenge verdoppelt sich jeden Tag
@@ -738,6 +793,9 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 
 ## Vergleich von Wahrscheinlichkeitsaussagen
 
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
 
 
 ::: columns
@@ -754,13 +812,14 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 :::: column
 ### Bayes-Statistik
 
-- zentrale Statistik: *Posteriori^[synonym: Posterior]-Verteilung*
+- zentrale Statistik: *Posteriori-Verteilung*
 
 - "Wie wahrscheinlich ist die Forschungshypothese, jetzt nachdem wir die Daten kennen laut unserem Modell?"
 ::::
 
 :::
 
+\includegraphics[width=1em]{../img/weight.pdf} Recherchieren Sie eine Definition des p-Werts und lesen Sie sie genau.
 
 ## Frequentist und Bayesianer
 
@@ -776,6 +835,11 @@ img("frequentists-vs-bayesians-2x.png")
 ## Beispiel zum Nutzen von Apriori-Wissen 1
 
 
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
+
+
 - Ein Betrunkener behauptet, er könne hellsehen.
 
 - Er wirft eine Münze 10 Mal und sagt jedes Mal korrekt vorher, welche Seite oben landen wird.
@@ -788,6 +852,14 @@ img("frequentists-vs-bayesians-2x.png")
 
 ## Beispiel zum Nutzen von Apriori-Wissen 2
 
+
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
+
+
+
+
 - Eine Studie fand einen "großen Effekt" auf das Einkommen von Babies, eine Stunde pro Woche während zwei Jahren an einem psychosozialen Entwicklungsprogramm teilnahmen (im Vergleich zu einer Kontrollgruppe), $n=127$.
 
 - Nach 20 Jahren war das mittlere Einkommen der Experimentalgruppe um 42% höher (als in der Kontrollgruppe) mit einem Konfidenzintervall von 
@@ -799,9 +871,10 @@ img("frequentists-vs-bayesians-2x.png")
 ## Regression in R, der schnelle Weg zum Glück
 
 
-*Bayesianische* Inferenz in der Regression:
+*Bayesianische* Inferenz in der Regression^[Vergessen Sie nicht, das Paket `rstanarm` zu installieren]:
 
 ```{r eval = FALSE, echo = TRUE}
+library(rstanarm)
 lm1 <- stan_glm(y ~ x, data = meine_daten)
 ```
 
@@ -814,7 +887,7 @@ lm1 <- lm(y ~ x, data = meine_daten)
 ```
 
 
-
+\includegraphics[width=1em]{../img/weight.pdf} Führen Sie den Code an echten Daten aus!
 
 
 
@@ -930,6 +1003,11 @@ lm1 <- lm(y ~ x, data = meine_daten)
 
 ## Was ist Wahrscheinlichkeit?
 
+\pretolerance=-1
+\hyphenpenalty=0
+\finalhyphendemerits=0
+
+
 
 Die Wahrscheinlichkeit $p$ quantifiziert *Ungewissheit* im Hinblick auf eine Aussage bzw. ein Ereignis $A$, gegeben eines Hintergrundwissen $H$. $p=0$ heißt, wir halten die Aussage (das Ereignis) für falsch (unmöglich); $p=1$ heißt, wir halten die Aussage (das Ereignis) für wahr (sicher). $0<p<1$ heißt, wir sind (mehr oder weniger) unsicher bzgl. der Aussage bzw. ob das Ereignis zutrifft.
 
@@ -942,6 +1020,7 @@ Die Wahrscheinlichkeit $p$ quantifiziert *Ungewissheit* im Hinblick auf eine Aus
 - $p(\text{Berlin ist die Hauptstadt von Frankreich}) = 0$.
 
 
+\includegraphics[width=1em]{../img/weight.pdf} Weitere Beispiele?
 
 ## Zufallsexperiment
 
@@ -951,7 +1030,9 @@ Die Wahrscheinlichkeit $p$ quantifiziert *Ungewissheit* im Hinblick auf eine Aus
 
 - Jede Teilmenge $A \subseteq \Omega$ nennt man ein *Ereignis*. Beim Würfelwurf: z.B. $A = \{2, 4, 6\}$, eine gerade Zahl werfen.
 
+- Ein Ereignis, das genau ein Element enthält, heißt *Elementarereignis.*
 
+\includegraphics[width=1em]{../img/weight.pdf} Nennen Sie ein weiteres Zufallsexperiment und formalisieren Sie anhand der obigen Begriffe!
 
 
 ## Additionsregel
@@ -961,10 +1042,12 @@ Die Wahrscheinlichkeit, dass mindestens eines der beiden sich ausschließenden E
 
 $Pr(\text{A oder B}) = Pr(A \cup B) = Pr(A) + Pr(B)$
 
-Beispiel: Wahrscheinlichkeit mit einem "fairen" Würfel eine 1 oder 2 zu werfen:
+Beispiel: Wahrscheinlichkeit mit einem "fairen" Würfelwurf $X$ eine 1 oder 2 zu werfen:
 
-$Pr(1 \cup 2) = Pr(1) + Pr(2) = 1/6 + 1/6 = 1/3$
+$Pr(X=1 \cup X=2) = Pr(X=1) + Pr(X=2) = 1/6 + 1/6 = 1/3$
 
+
+\includegraphics[width=1em]{../img/weight.pdf} Was ist $Pr(X < 4)$, $Pr(1 \le X \le 6)$?
 
 ## Unabhängigkeit zweier Ereignisse
 
@@ -1008,7 +1091,10 @@ Seien $A$ und $B$ zwei unabhängige Ereignisse, dann nennt man die *gemeinsame W
 
 $$Pr(A \text{ und } B ) = Pr(A \cap B) = Pr(A) \cdot Pr(B)$$
 
-Wirft man zwei faire Münze, so ist die Wahrscheinlichkeit, dass beide Kopf zeigen: $Pr(KK) = Pr(K) \cdot Pr(K) = 1/2 \cdot 1/2 = 1/4$.
+Wirft man zwei faire Münzen^[Im Folgenden immer als fair angenommen], so ist die Wahrscheinlichkeit, dass beide Kopf zeigen: $Pr(KK) = Pr(K) \cdot Pr(K) = 1/2 \cdot 1/2 = 1/4$.
+
+
+\includegraphics[width=1em]{../img/weight.pdf} Was ist $Pr(ZZ)$? Ist $Pr(ZK) = Pr(KZ)$?
 
 
 ## Beispiele für die Multiplikationsregel unabhängiger Ereignisse
@@ -1060,6 +1146,7 @@ tibble::tribble(
 ::::::
 
 
+\includegraphics[width=1em]{../img/weight.pdf} Zeichnen Sie den Baum und berechnen Sie die Wahrscheinlichkeiten für eine gezinkte Münze mit $P(K) = 2/3$.
 
 ## Münzen werfen als Baum: Anzahl *Kopf* nach 3 Würfen
 
@@ -1117,7 +1204,7 @@ Bezogen auf *mein* Hintergrundwissen gilt: $Pr(\text{A="Stift links"|H="Der Stif
 @briggs_uncertainty_2016
 
 
-
+\includegraphics[width=1em]{../img/weight.pdf} Geben Sie ein weiteres Beispiel für die Subjektivität von Hintergrundwissen an! Formalisieren Sie es wie oben gezeigt.
 
 ## Bedingte Wahrscheinlichkeit
 
@@ -1264,13 +1351,10 @@ Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur):
 
 - Kapitel 1 aus @gelman_regression_2021, *Regression and other Stories* (mit "ROS" abgekürzt)
 
-- Kapitel 1 aus @McElreath2016 ("ReThink_v1")
+- Kapitel 1 aus @mcelreath_statistical_2020 
 
 - Rechenregeln sind z.B. in @cramer_vorkurs_2015 (Kap. 3) oder ähnlichen Lehrbüchern nachzulesen.
 
-Weitere Literaturhinweise sind am Ende der jeweiligen Kapitel der Lehrbücher zu finden.
-
-R-Code zum Buch ROS findet sich auf der [Homepage](https://avehtari.github.io/ROS-Examples/examples.html) des Buchs.
 
 
 
