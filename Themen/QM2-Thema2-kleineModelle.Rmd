@@ -2,7 +2,7 @@
 title: "Thema 2: Bayes-Modelle einer kleinen Welt"
 subtitle: "QM2, ReThink, Kap. 2"
 author: Prof. Sauer
-date: "`r Sys.Date()`"
+date: "WiSe 21"
 lang: de-DE
 bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
 institute: AWM, HS Ansbach
@@ -14,6 +14,7 @@ header-includes:
 output:
   beamer_presentation:
     toc: true
+    number_sections: TRUE
     theme: "Berkeley"
     #colortheme: "dolphin"
     # fonttheme: "structurebold"
@@ -722,7 +723,7 @@ Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 # Hinweise
 
 
-## Lehrbuch und Homepage des Lehrbuchs
+## Hinweise zum Skript
 
 Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
 
@@ -730,6 +731,8 @@ Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur):
 - R-Code für die Diagramme stammt aus @kurz_statistical_2021
 
 
+
+Dieses Skript wurde erstellt am `r Sys.time()`.
 
 
 
