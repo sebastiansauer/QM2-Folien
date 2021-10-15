@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="de-DE" xml:lang="de-DE">
+  <head>
+    <title>Thema 3: Stichproben aus der Posteriori-Verteilung ziehen</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Sauer" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Thema 3: Stichproben aus der Posteriori-Verteilung ziehen
+## QM2, ReThink, Kap. 3
+### Prof. Sauer
+### AWM, HS Ansbach
+### WiSe 21
+
+---
+
+
+
+
+
+
+&lt;style&gt;
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+&lt;/style&gt;
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Gliederung
+
+
+
+.center2[.large[
+1. [Mit Stichproben die Post-Verteilung zusammenfassen](#teil1)
+2. [Mit Stichproben neue Beobachtungen simulieren](#teil2)
+3. [Hinweise](#hinweise)
+4. [Literatur](#literatur)
+]]
+
+
+
+---
+
+name: teil1
+class: center, middle, inverse
+
+
+# Mit Stichproben die Post-Verteilung zusammenfassen
+
+
+---
+
+name: posttab
+
+## Zur Erinnerung, die Gittermethode
+
+Die Gittermethode ist ein Weg, die Posteriori-Verteilung zu berechnen. Die Posteriori-Verteilung birgt viele nützliche Informationen.
+
+Modell: `\(W=6\)` Wasser, `\(N=9\)` Würfen und `\(k=1000\)` Gitterwerten.
+
+
+
+
+.left-column[
+&lt;img src="plot-post-d-1.png" width="100%" /&gt;
+
+]
+
+
+.right-column[
+Die ersten paar Zeilen aus der Tabelle `d`:
+
+<div id="enbofqnthr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#enbofqnthr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#enbofqnthr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#enbofqnthr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#enbofqnthr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#enbofqnthr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#enbofqnthr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#enbofqnthr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#enbofqnthr .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#enbofqnthr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#enbofqnthr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#enbofqnthr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#enbofqnthr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#enbofqnthr .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#enbofqnthr .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#enbofqnthr .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#enbofqnthr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#enbofqnthr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#enbofqnthr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#enbofqnthr .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#enbofqnthr .gt_left {
+  text-align: left;
+}
+
+#enbofqnthr .gt_center {
+  text-align: center;
+}
+
+#enbofqnthr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#enbofqnthr .gt_font_normal {
+  font-weight: normal;
+}
+
+#enbofqnthr .gt_font_bold {
+  font-weight: bold;
+}
+
+#enbofqnthr .gt_font_italic {
+  font-style: italic;
+}
+
+#enbofqnthr .gt_super {
+  font-size: 65%;
+}
+
+#enbofqnthr .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Tabelle <em>d</em> mit Daten zur Posteriori-Verteilung</th>
+    </tr>
+    
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">p_grid</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">prior</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">likelihood</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">unstand_post</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">post</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">8 &times; 10<sup class='gt_super'>&minus;17</sup></td>
+<td class="gt_row gt_right">8 &times; 10<sup class='gt_super'>&minus;17</sup></td>
+<td class="gt_row gt_right">8 &times; 10<sup class='gt_super'>&minus;19</sup></td></tr>
+    <tr><td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;15</sup></td>
+<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;15</sup></td>
+<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;17</sup></td></tr>
+    <tr><td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;14</sup></td>
+<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;14</sup></td>
+<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;16</sup></td></tr>
+    <tr><td class="gt_row gt_right">4 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;13</sup></td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;13</sup></td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;15</sup></td></tr>
+    <tr><td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;12</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;12</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;14</sup></td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+]
+
+
+
+
+---
+
+## Befragen wir die Posteriori-Verteilung
+
+Beispiele für Fragen an die Post-Verteilung&lt;sup&gt;*&lt;/sup&gt;:
+
+- Mit welcher Wahrscheinlichkeit liegt der Parameter unter einem bestimmten Wert?
+- Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen zwei bestimmten Werten?
+- Mit 5% Wahrscheinlichkeit liegt der Parameterwert nicht unter welchem Wert?
+- Welcher Parameterwert hat die höchste Wahrscheinlichkeit?
+- Wie ungewiss ist das Modell über die Parameterwerte?
+
+
+Solche Fragen kann man in drei Gruppen aufteilen:
+
+1. Fragen zu Bereichen von Parametern
+2. Fragen zu Bereichen von Wahrscheinlichkeitsmassen
+3. Fragen zu Punktschätzern von Parametern
+
+
+
+.footnote[*Post-Verteilung: Posteriori-Verteilung]
+
+
+---
+
+
+
+
+## Häufigkeiten sind einfacher als Wahrscheinlichkeiten
+
+Tabelle mit Stichprobendaten aus der Posteriori-Verteilung (Tabelle `d`):
+
+
+```r
+samples &lt;-
+  d %&gt;%  # nimmt die Tabelle mit Posteriori-Daten,
+  slice_sample(  # Ziehe daraus eine Stichprobe,
+    n = 1e4,  # mit insgesamt n=10000 Elementen,
+    weight_by = post,  # Gewichte nach Spalte mit Post-Wskt.,
+    replace = T)  # Ziehe mit Zurücklegen
+```
+
+Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist proportional zur Posteriori-Wahrscheinlichkeit (`post`) dieses Werts. Ziehen mit Zurücklegen hält die Wahrscheinlichkeiten während des Ziehens konstant.
+
+
+<div id="eeaakwwxbh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#eeaakwwxbh .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#eeaakwwxbh .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#eeaakwwxbh .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#eeaakwwxbh .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#eeaakwwxbh .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#eeaakwwxbh .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#eeaakwwxbh .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#eeaakwwxbh .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#eeaakwwxbh .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#eeaakwwxbh .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#eeaakwwxbh .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#eeaakwwxbh .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#eeaakwwxbh .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#eeaakwwxbh .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#eeaakwwxbh .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#eeaakwwxbh .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#eeaakwwxbh .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#eeaakwwxbh .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#eeaakwwxbh .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#eeaakwwxbh .gt_left {
+  text-align: left;
+}
+
+#eeaakwwxbh .gt_center {
+  text-align: center;
+}
+
+#eeaakwwxbh .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#eeaakwwxbh .gt_font_normal {
+  font-weight: normal;
+}
+
+#eeaakwwxbh .gt_font_bold {
+  font-weight: bold;
+}
+
+#eeaakwwxbh .gt_font_italic {
+  font-style: italic;
+}
+
+#eeaakwwxbh .gt_super {
+  font-size: 65%;
+}
+
+#eeaakwwxbh .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="5" class="gt_heading gt_title gt_font_normal" style>Stichprobendaten aus der Post-Verteilung</th>
+    </tr>
+    <tr>
+      <th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Nur die ersten Zeilen abgebildet</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">p_grid</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">prior</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">likelihood</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">unstand_post</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">post</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">0.683</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.272</td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">0.003</td></tr>
+    <tr><td class="gt_row gt_right">0.711</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.262</td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">0.003</td></tr>
+    <tr><td class="gt_row gt_right">0.515</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.178</td>
+<td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">0.002</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+---
+
+## Visualisierung der Stichprobendaten
+
+
+Datensatz `samples`, `\(n=10^4\)`, basierend auf dem [Modell oben](#posttab).
+
+
+
+&lt;img src="samplesplot-1.png" width="100%" height="400px" /&gt;
+
+Die Stichprobendaten nähern sich der Posteriori-Verteilung an.
+
+---
+
+## Mehr Stichproben glätten die Verteilung
+
+`\(n=10^6\)` Stichproben aus der Posteriori-Verteilung
+
+
+```r
+d %&gt;% 
+  slice_sample(n = 1e6, weight_by = post, replace = T) %&gt;% 
+  ggplot(aes(x = p_grid)) +
+  geom_density(fill = "black") +
+  scale_x_continuous("Anteil Wasser (p)", limits = c(0, 1)) +
+  labs(y = "")
+```
+
+&lt;img src="unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+## Fragen zu Bereichen von Parametern 1
+
+Wie groß ist die Wahrscheinlichkeit, dass der Wasseranteil unter 50% liegt?
+
+
+.pull-left[
+.center[Aus der Posteriori-Verteilung mit der Gridmethode:]
+
+```r
+d %&gt;% 
+  filter(p_grid &lt; .5) %&gt;% 
+  summarise(sum = sum(post))
+```
+
+```
+## # A tibble: 1 × 1
+##     sum
+##   &lt;dbl&gt;
+## 1 0.172
+```
+]
+
+
+.pull-right[
+.center[Aus den Stichproben der Posteriori-Verteilung:]
+
+
+```r
+samples %&gt;%
+  filter(p_grid &lt; .5) %&gt;% 
+  summarise(sum = n() / 1e4)
+```
+
+```
+## # A tibble: 1 × 1
+##     sum
+##   &lt;dbl&gt;
+## 1 0.169
+```
+
+
+]
+
+Einfach wie 🍰 essen.
+
+Die Gridmethode funktioniert bei großen Modellen nicht gut (im Gegensatz zur quadratischen Approximation `quap`). Daher werden wir ab jetzt mit den Stichproben arbeiten, weil das für `quap` auch funktioniert. Das ist außerdem einfacher.
+
+
+---
+
+
+## Fragen zu Bereichen von Parametern 2
+
+Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen 0.5 und 0.75?
+
+
+
+```r
+samples %&gt;% 
+  filter(p_grid &gt; .5 &amp; p_grid &lt; .75) %&gt;% 
+  summarise(sum     =       n() / 1e4,
+            percent = 100 * n() / 1e4)  # In Prozent
+```
+
+```
+## # A tibble: 1 × 2
+##     sum percent
+##   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 0.608    60.8
+```
+
+Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen 0.9 und 1?
+
+
+```r
+samples %&gt;% 
+  filter(p_grid &gt;= .9 &amp; p_grid &lt;= 1) %&gt;% 
+  summarise(sum     =       n() / 1e4,
+            percent = 100 * n() / 1e4)  # In Prozent
+```
+
+```
+## # A tibble: 1 × 2
+##      sum percent
+##    &lt;dbl&gt;   &lt;dbl&gt;
+## 1 0.0128    1.28
+```
+
+---
+
+## Visualisierung von Parameterwert-Intervalle
+
+.pull-left[
+.small[
+
+
+```r
+d %&gt;% 
+  ggplot(aes(x = p_grid, 
+             y = post)) +
+  geom_line() +
+  geom_area(data = d %&gt;% 
+            filter(p_grid &lt; .5)) +
+  labs(x = "Anteil Wasser (p)",
+       y = "Dichte")
+```
+
+```r
+d %&gt;% 
+  ggplot(aes(x = p_grid, 
+             y = post)) +
+  geom_line() +
+  geom_area(data = d %&gt;% 
+           filter(p_grid &lt; .75 &amp; 
+                  p_grid &gt; .5)) +
+  labs(x = "Anteil Wasser",
+       y = "Dichte")
+```
+
+]
+]
+
+.pull-right[
+&lt;img src="unnamed-chunk-11-1.png" width="100%" /&gt;&lt;img src="unnamed-chunk-11-2.png" width="100%" /&gt;
+
+]
+
+---
+
+
+## Fragen zu Bereichen von Wahrscheinlichkeitsmassen
+
+
+- Nennt man auch *Konfidenz- oder Vertrauensintervall*. 
+
+- Synonym: *Kompatibilitätsintervall* oder *Passungsbereich*.
+
+- 💥 Traue niemals einem Golem, er lebt in der kleinen Welt. 
+
+
+
+.pull-left[
+Welcher Parameterwert wird mit 80% Wahrscheinlichkeit nicht überschritten, laut unserem Modell? (Gesucht sind also die unteren 80% Posteriori-Wahrscheinlichkeit)
+
+
+
+```
+## # A tibble: 1 × 1
+##   quantil80
+##       &lt;dbl&gt;
+## 1     0.760
+```
+
+]
+
+.pull-right[
+Was ist das *mittlere* Intervall, das mit 80% Wahrscheinlichkeit den Parameterwert enthält, laut dem Modell?
+
+
+```
+## # A tibble: 1 × 2
+##   quant_10 quant_90
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1    0.449    0.812
+```
+
+]
+
+
+---
+
+## Visualisierung der Massen-Intervalle
+
+Intervalle (Bereiche), die die  Wahrscheinlichkeitsmasse hälftig auf die beiden Ränder aufteilen, nennen wir *Perzentilintervalle*.
+
+
+&lt;img src="piplot-1.png" width="100%" /&gt;
+
+
+
+
+---
+
+## Schiefe Posteriori-Verteilungen sind möglich
+
+
+
+
+```r
+d &lt;- d %&gt;% 
+  mutate(likelihood = dbinom(3, size = 3, prob = p_grid),
+         unstand_post = likelihood * prior) %&gt;% 
+  mutate(posterior  = unstand_post / sum(unstand_post)) 
+
+samples &lt;- d %&gt;% 
+    slice_sample(n = 1e4, 
+                 weight_by = posterior, 
+                 replace = T)
+```
+
+<div id="jifpfknkaq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#jifpfknkaq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jifpfknkaq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jifpfknkaq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jifpfknkaq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jifpfknkaq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jifpfknkaq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jifpfknkaq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jifpfknkaq .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jifpfknkaq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jifpfknkaq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jifpfknkaq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jifpfknkaq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jifpfknkaq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#jifpfknkaq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jifpfknkaq .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jifpfknkaq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jifpfknkaq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#jifpfknkaq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jifpfknkaq .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#jifpfknkaq .gt_left {
+  text-align: left;
+}
+
+#jifpfknkaq .gt_center {
+  text-align: center;
+}
+
+#jifpfknkaq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jifpfknkaq .gt_font_normal {
+  font-weight: normal;
+}
+
+#jifpfknkaq .gt_font_bold {
+  font-weight: bold;
+}
+
+#jifpfknkaq .gt_font_italic {
+  font-style: italic;
+}
+
+#jifpfknkaq .gt_super {
+  font-size: 65%;
+}
+
+#jifpfknkaq .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">p_grid</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">prior</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">likelihood</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">unstand_post</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">posterior</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">0.649</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.273</td>
+<td class="gt_row gt_right">0.273</td>
+<td class="gt_row gt_right">0.001</td></tr>
+    <tr><td class="gt_row gt_right">0.658</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.284</td>
+<td class="gt_row gt_right">0.284</td>
+<td class="gt_row gt_right">0.001</td></tr>
+    <tr><td class="gt_row gt_right">0.829</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.569</td>
+<td class="gt_row gt_right">0.569</td>
+<td class="gt_row gt_right">0.002</td></tr>
+    <tr><td class="gt_row gt_right">0.962</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.890</td>
+<td class="gt_row gt_right">0.890</td>
+<td class="gt_row gt_right">0.004</td></tr>
+    <tr><td class="gt_row gt_right">0.811</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.533</td>
+<td class="gt_row gt_right">0.533</td>
+<td class="gt_row gt_right">0.002</td></tr>
+    <tr><td class="gt_row gt_right">0.869</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.656</td>
+<td class="gt_row gt_right">0.656</td>
+<td class="gt_row gt_right">0.003</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+
+---
+
+
+
+## Intervalle höchster Dichte
+
+Daten: 3 Würfe mit 3 Treffern
+
+.pull-left[
+
+### 50%-Perzentil-Intervall
+
+
+&lt;img src="unnamed-chunk-16-1.png" width="100%" /&gt;
+
+Der wahrscheinlichste Paramterwert (1) ist *nicht* im Intervall enthalten!
+]
+
+
+
+
+
+.pull-right[
+### 50%-Intervall höchster Dichte
+
+&lt;img src="unnamed-chunk-17-1.png" width="100%" /&gt;
+
+
+Der wahrscheinlichste Paramterwert (1) *ist* im Intervall enthalten!
+]
+
+
+
+
+---
+
+
+
+## Intervalle höchster Dichte vs. Perzentilintervalle
+
+- Bei symmetrischer Posteriori-Verteilung sind beide Intervalle ähnlich
+- Perzentilintervalle sind verbreiteter
+- *Intervalle höchster Dichte* (Highest Posteriori Density Interval, HPDI) sind bei schiefen Post-Verteilungen zu bevorzugen
+- Intervalle höchster Dichte sind die *schmalsten* Intervalle für eine gegebene Wahrscheinlichkeitsmasse
+
+Intervallbreite HDPI: 0.16
+
+
+```r
+rethinking::HPDI(samples$p_grid, prob = .5)
+```
+
+```
+##      |0.5      0.5| 
+## 0.8428428 0.9989990
+```
+
+Intervallbreite PI: 0.23
+
+
+```r
+rethinking::PI(samples$p_grid, prob = .5)
+```
+
+```
+##       25%       75% 
+## 0.7134635 0.9319319
+```
+
+
+---
+
+
+## Punktschätzungen 
+
+Daten: 3 Treffer bei 3 Würfen.
+
+
+.pull-left[
+### Lageparameter
+
+
+```r
+library(tidybayes)
+samples %&gt;% 
+  summarise(
+    mean   = mean(p_grid),
+    median = median(p_grid),
+    # Mode() ist aus tidybayes:
+    modus = Mode(p_grid))  
+```
+
+```
+## # A tibble: 1 × 3
+##    mean median modus
+##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.804  0.844 0.954
+```
+
+]
+
+.pull-right[
+
+### Streuungsparameter
+
+
+```r
+samples %&gt;% 
+  summarise(
+    mean   = sd(p_grid),
+    median = IQR(p_grid),
+    modus = mad(p_grid))  
+```
+
+```
+## # A tibble: 1 × 3
+##    mean median modus
+##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.161  0.218 0.150
+```
+]
+
+
+---
+
+
+## Visualisierungen der Punktschätzer
+
+&lt;img src="pointestimators-1.png" width="100%" /&gt;
+
+
+Je symmetrischer die Verteilung, desto näher liegen die Punktschätzer aneinander (und umgekehrt).
+
+---
+name: teil2
+class: center, middle, inverse
+
+
+# Mit Stichproben neue Beobachtungen simulieren
+
+---
+
+## Wir simulieren die Wasserzahl bei Globuswürfen
+
+Wir berechnen den Likelihood (L) für `\(w=0,1,2\)` bei einem Globusversuch mit `\(N=2\)` und `\(p = 0.7\)`:
+
+
+```
+## [1] 0.09 0.42 0.49
+```
+
+Wir simulieren `\(n=1\)` neuen Globusversuch mit `\(N=2, p=0.7\)` auf Basis dieser Wahrscheinlichkeiten:
+
+
+
+
+
+```r
+rbinom(n = 1, size = 2, prob = 0.7)
+```
+
+```
+## [1] 0
+```
+
+Dieser Versuch ergab `\(W=0\)`. Warum nicht `\(n=10\)` neue Globusversuche simulieren:
+
+
+```r
+rbinom(n = 10, size = 2, prob = 0.7)
+```
+
+```
+##  [1] 0 2 1 1 1 1 2 1 1 2
+```
+
+
+Diese Versuche geben Aufschluss, welche Daten (wie oft Wasser) man bei einem bestimmten Modell, `\(p,N\)`, erwarten kann. Damit können wir prüfen, ob der Golem uns nicht in die Irre führt.
+
+
+---
+
+## Mit guten Simulationen kommt man den wahren Werten nahe
+
+
+.pull-left[
+Warum nicht `\(n=10^6\)` neue Globusversuche simulieren:
+
+
+```r
+d &lt;- 
+  tibble(
+    draws = 
+      rbinom(1e6, 
+             size = 2, 
+             prob = .7))
+d %&gt;% 
+  count(draws) %&gt;% 
+  mutate(proportion = 
+           n / nrow(d))
+```
+
+```
+## # A tibble: 3 × 3
+##   draws      n proportion
+##   &lt;int&gt;  &lt;int&gt;      &lt;dbl&gt;
+## 1     0  89770     0.0898
+## 2     1 420629     0.421 
+## 3     2 489601     0.490
+```
+
+]
+
+.pull-left[
+Diese simulierten Häufigkeiten sind sehr ähnlich zu den theoretisch bestimmten Häufigkeiten mit `dbinom`: Unser Modell liefert plausible Vorhersagen.
+
+
+```r
+dbinom(0:2, size = 2, prob = .7)
+```
+
+```
+## [1] 0.09 0.42 0.49
+```
+]
+
+---
+
+
+
+## Stichprobenverteilung
+
+Wir ziehen viele Stichproben für den Versuch `\(N=9\)` Globuswürfe mit `\(p=0.7\)`. 
+
+Wie viele Wasser (W) erhalten wir wohl typischerweise?
+
+.pull-left[
+
+```r
+n_draws &lt;- 1e6
+
+d &lt;- 
+  tibble(draws = 
+           rbinom(
+             n_draws, 
+             size = 9, 
+             prob = .7
+           ))
+
+plot1 &lt;- 
+d %&gt;% 
+  ggplot(aes(x = draws)) +
+  geom_histogram() 
+```
+]
+
+.pull-right[
+&lt;img src="unnamed-chunk-29-1.png" width="100%" /&gt;
+
+Die *Stichprobenverteilung* zeigt, welche Stichrpobendaten laut unserem Modell zu erwarten sind. Wir können jetzt prüfen, ob die echten Daten zu den Vorhersagen des Modells passen.
+
+]
+
+---
+
+## Visualisierung der PPV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;img src="unnamed-chunk-33-1.png" width="90%" /&gt;
+
+---
+
+## Vorhersagen sind schwierig
+
+
+... gerade wenn sie die Zukunft betreffen. Das zeigt uns die PPV: Der PPV unseres Modells gelingt es zwar, der theoretisch wahrscheinlichste Parameterwert ist auch der häufigste in unseren Stichproben, aber die Vorhersagen haben eine große Streuung, birgt also hohe Ungewissheit.
+
+.pull-left[
+&lt;img src="unnamed-chunk-34-1.png" width="100%" /&gt;
+]
+
+.pull-right[
+Würde man die Vorhersagen nur anhand eines bestimmten Parameterwertes (z.B `\(p=0.6\)`) vornehmen, hätten die Vorhersagen zu wenig Streuung, würden also die Ungewissheit nicht ausreichend abbilden (Übergewissheit, Overconfidence).
+]
+
+---
+
+&lt;!-- ## Variieren von `\(p\)` und `\(N\)` --&gt;
+
+&lt;!-- ```{r} --&gt;
+&lt;!-- n_draws &lt;- 1e5 --&gt;
+
+&lt;!-- simulate_binom &lt;- function(n, probability) { --&gt;
+&lt;!--   set.seed(3) --&gt;
+&lt;!--   rbinom(n_draws, size = n, prob = probability)  --&gt;
+&lt;!-- } --&gt;
+
+&lt;!-- d &lt;- --&gt;
+&lt;!--   crossing(n           = c(3, 9, 27), --&gt;
+&lt;!--            probability = c(.3, .6, .9)) %&gt;%  --&gt;
+&lt;!--   mutate(draws = map2(n, probability, simulate_binom)) %&gt;%  --&gt;
+&lt;!--   ungroup() %&gt;%  --&gt;
+&lt;!--   mutate(n           = str_c("n = ", n), --&gt;
+&lt;!--          probability = str_c("p = ", probability)) %&gt;%  --&gt;
+&lt;!--   unnest(draws) --&gt;
+
+&lt;!-- d %&gt;%  --&gt;
+&lt;!--   ggplot(aes(x = draws)) + --&gt;
+&lt;!--   geom_histogram(binwidth = 1, center = 0, --&gt;
+&lt;!--                  color = "grey92", size = 1/10) + --&gt;
+&lt;!--   scale_x_continuous("dummy water count",) + --&gt;
+&lt;!--   ylab("frequency") + --&gt;
+&lt;!--   #coord_cartesian(xlim = c(0, 9)) + --&gt;
+&lt;!--   theme(panel.grid = element_blank()) + --&gt;
+&lt;!--   facet_grid(n ~ probability, scales = "free_x") --&gt;
+&lt;!-- ``` --&gt;
+
+
+## Zwei Arten von Ungewissheit in Vorhersagen von Modellen
+
+
+1. *Ungewissheit innerhalb des Modells*: Auch wenn der (oder die) Modellparameter eines Modells mit Sicherheit bekannt sind, so bleibt Unsicherheit, welche Beobachtung eintreten wird: Auch wenn man sicher weiß, dass `\(p=1/4\)` Murmeln blau sind, so kann man nicht sicher sagen, welche Farbe die nächste Murmel haben wird (Ausnahme: `\(p=1\)` oder `\(p=0\)`).
+
+2. *Ungewissheit in den Modellparametern*: Wir sind uns nicht sicher, welchen Wert `\(p\)` (bzw. die Modellparameter) haben. Diese Unsicherheit ist in der Post-Verteilung dargestellt. 
+
+Um zu realistischen Vorhersagen zu kommen, möchte man beide Arten von Ungewissheit berücksichtigen: Das macht die *Posteriori-Prädiktiv-Verteilung (PPV)*.
+
+
+
+Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher Häufigkeit, basierend auf der Post-Verteilung.
+
+
+---
+name: hinweise
+class: center, middle, inverse
+
+
+# Hinweise 
+
+---
+
+## Zu diesem Skript
+
+Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+
+
+- Kapitel 3 aus McElreath (2020)
+
+- R-Code stammt aus Kurz (2021).
+
+
+Dieses Skript wurde erstellt am 2021-10-13 22:49:50.
+
+Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+
+---
+
+name: literatur
+
+## Literatur
+
+
+[1] A. S. Kurz. _Statistical rethinking with brms, ggplot2, and the
+tidyverse: Second edition_. 2021. &lt;URL:
+https://bookdown.org/content/4857/&gt; (visited on 09/08/2021).
+
+[2] R. McElreath. _Statistical rethinking: a Bayesian course with
+examples in R and Stan_. 2nd ed. CRC texts in statistical science. Boca
+Raton: Taylor and Francis, CRC Press, 2020. ISBN: 978-0-367-13991-9.
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

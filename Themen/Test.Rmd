@@ -94,7 +94,10 @@ library(kableExtra)
 library(patchwork)
 library(gt)
 library(emojifont)
+library(RefManageR)
 ```
+
+
 
 ```{r source-funs}
 source("R-Code/img.R")
@@ -380,8 +383,8 @@ Dieses Skript wurde erstellt am `r Sys.time()`.
 
 
 
-<div id="refs"></div>
-
-
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib)
+```
 
 
