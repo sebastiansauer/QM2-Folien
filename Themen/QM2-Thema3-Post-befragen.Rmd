@@ -119,6 +119,7 @@ bib <- ReadBib(bib_file)
 
 ```{r ggplottheme}
 theme_set(theme_minimal())
+
 ```
 
 
@@ -661,6 +662,75 @@ d %>%
 
 Je symmetrischer die Verteilung, desto näher liegen die Punktschätzer aneinander (und umgekehrt).
 
+
+
+---
+
+
+## Der zwielichte Dozent
+
+
+Daten: 8 von 10 Treffern beim Münwurf
+
+
+.pull-left[
+
+```{r}
+tibble(
+  Trefferzahl = rbinom(n = 1e4, size = 10, prob = 1/2)
+) %>% 
+  mutate(signifikant = ifelse(Trefferzahl %in% c(9,10), TRUE, FALSE)) %>% 
+  ggplot() +
+  aes(x = Trefferzahl, fill = signifikant) +
+  geom_bar() +
+  scale_x_continuous(breaks = 0:10) +
+  theme(legend.position = c(0.9, 0.8)) +
+  geom_vline(xintercept = 8) +
+  labs(title = "Stichprobenverteilung für p=0.5")
+```
+
+Die Stichprobenverteilung zeigt, wie Wahrscheinlich der empirischen Daten $D$ (z.B. mind. 8 von 10 Treffer) ist *gegeben* eines Parameterwerts $p$ (z.B. $p=0.5$): $Pr(D|p)$.
+
+]
+
+
+.pull-right[
+
+
+```{r}
+p_grid <- seq( from=0 , to=1 , length.out=1000 )  # Gitterwerte
+
+prior <- rep( 1 , 1000 )  # Priori-Gewichte
+
+likelihood <- dbinom(8, size = 10, prob=p_grid) 
+
+unstandardisierte_posterior <- likelihood * prior 
+
+posterior <- unstandardisierte_posterior / sum(unstandardisierte_posterior)
+
+# Stichproben ziehen aus der Posteriori-Verteilung:
+samples <- 
+  tibble(
+    gewinnchance_muenze = sample(p_grid , prob=posterior, size=1e4, replace=TRUE)) %>% 
+  mutate(
+    id = row_number())
+
+samples %>% 
+  ggplot() +
+  aes(x = gewinnchance_muenze) +
+  geom_histogram(fill = "grey60") +
+  geom_vline(xintercept = 0.8) +
+  labs(title = "Posteriori-Verteilung",
+       x = "Gewinnchance der Münze (50%: faire Münze)")
+```
+
+Die Posteriori-Verteilung gibt die Wahrscheinlichkeit jedes Parameterwerts $p$ wider, gegeben der empirischen Daten $D$: $Pr(p|D)$.
+
+]
+
+
+
+
 ---
 name: teil2
 class: center, middle, inverse
@@ -672,13 +742,18 @@ class: center, middle, inverse
 
 ## Wir simulieren die Wasserzahl bei Globuswürfen
 
-Wir berechnen den Likelihood (L) für $w=0,1,2$ bei einem Globusversuch mit $N=2$ und $p = 0.7$:
+Likelihood (L): Wahrscheinlichkeit für $w=0,1,2$ bei $N=2$ und $p = 0.7$:
 
-```{r}
-dbinom(0:2, size = 2, prob = 0.7)
+```{r echo = TRUE}
+L <- dbinom(0:2, size = 2, prob = 0.7)
 ```
 
-Wir simulieren $n=1$ neuen Globusversuch mit $N=2, p=0.7$ auf Basis dieser Wahrscheinlichkeiten:
+```{r}
+L
+```
+
+
+Wir simulieren $n=1$ neuen Globusversuch mit $N=2, p=0.7$ und zählen die (Wasser-)Treffer:
 
 ```{r}
 set.seed(42)
@@ -686,17 +761,48 @@ set.seed(42)
 
 
 ```{r echo = TRUE}
-rbinom(n = 1, size = 2, prob = 0.7)
+rbinom(n = 1, size = 2, prob = 0.7)  # 0 Treffer (Wasser)
+
 ```
 
-Dieser Versuch ergab $W=0$. Warum nicht $n=10$ neue Globusversuche simulieren:
+Warum nicht $n=10$ neue Globusversuche simulieren:
 
 ```{r echo = TRUE}
 rbinom(n = 10, size = 2, prob = 0.7)
 ```
 
 
-Diese Versuche geben Aufschluss, welche Daten (wie oft Wasser) man bei einem bestimmten Modell, $p,N$, erwarten kann. Damit können wir prüfen, ob der Golem uns nicht in die Irre führt.
+Diese Versuche geben Aufschluss, welche Daten (wie oft Wasser) man bei einem bestimmten Modell, $p,N$, erwarten kann. 
+
+
+
+---
+
+
+## Never trust a Golem
+
+.pull-left[
+
+
+<a href="https://imgflip.com/i/5qmhmo"><img src="https://i.imgflip.com/5qmhmo.jpg" title="made at imgflip.com"/></a><div><a href="https://imgflip.com/memegenerator">from Imgflip Meme Generator</a></div>
+
+
+Quelle: https://imgflip.com/i/5qmhmo
+]
+
+.pull-right[
+
+
+
+### Traue niemals einem Golem (einem Modell)
+
+Immer prüfen und wachsam bleiben:
+
+- (Inwieweit) decken sich die simulierten Daten mit den tatsächlichen Beobachtungen?
+- Wie realistisch sind die Modellannahmen?
+- Kann man das Modell aus verschiedenen Perspektiven prüfen?
+
+]
 
 
 ---
@@ -910,6 +1016,8 @@ ppv3_plot
 Würde man die Vorhersagen nur anhand eines bestimmten Parameterwertes (z.B $p=0.6$) vornehmen, hätten die Vorhersagen zu wenig Streuung, würden also die Ungewissheit nicht ausreichend abbilden (Übergewissheit, Overconfidence).
 ]
 
+
+
 ---
 
 <!-- ## Variieren von $p$ und $N$ -->
@@ -958,6 +1066,26 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 
 
 ---
+
+## Vergleich der Verteilungen
+
+
+
+
+```{r}
+img_file <- paste0(here::here(),"/img/post-pred-ppv-anim.gif")
+#file.exists(img_file)
+knitr::include_graphics(img_file)
+```
+
+
+- Links - *Posterior-Verteilung*: Wahrscheinlichkeiten der Parameterwerte
+- Mitte - *Stichprobenverteilung*: Wahrscheinlichkeiten der Beobachtungen gegeben eines bestimmten Parameterwertes
+- Rechts - *Posterior-Prädiktiv-Verteilung*: Wahrscheinlichkeiten der Beobachtungen unter Berücksichtigung der Unsicherheit der Posteriori-Verteilung
+
+
+---
+
 name: hinweise
 class: center, middle, inverse
 
