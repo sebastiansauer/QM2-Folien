@@ -1,0 +1,105 @@
+
+<style>
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+</style>
+
+
+
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+
+  
+
+
+```{r global-knitr-options, include=FALSE}
+knitr::opts_chunk$set(
+  fig.pos = 'H',
+  fig.asp = 0.618,
+  fig.aligh = "center",
+  fig.width = 5,
+  out.width = "100%",
+  fig.cap = "", 
+  fig.path = "",
+  dpi = 300,
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  cache = TRUE,
+  fig.show = "hold")
+
+knitr::opts_knit$set(
+  #base.dir = "img",
+  root.dir = rprojroot::find_rstudio_root_file()
+)
+
+knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
+
+options("knitr.graphics.auto_pdf" = FALSE)
+```
+
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+#library(xaringanthemer)
+#style_mono_dark(base_color = "#cbf7ed")
+
+```
+
+
+
+
+```{r load-libs, echo = FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+#library(nomnoml)
+#library(ggdag)
+library(patchwork)
+library(gt)
+library(emojifont)
+library(RefManageR)
+library(tidybayes)
+library(xaringanExtra)
+library(scales)
+```
+
+```{r source-funs}
+source("R-Code/img.R")
+```
+
+
+
+
+```{r bib}
+BibOptions(check.entries = FALSE, 
+           bib.style = "authoryear", 
+           style = "markdown",
+           dashed = TRUE)
+bib_file <- "bib.bib"
+bib <- ReadBib(bib_file)
+```
+
+
+
+```{r ggplottheme}
+theme_set(theme_minimal())
+```
+
+
+
+```{r xaringan-extra, echo=FALSE}
+use_xaringan_extra(c("tile_view", "tachyons"))
+#xaringanExtra::use_animate_all("slide_left")
+```

@@ -1,0 +1,56 @@
+---
+title: "Untitled"
+author: "ses"
+date: "10/18/2021"
+output: html_document
+---
+
+ 
+
+
+```{r global-knitr-options, include=FALSE, eval = TRUE}
+knitr::opts_chunk$set(
+  #fig.pos = 'H',
+  fig.asp = 0.618,
+  fig.aligh = "center",
+  fig.width = 5,
+  out.width = "70%",
+  fig.cap = "", 
+  fig.path = "",
+  #dpi = 300,
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  cache = FALSE,
+  fig.show = "hold")
+
+# knitr::opts_knit$set(
+#   #base.dir = "img",
+#   root.dir = rprojroot::find_rstudio_root_file()
+# )
+
+
+```
+
+
+```{r Test2-1}
+img <- function(img_file, auto_pdf = FALSE){
+  # wrapper around knitr::include_graphics
+  # saving typing the path
+ path_img <- paste0(here::here(),"/img/", img_file)
+ knitr::include_graphics(path_img, auto_pdf = auto_pdf)
+}
+
+```
+
+
+```{r Test2-2}
+img("mult-norm.png")
+```
+
+
+
+
+![](http://ballistipedia.com/images/8/8c/Bivariate.png)
+
+

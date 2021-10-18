@@ -1,0 +1,55 @@
+---
+# knit: (function(inputFile, encoding) {
+#   rmarkdown::render(inputFile, encoding = encoding, output_dir = "output") })
+title: Gauss-Modelle 
+subtitle: QM2, Thema 4
+#date: WiSe 21
+lang: de-DE
+bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+institute: AWM, HS Ansbach
+output:
+  xaringan::moon_reader:
+    keep_md: true
+#    css: ["xaringan-themer.css"]
+
+    css: [default, default-fonts, hygge]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+
+#numbersections: yes
+csquotes: TRUE     
+---
+
+
+
+
+
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd"}
+```
+
+
+
+## Gliederung
+
+
+
+.center2[.Large[
+1. [Teil 1](#teil1): Verteilungen
+2. [Teil 2](#teil2)
+3. [Hinweise](#hinweise)
+4. [Literatur](#literatur)
+]]
+
+---
+
+
+```{r QM2-Thema4-Gaussmodelle-2, eval = TRUE, child="children/Normalverteilung.Rmd"}
+```
+
+
+
+```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Hinweise.Rmd"}
+```

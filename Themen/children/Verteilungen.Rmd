@@ -8,7 +8,7 @@
 Die Verteilung eines *diskreten* Merkmals $X$ mit $k$ Ausprägungen zeigt, wie häufig die einzelnen Ausprägungen sind.
 
 
-```{r echo = TRUE}
+```{r Verteilungen-1, echo = TRUE}
 mtcars %>% 
   count(cyl)
 ```
@@ -17,7 +17,7 @@ mtcars %>%
 
 Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
 
-```{r}
+```{r Verteilungen-2}
 mtcars %>% 
   ggplot(aes(x = hp)) +
   geom_histogram()
@@ -42,7 +42,7 @@ Bei *stetigen* Merkmalen geht man von unendlich vielen Ausprägungen aus; die Wa
 :::::: {.columns}
 ::: {.column width="50%"}
 
-```{r}
+```{r Verteilungen-3}
 ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
   stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) +
   labs(y = "Dichte", x = "Merkmal, X")
@@ -53,7 +53,7 @@ Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 40%.
 ::: 
 ::: {.column width="50%"}
 
-```{r}
+```{r Verteilungen-4}
 #source: https://dk81.github.io/dkmathstats_site/rmath-uniform-plots.html
 
 uniform_Plot <- function(a, b){
@@ -86,7 +86,7 @@ Zieht man (zufällig) immer mehr Werte aus einer Verteilung^[mit endlichem Mitte
 
 
 
-```{r}
+```{r Verteilungen-5}
 source("R-Code/img15.R")
 ```
 
@@ -99,7 +99,7 @@ source("R-Code/img15.R")
 Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds (eng). Auf Kommando werfen alle jeweils eine Münze; bei Kopf geht man einen Schritt nach links, bei Zahl nach rechts. Das wird 16 Mal wiederholt. Wie wird die Verteilung der Positionen wohl aussehen?
 
 
-```{r}
+```{r Verteilungen-6}
 source("R-Code/img13.R")
 ```
 
@@ -109,7 +109,7 @@ source("R-Code/img13.R")
 Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erzeugt eine Normalverteilung; egal aus welcher Verteilung die Zufallswerte kommen (Zentraler Grenzwertsatz).
 
 
-```{r out.width="70%"}
+```{r Verteilungen-7, out.width="70%"}
 source("R-Code/img14.R")
 ```
 
@@ -119,7 +119,7 @@ source("R-Code/img14.R")
 
 ## Nicht verwechseln
 
-```{r, echo = FALSE, out.width="50%"} 
+```{r Verteilungen-8, echo = FALSE, out.width="50%" }
 img("ch33910.f1.jpg")
 ```
 
@@ -130,7 +130,7 @@ img("ch33910.f1.jpg")
 ## Normalverteilung vs. randlastige Verteilungen
 
 
-```{r}
+```{r Verteilungen-9}
 ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
   stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1), color = "blue") +
   labs(y = "Dichte", x = "Merkmal, X") +
@@ -182,7 +182,7 @@ Bei randlastigen Verteilungen ("fat tails") kommen Extremereignisse viel häufig
 
 Wir werfen sehr oft 3 Münzen:
 
-```{r}
+```{r Verteilungen-10}
 muenzvert <- rbinom(n = 10000, size = 3,
                                     prob = c(1/2, 1/2)) %>% 
   as_tibble()
@@ -199,7 +199,7 @@ ggplot(muenzvert) +
 
 Wir werfen sehr oft ($10^4$ mal) *10* Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
 
-```{r}
+```{r Verteilungen-11}
 muenzvert <- rbinom(n = 10000, size = 10,
                                     prob = c(1/2, 1/2)) %>% 
   as_tibble()
@@ -217,7 +217,7 @@ Extreme Trefferzahlen sind selten; mittlere Trefferzahlen häufiger.
 
 Wir werfen sehr oft ($10^4$ mal) *20* Münzen und zählen jeweils die Anzahl der Treffer (Kopf):
 
-```{r}
+```{r Verteilungen-12}
 muenzvert <- rbinom(n = 10000, size = 20,
                                     prob = c(1/2, 1/2)) %>% 
   as_tibble()
@@ -235,7 +235,7 @@ Extreme Trefferzahlen sind selten; mittlere Trefferzahlen häufiger.
 ::: {.column width="50%"}
 10 Mal 1 Münze werfen
 \tiny
-```{r echo = TRUE}
+```{r Verteilungen-13, echo = TRUE}
 rbinom(10, 1, 1/2)
 ```
 \normalsize
@@ -244,7 +244,7 @@ rbinom(10, 1, 1/2)
 ::: {.column width="50%"}
 10000 Mal 10 Münzen werfen
 
-```{r echo = TRUE}
+```{r Verteilungen-14, echo = TRUE}
 muenzvert <- 
   rbinom(1e04, 10, .5) %>% 
   as_tibble()

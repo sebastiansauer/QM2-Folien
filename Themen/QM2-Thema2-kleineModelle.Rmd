@@ -43,7 +43,7 @@ knitr::opts_chunk$set(fig.pos = 'H',
 ```
 
 
-```{r echo = FALSE}
+```{r QM2-Thema2-kleineModelle-1, echo = FALSE}
 library(tidyverse)
 library(knitr)
 library(kableExtra)
@@ -53,13 +53,13 @@ library(patchwork)
 
 
 
-```{r}
+```{r QM2-Thema2-kleineModelle-2}
 theme_set(theme_bw())
 ```
 
 
 
-```{r}
+```{r QM2-Thema2-kleineModelle-3}
 source("R-Code/img.R")
 ```
 
@@ -76,7 +76,7 @@ source("R-Code/img.R")
 
 ## Behaims Globus, Kolumbus glücklicher Fehler
 
-```{r, echo = FALSE, out.width="100%"} 
+```{r QM2-Thema2-kleineModelle-4, echo = FALSE, out.width="100%" }
 img("Behaim.jpg")
 ```
 
@@ -112,7 +112,7 @@ img("Behaim.jpg")
 ## So denkt unser Bayes-Golem
 
 
-```{r out.width="100%"}
+```{r QM2-Thema2-kleineModelle-5, out.width="100%"}
 img("bayesupdate2.png")
 ```
 
@@ -137,7 +137,7 @@ img("bayesupdate2.png")
 
 
 
-```{r, echo = FALSE, out.width="50%"} 
+```{r QM2-Thema2-kleineModelle-6, echo = FALSE, out.width="50%" }
 
 source("R-Code/img2111.R")
 
@@ -153,7 +153,7 @@ source("R-Code/img2111.R")
 
 - Wir erhalten: **BWB**. Voilà: unsere Daten.
 
-```{r, echo = FALSE} 
+```{r QM2-Thema2-kleineModelle-7, echo = FALSE }
 #knitr::include_graphics(file.path("img", "img2112.png"))
 source("R-Code/img2112.R")
 ```
@@ -169,7 +169,7 @@ source("R-Code/img2112.R")
 
 Wenn Hypothese [BWWW] der Fall sein sollte, dann können wir im *ersten* Zug entweder die eine blaue Murmel erwischen oder eine der drei weißen.
 
-```{r, echo = FALSE, out.width="70%"} 
+```{r QM2-Thema2-kleineModelle-8, echo = FALSE, out.width="70%" }
 #knitr::include_graphics(file.path("img", "img2113.png"))
 source("R-Code/img2113.R")
 ```
@@ -186,7 +186,7 @@ Wenn Hypothese [BWWW] der Fall sein sollte, dann haben wir im *zweiten* Zug nat�
 
 Zug 1 und Zug 2 zusammen genommen gibt es $16=4\cdot4=4^2$ Kombinationen an gezogenen Murmeln:
 
-```{r, echo = FALSE, out.width="50%", fig.asp=.5} 
+```{r QM2-Thema2-kleineModelle-9, echo = FALSE, out.width="50%", fig.asp=.5 }
 #knitr::include_graphics(file.path("img", "img2113.png"))
 source("R-Code/img2114.R")
 
@@ -203,7 +203,7 @@ source("R-Code/img2114.R")
 
 Zug 1, Zug 2 und Zug 3 zusammen genommen, gibt es dann $4\cdot4\cdot4=4^3=64$ Kombinationen, drei Murmeln zu ziehen.
 
-```{r, echo = FALSE, out.width="50%"} 
+```{r QM2-Thema2-kleineModelle-10, echo = FALSE, out.width="50%" }
 #knitr::include_graphics(file.path("img", "img2113.png"))
 source("R-Code/img2115.R")
 ```
@@ -217,7 +217,7 @@ source("R-Code/img2115.R")
 - Einige Kombinationen ("Pfade") der Hypothese [BWWW] lassen sich nicht mit unseren Daten (BWB) vereinbaren.
 - Z.B. alle Kombinationen die mit W beginnen, sind nicht mit unseren Daten zu vereinbaren.
 
-```{r fig.show = "hold", out.width=c("33%", "33%")}
+```{r QM2-Thema2-kleineModelle-11, fig.show = "hold", out.width=c("33%", "33%")}
 source("R-Code/img2116.R")
 source("R-Code/img2117.R")
 ```
@@ -226,7 +226,7 @@ Nur 3 der 64 "Pfade" (Kombinationen), die Hypothese [BWWW] vorgibt, sind mit uns
 
 ## Kombinationen für Hypothesen 
 
-```{r results='asis'}
+```{r QM2-Thema2-kleineModelle-12, results='asis'}
 source("R-Code/tab21.R")
 ```
 
@@ -237,7 +237,7 @@ source("R-Code/tab21.R")
 
 ## Pfadbaum für die Hypothesen [BWWW], [BBWW], [BBBW]
 
-```{r, echo = FALSE} 
+```{r QM2-Thema2-kleineModelle-13, echo = FALSE }
 img("img2118.png")
 ```
 
@@ -253,7 +253,7 @@ img("img2118.png")
 
 Mit den Daten BWBB ist die Hypothese [BBBW] am wahrscheinlichsten:
 
-```{r results = "asis"}
+```{r QM2-Thema2-kleineModelle-14, results = "asis"}
 source("R-Code/tab22.R")
 ```
 
@@ -272,7 +272,7 @@ HN: neue (geupdatete) Häufigkeiten
 
 - Hier ist die Hypothese [BBWW] am wahrscheinlichsten:
 
-```{r results = "asis"}
+```{r QM2-Thema2-kleineModelle-15, results = "asis"}
 source("R-Code/tab23.R")
 ```
 
@@ -328,7 +328,7 @@ Pl: Plausibilität
 
 ## Plausibilität pro Hypothese
 
-```{r results = "asis"}
+```{r QM2-Thema2-kleineModelle-16, results = "asis"}
 source("R-Code/tab24.R")
 ```
 
@@ -338,7 +338,7 @@ p: Anteil blauer Murmeln (Priori-Wissen)
 AP: Anzahl von möglichen Pfaden; Pl: Plausibilität
 
 
-```{r echo = TRUE}
+```{r QM2-Thema2-kleineModelle-17, echo = TRUE}
 AP <- c(0, 3, 8, 9, 0)
 Pl <- AP / sum(AP)
 Pl
@@ -376,7 +376,7 @@ Pl
 
 :::::: {.columns}
 ::: {.column width="30%"}
-```{r}
+```{r QM2-Thema2-kleineModelle-18}
 img("earth.png")
 ```
 \tiny
@@ -411,7 +411,7 @@ $$W \quad L \quad W \quad W \quad W \quad L \quad W \quad L \quad W$$
 
 
 
-```{r out.width="100%"}
+```{r QM2-Thema2-kleineModelle-19, out.width="100%"}
 source("R-Code/img221.R")
 ```
 
@@ -429,7 +429,7 @@ source("R-Code/img221.R")
 - Dann gewichten wir den Likelihood mit dem Vorabwissen, so dass wir die *Posteriori-Verteilung*^[Anstatt von *Priori* liest man auch *Prior*; anstatt *Posteriori* auch *Posterior*] bekommen.
 
 
-```{r}
+```{r QM2-Thema2-kleineModelle-20}
 img("bayesupdate.png")
 ```
 
@@ -452,13 +452,13 @@ $$Pr(W,L|p) = \frac{(W+L)!}{W!L!}p^W(1-p)^L$$
 
 Was ist der Anteil der gültigen Pfade (Wahrscheinlichkeit), um 6 mal $W$ bei $N=W+L=9$ Würfen zu bekommen, wenn wir von $p=1/2$ ausgehen?
 
-```{r echo = TRUE}
+```{r QM2-Thema2-kleineModelle-21, echo = TRUE}
 dbinom(x = 6, size = 9, prob = 1/2)
 ```
 
 Was ist die Wahrscheinlichkeit für $W=9$ bei $N=9$ und $p=1/2$?
 
-```{r echo = TRUE}
+```{r QM2-Thema2-kleineModelle-22, echo = TRUE}
 dbinom(x = 9, size = 9, prob = 1/2)
 ```
 
@@ -469,14 +469,14 @@ dbinom(x = 9, size = 9, prob = 1/2)
 Ei Professori stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen richtig zu raten?^[Hey, endlich mal was für echte Leben!]
 
 
-```{r echo = TRUE}
+```{r QM2-Thema2-kleineModelle-23, echo = TRUE}
 dbinom(x = 15, size = 20, prob = .5)
 ```
 
 
 Was ist die Wahrscheinlichkeit bei 3 Münzwürfen (genau) 3 Treffer (Kopf) zu erzielen?
 
-```{r echo = TRUE}
+```{r QM2-Thema2-kleineModelle-24, echo = TRUE}
 dbinom(3, 3, 1/2)
 ```
 
@@ -507,7 +507,7 @@ Lies: "$p$ ist gleich (uniform) verteilt mit der Untergrenze 0 und der Obergrenz
 ::: {.column width="50%"}
 ### Binomialverteilung
 
-```{r}
+```{r QM2-Thema2-kleineModelle-25}
 dbinom(0:9, 9, 1/2) %>% 
   tibble(Wahrscheinlichkeit = .,
          Treffer = seq(0,9)) %>% 
@@ -524,7 +524,7 @@ $N=9, p = 1/2$
 ::: {.column width="50%"}
 ### Gleichverteilung
 
-```{r}
+```{r QM2-Thema2-kleineModelle-26}
 
 uniform_Plot <- function(a, b){
   xvals <- data.frame(x = c(a, b)) #Range for x-values
@@ -611,7 +611,7 @@ $$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
 
 $$\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}$$
 
-```{r}
+```{r QM2-Thema2-kleineModelle-27}
 source("R-Code/img241.R")
 ```
 
@@ -633,7 +633,7 @@ source("R-Code/img241.R")
 ## Gitterwerte in R berechnen
 
 \footnotesize
-```{r echo = TRUE}
+```{r QM2-Thema2-kleineModelle-28, echo = TRUE}
 d <-
   tibble(
     # definiere das Gitter: 
@@ -653,7 +653,7 @@ d <-
 
 ## Unsere Gitter-Daten
 
-```{r}
+```{r QM2-Thema2-kleineModelle-29}
 d %>% 
   kbl(digits = 2)
 ```
@@ -666,7 +666,7 @@ d %>%
 ## $Pr_{Post}$ zeigt, wie plausibel wir jeden Wert von $p$ halten
 
 
-```{r out.width="100%"}
+```{r QM2-Thema2-kleineModelle-30, out.width="100%"}
 source("R-Code/img242.R")
 ```
 
@@ -680,7 +680,7 @@ Mehr Gitterwerte glätten die Annäherung.
 - Der R-Befehl `quap` gibt zentrale Statistiken zu den Parametern des Modells zurück.
 
 \tiny
-```{r echo = TRUE}
+```{r QM2-Thema2-kleineModelle-31, echo = TRUE}
 library(rethinking)
 
 globus_qa <- quap(  # "quadratic approximation"
@@ -700,7 +700,7 @@ precis(globus_qa)  # Gibt uns die zentralen Ergebnisse
 
 ## Je größer die Stichprobe ($N$), desto zuverlässiger wird unsere Berechnung
 
-```{r out.width="100%"}
+```{r QM2-Thema2-kleineModelle-32, out.width="100%"}
 source("R-Code/img243.R")
 ```
 

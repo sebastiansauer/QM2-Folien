@@ -1,0 +1,35 @@
+
+name: hinweise
+class: center, middle, inverse
+
+
+# Hinweise 
+
+---
+
+## Zu diesem Skript
+
+- Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+  - Kapitel 3 aus `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`
+
+  - Der R-Code stammt aus `r RefManageR::Citet(bib,"kurz_statistical_2021")`.
+
+
+- Dieses Skript wurde erstellt am `r Sys.time()` (WiSe 21).
+
+- Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+
+- Autor ist Sebastian Sauer.
+
+
+---
+
+name: literatur
+
+## Literatur
+
+
+```{r Hinweise-1, results='asis', echo=FALSE}
+PrintBibliography(bib)
+```
+

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="de-DE" xml:lang="de-DE">
+  <head>
+    <title>Gauss-Modelle</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Gauss-Modelle
+## QM2, Thema 4
+### AWM, HS Ansbach
+
+---
+
+
+
+
+
+
+
+
+&lt;style&gt;
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Gliederung
+
+
+
+.center2[.Large[
+1. [Teil 1](#teil1): Verteilungen
+2. [Teil 2](#teil2)
+3. [Hinweise](#hinweise)
+4. [Literatur](#literatur)
+]]
+
+---
+
+
+
+
+
+name: teil1
+class: center, middle, inverse
+
+
+
+# Verteilungen
+
+---
+
+## Häufigkeitsverteilung
+
+.pull-left[
+  
+Die Verteilung eines *diskreten* Merkmals `\(X\)` mit `\(k\)` Ausprägungen zeigt, wie häufig die einzelnen Ausprägungen sind.
+  
+  
+
+```r
+  data(mtcars)
+  mtcars %&gt;% 
+    count(cyl)
+```
+
+```
+##   cyl  n
+## 1   4 11
+## 2   6  7
+## 3   8 14
+```
+  
+]
+
+.pull-right[
+  
+Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
+    
+&lt;img src="unnamed-chunk-2-1.png" width="100%" /&gt;
+  
+]
+
+
+---
+
+## Wahrscheinlichkeitsverteilung
+
+
+Eine *diskrete* Wahrscheinlichkeitsverteilung des Merkmals `\(X\)` ordnet jeder der `\(k\)` Ausprägungen `\(X=x\)` eine Wahrscheinlichkeit `\(p\)` zu. So hat die Variable *Geschlecht eines Babies* die beiden Ausprägungen *Mädchen* und *Junge* mit den Wahrscheinlichkeiten `\(p_M = 51.2\%\)` bzw. `\(p_J = 48.8\%\)` 
+(Gelman, Hill, and Vehtari, 2021).
+
+Bei *stetigen* Merkmalen `\(X\)` geht man von unendlich vielen Ausprägungen aus; die Wahrscheinlichkeit einer bestimmten Ausprägung ist (praktisch) Null: `\(p(X=x_j)=0, \quad j=1,...,k\)`. Daher gibt man stattdessen die *Dichte* der Wahrscheinlichkeit an: Das ist die Wahrscheinlichkeit(smasse) pro eine Einheit von `\(X\)`.
+
+
+---
+
+## Beispiele für  Wahrscheinlichkeitsdichte
+
+
+.pull-left[
+
+&lt;img src="unnamed-chunk-3-1.png" width="100%" /&gt;
+
+Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 40%.
+
+]
+
+.pull-right[
+
+&lt;img src="unnamed-chunk-4-1.png" width="100%" /&gt;&lt;img src="unnamed-chunk-4-2.png" width="100%" /&gt;
+Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 50% bzw. 33%.
+
+]
+
+---
+
+## Gesetz der großen Zahl
+
+
+Zieht man (zufällig) immer mehr Werte aus einer Verteilung (mit endlichem Mittelwert), nähert sich der Mittelwert der Stichprobe immer mehr mit dem Mittelwert (oft als Erwartungswert bezeichnet) der Verteilung an 
+(Taleb, 2019)
+
+
+
+&lt;img src="unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+## Normal auf dem Fußballfeld
+
+Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds (eng). Auf Kommando werfen alle jeweils eine Münze; bei Kopf geht man einen Schritt nach links, bei Zahl nach rechts. Das wird 16 Mal wiederholt. Wie wird die Verteilung der Positionen wohl aussehen?
+
+
+&lt;img src="unnamed-chunk-6-1.png" width="100%" /&gt;
+
+
+---
+
+## Normal durch Addieren
+
+Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erzeugt eine Normalverteilung; egal aus welcher Verteilung die Zufallswerte kommen (Zentraler Grenzwertsatz).
+
+
+&lt;img src="unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+## Nicht verwechseln
+
+&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/ch33910.f1.jpg" width="50%" /&gt;
+(Freeman, 2006)
+
+
+---
+
+## Normalverteilung vs. randlastige Verteilungen
+
+
+&lt;img src="unnamed-chunk-9-1.png" width="100%" /&gt;
+
+
+Bei randlastigen Verteilungen ("fat tails") kommen Extremereignisse viel häufiger vor als bei Normalverteilungen. Deshalb ist es wichtig sein, zu wissen, ob eine Normalverteilung oder eine randlastige Verteilung vorliegt. Viele statistische Methoden sind nicht zuverlässig bei (stark) randlastigen Methoden 
+(Taleb, 2019)
+
+
+---
+
+## Beispiele für Normal- und randlastige Verteilungen
+
+
+.pull-left[
+
+### Normal verteilt
+
+- Größe 
+- Münzwürfe
+- Gewicht
+- IQ
+- Blutdruck
+- Ausschuss einer Maschine
+]
+
+.pull-right[
+
+### Randlastig verteilt
+
+- Vermögen
+- Verkaufte Bücher
+- Ruhm
+- Aktienkurse
+- Erdbeben
+- Pandemien
+- Kriege
+- Erfolg auf Tinder
+- Meteroritengröße
+- Stadtgrößen
+]
+
+---
+
+
+## Formel der Normalverteilung
+
+Vereinfacht ausgedrückt lässt die Normalverteilung `\(\mathcal{N}\)` durch Exponenzieren einer Quadratfunktion beschreiben:
+
+`$$\mathcal{N} = e^{-y^2}$$`
+
+mit `\(e=2.71...\)`, der Eulerschen Zahl.
+
+.pull-left[
+
+
+
+```r
+d &lt;-
+  tibble(
+    x = seq(-3, 3, 
+            length.out = 100),
+    y = exp(-x^2)
+  )
+
+d %&gt;% 
+  ggplot() +
+  aes(x = x, y = y) +
+  geom_line()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="unnamed-chunk-10-1.png" width="100%" /&gt;
+
+]
+
+---
+
+
+## Zweidimensionale Normalverteilung
+
+
+&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/mult-norm.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+
+.footnote[[Vgl. auch dieses Diagramm](http://ballistipedia.com/index.php?title=File:Bivariate.png)]
+
+---
+
+
+
+
+
+
+
+name: hinweise
+class: center, middle, inverse
+
+
+# Hinweise 
+
+---
+
+## Zu diesem Skript
+
+- Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+  - Kapitel 3 aus McElreath (2020)
+
+  - Der R-Code stammt aus Kurz (2021).
+
+
+- Dieses Skript wurde erstellt am 2021-10-18 22:48:23 (WiSe 21).
+
+- Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+
+- Autor ist Sebastian Sauer.
+
+
+---
+
+name: literatur
+
+## Literatur
+
+
+[1] M. Freeman. "A visual comparison of normal and paranormal
+distributions". In: _Journal of Epidemiology and Community Health_ 60.1
+(Jan. 2006), p. 6. ISSN: 0143-005X. &lt;URL:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/&gt; (visited on
+09/09/2021).
+
+[2] A. Gelman, J. Hill, and A. Vehtari. _Regression and other stories_.
+Analytical methods for social research. Cambridge: Cambridge University
+Press, 2021. 534 pp. ISBN: 978-1-107-67651-0 978-1-107-02398-7.
+
+[3] A. S. Kurz. _Statistical rethinking with brms, ggplot2, and the
+tidyverse: Second edition_. 2021. &lt;URL:
+https://bookdown.org/content/4857/&gt; (visited on 09/08/2021).
+
+[4] R. McElreath. _Statistical rethinking: a Bayesian course with
+examples in R and Stan_. 2nd ed. CRC texts in statistical science. Boca
+Raton: Taylor and Francis, CRC Press, 2020. ISBN: 978-0-367-13991-9.
+
+[5] N. N. Taleb. _The statistical consequences of fat tails, papers and
+commentaries_. Publisher: Monograph. 2019. &lt;URL:
+https://nassimtaleb.org/2020/01/final-version-fat-tails/&gt;.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

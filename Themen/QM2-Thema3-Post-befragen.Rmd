@@ -161,7 +161,7 @@ Die Gittermethode ist ein Weg, die Posteriori-Verteilung zu berechnen. Die Poste
 Modell: $W=6$ Wasser, $N=9$ Würfen und $k=1000$ Gitterwerten.
 
 
-```{r}
+```{r QM2-Thema3-Post-befragen-1}
 n <- 1000
 n_success <- 6
 n_trials  <- 9
@@ -192,7 +192,7 @@ d %>%
 .right-column[
 Die ersten paar Zeilen aus der Tabelle `d`:
 
-```{r}
+```{r QM2-Thema3-Post-befragen-2}
 d %>% 
   head() %>% 
   gt() %>% 
@@ -240,7 +240,7 @@ Solche Fragen kann man in drei Gruppen aufteilen:
 
 Tabelle mit Stichprobendaten aus der Posteriori-Verteilung (Tabelle `d`):
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-3, echo = TRUE}
 samples <-
   d %>%  # nimmt die Tabelle mit Posteriori-Daten,
   slice_sample(  # Ziehe daraus eine Stichprobe,
@@ -252,7 +252,7 @@ samples <-
 Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist proportional zur Posteriori-Wahrscheinlichkeit (`post`) dieses Werts. Ziehen mit Zurücklegen hält die Wahrscheinlichkeiten während des Ziehens konstant.
 
 
-```{r}
+```{r QM2-Thema3-Post-befragen-4}
 samples %>% 
   slice_head(n=3) %>% 
   gt() %>% 
@@ -301,7 +301,7 @@ Die Stichprobendaten nähern sich der Posteriori-Verteilung an.
 
 $n=10^6$ Stichproben aus der Posteriori-Verteilung
 
-```{r echo = TRUE, out.width="70%", fig.align="center"}
+```{r QM2-Thema3-Post-befragen-5, echo = TRUE, out.width="70%", fig.align="center"}
 d %>% 
   slice_sample(n = 1e6, weight_by = post, replace = T) %>% 
   ggplot(aes(x = p_grid)) +
@@ -321,7 +321,7 @@ Wie groß ist die Wahrscheinlichkeit, dass der Wasseranteil unter 50% liegt?
 
 .pull-left[
 .center[Aus der Posteriori-Verteilung mit der Gridmethode:]
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-6, echo = TRUE}
 d %>% 
   filter(p_grid < .5) %>% 
   summarise(sum = sum(post))
@@ -332,7 +332,7 @@ d %>%
 .pull-right[
 .center[Aus den Stichproben der Posteriori-Verteilung:]
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-7, echo = TRUE}
 samples %>%
   filter(p_grid < .5) %>% 
   summarise(sum = n() / 1e4)
@@ -354,7 +354,7 @@ Die Gridmethode funktioniert bei großen Modellen nicht gut (im Gegensatz zur qu
 Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen 0.5 und 0.75?
 
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-8, echo = TRUE}
 samples %>% 
   filter(p_grid > .5 & p_grid < .75) %>% 
   summarise(sum     =       n() / 1e4,
@@ -363,7 +363,7 @@ samples %>%
 
 Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen 0.9 und 1?
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-9, echo = TRUE}
 samples %>% 
   filter(p_grid >= .9 & p_grid <= 1) %>% 
   summarise(sum     =       n() / 1e4,
@@ -402,7 +402,7 @@ d %>%
 ]
 
 .pull-right[
-```{r ref.label= "plot2", echo = FALSE}
+```{r QM2-Thema3-Post-befragen-10, ref.label= "plot2", echo = FALSE}
 
 ```
 
@@ -426,7 +426,7 @@ d %>%
 Welcher Parameterwert wird mit 80% Wahrscheinlichkeit nicht überschritten, laut unserem Modell? (Gesucht sind also die unteren 80% Posteriori-Wahrscheinlichkeit)
 
 
-```{r}
+```{r QM2-Thema3-Post-befragen-11}
 samples %>% 
   summarise(quantil80 = quantile(p_grid, p = .8))
 ```
@@ -436,7 +436,7 @@ samples %>%
 .pull-right[
 Was ist das *mittlere* Intervall, das mit 80% Wahrscheinlichkeit den Parameterwert enthält, laut dem Modell?
 
-```{r}
+```{r QM2-Thema3-Post-befragen-12}
 samples %>% 
   summarise(quant_10 = quantile(p_grid, 0.1),
             quant_90 = quantile(p_grid, 0.9))
@@ -488,7 +488,7 @@ p1 + p2
 
 
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-13, echo = TRUE}
 d <- d %>% 
   mutate(likelihood = dbinom(3, size = 3, prob = p_grid),
          unstand_post = likelihood * prior) %>% 
@@ -500,7 +500,7 @@ samples <- d %>%
                  replace = T)
 ```
 
-```{r}
+```{r QM2-Thema3-Post-befragen-14}
 samples %>% 
   select(-post) %>% 
   head() %>% 
@@ -523,7 +523,7 @@ Daten: 3 Würfe mit 3 Treffern
 ### 50%-Perzentil-Intervall
 
 
-```{r}
+```{r QM2-Thema3-Post-befragen-15}
 
 p1 <-
   d %>% 
@@ -549,7 +549,7 @@ Der wahrscheinlichste Paramterwert (1) ist *nicht* im Intervall enthalten!
 .pull-right[
 ### 50%-Intervall höchster Dichte
 
-```{r}
+```{r QM2-Thema3-Post-befragen-16}
 p2 <-
   d %>% 
   ggplot(aes(x = p_grid, y = posterior)) +
@@ -581,13 +581,13 @@ Der wahrscheinlichste Paramterwert (1) *ist* im Intervall enthalten!
 
 Intervallbreite HDPI: 0.16
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-17, echo = TRUE}
 rethinking::HPDI(samples$p_grid, prob = .5)
 ```
 
 Intervallbreite PI: 0.23
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-18, echo = TRUE}
 rethinking::PI(samples$p_grid, prob = .5)
 ```
 
@@ -603,7 +603,7 @@ Daten: 3 Treffer bei 3 Würfen.
 .pull-left[
 ### Lageparameter
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-19, echo = TRUE}
 library(tidybayes)
 samples %>% 
   summarise(
@@ -619,7 +619,7 @@ samples %>%
 
 ### Streuungsparameter
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-20, echo = TRUE}
 samples %>% 
   summarise(
     mean   = sd(p_grid),
@@ -673,7 +673,7 @@ Daten: 8 von 10 Treffern beim Münwurf
 
 .pull-left[
 
-```{r}
+```{r QM2-Thema3-Post-befragen-21}
 tibble(
   Trefferzahl = rbinom(n = 1e4, size = 10, prob = 1/2)
 ) %>% 
@@ -695,7 +695,7 @@ Die Stichprobenverteilung zeigt, wie Wahrscheinlich der empirischen Daten $D$ (z
 .pull-right[
 
 
-```{r}
+```{r QM2-Thema3-Post-befragen-22}
 p_grid <- seq( from=0 , to=1 , length.out=1000 )  # Gitterwerte
 
 prior <- rep( 1 , 1000 )  # Priori-Gewichte
@@ -742,30 +742,30 @@ class: center, middle, inverse
 
 Likelihood (L): Wahrscheinlichkeit für $w=0,1,2$ bei $N=2$ und $p = 0.7$:
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-23, echo = TRUE}
 L <- dbinom(0:2, size = 2, prob = 0.7)
 ```
 
-```{r}
+```{r QM2-Thema3-Post-befragen-24}
 L
 ```
 
 
 Wir simulieren $n=1$ neuen Globusversuch mit $N=2, p=0.7$ und zählen die (Wasser-)Treffer:
 
-```{r}
+```{r QM2-Thema3-Post-befragen-25}
 set.seed(42)
 ```
 
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-26, echo = TRUE}
 rbinom(n = 1, size = 2, prob = 0.7)  # 0 Treffer (Wasser)
 
 ```
 
 Warum nicht $n=10$ neue Globusversuche simulieren:
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-27, echo = TRUE}
 rbinom(n = 10, size = 2, prob = 0.7)
 ```
 
@@ -811,7 +811,7 @@ Immer prüfen und wachsam bleiben:
 .pull-left[
 Warum nicht $n=10^6$ neue Globusversuche simulieren:
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-28, echo = TRUE}
 d <- 
   tibble(
     draws = 
@@ -829,7 +829,7 @@ d %>%
 .pull-left[
 Diese simulierten Häufigkeiten sind sehr ähnlich zu den theoretisch bestimmten Häufigkeiten mit `dbinom`: Unser Modell liefert plausible Vorhersagen.
 
-```{r echo = TRUE}
+```{r QM2-Thema3-Post-befragen-29, echo = TRUE}
 dbinom(0:2, size = 2, prob = .7)
 ```
 ]
@@ -845,7 +845,7 @@ Wir ziehen viele Stichproben für den Versuch $N=9$ Globuswürfe mit $p=0.7$.
 Wie viele Wasser (W) erhalten wir wohl typischerweise?
 
 .pull-left[
-```{r echo = TRUE, results = "hide", eval = FALSE}
+```{r QM2-Thema3-Post-befragen-30, echo = TRUE, results = "hide", eval = FALSE}
 n_draws <- 1e6
 
 d <- 
@@ -864,7 +864,7 @@ d %>%
 ]
 
 .pull-right[
-```{r}
+```{r QM2-Thema3-Post-befragen-31}
 n_draws <- 1e6
 d <- tibble(draws = rbinom(n_draws, 
                            size = 9, 
@@ -891,7 +891,7 @@ Die *Stichprobenverteilung* zeigt, welche Stichrpobendaten laut unserem Modell z
 
 ## Visualisierung der PPV
 
-```{r}
+```{r QM2-Thema3-Post-befragen-32}
 n <- 1001
 n_success <- 6
 n_trials  <- 9
@@ -929,7 +929,7 @@ d %>%
 ```
 
 
-```{r}
+```{r QM2-Thema3-Post-befragen-33}
 n_draws <- 1e5
 
 simulate_binom <- function(probability) {
@@ -973,7 +973,7 @@ samples <-
 
 ```
 
-```{r}
+```{r QM2-Thema3-Post-befragen-34}
 ppv3_plot <- 
 samples %>% 
   ggplot(aes(x = w)) +
@@ -991,13 +991,13 @@ samples %>%
   theme(panel.grid = element_blank())
 ```
 
-```{r fig.asp = .8, out.width="90%", eval = FALSE}
+```{r QM2-Thema3-Post-befragen-35, fig.asp = .8, out.width="90%", eval = FALSE}
 ppv1_plot / ppv2_plot / (plot_spacer() + ppv3_plot + plot_spacer()) +
   plot_layout(heights = c(3,3,2.5))
 
 ```
 
-```{r}
+```{r QM2-Thema3-Post-befragen-36}
 img("ppv.png")
 ```
 
@@ -1011,7 +1011,7 @@ img("ppv.png")
 ... gerade wenn sie die Zukunft betreffen. Das zeigt uns die PPV: Der PPV unseres Modells gelingt es zwar, der theoretisch wahrscheinlichste Parameterwert ist auch der häufigste in unseren Stichproben, aber die Vorhersagen haben eine große Streuung, birgt also hohe Ungewissheit.
 
 .pull-left[
-```{r}
+```{r QM2-Thema3-Post-befragen-37}
 ppv3_plot
 ```
 ]
@@ -1076,7 +1076,7 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 
 
 
-```{r eval = TRUE}
+```{r QM2-Thema3-Post-befragen-38, eval = TRUE}
 img_file <- paste0(here::here(),"/img/post-pred-ppv-anim.gif")
 #file.exists(img_file)
 knitr::include_graphics(img_file)
@@ -1125,7 +1125,7 @@ name: literatur
 ## Literatur
 
 
-```{r, results='asis', echo=FALSE}
+```{r QM2-Thema3-Post-befragen-39, results='asis', echo=FALSE}
 PrintBibliography(bib)
 ```
 

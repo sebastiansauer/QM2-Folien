@@ -4,7 +4,6 @@ subtitle: "QM2, ReThink, Kap. 3"
 author: Prof. Sauer
 date: WiSe 21
 lang: de-DE
-bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
 institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
@@ -12,31 +11,16 @@ output:
 
     css: [default, default-fonts, hygge]
     lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
-
-#numbersections: yes
-csquotes: TRUE     
+   
 ---
 
 
----
 
 
-<style>
 
-.center2 {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
 
-</style>
+
+
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
@@ -46,345 +30,64 @@ options(htmltools.dir.version = FALSE)
   
 
 
-```{r global-knitr-options, include=FALSE}
+```{r global-knitr-options, include=FALSE, eval = TRUE}
 knitr::opts_chunk$set(
-  fig.pos = 'H',
+  #fig.pos = 'H',
   fig.asp = 0.618,
   fig.aligh = "center",
   fig.width = 5,
-  out.width = "100%",
+  out.width = "70%",
   fig.cap = "", 
   fig.path = "",
-  dpi = 300,
+  #dpi = 300,
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
-  cache = TRUE,
+  cache = FALSE,
   fig.show = "hold")
 
-knitr::opts_knit$set(
-  #base.dir = "img",
-  root.dir = rprojroot::find_rstudio_root_file()
-)
+# knitr::opts_knit$set(
+#   #base.dir = "img",
+#   root.dir = rprojroot::find_rstudio_root_file()
+# )
 
-knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
-```
-
-
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-#library(xaringanthemer)
-#style_mono_dark(base_color = "#cbf7ed")
 
 ```
 
 
 
-
-```{r set-options}
-options("knitr.graphics.auto_pdf" = FALSE)
-```
 
 
 ```{r load-libs, echo = FALSE}
 library(tidyverse)
-library(knitr)
-library(kableExtra)
-#library(nomnoml)
-#library(ggdag)
-library(patchwork)
-library(gt)
-library(emojifont)
-library(RefManageR)
+```
+
+<!-- ```{r source-funs} -->
+<!-- source("R-Code/img.R") -->
+<!-- ``` -->
+
+
+
+
+
+
+
+
+
+## Nicht verwechseln
+
+
+
+```{r Test-1}
+img_file <- "img/ch33910f1.jpg"
+file.exists(img_file)
+```
+
+```{r Test-2,  results="show"}
+
+knitr::include_graphics(img_file)
 ```
 
 
-
-```{r source-funs}
-source("R-Code/img.R")
-```
-
-
-
-
-
-```{r}
-# theme_set(theme_minimal())
-```
-
-
-## Gliederung
-
-
-
-.center2[.large[
-1. [Post-Verteilung mit Stichproben zusammenfassen](#post-verteilung-mit- stichproben-zusammenfassen)
-2. jlk
-3. [Hinweise](#hinweise)
-]]
-
-
-
----
-
-name: standard-regression
-class: center, middle, inverse
-
-
-# Post-Verteilung mit Stichproben zusammenfassen
-
-
----
-
-## Zur Erinnerung, die Gittermethode
-
-Die Gittermethode ist ein Weg, die Posteriori-Verteilung zu berechnen. Die Posteriori-Verteilung birgt viele nützliche Informationen.
-
-
-```{r}
-n <- 1000
-n_success <- 6
-n_trials  <- 9
-
-d <-
-  tibble(p_grid = seq(from = 0, to = 1, length.out = n),
-                  prior  = 1) %>% 
-  mutate(likelihood = dbinom(n_success, 
-                             size = n_trials, 
-                             prob = p_grid)) %>% 
-  mutate(unstand_post = (likelihood * prior),
-         post = unstand_post / sum(unstand_post))
-```
-
-```{r}
-d %>% 
-  head() %>% 
-  gt() %>% 
-  fmt_scientific(columns = c(1,3:5),
-             decimals = 2)
-```
-
-
-
----
-
-## Befragen wir die Posteriori-Verteilung
-
-
-- Mit welcher Wahrscheinlichkeit liegt der Parameter unter einem bestimmten Wert?
-- Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen zwei bestimmten Werten?
-- Mit 5% Wahrscheinlichkeit liegt der Parameterwert nicht unter welchem Wert?
-- Welcher Parameterwert hat die höchste Wahrscheinlichkeit?
-- Wie ungewiss ist das Modell über die Parameterwerte?
-
-
-Solche Fragen kann man in drei Gruppen aufteilen:
-
-1. Fragen zu Bereichen von Parametern
-2. Fragen zu Bereichen von Wahrscheinlichkeitsmassen
-3. Fragen zu Punktschätzern von Parametern
-
-
-
-
-
----
-
-
-
-
-## Wahrscheinlichkeiten sind kompliziert, Häufigkeiten einfacher
-
-```{r echo = TRUE}
-samples <-
-  d %>% 
-  slice_sample(n = 1e4,  # 10000
-               weight_by = post, 
-               replace = T)
-```
-
-
-```{r}
-samples %>% 
-  head() %>% 
-  gt()
-```
-
----
-
-## Visualisieren wir die Stichproben aus der Post-Verteilung
-
-
-```{r}
-p1 <-
-  samples %>% 
-  mutate(sample_number = 1:n()) %>% 
-  ggplot(aes(x = sample_number, y = p_grid)) +
-  geom_point(alpha = 1/10) +
-  scale_y_continuous("Anteil Wasser  (p)", limits = c(0, 1)) +
-  xlab("Nummer der Stichprobe")
-
-p2 <-
-samples %>% 
-  ggplot(aes(x = p_grid)) +
-  geom_density(fill = "black") +
-  scale_x_continuous("pAnteil Wasser (p)", limits = c(0, 1))
-
-p1 + p2
-```
-
-
-
----
-
-## Mehr Stichproben glätten die Verteilung
-
-```{r echo = TRUE, out.width="70%", fig.align="center"}
-d %>% 
-  slice_sample(n = 1e6, weight_by = post, replace = T) %>% 
-  ggplot(aes(x = p_grid)) +
-  geom_density(fill = "black") +
-  scale_x_continuous("Anteil Wasser (p)", limits = c(0, 1))
-```
-
----
-
-
-## Fragen zu Bereichen von Parametern 1
-
-Wie groß ist die Wahrscheinlichkeit, dass der Wasseranteil unter 50% liegt?
-
-
-.pull-left[
-Aus der Posteriori-Verteilung mit der Gridmethode
-```{r echo = TRUE}
-d %>% 
-  filter(p_grid < .5) %>% 
-  summarise(sum = sum(post))
-```
-]
-
-
-.pull-right[
-Aus den Stichproben der Posteriori-Verteilung
-
-```{r echo = TRUE}
-samples %>%
-  filter(p_grid < .5) %>% 
-  summarise(sum = n() / 1e4)
-```
-
-
-]
-
-Einfach wie `r emojifont::emoji("cake")` essen.
-
-Die Gridmethode funktioniert bei großen Modellen nicht gut (im Gegensatz zur quadratischen Approximation `quap`). Daher werden wir ab jetzt mit den Stichproben arbeiten, weil das für `quap` auch funktioniert.
-
-
----
-
-
-## Fragen zu Bereichen von Parametern 2
-
-Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen 0.5 und 0.75?
-
-
-```{r echo = TRUE}
-samples %>% 
-  filter(p_grid > .5 & p_grid < .75) %>% 
-  summarise(sum     =       n() / 1e4,
-            percent = 100 * n() / 1e4)  # In Prozent
-```
-
-
-
----
-
-## Visualisierung
-
-.pull-left[
-
-```{r plot2, echo = TRUE, fig.show = "hide"}
-p1 <-
-  d %>% 
-  ggplot(aes(x = p_grid, y = post)) +
-  geom_line() +
-  geom_area(data = d %>% filter(p_grid < .5)) +
-  labs(x = "Anteil Wasser (p)",
-       y = "Dichte")
-
-p2 <-
-  d %>% 
-  ggplot(aes(x = p_grid, y = post)) +
-  geom_line() +
-  geom_area(data = d %>% 
-              filter(p_grid < .75 & p_grid > .5)) +
-  labs(x = "Anteil Wasser",
-       y = "Dichte")
-
-
-p1 
-p2
-```
-
-]
-
-.pull-right[
-```{r ref.label= "plot2", echo = FALSE}
-
-```
-
-]
-
----
-
-
-## Fragen zu Bereichen von Wahrscheinlichkeitsmassen
-
-
-- Nennt man auch *Konfidenz- oder Vertrauensintervall*. `r emojifont::emoji("collision")`: Traue niemals einem Golem, er lebt in der kleinen Welt.
-
-- Alternativ: *Kompabibilitätsintervall* oder *Passungsbereic*.
-
-
-
----
-
-
-
-
-
-
-
----
-name: standard-regression
-class: center, middle, inverse
-
-
-# Hinweise 
-
----
-
-## Zu diesem Skript
-
-Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-
-
-- Kapitel 3 aus @mcelreath_statistical_2020 
-
-- R-Code stammt aus @kurz_statistical_2021
-
-
-Dieses Skript wurde erstellt am `r Sys.time()`.
-
-
-
-## Literatur
-
-
-
-```{r, results='asis', echo=FALSE}
-PrintBibliography(bib)
-```
 
 
