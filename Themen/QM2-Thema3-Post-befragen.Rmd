@@ -1,8 +1,7 @@
 ---
-title: "Thema 3: Stichproben aus der Posteriori-Verteilung ziehen"
-subtitle: "QM2, ReThink, Kap. 3"
-author: Prof. Sauer
-date: WiSe 21
+title: Stichproben aus der Posteriori-Verteilung ziehen
+subtitle: QM2, Thema 3
+#date: WiSe 21
 lang: de-DE
 bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
 institute: AWM, HS Ansbach
@@ -10,7 +9,7 @@ output:
   xaringan::moon_reader:
 #    css: ["xaringan-themer.css"]
 
-    css: [default, default-fonts, hygge, "libs/my-theme.css"]
+    css: [default, default-fonts, hygge ]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -107,7 +106,7 @@ source("R-Code/img.R")
 
 
 
-```{r}
+```{r bib}
 BibOptions(check.entries = FALSE, bib.style = "authoryear", style = "markdown",
            dashed = TRUE)
 bib_file <- "bib.bib"
@@ -119,7 +118,6 @@ bib <- ReadBib(bib_file)
 
 ```{r ggplottheme}
 theme_set(theme_minimal())
-
 ```
 
 
@@ -993,12 +991,18 @@ samples %>%
   theme(panel.grid = element_blank())
 ```
 
-```{r fig.asp = .8, out.width="90%"}
+```{r fig.asp = .8, out.width="90%", eval = FALSE}
 ppv1_plot / ppv2_plot / (plot_spacer() + ppv3_plot + plot_spacer()) +
   plot_layout(heights = c(3,3,2.5))
 
 ```
 
+```{r}
+img("ppv.png")
+```
+
+
+.footnote[Quelle: `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`]
 ---
 
 ## Vorhersagen sind schwierig
@@ -1072,7 +1076,7 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 
 
 
-```{r}
+```{r eval = TRUE}
 img_file <- paste0(here::here(),"/img/post-pred-ppv-anim.gif")
 #file.exists(img_file)
 knitr::include_graphics(img_file)
@@ -1082,6 +1086,9 @@ knitr::include_graphics(img_file)
 - Links - *Posterior-Verteilung*: Wahrscheinlichkeiten der Parameterwerte
 - Mitte - *Stichprobenverteilung*: Wahrscheinlichkeiten der Beobachtungen gegeben eines bestimmten Parameterwertes
 - Rechts - *Posterior-Prädiktiv-Verteilung*: Wahrscheinlichkeiten der Beobachtungen unter Berücksichtigung der Unsicherheit der Posteriori-Verteilung
+
+
+.footnote[[Quelle: R. McElreath](https://twitter.com/rlmcelreath/status/1448978045247893505)]
 
 
 ---
@@ -1096,17 +1103,20 @@ class: center, middle, inverse
 
 ## Zu diesem Skript
 
-Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+- Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
 
 
-- Kapitel 3 aus `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`
+    - Kapitel 3 aus `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`
 
-- R-Code stammt aus `r RefManageR::Citet(bib,"kurz_statistical_2021")`.
+    - Der R-Code stammt aus `r RefManageR::Citet(bib,"kurz_statistical_2021")`.
 
 
-Dieses Skript wurde erstellt am `r Sys.time()`.
+- Dieses Skript wurde erstellt am `r Sys.time()` (WiSe 21).
 
-Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+- Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+
+- Autor ist Sebastian Sauer.
+
 
 ---
 
