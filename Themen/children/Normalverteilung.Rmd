@@ -1,6 +1,6 @@
 
 
-name: teil1
+name: teila
 class: center, middle, inverse
 
 
@@ -138,9 +138,10 @@ source(paste0(here::here(),"/R-Code/img14.R"))
 
 ## Nicht verwechseln
 
-```{r Normalverteilung-8, echo = FALSE, out.width="50%" }
-img("ch33910.f1.jpg")
+```{r Normalverteilung-8, echo = FALSE, out.width="50%", fig.align='center'}
+img("ch33910f1.jpg")
 ```
+
 `r RefManageR::Citep(bib, "freeman_visual_2006")`
 
 

@@ -10,6 +10,11 @@
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -20,7 +25,6 @@ class: center, middle, inverse, title-slide
 ### AWM, HS Ansbach
 
 ---
-
 
 
 
@@ -78,13 +82,20 @@ class: center, middle, inverse, title-slide
 
 
 
+
+
+
+
+
+
+
 ## Gliederung
 
 
 
 .center2[.Large[
-1. [Teil 1](#teil1): Verteilungen
-2. [Teil 2](#teil2)
+1. [Teil 1: Verteilungen](#teila): Verteilungen
+2. [Teil 2: Wie groß sind die !Kung San?](#kung)
 3. [Hinweise](#hinweise)
 4. [Literatur](#literatur)
 ]]
@@ -94,8 +105,7 @@ class: center, middle, inverse, title-slide
 
 
 
-
-name: teil1
+name: teila
 class: center, middle, inverse
 
 
@@ -113,8 +123,8 @@ Die Verteilung eines *diskreten* Merkmals `\(X\)` mit `\(k\)` Ausprägungen zeig
   
 
 ```r
-  data(mtcars)
-  mtcars %&gt;% 
+data(mtcars)
+mtcars %&gt;%
     count(cyl)
 ```
 
@@ -131,7 +141,7 @@ Die Verteilung eines *diskreten* Merkmals `\(X\)` mit `\(k\)` Ausprägungen zeig
   
 Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
     
-&lt;img src="unnamed-chunk-2-1.png" width="100%" /&gt;
+&lt;img src="Normalverteilung-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
   
 ]
 
@@ -154,7 +164,7 @@ Bei *stetigen* Merkmalen `\(X\)` geht man von unendlich vielen Ausprägungen aus
 
 .pull-left[
 
-&lt;img src="unnamed-chunk-3-1.png" width="100%" /&gt;
+&lt;img src="Normalverteilung-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 40%.
 
@@ -162,7 +172,7 @@ Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 40%.
 
 .pull-right[
 
-&lt;img src="unnamed-chunk-4-1.png" width="100%" /&gt;&lt;img src="unnamed-chunk-4-2.png" width="100%" /&gt;
+&lt;img src="Normalverteilung-4-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Normalverteilung-4-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 50% bzw. 33%.
 
 ]
@@ -177,7 +187,7 @@ Zieht man (zufällig) immer mehr Werte aus einer Verteilung (mit endlichem Mitte
 
 
 
-&lt;img src="unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Normalverteilung-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -188,7 +198,7 @@ Zieht man (zufällig) immer mehr Werte aus einer Verteilung (mit endlichem Mitte
 Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds (eng). Auf Kommando werfen alle jeweils eine Münze; bei Kopf geht man einen Schritt nach links, bei Zahl nach rechts. Das wird 16 Mal wiederholt. Wie wird die Verteilung der Positionen wohl aussehen?
 
 
-&lt;img src="unnamed-chunk-6-1.png" width="100%" /&gt;
+&lt;img src="Normalverteilung-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -198,7 +208,7 @@ Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds
 Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erzeugt eine Normalverteilung; egal aus welcher Verteilung die Zufallswerte kommen (Zentraler Grenzwertsatz).
 
 
-&lt;img src="unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Normalverteilung-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -206,7 +216,8 @@ Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erz
 
 ## Nicht verwechseln
 
-&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/ch33910.f1.jpg" width="50%" /&gt;
+&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/ch33910f1.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
 (Freeman, 2006)
 
 
@@ -215,7 +226,7 @@ Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erz
 ## Normalverteilung vs. randlastige Verteilungen
 
 
-&lt;img src="unnamed-chunk-9-1.png" width="100%" /&gt;
+&lt;img src="Normalverteilung-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 Bei randlastigen Verteilungen ("fat tails") kommen Extremereignisse viel häufiger vor als bei Normalverteilungen. Deshalb ist es wichtig sein, zu wissen, ob eine Normalverteilung oder eine randlastige Verteilung vorliegt. Viele statistische Methoden sind nicht zuverlässig bei (stark) randlastigen Methoden 
@@ -271,24 +282,17 @@ mit `\(e=2.71...\)`, der Eulerschen Zahl.
 
 
 ```r
-d &lt;-
-  tibble(
-    x = seq(-3, 3, 
-            length.out = 100),
-    y = exp(-x^2)
-  )
+d &lt;- tibble(x = seq(-3, 3, length.out = 100), y = exp(-x^2))
 
-d %&gt;% 
-  ggplot() +
-  aes(x = x, y = y) +
-  geom_line()
+d %&gt;%
+    ggplot() + aes(x = x, y = y) + geom_line()
 ```
 
 ]
 
 .pull-right[
 
-&lt;img src="unnamed-chunk-10-1.png" width="100%" /&gt;
+&lt;img src="Normalverteilung-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -312,6 +316,45 @@ d %&gt;%
 
 
 
+name: kung
+class: center, middle, inverse
+
+
+# Wie groß sind die !Kung San?
+
+---
+
+## !Kung San 
+
+
+.pull-left[
+
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+.tiny[[Quelle](https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg) Internet Archive Book Images, No restrictions, via Wikimedia Commons]
+
+]
+
+.pull-right[
+
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/KhoisanLanguagesModernDistribution.png/1024px-KhoisanLanguagesModernDistribution.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+.tiny[By Andrewwik.0 - Own work, CC BY-SA 4.0, [Quelle](https://commons.wikimedia.org/w/index.php?curid=79801340)]
+
+]
+
+
+---
+
+
+
+
+
+
 name: hinweise
 class: center, middle, inverse
 
@@ -328,7 +371,7 @@ class: center, middle, inverse
   - Der R-Code stammt aus Kurz (2021).
 
 
-- Dieses Skript wurde erstellt am 2021-10-18 22:48:23 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-19 14:46:50 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
@@ -342,27 +385,50 @@ name: literatur
 ## Literatur
 
 
-[1] M. Freeman. "A visual comparison of normal and paranormal
-distributions". In: _Journal of Epidemiology and Community Health_ 60.1
-(Jan. 2006), p. 6. ISSN: 0143-005X. &lt;URL:
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/&gt; (visited on
-09/09/2021).
+&lt;a
+name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
+M.](#cite-freeman_visual_2006) (2006). "A
+visual comparison of normal and paranormal
+distributions". In: _Journal of
+Epidemiology and Community Health_ 60.1,
+p. 6. ISSN: 0143-005X. URL:
+[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/)
+(visited on Sep. 09, 2021).
 
-[2] A. Gelman, J. Hill, and A. Vehtari. _Regression and other stories_.
-Analytical methods for social research. Cambridge: Cambridge University
-Press, 2021. 534 pp. ISBN: 978-1-107-67651-0 978-1-107-02398-7.
+&lt;a
+name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
+A., J. Hill, and A.
+Vehtari](#cite-gelman_regression_2021)
+(2021). _Regression and other stories_.
+Analytical methods for social research.
+Cambridge: Cambridge University Press. 534
+pp. ISBN: 978-1-107-67651-0
+978-1-107-02398-7.
 
-[3] A. S. Kurz. _Statistical rethinking with brms, ggplot2, and the
-tidyverse: Second edition_. 2021. &lt;URL:
-https://bookdown.org/content/4857/&gt; (visited on 09/08/2021).
+&lt;a
+name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz,
+A. S.](#cite-kurz_statistical_2021)
+(2021). _Statistical rethinking with brms,
+ggplot2, and the tidyverse: Second
+edition_. URL:
+[https://bookdown.org/content/4857/](https://bookdown.org/content/4857/)
+(visited on Sep. 08, 2021).
 
-[4] R. McElreath. _Statistical rethinking: a Bayesian course with
-examples in R and Stan_. 2nd ed. CRC texts in statistical science. Boca
-Raton: Taylor and Francis, CRC Press, 2020. ISBN: 978-0-367-13991-9.
+&lt;a
+name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020)
+(2020). _Statistical rethinking: a
+Bayesian course with examples in R and
+Stan_. 2nd ed. CRC texts in statistical
+science. Boca Raton: Taylor and Francis,
+CRC Press. ISBN: 978-0-367-13991-9.
 
-[5] N. N. Taleb. _The statistical consequences of fat tails, papers and
-commentaries_. Publisher: Monograph. 2019. &lt;URL:
-https://nassimtaleb.org/2020/01/final-version-fat-tails/&gt;.
+&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb,
+N. N.](#cite-taleb2019technical) (2019).
+_The statistical consequences of fat
+tails, papers and commentaries_.
+Publisher: Monograph. URL:
+[https://nassimtaleb.org/2020/01/final-version-fat-tails/](https://nassimtaleb.org/2020/01/final-version-fat-tails/).
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

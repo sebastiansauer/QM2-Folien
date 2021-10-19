@@ -1,15 +1,15 @@
 ---
-title: "Thema 3: Die Posterior-Verteilung befragen"
-subtitle: "QM2, ReThink, Kap. 3"
-author: Prof. Sauer
-date: WiSe 21
+title: "TEST"
+#subtitle: "QM2, ReThink, Kap. 3"
+#author: Prof. Sauer
+#date: WiSe 21
 lang: de-DE
 institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
 #    css: ["xaringan-themer.css"]
-
-    css: [default, default-fonts, hygge]
+    css: [default, default-fonts, hygge, "xaringan-themer.css"]
+#    css: [default, default-fonts, hygge, "custom.css"]
     lib_dir: libs
    
 ---
@@ -17,76 +17,19 @@ output:
 
 
 
-
-
-
-
-
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd"}
 ```
 
 
-  
 
 
-```{r global-knitr-options, include=FALSE, eval = TRUE}
-knitr::opts_chunk$set(
-  #fig.pos = 'H',
-  fig.asp = 0.618,
-  fig.aligh = "center",
-  fig.width = 5,
-  out.width = "70%",
-  fig.cap = "", 
-  fig.path = "",
-  #dpi = 300,
-  echo = FALSE,
-  message = FALSE,
-  warning = FALSE,
-  cache = FALSE,
-  fig.show = "hold")
-
-# knitr::opts_knit$set(
-#   #base.dir = "img",
-#   root.dir = rprojroot::find_rstudio_root_file()
-# )
-
-
+```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Kung.Rmd"}
 ```
 
 
 
 
 
-```{r load-libs, echo = FALSE}
-library(tidyverse)
-```
-
-<!-- ```{r source-funs} -->
-<!-- source("R-Code/img.R") -->
-<!-- ``` -->
-
-
-
-
-
-
-
-
-
-## Nicht verwechseln
-
-
-
-```{r Test-1}
-img_file <- "img/ch33910f1.jpg"
-file.exists(img_file)
-```
-
-```{r Test-2,  results="show"}
-
-knitr::include_graphics(img_file)
-```
 
 
 

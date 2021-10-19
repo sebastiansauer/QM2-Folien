@@ -28,20 +28,21 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
   fig.pos = 'H',
   fig.asp = 0.618,
-  fig.aligh = "center",
+  fig.align='center',
   fig.width = 5,
   out.width = "100%",
   fig.cap = "", 
   fig.path = "",
   dpi = 300,
+  #tidy = TRUE,
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
-  cache = TRUE,
+  cache = FALSE,
   fig.show = "hold")
 
 knitr::opts_knit$set(
-  #base.dir = "img",
+ #base.dir = paste0(here::here(),"/img"),
   root.dir = rprojroot::find_rstudio_root_file()
 )
 
@@ -52,8 +53,8 @@ options("knitr.graphics.auto_pdf" = FALSE)
 
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-#library(xaringanthemer)
-#style_mono_dark(base_color = "#cbf7ed")
+library(xaringanthemer)
+style_mono_dark(base_color = "#99a300")
 
 ```
 
@@ -63,12 +64,12 @@ options("knitr.graphics.auto_pdf" = FALSE)
 ```{r load-libs, echo = FALSE}
 library(tidyverse)
 library(knitr)
-library(kableExtra)
+#library(kableExtra)
 #library(nomnoml)
 #library(ggdag)
 library(patchwork)
 library(gt)
-library(emojifont)
+#library(emojifont)
 library(RefManageR)
 library(tidybayes)
 library(xaringanExtra)
@@ -103,3 +104,10 @@ theme_set(theme_minimal())
 use_xaringan_extra(c("tile_view", "tachyons"))
 #xaringanExtra::use_animate_all("slide_left")
 ```
+
+
+
+```{r xaringanExtra-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+

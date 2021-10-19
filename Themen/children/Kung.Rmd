@@ -1,0 +1,595 @@
+---
+
+name: kung
+class: center, middle, inverse
+
+
+# Wie groß sind die !Kung San?
+
+---
+
+## !Kung San 
+
+
+.pull-left[
+
+```{r, echo = FALSE, out.width="100%"} 
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg")
+```
+
+
+
+
+.tiny[
+[Quelle](https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg) Internet Archive Book Images, No restrictions, via Wikimedia Commons]
+
+]
+
+.pull-right[
+
+```{r, echo = FALSE, out.width="100%"} 
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/KhoisanLanguagesModernDistribution.png/1024px-KhoisanLanguagesModernDistribution.png")
+```
+
+
+.tiny[By Andrewwik.0 - Own work, CC BY-SA 4.0, [Quelle](https://commons.wikimedia.org/w/index.php?curid=79801340)]
+
+]
+
+
+---
+
+background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e6/Kalahari_PICT0036.JPG")
+background-position: center
+background-size: contain
+
+
+.footnote[Winfried Bruenken (Amrum), CC BY-SA 2.5 <https://creativecommons.org/licenses/by-sa/2.5>, via Wikimedia Commons]
+
+---
+
+## !Kung Data
+
+
+.pull-left[
+```{r echo = TRUE, results = "hide"}
+library(rethinking)
+data(Howell1)
+d <- Howell1
+```
+
+Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv) herunterladen.
+
+```{r echo = FALSE, eval = FALSE}
+library(rio)
+d <- import("https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv")
+```
+
+
+Wir interessieren uns für die Größe der erwachsenen !Kung, $N=352$:
+
+```{r}
+d2 <-
+  d %>% 
+  filter(age >= 18)
+```
+
+
+]
+
+.pull-right[
+
+
+
+```{r echo = TRUE}
+d %>% 
+  head(n=3) %>% 
+  gt()
+```
+
+]
+
+</br>
+</br>
+
+```{r}
+precis(d)
+```
+
+
+
+---
+
+
+## Wir gehen apriori von normalverteilter Größe aus
+
+
+.left-column[
+
+```{r, echo = FALSE} 
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/8/83/SVG_Human_Silhouette.svg")
+```
+
+
+.footnote[.tiny[Own alterations andFile:SVG_Human_With_All_Organs.svg by Madhero88, CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0>, via Wikimedia Commons]
+6]
+
+]
+
+.right-column[
+
+$$\mu \sim \mathcal{N}(178, 20)$$
+
+
+```{r}
+p1 <-
+  tibble(x = seq(from = 100, to = 250, by = .1)) %>% 
+  
+  ggplot(aes(x = x, y = dnorm(x, mean = 178, sd = 20))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = 100, to = 250, by = 75)) +
+  labs(title = "mu ~ dnorm(178, 20)",
+       y = "density")
+
+p2 <-
+  tibble(x = seq(from = -10, to = 60, by = .1)) %>%
+  
+  ggplot(aes(x = x, y = dunif(x, min = 0, max = 50))) +
+  geom_line() +
+  scale_x_continuous(breaks = c(0, 50)) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  ggtitle("sigma ~ dunif(0, 50)")
+
+
+p1
+```
+
+
+]
+
+
+---
+
+
+## Unser Gauss-Modell der !Kung
+
+
+.left-column[
+$h_i \sim \mathcal{N}(\mu, \sigma)$
+
+$\mu \sim \mathcal{N}(170, 20)$
+
+$\sigma \sim \mathcal{U}(0, 50)$
+
+$95\%KI( \mu): 178 \pm 40$
+]
+
+
+.right-column[
+
+```{r}
+p1 + p2
+
+
+
+
+```
+
+
+]
+
+
+---
+
+## Welche Beobachtungen sind auf Basis unseres Modells zu erwarten?
+
+
+
+
+
+.pull-left[
+
+
+```{r prior-pred, echo = TRUE}
+n <- 1e4
+
+sim <-
+  tibble(
+    sample_mu    = 
+      rnorm(n, 
+            mean = 170, 
+            sd  = 20),
+    sample_sigma = 
+      runif(n, 
+            min = 0, 
+            max = 50)) %>% 
+  mutate(
+    height = 
+      rnorm(n, 
+            mean = sample_mu, 
+            sd = sample_sigma))
+```
+]
+
+.pull-right[
+💭 Was denkt der Golem apriori von der Größe der Kung?
+
+🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells.
+
+
+```{r}
+p3 <- 
+  sim %>% 
+  ggplot(aes(x = height)) +
+  geom_density(fill = "grey33") +
+  scale_x_continuous(breaks = c(0, 73, 178, 283)) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  labs(title = "height ~ dnorm(mu, sigma)",
+       caption = "X-Achse zeigt MW±3SD",
+       x = "Größe") +
+  theme(panel.grid = element_blank()) 
+
+p3
+```
+
+]
+
+
+
+
+.footnote[.tiny[[Quellcode](https://bookdown.org/content/4857/geocentric-models.html#a-gaussian-model-of-height)]]
+
+---
+
+## Priori-Werte prüfen
+
+- Die Priori-Prädiktiv-Verteilung simuliert Beobachtungen (nur) auf Basis der Priori-Verteilung.
+- Priori-Prädiktiv-Verteilungen sind praktisch, um zu prüfen, ob die Priori-Werte vernünftig sind
+
+.pull-left[
+
+Die Priori-Prädiktiv-Verteilung zeigt, dass unsere Priori-Werte ziemlich vage sind, also einen zu breiten Bereich an Größenwerten zulassen:
+
+$h_i \sim \mathcal{N}(\mu, \sigma)$
+$\mu \sim \mathcal{N}(178, 20)$
+$\sigma \sim \mathcal{U}(0, 50)$
+
+```{r}
+p3
+```
+
+
+
+]
+
+.pull-right[
+
+
+
+Anteil negativer Größe:
+
+```{r echo = TRUE}
+sim %>% 
+  count(height < 0) %>% 
+  mutate(prop = n()/n)
+```
+
+]
+
+
+---
+
+
+## Super vage Priori-Verteilung, $\sigma=100$
+
+
+
+.pull-left[
+
+
+
+```{r}
+# simulate
+set.seed(4)
+
+sim <-
+  tibble(sample_mu    = rnorm(n, mean = 170, sd = 100),
+         sample_sigma = runif(n, min = 0, max = 50)) %>% 
+  mutate(height = rnorm(n, mean = sample_mu, sd = sample_sigma))
+
+# compute the values we'll use to break on our x axis
+breaks <-
+  c(mean(sim$height) - 3 * sd(sim$height), 0, mean(sim$height), mean(sim$height) + 3 * sd(sim$height)) %>% 
+  round(digits = 0)
+
+# this is just for aesthetics
+text <-
+  tibble(height = 272 - 25,
+         y      = .0013,
+         label  = "größter Mann",
+         angle  = 90)
+
+# plot
+p4 <-
+  sim %>% 
+  ggplot(aes(x = height)) +
+  geom_density(fill = "black", size = 0) +
+  geom_vline(xintercept = 0, color = "grey92") +
+  geom_vline(xintercept = 272, color = "grey92", linetype = 3) +
+  geom_text(data = text,
+            aes(y = y, label = label, angle = angle),
+            color = "grey92") +
+  scale_x_continuous(breaks = breaks) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  ggtitle("height ~ dnorm(mu, sigma)\nmu ~ dnorm(178, 100)") +
+  theme(panel.grid = element_blank())
+
+p4
+```
+
+]
+
+
+
+.pull-right[
+
+
+Anteil negativer Größe:
+
+```{r echo = TRUE}
+sim %>% 
+  count(height < 0) %>% 
+  mutate(prop = n()/n)
+```
+
+]
+
+
+🤔 Das Modell geht apriori von ein paar Prozent Menschen mit *negativer* Größe aus. Ein Haufen Riesen 👹 werden auch erwartet. 
+
+❗Vage Priori-Werte machen oft keinen Sinn.
+---
+
+## Posteriori-Verteilung des Größen-Modells
+
+.pull-left[
+
+```{r}
+n <- 200
+
+d_grid <-
+  # we'll accomplish with `tidyr::crossing()` what McElreath did with base R `expand.grid()`
+  crossing(mu    = seq(from = 140, to = 160, length.out = n),
+           sigma = seq(from = 4, to = 9, length.out = n))
+
+grid_function <- function(mu, sigma) {
+  
+  dnorm(d2$height, mean = mu, sd = sigma, log = T) %>% 
+    sum()
+  
+}
+
+d_grid <-
+  d_grid %>% 
+  mutate(log_likelihood = map2(mu, sigma, grid_function)) %>%
+  unnest(log_likelihood) %>% 
+  mutate(prior_mu    = dnorm(mu, mean = 178, sd = 20, log = T),
+         prior_sigma = dunif(sigma, min = 0, max = 50, log = T)) %>% 
+  mutate(product = log_likelihood + prior_mu + prior_sigma) %>% 
+  mutate(probability = exp(product - max(product)))
+```
+
+
+
+```{r eval = FALSE}
+d_grid %>% 
+  ggplot(aes(x = mu, y = sigma, z = probability)) + 
+  geom_contour() +
+  labs(x = expression(mu),
+       y = expression(sigma)) +
+  coord_cartesian(xlim = range(d_grid$mu),
+                  ylim = range(d_grid$sigma)) +
+  theme(panel.grid = element_blank())
+```
+
+
+```{r eval = TRUE, fig.asp = 1}
+d_grid %>% 
+  ggplot(aes(x = mu, y = sigma, fill = probability)) + 
+  geom_raster(interpolate = T) +
+  scale_fill_viridis_c() +
+  labs(x = expression(mu),
+       y = expression(sigma)) +
+  theme(panel.grid = element_blank()) +
+  scale_x_continuous(limits = c(150, 160)) +
+  scale_y_continuous(limits = c(7, 9))
+```
+
+]
+
+.pull-right[
+
+- Wir bekommen eine Wahrscheinlichkeitsverteilung für $\mu$ und eine für $\sigma$ (bzw. eine zweidimensionale für die $\mu-\sigma$-Paare).
+
+- Trotz des vagen Priors sind die Posteriori-Werte für $\mu$ und $\sigma$ klein: Die Daten haben die Priori-Werte überstimmt.
+
+- Ziehen wir Stichproben aus der Posteriori-Verteilung, so können wir interessante Fragen stellen. 
+
+
+]
+
+
+---
+
+## Hallo, Posteriori-Verteilung
+
+... wir hätten da mal ein paar Fragen an Sie. 🕵
+
+
+.pull-left[
+
+- Mit welcher Wahrscheinlichkeit ist die mittlere !Kung-Person größer als 1,55m?
+- Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
+- In welchem 90%-PI liegt $\mu$ vermutlich?
+- Mit welcher Unsicherheit ist die Schätzung der mittleren Körpergröße behaftet ($\sigma$)?
+- Welcher Wert der mittleren Körpergröße hat die höchste Wahrscheinlichkeit?
+
+]
+
+
+.pull-left[
+
+
+```{r}
+set.seed(4)
+
+d_grid_samples <- 
+  d_grid %>% 
+  sample_n(size = 1e4, replace = T, weight = probability)
+```
+
+
+```{r fig.asp = 1}
+d_grid_samples %>% 
+  pivot_longer(mu:sigma) %>% 
+  ggplot(aes(x = value)) + 
+  geom_density(fill = "grey33") +
+  scale_y_continuous(NULL, breaks = NULL) +
+  xlab(NULL) +
+  theme(panel.grid = element_blank()) +
+  facet_wrap(~ name, scales = "free", 
+             labeller = label_parsed,
+             nrow = 2)
+```
+
+
+]
+
+---
+
+## Posteriori-Stichproben mit `quap()` berechnen
+
+.pull-left[
+Modell mit `quap` berechnen:
+
+```{r echo = TRUE}
+modell_definition <-
+  alist(  # definiert Modell
+    height ~ dnorm(mu, sigma),
+    mu ~ dnorm(170, 20),
+    sigma ~ dunif(0, 50)
+  )  
+
+m4_1 <- quap( # berechnet Post.-Vert.
+  modell_definition,
+  data = d2
+)
+```
+
+
+
+]
+
+Modelldefinition: 
+
+.pull-right[
+
+$h_i \sim \mathcal{N}(\mu, \sigma)$
+
+$\mu \sim \mathcal{N}(170, 20)$
+
+$\sigma \sim \mathcal{U}(0, 50)$
+
+]
+
+Posteriori-Verteilung:
+
+```{r echo = TRUE}
+precis(m4_1)
+```
+
+
+---
+
+## Stichproben aus der Posteriori-Verteilung ziehen
+
+
+
+
+```{r echo = TRUE}
+post <- extract.samples(m4_1, n = 1e4)
+precis(post)
+```
+
+.pull-left[
+Ziehen wir Stichproben:
+
+```{r}
+head(post) %>% 
+  gt()
+```
+
+
+]
+
+.pull-right[
+
+Mit welcher Wahrscheinlichkeit ist $\mu>155$? 
+```{r echo = TRUE}
+post %>% 
+  count(mu > 155) %>% 
+  mutate(prop = n/sum(n))
+```
+
+]
+
+
+---
+
+
+## Antworten von der Posteriori-Verteilung
+
+.pull-left[
+Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
+
+```{r echo = TRUE}
+post %>% 
+  summarise(
+    q95 = 
+      quantile(mu, .95))
+```
+
+]
+
+.pull-right[
+In welchem 90%-PI liegt $\mu$ vermutlich?
+
+```{r echo = TRUE}
+post %>% 
+  summarise(
+    pi_90 =
+      quantile(mu, c(0.05,
+                     0.95)))
+```
+
+]
+
+
+---
+
+
+## dskjlf
+
+
+<button class="bw0 br2 bg-dwyl-teal pa2 white fw1 tc ttu tracked">do what you love</button>
+
+<button type="button" class="btn btn-dwyl">do what you love</button>
+
+
+
+<button type="button" class="btn btn-primary">Primary</button>
+
+
+
+
+---
