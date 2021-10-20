@@ -30,6 +30,9 @@ csquotes: TRUE
 ```
 
 
+```{r}
+rethink_chap <- "4.1 - 4.3"
+```
 
 
 

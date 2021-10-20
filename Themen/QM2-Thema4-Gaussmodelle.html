@@ -89,12 +89,13 @@ class: center, middle, inverse, title-slide
 
 
 
+
 ## Gliederung
 
 
 
 .center2[.Large[
-1. [Teil 1: Verteilungen](#teila): Verteilungen
+1. [Teil 1: Verteilungen](#teila)
 2. [Teil 2: Wie groß sind die !Kung San?](#kung)
 3. [Hinweise](#hinweise)
 4. [Literatur](#literatur)
@@ -123,8 +124,8 @@ Die Verteilung eines *diskreten* Merkmals `\(X\)` mit `\(k\)` Ausprägungen zeig
   
 
 ```r
-data(mtcars)
-mtcars %&gt;%
+  data(mtcars)
+  mtcars %&gt;% 
     count(cyl)
 ```
 
@@ -152,7 +153,7 @@ Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
 
 
 Eine *diskrete* Wahrscheinlichkeitsverteilung des Merkmals `\(X\)` ordnet jeder der `\(k\)` Ausprägungen `\(X=x\)` eine Wahrscheinlichkeit `\(p\)` zu. So hat die Variable *Geschlecht eines Babies* die beiden Ausprägungen *Mädchen* und *Junge* mit den Wahrscheinlichkeiten `\(p_M = 51.2\%\)` bzw. `\(p_J = 48.8\%\)` 
-(Gelman, Hill, and Vehtari, 2021).
+&lt;a name=cite-gelman_regression_2021&gt;&lt;/a&gt;([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021)).
 
 Bei *stetigen* Merkmalen `\(X\)` geht man von unendlich vielen Ausprägungen aus; die Wahrscheinlichkeit einer bestimmten Ausprägung ist (praktisch) Null: `\(p(X=x_j)=0, \quad j=1,...,k\)`. Daher gibt man stattdessen die *Dichte* der Wahrscheinlichkeit an: Das ist die Wahrscheinlichkeit(smasse) pro eine Einheit von `\(X\)`.
 
@@ -183,7 +184,7 @@ Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 50% 
 
 
 Zieht man (zufällig) immer mehr Werte aus einer Verteilung (mit endlichem Mittelwert), nähert sich der Mittelwert der Stichprobe immer mehr mit dem Mittelwert (oft als Erwartungswert bezeichnet) der Verteilung an 
-(Taleb, 2019)
+&lt;a name=cite-taleb2019technical&gt;&lt;/a&gt;([Taleb, 2019](https://nassimtaleb.org/2020/01/final-version-fat-tails/))
 
 
 
@@ -216,9 +217,9 @@ Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erz
 
 ## Nicht verwechseln
 
-&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/ch33910f1.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/ch33910f1.jpg" width="30%" style="display: block; margin: auto;" /&gt;
 
-(Freeman, 2006)
+&lt;a name=cite-freeman_visual_2006&gt;&lt;/a&gt;([Freeman, 2006](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/))
 
 
 ---
@@ -230,7 +231,7 @@ Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erz
 
 
 Bei randlastigen Verteilungen ("fat tails") kommen Extremereignisse viel häufiger vor als bei Normalverteilungen. Deshalb ist es wichtig sein, zu wissen, ob eine Normalverteilung oder eine randlastige Verteilung vorliegt. Viele statistische Methoden sind nicht zuverlässig bei (stark) randlastigen Methoden 
-(Taleb, 2019)
+([Taleb, 2019](https://nassimtaleb.org/2020/01/final-version-fat-tails/))
 
 
 ---
@@ -273,7 +274,7 @@ Bei randlastigen Verteilungen ("fat tails") kommen Extremereignisse viel häufig
 
 Vereinfacht ausgedrückt lässt die Normalverteilung `\(\mathcal{N}\)` durch Exponenzieren einer Quadratfunktion beschreiben:
 
-`$$\mathcal{N} = e^{-y^2}$$`
+`$$\mathcal{N} \propto e^{-x^2}$$`
 
 mit `\(e=2.71...\)`, der Eulerschen Zahl.
 
@@ -282,10 +283,17 @@ mit `\(e=2.71...\)`, der Eulerschen Zahl.
 
 
 ```r
-d &lt;- tibble(x = seq(-3, 3, length.out = 100), y = exp(-x^2))
+d &lt;-
+  tibble(
+    x = seq(-3, 3, 
+            length.out = 100),
+    y = exp(-x^2)
+  )
 
-d %&gt;%
-    ggplot() + aes(x = x, y = y) + geom_line()
+d %&gt;% 
+  ggplot() +
+  aes(x = x, y = y) +
+  geom_line()
 ```
 
 ]
@@ -296,20 +304,810 @@ d %&gt;%
 
 ]
 
+Die Normalverteilung wird auch *[Gauss](https://de.wikipedia.org/wiki/Carl_Friedrich_Gau%C3%9F)-Verteilung* oder *Glockenkurve* genannt.
+
 ---
 
 
-## Zweidimensionale Normalverteilung
+## Zweidimensionale Normalverteilung, unkorreliert
 
 
 &lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/mult-norm.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 
+.tiny[[Quelle](https://tex.stackexchange.com/questions/31708/draw-a-bivariate-normal-distribution-in-tikz)]
 
 .footnote[[Vgl. auch dieses Diagramm](http://ballistipedia.com/index.php?title=File:Bivariate.png)]
 
 ---
 
+
+## 2D-Normalverteilung mit R, unkorreliert
+
+`\(r(X,Y) = 0\)`
+
+
+
+.pull-left[
+
+```r
+d1 &lt;- 
+  tibble( 
+    x=rnorm(1e4), 
+    y=rnorm(1e4)
+  )
+
+ggplot(d1) +
+  aes(x, y) +
+  geom_hex() 
+
+ggplot(d1) +
+  aes(x, y) +
+  geom_density2d()
+```
+
+.tiny[[ggplot-Referenz](https://ggplot2.tidyverse.org/reference/geom_density_2d.html), [Quellcode](https://www.r-graph-gallery.com/2d-density-plot-with-ggplot2.html)]
+
+Mit `scale_fill_continuous(type = "viridis")`kann man die Farbpalette der Füllfarbe ändern.
+]
+
+
+.pull-right[
+
+&lt;img src="unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-2-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+## 2D-Normalverteilung mit R, korreliert, r=0.7
+
+
+
+
+.pull-left[
+
+Die ersten paar Zeilen der Daten:
+
+
+
+<div id="gdcpazlbou" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#gdcpazlbou .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#gdcpazlbou .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#gdcpazlbou .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#gdcpazlbou .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#gdcpazlbou .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#gdcpazlbou .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#gdcpazlbou .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#gdcpazlbou .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#gdcpazlbou .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#gdcpazlbou .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#gdcpazlbou .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#gdcpazlbou .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#gdcpazlbou .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#gdcpazlbou .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gdcpazlbou .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gdcpazlbou .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#gdcpazlbou .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#gdcpazlbou .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gdcpazlbou .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#gdcpazlbou .gt_left {
+  text-align: left;
+}
+
+#gdcpazlbou .gt_center {
+  text-align: center;
+}
+
+#gdcpazlbou .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#gdcpazlbou .gt_font_normal {
+  font-weight: normal;
+}
+
+#gdcpazlbou .gt_font_bold {
+  font-weight: bold;
+}
+
+#gdcpazlbou .gt_font_italic {
+  font-style: italic;
+}
+
+#gdcpazlbou .gt_super {
+  font-size: 65%;
+}
+
+#gdcpazlbou .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">X1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">X2</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">&minus;0.10</td>
+<td class="gt_row gt_right">&minus;0.26</td></tr>
+    <tr><td class="gt_row gt_right">&minus;0.19</td>
+<td class="gt_row gt_right">0.81</td></tr>
+    <tr><td class="gt_row gt_right">&minus;1.45</td>
+<td class="gt_row gt_right">&minus;1.33</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+Berechnen wir die Korrelation `r`:
+
+
+```r
+d2 %&gt;% 
+  summarise(
+    r = cor(X1,X2),
+    n = n()
+  )
+```
+
+<div id="iphcytzkws" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#iphcytzkws .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#iphcytzkws .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#iphcytzkws .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#iphcytzkws .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#iphcytzkws .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#iphcytzkws .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#iphcytzkws .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#iphcytzkws .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#iphcytzkws .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#iphcytzkws .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#iphcytzkws .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#iphcytzkws .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#iphcytzkws .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#iphcytzkws .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iphcytzkws .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iphcytzkws .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#iphcytzkws .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#iphcytzkws .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#iphcytzkws .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#iphcytzkws .gt_left {
+  text-align: left;
+}
+
+#iphcytzkws .gt_center {
+  text-align: center;
+}
+
+#iphcytzkws .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#iphcytzkws .gt_font_normal {
+  font-weight: normal;
+}
+
+#iphcytzkws .gt_font_bold {
+  font-weight: bold;
+}
+
+#iphcytzkws .gt_font_italic {
+  font-style: italic;
+}
+
+#iphcytzkws .gt_super {
+  font-size: 65%;
+}
+
+#iphcytzkws .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">r</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">n</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">0.70</td>
+<td class="gt_row gt_right">10,000.00</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+]
+
+.pull-right[
+
+&lt;img src="unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-7-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
 
 
 
@@ -329,12 +1127,13 @@ class: center, middle, inverse
 
 .pull-left[
 
-&lt;img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
 
-.tiny[[Quelle](https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg) Internet Archive Book Images, No restrictions, via Wikimedia Commons]
+.tiny[
+[Quelle](https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg) Internet Archive Book Images, No restrictions, via Wikimedia Commons]
 
 ]
 
@@ -350,6 +1149,1276 @@ class: center, middle, inverse
 
 ---
 
+background-image: url("https://upload.wikimedia.org/wikipedia/commons/e/e6/Kalahari_PICT0036.JPG")
+background-position: center
+background-size: contain
+
+
+.footnote[Winfried Bruenken (Amrum), CC BY-SA 2.5 &lt;https://creativecommons.org/licenses/by-sa/2.5&gt;, via Wikimedia Commons]
+
+---
+
+## !Kung Data
+
+
+.pull-left[
+
+```r
+library(rethinking)
+data(Howell1)
+d &lt;- Howell1
+```
+
+Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv) herunterladen.
+
+
+
+
+Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=352\)`:
+
+
+```r
+d2 &lt;-
+  d %&gt;% 
+  filter(age &gt;= 18)
+```
+
+
+]
+
+.pull-right[
+
+
+
+
+```r
+d %&gt;% 
+  head(n=3) %&gt;% 
+  gt()
+```
+
+<div id="wxmfgaonqc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#wxmfgaonqc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wxmfgaonqc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wxmfgaonqc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wxmfgaonqc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wxmfgaonqc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wxmfgaonqc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wxmfgaonqc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wxmfgaonqc .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wxmfgaonqc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wxmfgaonqc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wxmfgaonqc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wxmfgaonqc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wxmfgaonqc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#wxmfgaonqc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wxmfgaonqc .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wxmfgaonqc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wxmfgaonqc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wxmfgaonqc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wxmfgaonqc .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wxmfgaonqc .gt_left {
+  text-align: left;
+}
+
+#wxmfgaonqc .gt_center {
+  text-align: center;
+}
+
+#wxmfgaonqc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wxmfgaonqc .gt_font_normal {
+  font-weight: normal;
+}
+
+#wxmfgaonqc .gt_font_bold {
+  font-weight: bold;
+}
+
+#wxmfgaonqc .gt_font_italic {
+  font-style: italic;
+}
+
+#wxmfgaonqc .gt_super {
+  font-size: 65%;
+}
+
+#wxmfgaonqc .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">height</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weight</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">age</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">male</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">151.765</td>
+<td class="gt_row gt_right">47.82561</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_right">1</td></tr>
+    <tr><td class="gt_row gt_right">139.700</td>
+<td class="gt_row gt_right">36.48581</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">136.525</td>
+<td class="gt_row gt_right">31.86484</td>
+<td class="gt_row gt_right">65</td>
+<td class="gt_row gt_right">0</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+]
+
+&lt;/br&gt;
+
+
+```
+##               mean         sd      5.5%     94.5%     histogram
+## height 138.2635963 27.6024476 81.108550 165.73500 ▁▁▁▁▁▁▁▂▁▇▇▅▁
+## weight  35.6106176 14.7191782  9.360721  54.50289 ▁▂▃▂▂▂▂▅▇▇▃▂▁
+## age     29.3443934 20.7468882  1.000000  66.13500     ▇▅▅▃▅▂▂▁▁
+## male     0.4724265  0.4996986  0.000000   1.00000    ▇▁▁▁▁▁▁▁▁▇
+```
+
+
+
+---
+
+
+## Wir gehen apriori von normalverteilter Größe aus
+
+
+.left-column[
+
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/8/83/SVG_Human_Silhouette.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+.footnote[.tiny[Own alterations andFile:SVG_Human_With_All_Organs.svg by Madhero88, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons]
+]
+
+]
+
+.right-column[
+
+`$$\mu \sim \mathcal{N}(170, 20)$$`
+
+
+&lt;img src="unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+---
+
+
+## Unser Gauss-Modell der !Kung
+
+Wir nehmen an, dass `\(\mu\)` und `\(h_i\)` normalverteilt, `\(\sigma\)` gleichverteilt sind:
+
+.left-column[
+`\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
+
+`\(\mu \sim \mathcal{N}(178, 20)\)`
+
+`\(\sigma \sim \mathcal{U}(0, 50)\)`
+
+&lt;/br&gt;
+&lt;/br&gt;
+
+`\(95\%KI( \mu):\)`
+
+`\(178 \pm 40\)`
+]
+
+
+.right-column[
+
+&lt;img src="unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+---
+
+## Welche Beobachtungen sind auf Basis unseres Modells zu erwarten?
+
+
+
+
+
+.pull-left[
+
+
+
+```r
+n &lt;- 1e4
+
+sim &lt;-
+  tibble(
+    sample_mu    = 
+      rnorm(n, 
+            mean = 170, 
+            sd  = 20),
+    sample_sigma = 
+      runif(n, 
+            min = 0, 
+            max = 50)) %&gt;% 
+  mutate(
+    height = 
+      rnorm(n, 
+            mean = sample_mu, 
+            sd = sample_sigma))
+```
+]
+
+.pull-right[
+💭 Was denkt der Golem apriori von der Größe der !Kung?
+
+🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. voilà:
+
+
+&lt;img src="unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+
+.footnote[.tiny[[Quellcode](https://bookdown.org/content/4857/geocentric-models.html#a-gaussian-model-of-height)]]
+
+---
+
+## Priori-Werte prüfen mit der Die Priori-Prädiktiv-Verteilung
+
+- Die Priori-Prädiktiv-Verteilung simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
+`\(h_i \sim \mathcal{N}(\mu, \sigma),\)`
+`\(\mu \sim \mathcal{N}(178, 20),\)`
+`\(\sigma \sim \mathcal{U}(0, 50)\)`
+- Priori-Prädiktiv-Verteilungen sind praktisch, um zu prüfen, ob die Priori-Werte vernünftig sind
+
+.pull-left[
+
+Die Priori-Prädiktiv-Verteilung zeigt, dass unsere Priori-Werte ziemlich vage sind, also einen zu breiten Bereich an Größenwerten zulassen:
+
+&lt;img src="unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+]
+
+.pull-right[
+
+
+
+Anteil `\(h_i &lt; 100\)`:
+
+
+```r
+sim %&gt;% 
+  count(height &lt; 100) %&gt;% 
+  mutate(prop = n()/n)
+```
+
+```
+## # A tibble: 2 × 3
+##   `height &lt; 100`     n     prop
+##   &lt;lgl&gt;          &lt;int&gt;    &lt;dbl&gt;
+## 1 FALSE           9731 0.000206
+## 2 TRUE             269 0.00743
+```
+
+
+🤔 Sehr kleine Buschleute?
+]
+
+
+---
+
+
+## Extrem vage Priori-Verteilung, `\(\sigma=100\)`
+
+
+
+.pull-left[
+
+
+
+&lt;img src="unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+.pull-right[
+
+
+Anteil negativer Größe:
+
+
+```r
+sim %&gt;% 
+  count(height &lt; 0) %&gt;% 
+  mutate(prop = n()/n)
+```
+
+```
+## # A tibble: 2 × 3
+##   `height &lt; 0`     n     prop
+##   &lt;lgl&gt;        &lt;int&gt;    &lt;dbl&gt;
+## 1 FALSE         9571 0.000209
+## 2 TRUE           429 0.00466
+```
+
+]
+
+
+🤔 Das Modell geht apriori von ein paar Prozent Menschen mit *negativer* Größe aus. Ein Haufen Riesen 👹 werden auch erwartet. 
+
+🤯   Vage (flache, informationsarme, "neutrale", "objektive") Priori-Werte machen oft keinen Sinn.
+
+
+---
+
+## Zufällige Motivationsseite
+
+
+&lt;img src="/Users/sebastiansaueruser/github-repos/psych252slides/figures/gifs/pretty_good.gif" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+## Posteriori-Verteilung des Größen-Modells
+
+.pull-left[
+
+
+
+
+
+
+
+
+&lt;img src="unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+- Wir bekommen eine Wahrscheinlichkeitsverteilung für `\(\mu\)` und eine für `\(\sigma\)` (bzw. eine zweidimensionale Verteilung, für die `\(\mu,\sigma\)`-Paare).
+
+- Trotz des vagen Priors sind die Posteriori-Werte für `\(\mu\)` und `\(\sigma\)` klein: Die große Stichprobe hat die Priori-Werte überstimmt.
+
+- Ziehen wir Stichproben aus der Posteriori-Verteilung, so können wir interessante Fragen stellen. 
+
+
+]
+
+
+---
+
+## Hallo, Posteriori-Verteilung
+
+... wir hätten da mal ein paar Fragen an Sie. 🕵
+
+
+.pull-left[
+
+- Mit welcher Wahrscheinlichkeit ist die mittlere !Kung-Person größer als 1,55m?
+- Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
+- In welchem 90%-PI liegt `\(\mu\)` vermutlich?
+- Mit welcher Unsicherheit ist die Schätzung der mittleren Körpergröße behaftet ($\sigma$)?
+- Welcher Wert der mittleren Körpergröße hat die höchste Wahrscheinlichkeit?
+
+]
+
+
+.pull-left[
+
+
+
+
+
+&lt;img src="unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+## Posteriori-Stichproben mit `quap()` berechnen
+
+.pull-left[
+Modell 4.1 (`m41`) mit `quap` berechnen:
+
+
+```r
+modell_definition &lt;-
+  alist(  # definiert Modell
+    height ~ dnorm(mu, sigma),
+    mu ~ dnorm(170, 20),
+    sigma ~ dunif(0, 50)
+  )  
+
+m41 &lt;- quap( # berechnet Post.-Vert.
+  modell_definition,
+  data = d2
+)
+```
+
+
+
+]
+
+Modelldefinition: 
+
+.pull-right[
+
+`\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
+
+`\(\mu \sim \mathcal{N}(170, 20)\)`
+
+`\(\sigma \sim \mathcal{U}(0, 50)\)`
+
+]
+
+Posteriori-Verteilung für Modell 4.1 `m41`:
+
+
+```r
+precis(m41)  # precis, engl. "Kurzfassung"
+```
+
+```
+##            mean        sd       5.5%     94.5%
+## mu    154.60376 0.4119941 153.945310 155.26220
+## sigma   7.73133 0.2913856   7.265639   8.19702
+```
+
+
+---
+
+## Stichproben aus der Posteriori-Verteilung ziehen
+
+
+
+
+
+```r
+post_m41 &lt;- extract.samples(m41, n = 1e4)
+precis(post_m41)
+```
+
+```
+##             mean        sd       5.5%      94.5%     histogram
+## mu    154.607988 0.4101483 153.947051 155.259864      ▁▁▁▅▇▂▁▁
+## sigma   7.732906 0.2919312   7.269026   8.201596 ▁▁▁▁▂▅▇▇▃▁▁▁▁
+```
+
+.pull-left[
+Hier die ersten paar Zeilen von `post_m41`:
+
+<div id="xojlmcvwbd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#xojlmcvwbd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xojlmcvwbd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xojlmcvwbd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xojlmcvwbd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xojlmcvwbd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xojlmcvwbd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xojlmcvwbd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xojlmcvwbd .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xojlmcvwbd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xojlmcvwbd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xojlmcvwbd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xojlmcvwbd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xojlmcvwbd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#xojlmcvwbd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xojlmcvwbd .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xojlmcvwbd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xojlmcvwbd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#xojlmcvwbd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xojlmcvwbd .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#xojlmcvwbd .gt_left {
+  text-align: left;
+}
+
+#xojlmcvwbd .gt_center {
+  text-align: center;
+}
+
+#xojlmcvwbd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xojlmcvwbd .gt_font_normal {
+  font-weight: normal;
+}
+
+#xojlmcvwbd .gt_font_bold {
+  font-weight: bold;
+}
+
+#xojlmcvwbd .gt_font_italic {
+  font-style: italic;
+}
+
+#xojlmcvwbd .gt_super {
+  font-size: 65%;
+}
+
+#xojlmcvwbd .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mu</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">sigma</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">155.0354</td>
+<td class="gt_row gt_right">7.660312</td></tr>
+    <tr><td class="gt_row gt_right">154.4232</td>
+<td class="gt_row gt_right">7.532289</td></tr>
+    <tr><td class="gt_row gt_right">154.9843</td>
+<td class="gt_row gt_right">8.263350</td></tr>
+    <tr><td class="gt_row gt_right">154.1805</td>
+<td class="gt_row gt_right">7.989856</td></tr>
+    <tr><td class="gt_row gt_right">154.4940</td>
+<td class="gt_row gt_right">7.482492</td></tr>
+    <tr><td class="gt_row gt_right">154.5183</td>
+<td class="gt_row gt_right">8.020130</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+]
+
+.pull-right[
+
+Mit welcher Wahrscheinlichkeit ist `\(\mu&gt;155\)`? 
+
+```r
+post_m41 %&gt;% 
+  count(mu &gt; 155) %&gt;% 
+  mutate(prop = n/sum(n))
+```
+
+```
+##   mu &gt; 155    n   prop
+## 1    FALSE 8304 0.8304
+## 2     TRUE 1696 0.1696
+```
+
+]
+
+
+---
+
+
+## Antworten von der Posteriori-Verteilung
+
+.pull-left[
+Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
+
+
+```r
+post_m41 %&gt;% 
+  summarise(
+    q95 = 
+      quantile(mu, .95))
+```
+
+```
+##        q95
+## 1 155.2793
+```
+
+]
+
+.pull-right[
+In welchem 90%-PI liegt `\(\mu\)` vermutlich?
+
+
+```r
+post_m41 %&gt;% 
+  summarise(
+    pi_90 =
+      quantile(mu, c(0.05,
+                     0.95)))
+```
+
+```
+##      pi_90
+## 1 153.9266
+## 2 155.2793
+```
+
+]
+
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+
+🏋️ Ähnliche Fragen bleiben als Übung für die Leseris 🤓.
+
+---
+
+
+## Priori-Werte mit mehr Information, `m42`
+
+
+.pull-left[
+- Die Priori-Verteilung von `\(\mu\)` in `m41` ist sehr vage (fast flach, indifferent, informationsarm, fast fleichverteilt, fast "objektiv").
+- Aufgrund der großen Stichprobe ist der Schätzbereich für `\(\mu\)` trotzdem schmal. Die vage Priori-Verteilung kommt daher nicht zum tragen.
+- Bei kleineren Stichproben oder komplexeren Modellen kann die Priori-Verteilung deutlich mehr Einfluss haben.
+]
+
+.pull-right[
+Untersuchen wir den Effekt von Prior-Werten für `\(\mu\)` mit mehr Information:
+
+
+```r
+m42 &lt;-
+  quap(
+    alist(
+      height ~ dnorm(mu, sigma),
+      mu ~ dnorm(170, 0.1),
+      sigma ~ dunif(0, 50)
+    ),
+    data = d2
+  )
+```
+
+]
+
+
+```
+##            mean        sd      5.5%     94.5%
+## mu    169.81621 0.1003582 169.65582 169.97661
+## sigma  17.07505 0.6500034  16.03622  18.11388
+```
+
+Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
+
+---
+
+
+
+
+
+
+## Fazit
+
+.pull-left[
+- Wir haben die Posteriori-Verteilung für ein Gauss-Modell  berechnet.
+- Dabei hatten wir ein einfaches Modell mit metrischer Zielvariablen, ohne Prädiktoren, betrachtet.
+- Die Zielvariablen, Körpergröße (`height`) haben wir als normalverteilt mit den Parametern `\(\mu\)` und `\(\sigma\)` angenommen.
+- Für `\(\mu\)` und `\(\sigma\)` haben wir jeweils keinen einzelnen (fixen) Wert angenommen, sondern eine Wahrscheinlichkeitsverteilung, der mit der Priori-Verteilung für `\(\mu\)` bzw. `\(\sigma\)` festgelegt ist.
+]
+
+.pull-right[
+
+### Bleiben Sie dran! 🧡
+
+&lt;img src="/Users/sebastiansaueruser/github-repos/psych252slides/figures/comics/chicken_standard_deviation.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
 
 
 
@@ -366,16 +2435,22 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-  - Kapitel 3 aus McElreath (2020)
+  - *Statistical Rethinking* (2. Auflage), Kapitel 4.1 - 4.3, &lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath (2020)](#bib-mcelreath_statistical_2020)
 
-  - Der R-Code stammt aus Kurz (2021).
+  - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-- Dieses Skript wurde erstellt am 2021-10-19 14:46:50 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-20 09:49:51 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
 - Autor ist Sebastian Sauer.
+
+- Um diese HTMLM-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
 
 
 ---
@@ -385,49 +2460,33 @@ name: literatur
 ## Literatur
 
 
-&lt;a
-name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
-M.](#cite-freeman_visual_2006) (2006). "A
-visual comparison of normal and paranormal
-distributions". In: _Journal of
-Epidemiology and Community Health_ 60.1,
-p. 6. ISSN: 0143-005X. URL:
+&lt;a name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
+M.](#cite-freeman_visual_2006) (2006). "A visual comparison of normal
+and paranormal distributions". In: _Journal of Epidemiology and
+Community Health_ 60.1, p. 6. ISSN: 0143-005X. URL:
 [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/)
 (visited on Sep. 09, 2021).
 
-&lt;a
-name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
-A., J. Hill, and A.
-Vehtari](#cite-gelman_regression_2021)
-(2021). _Regression and other stories_.
-Analytical methods for social research.
-Cambridge: Cambridge University Press. 534
-pp. ISBN: 978-1-107-67651-0
-978-1-107-02398-7.
+&lt;a name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman, A., J. Hill, and A.
+Vehtari](#cite-gelman_regression_2021) (2021). _Regression and other
+stories_. Analytical methods for social research. Cambridge: Cambridge
+University Press. 534 pp. ISBN: 978-1-107-67651-0 978-1-107-02398-7.
 
-&lt;a
-name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz,
-A. S.](#cite-kurz_statistical_2021)
-(2021). _Statistical rethinking with brms,
-ggplot2, and the tidyverse: Second
-edition_. URL:
+&lt;a name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz, A.
+S.](#cite-kurz_statistical_2021) (2021). _Statistical rethinking with
+brms, ggplot2, and the tidyverse: Second edition_. URL:
 [https://bookdown.org/content/4857/](https://bookdown.org/content/4857/)
 (visited on Sep. 08, 2021).
 
-&lt;a
-name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
-R.](#cite-mcelreath_statistical_2020)
-(2020). _Statistical rethinking: a
-Bayesian course with examples in R and
-Stan_. 2nd ed. CRC texts in statistical
-science. Boca Raton: Taylor and Francis,
-CRC Press. ISBN: 978-0-367-13991-9.
+&lt;a name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
+a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
+statistical science. Boca Raton: Taylor and Francis, CRC Press. ISBN:
+978-0-367-13991-9.
 
-&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb,
-N. N.](#cite-taleb2019technical) (2019).
-_The statistical consequences of fat
-tails, papers and commentaries_.
-Publisher: Monograph. URL:
+&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb, N.
+N.](#cite-taleb2019technical) (2019). _The statistical consequences of
+fat tails, papers and commentaries_. Publisher: Monograph. URL:
 [https://nassimtaleb.org/2020/01/final-version-fat-tails/](https://nassimtaleb.org/2020/01/final-version-fat-tails/).
 
     </textarea>

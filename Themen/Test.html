@@ -153,6 +153,11 @@ Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreat
 Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=352\)`:
 
 
+```r
+d2 &lt;-
+  d %&gt;% 
+  filter(age &gt;= 18)
+```
 
 
 ]
@@ -168,12 +173,12 @@ d %&gt;%
   gt()
 ```
 
-<div id="ixkgjbtnpz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="cfxvwzhmpx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ixkgjbtnpz .gt_table {
+#cfxvwzhmpx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -198,7 +203,7 @@ d %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_heading {
+#cfxvwzhmpx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -210,7 +215,7 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_title {
+#cfxvwzhmpx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -220,7 +225,7 @@ d %&gt;%
   border-bottom-width: 0;
 }
 
-#ixkgjbtnpz .gt_subtitle {
+#cfxvwzhmpx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -230,13 +235,13 @@ d %&gt;%
   border-top-width: 0;
 }
 
-#ixkgjbtnpz .gt_bottom_border {
+#cfxvwzhmpx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_col_headings {
+#cfxvwzhmpx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -251,7 +256,7 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_col_heading {
+#cfxvwzhmpx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -271,7 +276,7 @@ d %&gt;%
   overflow-x: hidden;
 }
 
-#ixkgjbtnpz .gt_column_spanner_outer {
+#cfxvwzhmpx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -283,15 +288,15 @@ d %&gt;%
   padding-right: 4px;
 }
 
-#ixkgjbtnpz .gt_column_spanner_outer:first-child {
+#cfxvwzhmpx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ixkgjbtnpz .gt_column_spanner_outer:last-child {
+#cfxvwzhmpx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ixkgjbtnpz .gt_column_spanner {
+#cfxvwzhmpx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -303,7 +308,7 @@ d %&gt;%
   width: 100%;
 }
 
-#ixkgjbtnpz .gt_group_heading {
+#cfxvwzhmpx .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -325,7 +330,7 @@ d %&gt;%
   vertical-align: middle;
 }
 
-#ixkgjbtnpz .gt_empty_group_heading {
+#cfxvwzhmpx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -340,15 +345,15 @@ d %&gt;%
   vertical-align: middle;
 }
 
-#ixkgjbtnpz .gt_from_md > :first-child {
+#cfxvwzhmpx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ixkgjbtnpz .gt_from_md > :last-child {
+#cfxvwzhmpx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ixkgjbtnpz .gt_row {
+#cfxvwzhmpx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -367,7 +372,7 @@ d %&gt;%
   overflow-x: hidden;
 }
 
-#ixkgjbtnpz .gt_stub {
+#cfxvwzhmpx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -379,7 +384,7 @@ d %&gt;%
   padding-left: 12px;
 }
 
-#ixkgjbtnpz .gt_summary_row {
+#cfxvwzhmpx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -389,7 +394,7 @@ d %&gt;%
   padding-right: 5px;
 }
 
-#ixkgjbtnpz .gt_first_summary_row {
+#cfxvwzhmpx .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -399,7 +404,7 @@ d %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_grand_summary_row {
+#cfxvwzhmpx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -409,7 +414,7 @@ d %&gt;%
   padding-right: 5px;
 }
 
-#ixkgjbtnpz .gt_first_grand_summary_row {
+#cfxvwzhmpx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -419,11 +424,11 @@ d %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_striped {
+#cfxvwzhmpx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ixkgjbtnpz .gt_table_body {
+#cfxvwzhmpx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -432,7 +437,7 @@ d %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_footnotes {
+#cfxvwzhmpx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -446,13 +451,13 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_footnote {
+#cfxvwzhmpx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ixkgjbtnpz .gt_sourcenotes {
+#cfxvwzhmpx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -466,41 +471,41 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ixkgjbtnpz .gt_sourcenote {
+#cfxvwzhmpx .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ixkgjbtnpz .gt_left {
+#cfxvwzhmpx .gt_left {
   text-align: left;
 }
 
-#ixkgjbtnpz .gt_center {
+#cfxvwzhmpx .gt_center {
   text-align: center;
 }
 
-#ixkgjbtnpz .gt_right {
+#cfxvwzhmpx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ixkgjbtnpz .gt_font_normal {
+#cfxvwzhmpx .gt_font_normal {
   font-weight: normal;
 }
 
-#ixkgjbtnpz .gt_font_bold {
+#cfxvwzhmpx .gt_font_bold {
   font-weight: bold;
 }
 
-#ixkgjbtnpz .gt_font_italic {
+#cfxvwzhmpx .gt_font_italic {
   font-style: italic;
 }
 
-#ixkgjbtnpz .gt_super {
+#cfxvwzhmpx .gt_super {
   font-size: 65%;
 }
 
-#ixkgjbtnpz .gt_footnote_marks {
+#cfxvwzhmpx .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -559,7 +564,7 @@ d %&gt;%
 
 .left-column[
 
-&lt;img src="https://upload.wikimedia.org/wikipedia/commons/8/83/SVG_Human_Silhouette.svg" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/8/83/SVG_Human_Silhouette.svg" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 .footnote[.tiny[Own alterations andFile:SVG_Human_With_All_Organs.svg by Madhero88, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons]
@@ -572,7 +577,7 @@ d %&gt;%
 `$$\mu \sim \mathcal{N}(178, 20)$$`
 
 
-&lt;img src="unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -591,7 +596,12 @@ d %&gt;%
 
 `\(\sigma \sim \mathcal{U}(0, 50)\)`
 
-`\(95\%KI( \mu): 178 \pm 40\)`
+&lt;/br&gt;
+&lt;/br&gt;
+
+`\(95\%KI( \mu):\)`
+
+`\(178 \pm 40\)`
 ]
 
 
@@ -637,7 +647,7 @@ sim &lt;-
 ]
 
 .pull-right[
-💭 Was denkt der Golem apriori von der Größe der Kung?
+💭 Was denkt der Golem apriori von der Größe der !Kung?
 
 🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells.
 
@@ -686,20 +696,21 @@ sim %&gt;%
 ```
 
 ```
-## # A tibble: 2 × 3
-##   `height &lt; 0`     n     prop
-##   &lt;lgl&gt;        &lt;int&gt;    &lt;dbl&gt;
-## 1 FALSE         9999 0.000200
-## 2 TRUE             1 2
+## # A tibble: 1 × 3
+##   `height &lt; 0`     n   prop
+##   &lt;lgl&gt;        &lt;int&gt;  &lt;dbl&gt;
+## 1 FALSE        10000 0.0001
 ```
 
+
+🤔 Sehr kleine Buschleute?
 ]
 
 
 ---
 
 
-## Super vage Priori-Verteilung, `\(\sigma=100\)`
+## Extrem vage Priori-Verteilung, `\(\sigma=100\)`
 
 
 
@@ -741,6 +752,15 @@ sim %&gt;%
 ❗Vage Priori-Werte machen oft keinen Sinn.
 ---
 
+## Zufällige Motivationsseite
+
+
+&lt;img src="/Users/sebastiansaueruser/github-repos/psych252slides/figures/gifs/pretty_good.gif" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
 ## Posteriori-Verteilung des Größen-Modells
 
 .pull-left[
@@ -752,13 +772,13 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 .pull-right[
 
-- Wir bekommen eine Wahrscheinlichkeitsverteilung für `\(\mu\)` und eine für `\(\sigma\)` (bzw. eine zweidimensionale für die `\(\mu-\sigma\)`-Paare).
+- Wir bekommen eine Wahrscheinlichkeitsverteilung für `\(\mu\)` und eine für `\(\sigma\)` (bzw. eine zweidimensionale für die `\(\mu,\sigma\)`-Paare).
 
 - Trotz des vagen Priors sind die Posteriori-Werte für `\(\mu\)` und `\(\sigma\)` klein: Die Daten haben die Priori-Werte überstimmt.
 
@@ -792,7 +812,7 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -802,7 +822,7 @@ sim %&gt;%
 ## Posteriori-Stichproben mit `quap()` berechnen
 
 .pull-left[
-Modell mit `quap` berechnen:
+Modell 4.1 (`m41`) mit `quap` berechnen:
 
 
 ```r
@@ -813,7 +833,7 @@ modell_definition &lt;-
     sigma ~ dunif(0, 50)
   )  
 
-m4_1 &lt;- quap( # berechnet Post.-Vert.
+m41 &lt;- quap( # berechnet Post.-Vert.
   modell_definition,
   data = d2
 )
@@ -835,11 +855,11 @@ Modelldefinition:
 
 ]
 
-Posteriori-Verteilung:
+Posteriori-Verteilung für Modell 4.1 `m41`:
 
 
 ```r
-precis(m4_1)
+precis(m41)
 ```
 
 ```
@@ -858,8 +878,8 @@ precis(m4_1)
 
 
 ```r
-post &lt;- extract.samples(m4_1, n = 1e4)
-precis(post)
+post_m41 &lt;- extract.samples(m41, n = 1e4)
+precis(post_m41)
 ```
 
 ```
@@ -869,7 +889,7 @@ precis(post)
 ```
 
 .pull-left[
-Ziehen wir Stichproben:
+Hier die ersten paar Zeilen von `post_m41`:
 
 <div id="xojlmcvwbd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
@@ -1244,7 +1264,7 @@ Ziehen wir Stichproben:
 Mit welcher Wahrscheinlichkeit ist `\(\mu&gt;155\)`? 
 
 ```r
-post %&gt;% 
+post_m41 %&gt;% 
   count(mu &gt; 155) %&gt;% 
   mutate(prop = n/sum(n))
 ```
@@ -1268,7 +1288,7 @@ Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschrit
 
 
 ```r
-post %&gt;% 
+post_m41 %&gt;% 
   summarise(
     q95 = 
       quantile(mu, .95))
@@ -1286,7 +1306,7 @@ In welchem 90%-PI liegt `\(\mu\)` vermutlich?
 
 
 ```r
-post %&gt;% 
+post_m41 %&gt;% 
   summarise(
     pi_90 =
       quantile(mu, c(0.05,
@@ -1301,23 +1321,74 @@ post %&gt;%
 
 ]
 
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+
+🏋️ Ähnliche Fragen bleiben als Übung für die Leseris 🤓.
 
 ---
 
 
-## dskjlf
+## Priori-Werte mit mehr Information, `m42`
 
 
-&lt;button class="bw0 br2 bg-dwyl-teal pa2 white fw1 tc ttu tracked"&gt;do what you love&lt;/button&gt;
+.pull-left[
+- Die Priori-Verteilung von `\(\mu\)` in `m41` ist sehr vage (fast flach, indifferent, informationsarm, fast fleichverteilt, fast "objektiv").
+- Aufgrund der großen Stichprobe ist der Schätzbereich für `\(\mu\)` trotzdem schmal. Die vage Priori-Verteilung kommt daher nicht zum tragen.
+- Bei kleineren Stichproben oder komplexeren Modellen kann die Priori-Verteilung deutlich mehr Einfluss haben.
+]
 
-&lt;button type="button" class="btn btn-dwyl"&gt;do what you love&lt;/button&gt;
+.pull-right[
+Untersuchen wir den Effekt von Prior-Werten für `\(\mu\)` mit mehr Information:
+
+
+```r
+m42 &lt;-
+  quap(
+    alist(
+      height ~ dnorm(mu, sigma),
+      mu ~ dnorm(170, 0.1),
+      sigma ~ dunif(0, 50)
+    ),
+    data = d2
+  )
+```
+
+]
+
+
+```
+##            mean        sd      5.5%     94.5%
+## mu    169.81621 0.1003582 169.65582 169.97661
+## sigma  17.07505 0.6500034  16.03622  18.11388
+```
+
+Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
+
+---
 
 
 
-&lt;button type="button" class="btn btn-primary"&gt;Primary&lt;/button&gt;
 
 
 
+## Fazit
+
+.pull-left[
+- Wir haben die Posteriori-Verteilung für ein Gauss-Modell  berechnet.
+- Dabei hatten wir ein einfaches Modell mit metrischer Zielvariablen, ohne Prädiktoren, betrachtet.
+- Die Zielvariablen, Körpergröße (`height`) haben wir als normalverteilt mit den Parametern `\(\mu\)` und `\(\sigma\)` angenommen.
+- Für `\(\mu\)` und `\(\sigma\)` haben wir jeweils keinen einzelnen (fixen) Wert angenommen, sondern eine Wahrscheinlichkeitsverteilung, der mit der Priori-Verteilung für `\(\mu\)` bzw. `\(\sigma\)` festgelegt ist.
+]
+
+.pull-right[
+
+### Bleiben Sie dran! 🧡
+
+&lt;img src="/Users/sebastiansaueruser/github-repos/psych252slides/figures/comics/chicken_standard_deviation.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
 
 ---
 

@@ -10,7 +10,7 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-  - Kapitel 3 aus `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`
+  - *Statistical Rethinking* (2. Auflage), Kapitel `r rethink_chap`, `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`
 
   - Der R-Code stammt aus `r RefManageR::Citet(bib,"kurz_statistical_2021")`.
 
@@ -20,6 +20,12 @@ class: center, middle, inverse
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
 - Autor ist Sebastian Sauer.
+
+- Um diese HTMLM-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
 
 
 ---
