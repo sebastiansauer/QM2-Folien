@@ -1628,7 +1628,7 @@ d %&gt;%
 
 .right-column[
 
-`$$\mu \sim \mathcal{N}(170, 20)$$`
+`$$\mu \sim \mathcal{N}(178, 20)$$`
 
 
 &lt;img src="unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /&gt;
@@ -1903,7 +1903,7 @@ Modelldefinition:
 
 `\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
 
-`\(\mu \sim \mathcal{N}(170, 20)\)`
+`\(\mu \sim \mathcal{N}(178, 20)\)`
 
 `\(\sigma \sim \mathcal{U}(0, 50)\)`
 
@@ -1922,7 +1922,7 @@ Modelldefinition:
 modell_definition &lt;-
   alist(  
     height ~ dnorm(mu, sigma),
-    mu ~ dnorm(170, 20),
+    mu ~ dnorm(178, 20),
     sigma ~ dunif(0, 50)
   )  
 
@@ -1944,7 +1944,7 @@ Modelldefinition:
 
 `\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
 
-`\(\mu \sim \mathcal{N}(170, 20)\)`
+`\(\mu \sim \mathcal{N}(178, 20)\)`
 
 `\(\sigma \sim \mathcal{U}(0, 50)\)`
 
@@ -1961,9 +1961,9 @@ precis(m41)  # precis, engl. "Kurzfassung"
 ```
 
 ```
-##            mean        sd       5.5%     94.5%
-## mu    154.60376 0.4119941 153.945310 155.26220
-## sigma   7.73133 0.2913856   7.265639   8.19702
+##             mean        sd       5.5%     94.5%
+## mu    154.607022 0.4119945 153.948575 155.26547
+## sigma   7.731329 0.2913857   7.265638   8.19702
 ```
 
 
@@ -1983,8 +1983,8 @@ precis(post_m41)
 
 ```
 ##             mean        sd       5.5%      94.5%     histogram
-## mu    154.607988 0.4101483 153.947051 155.259864      ▁▁▁▅▇▂▁▁
-## sigma   7.732906 0.2919312   7.269026   8.201596 ▁▁▁▁▂▅▇▇▃▁▁▁▁
+## mu    154.611253 0.4101497 153.950117 155.263315      ▁▁▁▅▇▂▁▁
+## sigma   7.732909 0.2919296   7.269278   8.201933 ▁▁▁▁▂▅▇▇▃▁▁▁▁
 ```
 
 .pull-left[
@@ -2337,18 +2337,18 @@ Hier die ersten paar Zeilen von `post_m41`:
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">155.0354</td>
-<td class="gt_row gt_right">7.660312</td></tr>
-    <tr><td class="gt_row gt_right">154.4232</td>
-<td class="gt_row gt_right">7.532289</td></tr>
-    <tr><td class="gt_row gt_right">154.9843</td>
-<td class="gt_row gt_right">8.263350</td></tr>
-    <tr><td class="gt_row gt_right">154.1805</td>
-<td class="gt_row gt_right">7.989856</td></tr>
-    <tr><td class="gt_row gt_right">154.4940</td>
-<td class="gt_row gt_right">7.482492</td></tr>
-    <tr><td class="gt_row gt_right">154.5183</td>
-<td class="gt_row gt_right">8.020130</td></tr>
+    <tr><td class="gt_row gt_right">155.0387</td>
+<td class="gt_row gt_right">7.660676</td></tr>
+    <tr><td class="gt_row gt_right">154.4266</td>
+<td class="gt_row gt_right">7.532136</td></tr>
+    <tr><td class="gt_row gt_right">154.9872</td>
+<td class="gt_row gt_right">8.263670</td></tr>
+    <tr><td class="gt_row gt_right">154.1836</td>
+<td class="gt_row gt_right">7.989497</td></tr>
+    <tr><td class="gt_row gt_right">154.4975</td>
+<td class="gt_row gt_right">7.482399</td></tr>
+    <tr><td class="gt_row gt_right">154.5213</td>
+<td class="gt_row gt_right">8.020057</td></tr>
   </tbody>
   
   
@@ -2370,8 +2370,8 @@ post_m41 %&gt;%
 
 ```
 ##   mu &gt; 155    n   prop
-## 1    FALSE 8304 0.8304
-## 2     TRUE 1696 0.1696
+## 1    FALSE 8282 0.8282
+## 2     TRUE 1718 0.1718
 ```
 
 ]
@@ -2395,7 +2395,7 @@ post_m41 %&gt;%
 
 ```
 ##        q95
-## 1 155.2793
+## 1 155.2825
 ```
 
 ]
@@ -2414,8 +2414,8 @@ post_m41 %&gt;%
 
 ```
 ##      pi_90
-## 1 153.9266
-## 2 155.2793
+## 1 153.9298
+## 2 155.2825
 ```
 
 ]
@@ -2473,7 +2473,6 @@ Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
 
 
 ## Fazit
-
 .pull-left[
 - Wir haben die Posteriori-Verteilung für ein Gauss-Modell  berechnet.
 - Dabei hatten wir ein einfaches Modell mit metrischer Zielvariablen, ohne Prädiktoren, betrachtet.
@@ -2483,7 +2482,7 @@ Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
 
 .pull-right[
 
-### Bleiben Sie dran! 🧡
+.center[.content-box-blue[🧡 Bleiben Sie dran!]]
 
 &lt;img src="/Users/sebastiansaueruser/github-repos/psych252slides/figures/comics/chicken_standard_deviation.jpg" width="100%" style="display: block; margin: auto;" /&gt;
 
@@ -2511,7 +2510,7 @@ class: center, middle, inverse
   - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-- Dieses Skript wurde erstellt am 2021-10-20 16:26:17 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-20 16:35:11 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 

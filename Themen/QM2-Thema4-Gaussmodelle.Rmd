@@ -12,7 +12,7 @@ output:
     keep_md: true
 #    css: ["xaringan-themer.css"]
 
-    css: [default, default-fonts, hygge, "xaringan-themer.css"]
+    css: ["default", "default-fonts", "hygge", "xaringan-themer.css"]
     lib_dir: libs
     nature:
       highlightStyle: github

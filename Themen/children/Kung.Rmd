@@ -119,7 +119,7 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/8/83/SVG
 
 .right-column[
 
-$$\mu \sim \mathcal{N}(170, 20)$$
+$$\mu \sim \mathcal{N}(178, 20)$$
 
 
 ```{r out.width="70%"}
@@ -512,7 +512,7 @@ Modelldefinition:
 
 $h_i \sim \mathcal{N}(\mu, \sigma)$
 
-$\mu \sim \mathcal{N}(170, 20)$
+$\mu \sim \mathcal{N}(178, 20)$
 
 $\sigma \sim \mathcal{U}(0, 50)$
 
@@ -530,7 +530,7 @@ $\sigma \sim \mathcal{U}(0, 50)$
 modell_definition <-
   alist(  
     height ~ dnorm(mu, sigma),
-    mu ~ dnorm(170, 20),
+    mu ~ dnorm(178, 20),
     sigma ~ dunif(0, 50)
   )  
 
@@ -552,7 +552,7 @@ Modelldefinition:
 
 $h_i \sim \mathcal{N}(\mu, \sigma)$
 
-$\mu \sim \mathcal{N}(170, 20)$
+$\mu \sim \mathcal{N}(178, 20)$
 
 $\sigma \sim \mathcal{U}(0, 50)$
 
@@ -683,7 +683,6 @@ Man beachte, dass $\sigma$ sich im Vergleich zu `m4.1` geändert hat.
 
 
 ## Fazit
-
 .pull-left[
 - Wir haben die Posteriori-Verteilung für ein Gauss-Modell  berechnet.
 - Dabei hatten wir ein einfaches Modell mit metrischer Zielvariablen, ohne Prädiktoren, betrachtet.
@@ -693,7 +692,7 @@ Man beachte, dass $\sigma$ sich im Vergleich zu `m4.1` geändert hat.
 
 .pull-right[
 
-### Bleiben Sie dran! 🧡
+.center[.content-box-blue[🧡 Bleiben Sie dran!]]
 
 ```{r, echo = FALSE} 
 knitr::include_graphics("/Users/sebastiansaueruser/github-repos/psych252slides/figures/comics/chicken_standard_deviation.jpg")
