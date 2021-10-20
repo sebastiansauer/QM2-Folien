@@ -486,20 +486,55 @@ d_grid_samples %>%
 
 ---
 
+## Posteriori-Verteilung mit `quap()` berechnen
+
+- `quap()` (*Qu*adratische *Ap*proximation) erlaubt uns, komfortabel die Posteriori-Vertelung zu bestimmen.
+- Rechnerisch wird die quadratische Form der Normalverteilung ausgenutzt.
+- Die Gittermethode wird nicht verwendet, aber die Ergebnisse sind - in bestimmten Situationen - ähnlich.
+- `quap()` hat auch den Vorteil, dass es wenig rechenintensiv ist als die Gittermethode, gerade bei komplexeren Modellen.
+
+.pull-left[
+```{r echo = TRUE, eval = FALSE}
+library(rethinking)
+# berechnet Post.-Vert.:
+quap(
+  alist(
+    # modelldefinition
+  ),
+  data = meine_daten
+)
+```
+
+]
+
+.pull-right[
+Modelldefinition:
+
+$h_i \sim \mathcal{N}(\mu, \sigma)$
+
+$\mu \sim \mathcal{N}(170, 20)$
+
+$\sigma \sim \mathcal{U}(0, 50)$
+
+
+
+]
+
+---
+
 ## Posteriori-Stichproben mit `quap()` berechnen
 
 .pull-left[
-Modell 4.1 (`m41`) mit `quap` berechnen:
 
 ```{r echo = TRUE}
 modell_definition <-
-  alist(  # definiert Modell
+  alist(  
     height ~ dnorm(mu, sigma),
     mu ~ dnorm(170, 20),
     sigma ~ dunif(0, 50)
   )  
 
-m41 <- quap( # berechnet Post.-Vert.
+m41 <- quap( 
   modell_definition,
   data = d2
 )
@@ -508,6 +543,8 @@ m41 <- quap( # berechnet Post.-Vert.
 
 
 ]
+
+
 
 Modelldefinition: 
 
@@ -521,11 +558,15 @@ $\sigma \sim \mathcal{U}(0, 50)$
 
 ]
 
+
+
 Posteriori-Verteilung für Modell 4.1 `m41`:
+
 
 ```{r echo = TRUE}
 precis(m41)  # precis, engl. "Kurzfassung"
 ```
+
 
 
 ---
