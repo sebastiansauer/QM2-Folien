@@ -237,6 +237,37 @@ Die Normalverteilung wird auch *[Gauss](https://de.wikipedia.org/wiki/Carl_Fried
 
 ---
 
+## Normalverteilung als konservative Wahl
+
+
+.left-column[
+</br>
+</br>
+</br>
+</br>
+</br>
+
+```{r, echo = FALSE} 
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/f/f8/10_Deutsche_Mark_-_detail.png")
+```
+
+.tiny[Uni Greifswald, Public domain, via Wikimedia Commons]
+]
+
+
+.right-column[
+
+### Ontologische Begründung
+
+- Wirken viele, gleichstarke Einflüsse additiv zusammen, entsteht eine Normalverteilung  `r RefManageR::Citep(bib, "mcelreath_statistical_2020")`, Kap. 4.1.4.
+
+### Epistemologische Begründung
+
+- Wenn wir nur wissen, dass eine Variable über einen endlichen Mittelwert und eine endliche Varianz verfügt und wir keine weiteren Annahmen treffen bzw. über kein weiteres Vorwissen verfügen, dann ist die Normalverteilung die plausibelste Verteilung (maximale Entropie) `r RefManageR::Citep(bib, "mcelreath_statistical_2020")`, Kap. 7 und 10.
+
+]
+
+---
 
 ## Zweidimensionale Normalverteilung, unkorreliert
 

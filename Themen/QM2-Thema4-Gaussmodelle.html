@@ -308,6 +308,35 @@ Die Normalverteilung wird auch *[Gauss](https://de.wikipedia.org/wiki/Carl_Fried
 
 ---
 
+## Normalverteilung als konservative Wahl
+
+
+.left-column[
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/10_Deutsche_Mark_-_detail.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.tiny[Uni Greifswald, Public domain, via Wikimedia Commons]
+]
+
+
+.right-column[
+
+### Ontologische Begründung
+
+- Wirken viele, gleichstarke Einflüsse additiv zusammen, entsteht eine Normalverteilung  &lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;([McElreath, 2020](#bib-mcelreath_statistical_2020)), Kap. 4.1.4.
+
+### Epistemologische Begründung
+
+- Wenn wir nur wissen, dass eine Variable über einen endlichen Mittelwert und eine endliche Varianz verfügt und wir keine weiteren Annahmen treffen bzw. über kein weiteres Vorwissen verfügen, dann ist die Normalverteilung die plausibelste Verteilung (maximale Entropie) ([McElreath, 2020](#bib-mcelreath_statistical_2020)), Kap. 7 und 10.
+
+]
+
+---
 
 ## Zweidimensionale Normalverteilung, unkorreliert
 
@@ -354,7 +383,7 @@ Mit `scale_fill_continuous(type = "viridis")`kann man die Farbpalette der Füllf
 
 .pull-right[
 
-&lt;img src="unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-2-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-3-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1102,7 +1131,7 @@ d2 %&gt;%
 
 .pull-right[
 
-&lt;img src="unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-7-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-8-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1602,7 +1631,7 @@ d %&gt;%
 `$$\mu \sim \mathcal{N}(170, 20)$$`
 
 
-&lt;img src="unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1633,7 +1662,7 @@ Wir nehmen an, dass `\(\mu\)` und `\(h_i\)` normalverteilt, `\(\sigma\)` gleichv
 
 .right-column[
 
-&lt;img src="unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1678,7 +1707,7 @@ sim &lt;-
 🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. voilà:
 
 
-&lt;img src="unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1701,7 +1730,7 @@ sim &lt;-
 
 Die Priori-Prädiktiv-Verteilung zeigt, dass unsere Priori-Werte ziemlich vage sind, also einen zu breiten Bereich an Größenwerten zulassen:
 
-&lt;img src="unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1744,7 +1773,7 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1800,7 +1829,7 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1840,7 +1869,7 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -2477,12 +2506,12 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-  - *Statistical Rethinking* (2. Auflage), Kapitel 4.1 - 4.3, &lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath (2020)](#bib-mcelreath_statistical_2020)
+  - *Statistical Rethinking* (2. Auflage), Kapitel 4.1 - 4.3, [McElreath (2020)](#bib-mcelreath_statistical_2020)
 
   - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-- Dieses Skript wurde erstellt am 2021-10-20 10:06:14 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-20 16:26:17 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
