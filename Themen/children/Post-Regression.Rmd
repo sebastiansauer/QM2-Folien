@@ -1,0 +1,580 @@
+
+name: teila
+class: center, middle, inverse
+
+
+```{r}
+library("latex2exp")
+library("patchwork")
+```
+
+
+
+# Post-Verteilung der Regression
+
+---
+
+
+## Einfache Regression
+
+
+.pull-left[
+
+- Die (einfache) Regression prüft, inwieweit zwei Variablen, $Y$ und $X$ linear zusammenhängen.
+- Je mehr sie zusammenhängen, desto besser kann man $X$ nutzen, um $Y$ vorherzusagen (und umgekehrt).
+- Hängen $X$ und $Y$ zusammen, heißt das nicht (unbedingt), dass es einen *kausalen* Zusammenhang zwische $X$ und $Y$ gibt.
+- Linear bedeutet, der Zusammenhang ist additiv und konstant: wenn $X$ um eine Einheit steigt, steigt $Y$ immer um $b$ Einheiten.
+
+]
+
+.pull-right[
+
+```{r fig.asp = 1}
+library(rethinking)
+data("Howell1")
+d <- Howell1
+d2 <- 
+  d %>% 
+  filter(age > 18) %>% 
+  as_tibble()
+
+d2 %>% 
+  #select(weight, height) %>% 
+  #drop_na() %>% 
+  ggplot(
+       aes(x = weight, y = height)) +
+  geom_point(alpha = .7) +
+  geom_smooth(method = "lm")
+
+```
+
+]
+
+
+---
+
+## Für jede Ausprägung des Prädiktors brauchen wir eine  Post-Verteilung
+
+
+
+```{r m41, echo = FALSE}
+modell_definition <-
+  alist(  
+    height ~ dnorm(mu, sigma),
+    mu ~ dnorm(178, 20),
+    sigma ~ dunif(0, 50)
+  )  
+
+m41 <- quap( 
+  modell_definition,
+  data = d2
+)
+
+post_m41 <- extract.samples(m41, n = 1e4)
+
+```
+
+
+```{r}
+plot_post_41 <- 
+  post_m41 %>% 
+  ggplot() +
+  aes(x = mu) +
+  geom_density(fill = "grey60") +
+  labs(x = expression(mu),
+       title = TeX("Posteriori-Verteilung für $\\mu$, m41")) +
+  scale_y_continuous(breaks = NULL)
+```
+
+```{r}
+
+lm1 <- lm(height ~ weight, data = d2)
+
+d_pred <-
+  tibble(weight = c(40, 45, 50, 55),
+         height = predict(lm1, newdata = data.frame(weight)))
+
+plot_condition <- 
+  d2 %>% 
+  #select(weight, height) %>% 
+  #drop_na() %>% 
+  ggplot(
+       aes(x = weight, y = height)) +
+  geom_point(alpha = .7) +
+  geom_smooth(method = "lm") +
+  geom_point(data = d_pred, color = "red", size = 5, alpha = .5) +
+  labs(title = "Für jeden Wert von X\nwird eine Post-Vert. berechnet")
+```
+
+
+```{r m43}
+d2 <-
+  d2 %>% 
+  mutate(weight_c = weight - mean(weight))
+
+
+m43 <-
+  quap(
+    alist(
+      height ~ dnorm(mu, sigma),
+      mu <- a + b*weight_c,
+      a ~ dnorm(178, 20),
+      b ~ dlnorm(0, 1),
+      sigma ~ dunif(0, 50)
+    ),
+    data = d2)
+
+post_m43 <-
+  extract.samples(m43)
+
+post_m43 <-
+  post_m43  %>% 
+  mutate(mu_at_40 = post_m43$a + post_m43$b*(40 - mean(d2$weight)),
+         mu_at_45 = post_m43$a + post_m43$b*(45 - mean(d2$weight)),
+         mu_at_50 = post_m43$a + post_m43$b*(50 - mean(d2$weight)),
+         mu_at_55 = post_m43$a + post_m43$b*(55 - mean(d2$weight)))
+
+post_at_plot <-
+  post_m43 %>% 
+  select(starts_with("mu")) %>% 
+  pivot_longer(everything(), names_to = "condition",
+               values_to = "mu") %>% 
+  ggplot() +
+  aes(x = mu) +
+  geom_density(fill = "grey60") +
+  facet_wrap(~ condition, nrow = 1, scales = "free") +
+  scale_y_continuous(breaks = NULL) +
+  labs(title = "Post-Verteilungen an verschiedenen Werten von X")
+```
+
+
+
+```{r out.width="100%", fig.width=7}
+p1 <- (plot_post_41 | plot_condition) / post_at_plot
+p1
+```
+
+---
+
+## Modelldefinition von `m43`
+
+- Für jede Ausprägung von `weight` wird eine Post-Verteilung für `height` berechnet.
+- Der Mittelwert $\mu$ für jede Post-Verteilung ergibt sich aus dem .green[linearen Modell (der Regression)].
+- Die Post-Verteilung berechnet sich auf Basis der .blue[Priori-Werte] und des .red[Likelihood] (Bayes-Formel).
+- Wir brauchen .blue[Priori-Werte] für die Steigung $\beta$ und den Achsenabschnitt $\alpha$ der Regressionsgeraden.
+- Außerdem brauchen wir einen .blue[Priori-Wert], der die Streuung $\sigma$ der Größe (`height`) angibt.
+- Der .green[Likelihood] gibt an, wie wahrscheinlich ein Wert `height` ist, gegeben $\mu$ und $\sigma$.
+
+
+$$
+\begin{align*}
+\color{red}{\text{height}_i} & \color{red}\sim \color{red}{\operatorname{Normal}(\mu_i, \sigma)} && \color{red}{\text{Likelihood}} \\
+\color{green}{\mu_i} & \color{green}= \color{green}{\alpha + \beta\cdot \text{weight}_i}  && \color{green}{\text{Lineares Modell} } \\
+\color{blue}\alpha & \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} && \color{blue}{\text{Priori}} \\
+\color{blue}\beta  & \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  && \color{blue}{\text{Priori}}\\
+\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Uniform}(0, 50)}  && \color{blue}{\text{Priori}}
+\end{align*}
+$$
+
+
+---
+
+## Likelihood, `m43`
+
+
+
+$$
+\begin{aligned}
+\color{red}{\text{height}_i} & \color{red}\sim \color{red}{\operatorname{Normal}(\mu_i, \sigma)} && \color{red}{\text{Likelihood}}
+\end{aligned}
+$$
+
+
+
+
+- Der Likelihood von `m43` ist ähnlich zu den vorherigen Modellen (`m41, m42`).
+- Nur gibt es jetzt ein kleines "Index-i" am $\mu$ und am $h$ (h wie `heights`).
+- Es gibt jetzt nicht mehr nur einen Mittelwert $\mu$, sondern für jede Beobachtung (Zeile) einen Mittelwert $\mu_i$.
+- Lies  etwa so:
+
+>    "Die Wahrscheinlichkeit, eine bestimmte Größe bei Person $i$ zu beobachten, gegeben $\mu$ und $\sigma$ ist normalverteilt (mit Mittelwert $\mu$ und Streuung $\sigma$)".
+
+
+
+---
+
+## Regressionsformel, `m43`
+
+
+$$
+\begin{aligned}
+\color{green}{\mu_i} & \color{green}= \color{green}{\alpha + \beta\cdot \text{weight}_i}  && \color{green}{\text{Lineares Modell} } \\
+\end{aligned}
+$$
+
+
+- $\mu$ ist jetzt nicht mehr ein Parameter, der (stochastisch) geschätzt werden muss. $\mu$ wird jetzt (deterministisch) *berechnet*. Gegeben $\alpha$ und $\beta$ ist $\mu$ ohne Ungewissheit bekannt.
+- $\text{weight}_i$ ist der Prädiktorwert (`weight`) der $i$ten Beobachtung, also einer !Kung-Person (Zeile $i$ im Datensatz).
+- Lies  etwa so:
+
+>    "Der Mittelwert $\mu_i$ der $i$ten Person berechnet sich als Summe von $\alpha$ und $\beta \cdot \text{weight}_i$".
+
+
+- $\mu_i$ ist eine lineare Funktion von `weight`.
+- $\beta$ gibt den Unterschied in `height` zweier Beobachtung an, die sich um eine Einheit in `weight` unterscheiden (Steigung der Regressionsgeraden).
+- $\alpha$ gibt an, wie groß $\mu$ ist, wenn `weight` Null ist.
+
+---
+
+
+## Priori-Werte der Regression, `m43`
+
+
+
+$$
+\begin{align*}
+\color{blue}\alpha & \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} && \color{blue}{\text{Priori}} \\
+\color{blue}\beta  & \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  && \color{blue}{\text{Priori}}\\
+\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Uniform}(0, 50)}  && \color{blue}{\text{Priori}}
+\end{align*}
+$$
+
+- Parameter sind hypothetische Kreaturen: Man kann sie nicht beobachten, sie existieren nicht wirklich. Ihre Verteilungen nennt man Priori-Verteilungen.
+- $\alpha$ wurde in `m41` als $\mu$ bezeichnet, da wir dort eine "Regression ohne Prädiktoren" berechnet haben.
+- $\sigma$ ist uns schon als Parameter bekannt und behält seine Bedeutung.
+- $\beta$ fasst unser Vorwissen, ob und wie sehr der Zusammenhang zwischen Gewicht und Größe positiv (gleichsinnig ist).
+   - 🤔 Moment. Dieser Prior, $\beta$ erachtet positive und negative Zusammenhang als gleich wahrscheinlich?!
+    
+    
+---
+
+
+## Prior-Prädiktiv-Simulation für `m43`
+
+
+
+
+.pull-left[
+Wir simulieren 100 Regressionslinien:
+
+```{r echo = TRUE}
+n_lines <- 100
+lines <-
+  tibble(n = 1:n_lines,
+       a = rnorm(n_lines, 
+                   mean = 178, 
+                   sd = 20),
+         b = rnorm(n_lines, 
+                   mean = 0, 
+                   sd = 10))
+```
+
+```{r}
+lines %>% 
+  slice_head(n = 3) %>% 
+  gt() %>% 
+  fmt_number(columns = everything(), decimals = 0)
+```
+
+
+]
+
+
+.pull-right[
+🤯 Oh nein! Viele dieser Regressionsgeraden sind unsinnig!
+
+```{r fig.asp=1}
+# how many lines would you like?
+lines <- 
+  lines %>% 
+  expand(nesting(n, a, b), weight = range(d2$weight)) %>% 
+  mutate(height = a + b * (weight - mean(d2$weight)))
+
+lines %>% 
+  ggplot(aes(x = weight, y = height, group = n)) +
+  geom_hline(yintercept = c(0, 272), linetype = 2:1, size = 1/3) +
+  geom_line(alpha = 1/10) +
+  coord_cartesian(ylim = c(-100, 400)) +
+  ggtitle("b ~ dnorm(0, 10)")
+```
+.tiny[Die durchgezogene horizontale Linie gibt die Größe des [größten Menschens, Robert Pershing Wadlow](https://en.wikipedia.org/wiki/Robert_Wadlow), an.]
+
+]
+
+
+---
+
+
+## Wir müssen die Steigung zurecht stauchen
+
+.pull-left[
+### Oh no
+
+Eine Normalverteilung mit viel Streuung:
+
+```{r}
+d <-
+  tibble(
+    x = seq(-30,30,.1),
+    y = dnorm(x, mean = 0, sd = 10)
+  )
+
+d %>% 
+  ggplot(aes(x,y)) +
+  geom_line() +
+  scale_y_continuous(breaks = NULL)
+```
+
+🤯 $\beta=-20$ ist gut möglich: Pro kg Gewicht sind Menschen im Schnitt 20cm kleiner, laut dem Modell. Quatsch.
+]
+
+
+.pull-right[
+### Oh yes
+
+Wir bräuchten eher so eine Verteilung:
+
+```{r}
+d <-
+  tibble(
+    x = seq(-1, 10,.1),
+    y = dexp(x, rate =.5)
+  )
+
+d %>% 
+  ggplot(aes(x,y)) +
+  geom_line() +
+  scale_y_continuous(breaks = NULL)
+```
+
+😍 Wo gibt's diese Verteilung?
+]
+
+
+---
+
+## Darf ich vorstellen: Die Exponential-Verteilung 🍾
+
+
+$$\beta \sim \operatorname{Exp}(1)$$
+
+.left-column[
+
+```{r fig.asp = 1, fig.width=2, echo = TRUE}
+d <-
+  tibble(
+    x = seq(0, 5,.1),
+    y = dexp(x, rate = 1)
+  )
+
+d %>% 
+  ggplot(aes(x,y)) +
+  geom_line() 
+```
+]
+
+.right-column[
+- Eine Exponentialverteilung ist nur für positive Werte, $x>0$, definiert.
+- Sie ist eine praktische Wahl, wenn man einen Parameter auf einen positiven Wertebereich bändigen möchte.
+- Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
+- Sie hat nur einen Parameter, $\lambda$; $\frac{1}{\lambda}$  gibt die Streuung ("Gestrecktheit") der Verteilung an.
+- Die Verteilung für $\beta$ ist plausibel:
+    - Nur positive Steigungen
+    - Keine sehr starken Zusammenhänge.
+    
+Simulieren wir mal die Priori-Prädiktiv-Verteilung und schauen, was passiert.
+
+
+---
+
+## Priori-Prädiktiv-Simulation, 2. Versuch
+
+$$\beta \sim \operatorname{Exp}(1)$$
+
+
+```{r echo = FALSE}
+lines2 <- 
+  tibble(n = 1:n_lines,
+         a = rnorm(n_lines, mean = 178, sd = 20),
+         b = rexp(n_lines, 1)) 
+```
+
+```{r eval = FALSE}
+lines2 %>% 
+  ggplot(aes(x = weight, y = height)) +
+ #geom_point() +
+  geom_abline(aes(slope = b, intercept = a), alpha = .1) +
+  scale_y_continuous(limits = c(0, 400)) +
+  scale_x_continuous(limits = c(30,90))
+```
+
+
+
+
+```{r eval = FALSE}
+# plot
+d2 %>% 
+  ggplot(aes(x = weight, y = height)) +
+  geom_hline(yintercept = c(0, 272), linetype = 2:1, size = 1/3) +
+  geom_line(data = lines2, 
+            alpha = 1/10, aes(group = n)) 
+  geom_text(data = text_df,
+            aes(label = label),
+            size = 3) +
+  coord_cartesian(ylim = c(-100, 400)) +
+  ggtitle("b ~ dexp(1)")
+```
+
+
+
+
+```{r out.width="70%"}
+text_df <-
+  tibble(weight = c(34, 43),
+         height = c(0 - 25, 272 + 25),
+         label  = c("Embryo", "Größter Mensch (272 cm)"))
+
+# simulate
+set.seed(2971)
+
+lines3 <- 
+tibble(n = 1:n_lines,
+       a = rnorm(n_lines, mean = 178, sd = 20),
+       b = rexp(n_lines, 1)) %>% 
+  expand(nesting(n, a, b), weight = range(d2$weight)) %>% 
+  mutate(height = a + b * (weight - mean(d2$weight))) 
+ 
+lines3 %>%  
+  # plot
+  ggplot(aes(x = weight, y = height)) +
+  geom_hline(yintercept = c(0, 272), linetype = 2:1, size = 1/3) +
+  geom_line(alpha = 1/10, aes(group = n)) +
+  geom_text(data = text_df,
+            aes(label = label),
+            size = 3) +
+  coord_cartesian(ylim = c(-100, 400)) +
+  ggtitle("b ~ dexp(1)")
+```
+
+
+Das sieht gut aus; unsere Priori-Werte scheinen vernünftige Vorhersagen zu tätigen.
+
+---
+
+
+## Moment, kann hier jeder machen, was er will?
+
+
+
+.center[
+.content-box-blue[Es doch den einen, richtigen, objektiven Priori-Wert geben?!]
+]
+
+</br>
+
+.center[
+.content-box-blue[Kann denn jeder hier machen, was er will?! Wo kommen wir da hin?!]
+]
+
+</br>
+</br>
+
+>    This is a mistake. There is no more a uniquely correct prior than there is a uniquely correct likelihood. Statistical models are machines for inference. Many machines will work, but some work better than others. Priors can be wrong, but only in the same sense that a kind of hammer can be wrong for building a table.  `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`, p. 96.
+
+
+
+---
+
+## Prädiktor zentrieren 1/2 
+
+
+
+- Zieht man von jedem Gewichtswert den Mittelwert ab, so bekommt man die Abweichung des Gewichts vom Mittelwert (Präditkor "zentrieren").
+- Wenn man den Prädiktor (`weight`) zentriert hat, ist der Achsenabschnitt, $\alpha$, einfacher zu verstehen.
+- In einem Modell mit zentriertem Prädiktor (`weight`) gibt der Achsenabschnitt die Größe einer Person mit durchschnittlichem Gewicht an. 
+- Würde man `weight` nicht zentrieren, gibt der Achsenabschnitt die Größe einer Person mit `weight=0` an, was nicht wirklich sinnvoll zu interpretieren ist.
+
+---
+
+
+
+## Prädiktor zentrieren 2/2
+
+Das mittlere Körpergewicht (`weight`; Tabelle `d2`) liegt bei ca. 45kg.
+
+
+.pull-left[
+
+```{r echo = TRUE}
+d2 <-
+  d2 %>% 
+  mutate(
+    weight_c = weight - 
+      mean(weight))
+```
+
+]
+
+.pull-right[
+
+```{r}
+d2 %>% 
+  slice_head(n=3) %>% 
+  gt() %>% 
+  fmt_number(columns = everything(), decimals = 0)
+```
+
+]
+
+
+---
+
+
+## Modell `m43a`
+
+
+.pull-left[
+
+$$
+\begin{align}
+\text{height}_i &\sim \operatorname{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta \cdot  \text{weight}_i\\
+\alpha &\sim \operatorname{Normal}(178, 20)\\
+\beta &\sim \operatorname{Exp}(1)\\
+\sigma &\sim \operatorname{Uniform}(0, 50)
+\end{align}
+$$
+]
+
+.pull-right[
+
+```{r echo = TRUE}
+m43a <-
+  quap(
+    alist(
+      height ~ dnorm(mu, sigma),
+      mu <- a + b*weight_c,
+      a ~ dnorm(178, 20),
+      b ~ dexp(1),
+      sigma ~ dunif(0, 50)
+    ), 
+    data = d2)
+```
+
+
+]
+
+```{r echo = TRUE}
+precis(m43a)
+```
+
+
+Voilà! Die Posteriori-Verteilung für `m43a`.
+
+---
+
+
+
+
+
+

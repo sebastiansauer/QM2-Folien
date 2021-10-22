@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="de-DE" xml:lang="de-DE">
+  <head>
+    <title>Lineare Modelle</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Lineare Modelle
+## QM2, Thema 5
+### AWM, HS Ansbach
+
+---
+
+
+
+
+
+
+
+&lt;style&gt;
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Gliederung
+
+
+
+.center2[.Large[
+1. [Teil 1: Post-Verteilung der Regression](#teila)
+2. [Teil 2: j.](#kung)
+3. [Hinweise](#hinweise)
+4. [Literatur](#literatur)
+]]
+
+---
+
+
+
+name: teila
+class: center, middle, inverse
+
+
+
+
+
+
+# Post-Verteilung der Regression
+
+---
+
+
+## Einfache Regression
+
+
+.pull-left[
+
+- Die (einfache) Regression prüft, inwieweit zwei Variablen, `\(Y\)` und `\(X\)` linear zusammenhängen.
+- Je mehr sie zusammenhängen, desto besser kann man `\(X\)` nutzen, um `\(Y\)` vorherzusagen (und umgekehrt).
+- Hängen `\(X\)` und `\(Y\)` zusammen, heißt das nicht (unbedingt), dass es einen *kausalen* Zusammenhang zwische `\(X\)` und `\(Y\)` gibt.
+- Linear bedeutet, der Zusammenhang ist additiv und konstant: wenn `\(X\)` um eine Einheit steigt, steigt `\(Y\)` immer um `\(b\)` Einheiten.
+
+]
+
+.pull-right[
+
+&lt;img src="unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+## Für jede Ausprägung des Prädiktors brauchen wir eine  Post-Verteilung
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;img src="unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Modelldefinition von `m43`
+
+- Für jede Ausprägung von `weight` wird eine Post-Verteilung für `height` berechnet.
+- Der Mittelwert `\(\mu\)` für jede Post-Verteilung ergibt sich aus dem .green[linearen Modell (der Regression)].
+- Die Post-Verteilung berechnet sich auf Basis der .blue[Priori-Werte] und des .red[Likelihood] (Bayes-Formel).
+- Wir brauchen .blue[Priori-Werte] für die Steigung `\(\beta\)` und den Achsenabschnitt `\(\alpha\)` der Regressionsgeraden.
+- Außerdem brauchen wir einen .blue[Priori-Wert], der die Streuung `\(\sigma\)` der Größe (`height`) angibt.
+- Der .green[Likelihood] gibt an, wie wahrscheinlich ein Wert `height` ist, gegeben `\(\mu\)` und `\(\sigma\)`.
+
+
+$$
+`\begin{align*}
+\color{red}{\text{height}_i} &amp; \color{red}\sim \color{red}{\operatorname{Normal}(\mu_i, \sigma)} &amp;&amp; \color{red}{\text{Likelihood}} \\
+\color{green}{\mu_i} &amp; \color{green}= \color{green}{\alpha + \beta\cdot \text{weight}_i}  &amp;&amp; \color{green}{\text{Lineares Modell} } \\
+\color{blue}\alpha &amp; \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} &amp;&amp; \color{blue}{\text{Priori}} \\
+\color{blue}\beta  &amp; \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  &amp;&amp; \color{blue}{\text{Priori}}\\
+\color{blue}\sigma &amp; \color{blue}\sim \color{blue}{\operatorname{Uniform}(0, 50)}  &amp;&amp; \color{blue}{\text{Priori}}
+\end{align*}`
+$$
+
+
+---
+
+## Likelihood, `m43`
+
+
+
+$$
+`\begin{aligned}
+\color{red}{\text{height}_i} &amp; \color{red}\sim \color{red}{\operatorname{Normal}(\mu_i, \sigma)} &amp;&amp; \color{red}{\text{Likelihood}}
+\end{aligned}`
+$$
+
+
+
+
+- Der Likelihood von `m43` ist ähnlich zu den vorherigen Modellen (`m41, m42`).
+- Nur gibt es jetzt ein kleines "Index-i" am `\(\mu\)` und am `\(h\)` (h wie `heights`).
+- Es gibt jetzt nicht mehr nur einen Mittelwert `\(\mu\)`, sondern für jede Beobachtung (Zeile) einen Mittelwert `\(\mu_i\)`.
+- Lies  etwa so:
+
+&gt;    "Die Wahrscheinlichkeit, eine bestimmte Größe bei Person `\(i\)` zu beobachten, gegeben `\(\mu\)` und `\(\sigma\)` ist normalverteilt (mit Mittelwert `\(\mu\)` und Streuung `\(\sigma\)`)".
+
+
+
+---
+
+## Regressionsformel, `m43`
+
+
+$$
+`\begin{aligned}
+\color{green}{\mu_i} &amp; \color{green}= \color{green}{\alpha + \beta\cdot \text{weight}_i}  &amp;&amp; \color{green}{\text{Lineares Modell} } \\
+\end{aligned}`
+$$
+
+
+- `\(\mu\)` ist jetzt nicht mehr ein Parameter, der (stochastisch) geschätzt werden muss. `\(\mu\)` wird jetzt (deterministisch) *berechnet*. Gegeben `\(\alpha\)` und `\(\beta\)` ist `\(\mu\)` ohne Ungewissheit bekannt.
+- `\(\text{weight}_i\)` ist der Prädiktorwert (`weight`) der `\(i\)`ten Beobachtung, also einer !Kung-Person (Zeile `\(i\)` im Datensatz).
+- Lies  etwa so:
+
+&gt;    "Der Mittelwert `\(\mu_i\)` der `\(i\)`ten Person berechnet sich als Summe von `\(\alpha\)` und `\(\beta \cdot \text{weight}_i\)`".
+
+
+- `\(\mu_i\)` ist eine lineare Funktion von `weight`.
+- `\(\beta\)` gibt den Unterschied in `height` zweier Beobachtung an, die sich um eine Einheit in `weight` unterscheiden (Steigung der Regressionsgeraden).
+- `\(\alpha\)` gibt an, wie groß `\(\mu\)` ist, wenn `weight` Null ist.
+
+---
+
+
+## Priori-Werte der Regression, `m43`
+
+
+
+$$
+`\begin{align*}
+\color{blue}\alpha &amp; \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} &amp;&amp; \color{blue}{\text{Priori}} \\
+\color{blue}\beta  &amp; \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  &amp;&amp; \color{blue}{\text{Priori}}\\
+\color{blue}\sigma &amp; \color{blue}\sim \color{blue}{\operatorname{Uniform}(0, 50)}  &amp;&amp; \color{blue}{\text{Priori}}
+\end{align*}`
+$$
+
+- Parameter sind hypothetische Kreaturen: Man kann sie nicht beobachten, sie existieren nicht wirklich. Ihre Verteilungen nennt man Priori-Verteilungen.
+- `\(\alpha\)` wurde in `m41` als `\(\mu\)` bezeichnet, da wir dort eine "Regression ohne Prädiktoren" berechnet haben.
+- `\(\sigma\)` ist uns schon als Parameter bekannt und behält seine Bedeutung.
+- `\(\beta\)` fasst unser Vorwissen, ob und wie sehr der Zusammenhang zwischen Gewicht und Größe positiv (gleichsinnig ist).
+   - 🤔 Moment. Dieser Prior, `\(\beta\)` erachtet positive und negative Zusammenhang als gleich wahrscheinlich?!
+    
+    
+---
+
+
+## Prior-Prädiktiv-Simulation für `m43`
+
+
+
+
+.pull-left[
+Wir simulieren 100 Regressionslinien:
+
+
+```r
+n_lines &lt;- 100
+lines &lt;-
+  tibble(n = 1:n_lines,
+       a = rnorm(n_lines, 
+                   mean = 178, 
+                   sd = 20),
+         b = rnorm(n_lines, 
+                   mean = 0, 
+                   sd = 10))
+```
+
+<div id="rhomcomhxn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#rhomcomhxn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#rhomcomhxn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#rhomcomhxn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#rhomcomhxn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#rhomcomhxn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#rhomcomhxn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#rhomcomhxn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#rhomcomhxn .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rhomcomhxn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rhomcomhxn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#rhomcomhxn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#rhomcomhxn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#rhomcomhxn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#rhomcomhxn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rhomcomhxn .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rhomcomhxn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#rhomcomhxn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#rhomcomhxn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rhomcomhxn .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#rhomcomhxn .gt_left {
+  text-align: left;
+}
+
+#rhomcomhxn .gt_center {
+  text-align: center;
+}
+
+#rhomcomhxn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#rhomcomhxn .gt_font_normal {
+  font-weight: normal;
+}
+
+#rhomcomhxn .gt_font_bold {
+  font-weight: bold;
+}
+
+#rhomcomhxn .gt_font_italic {
+  font-style: italic;
+}
+
+#rhomcomhxn .gt_super {
+  font-size: 65%;
+}
+
+#rhomcomhxn .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">a</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">b</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">196</td>
+<td class="gt_row gt_right">&minus;14</td></tr>
+    <tr><td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">199</td>
+<td class="gt_row gt_right">&minus;4</td></tr>
+    <tr><td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">168</td>
+<td class="gt_row gt_right">11</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+]
+
+
+.pull-right[
+🤯 Oh nein! Viele dieser Regressionsgeraden sind unsinnig!
+
+&lt;img src="unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+.tiny[Die durchgezogene horizontale Linie gibt die Größe des [größten Menschens, Robert Pershing Wadlow](https://en.wikipedia.org/wiki/Robert_Wadlow), an.]
+
+]
+
+
+---
+
+
+## Wir müssen die Steigung zurecht stauchen
+
+.pull-left[
+### Oh no
+
+Eine Normalverteilung mit viel Streuung:
+
+&lt;img src="unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+🤯 `\(\beta=-20\)` ist gut möglich: Pro kg Gewicht sind Menschen im Schnitt 20cm kleiner, laut dem Modell. Quatsch.
+]
+
+
+.pull-right[
+### Oh yes
+
+Wir bräuchten eher so eine Verteilung:
+
+&lt;img src="unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+😍 Wo gibt's diese Verteilung?
+]
+
+
+---
+
+## Darf ich vorstellen: Die Exponential-Verteilung 🍾
+
+
+`$$\beta \sim \operatorname{Exp}(1)$$`
+
+.left-column[
+
+
+```r
+d &lt;-
+  tibble(
+    x = seq(0, 5,.1),
+    y = dexp(x, rate = 1)
+  )
+
+d %&gt;% 
+  ggplot(aes(x,y)) +
+  geom_line() 
+```
+
+&lt;img src="unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.right-column[
+- Eine Exponentialverteilung ist nur für positive Werte, `\(x&gt;0\)`, definiert.
+- Sie ist eine praktische Wahl, wenn man einen Parameter auf einen positiven Wertebereich bändigen möchte.
+- Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
+- Sie hat nur einen Parameter, `\(\lambda\)`; `\(\frac{1}{\lambda}\)`  gibt die Streuung ("Gestrecktheit") der Verteilung an.
+- Die Verteilung für `\(\beta\)` ist plausibel:
+    - Nur positive Steigungen
+    - Keine sehr starken Zusammenhänge.
+    
+Simulieren wir mal die Priori-Prädiktiv-Verteilung und schauen, was passiert.
+
+
+---
+
+## Priori-Prädiktiv-Simulation, 2. Versuch
+
+`$$\beta \sim \operatorname{Exp}(1)$$`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;img src="unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+Das sieht gut aus; unsere Priori-Werte scheinen vernünftige Vorhersagen zu tätigen.
+
+---
+
+
+## Moment, kann hier jeder machen, was er will?
+
+
+
+.center[
+.content-box-blue[Es doch den einen, richtigen, objektiven Priori-Wert geben?!]
+]
+
+&lt;/br&gt;
+
+.center[
+.content-box-blue[Kann denn jeder hier machen, was er will?! Wo kommen wir da hin?!]
+]
+
+&lt;/br&gt;
+&lt;/br&gt;
+
+&gt;    This is a mistake. There is no more a uniquely correct prior than there is a uniquely correct likelihood. Statistical models are machines for inference. Many machines will work, but some work better than others. Priors can be wrong, but only in the same sense that a kind of hammer can be wrong for building a table.  &lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath (2020)](#bib-mcelreath_statistical_2020), p. 96.
+
+
+
+---
+
+## Prädiktor zentrieren 1/2 
+
+
+
+- Zieht man von jedem Gewichtswert den Mittelwert ab, so bekommt man die Abweichung des Gewichts vom Mittelwert (Präditkor "zentrieren").
+- Wenn man den Prädiktor (`weight`) zentriert hat, ist der Achsenabschnitt, `\(\alpha\)`, einfacher zu verstehen.
+- In einem Modell mit zentriertem Prädiktor (`weight`) gibt der Achsenabschnitt die Größe einer Person mit durchschnittlichem Gewicht an. 
+- Würde man `weight` nicht zentrieren, gibt der Achsenabschnitt die Größe einer Person mit `weight=0` an, was nicht wirklich sinnvoll zu interpretieren ist.
+
+---
+
+
+
+## Prädiktor zentrieren 2/2
+
+Das mittlere Körpergewicht (`weight`; Tabelle `d2`) liegt bei ca. 45kg.
+
+
+.pull-left[
+
+
+```r
+d2 &lt;-
+  d2 %&gt;% 
+  mutate(
+    weight_c = weight - 
+      mean(weight))
+```
+
+]
+
+.pull-right[
+
+<div id="xjazxoqgyb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#xjazxoqgyb .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xjazxoqgyb .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xjazxoqgyb .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xjazxoqgyb .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xjazxoqgyb .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xjazxoqgyb .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xjazxoqgyb .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xjazxoqgyb .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xjazxoqgyb .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xjazxoqgyb .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xjazxoqgyb .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xjazxoqgyb .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xjazxoqgyb .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#xjazxoqgyb .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xjazxoqgyb .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xjazxoqgyb .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xjazxoqgyb .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#xjazxoqgyb .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xjazxoqgyb .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#xjazxoqgyb .gt_left {
+  text-align: left;
+}
+
+#xjazxoqgyb .gt_center {
+  text-align: center;
+}
+
+#xjazxoqgyb .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xjazxoqgyb .gt_font_normal {
+  font-weight: normal;
+}
+
+#xjazxoqgyb .gt_font_bold {
+  font-weight: bold;
+}
+
+#xjazxoqgyb .gt_font_italic {
+  font-style: italic;
+}
+
+#xjazxoqgyb .gt_super {
+  font-size: 65%;
+}
+
+#xjazxoqgyb .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">height</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weight</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">age</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">male</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weight_c</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">152</td>
+<td class="gt_row gt_right">48</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">3</td></tr>
+    <tr><td class="gt_row gt_right">140</td>
+<td class="gt_row gt_right">36</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">&minus;9</td></tr>
+    <tr><td class="gt_row gt_right">137</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">65</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">&minus;13</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+]
+
+
+---
+
+
+## Modell `m43a`
+
+
+.pull-left[
+
+$$
+`\begin{align}
+\text{height}_i &amp;\sim \operatorname{Normal}(\mu_i, \sigma) \\
+\mu_i &amp;= \alpha + \beta \cdot  \text{weight}_i\\
+\alpha &amp;\sim \operatorname{Normal}(178, 20)\\
+\beta &amp;\sim \operatorname{Exp}(1)\\
+\sigma &amp;\sim \operatorname{Uniform}(0, 50)
+\end{align}`
+$$
+]
+
+.pull-right[
+
+
+```r
+m43a &lt;-
+  quap(
+    alist(
+      height ~ dnorm(mu, sigma),
+      mu &lt;- a + b*weight_c,
+      a ~ dnorm(178, 20),
+      b ~ dexp(1),
+      sigma ~ dunif(0, 50)
+    ), 
+    data = d2)
+```
+
+
+]
+
+
+```r
+precis(m43a)
+```
+
+```
+##              mean         sd        5.5%       94.5%
+## a     154.6487722 0.27465735 154.2098167 155.0877277
+## b       0.9047492 0.04261393   0.8366439   0.9728545
+## sigma   5.1094000 0.19423130   4.7989809   5.4198192
+```
+
+
+---
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+name: hinweise
+class: center, middle, inverse
+
+
+# Hinweise 
+
+---
+
+## Zu diesem Skript
+
+- Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+  - *Statistical Rethinking* (2. Auflage), Kapitel 4.4, 4.5, 5.3, [McElreath (2020)](#bib-mcelreath_statistical_2020)
+
+  - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
+
+
+- Dieses Skript wurde erstellt am 2021-10-23 00:06:56 (WiSe 21).
+
+- Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+
+- Autor ist Sebastian Sauer.
+
+- Um diese HTMLM-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
+
+
+---
+
+name: literatur
+
+## Literatur
+
+
+&lt;a name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz, A.
+S.](#cite-kurz_statistical_2021) (2021). _Statistical rethinking with
+brms, ggplot2, and the tidyverse: Second edition_. URL:
+[https://bookdown.org/content/4857/](https://bookdown.org/content/4857/)
+(visited on Sep. 08, 2021).
+
+&lt;a name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
+a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
+statistical science. Boca Raton: Taylor and Francis, CRC Press. ISBN:
+978-0-367-13991-9.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

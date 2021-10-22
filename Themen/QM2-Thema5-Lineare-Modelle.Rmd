@@ -1,0 +1,63 @@
+---
+# knit: (function(inputFile, encoding) {
+#   rmarkdown::render(inputFile, encoding = encoding, output_dir = "output") })
+title: Lineare Modelle 
+subtitle: QM2, Thema 5
+#date: WiSe 21
+lang: de-DE
+#bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+institute: AWM, HS Ansbach
+output:
+  xaringan::moon_reader:
+    keep_md: true
+#    css: ["xaringan-themer.css"]
+
+    css: ["default", "default-fonts", "hygge", "xaringan-themer.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+
+#numbersections: yes
+csquotes: TRUE     
+---
+
+
+
+
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd"}
+```
+
+
+```{r}
+rethink_chap <- "4.4, 4.5, 5.3"
+```
+
+
+
+## Gliederung
+
+
+
+.center2[.Large[
+1. [Teil 1: Post-Verteilung der Regression](#teila)
+2. [Teil 2: j.](#kung)
+3. [Hinweise](#hinweise)
+4. [Literatur](#literatur)
+]]
+
+---
+
+```{r QM2-Thema4-Gaussmodelle-2, eval = TRUE, child="children/Post-Regression.Rmd"}
+```
+
+
+
+```{r QM2-Thema4-Gaussmodelle-3, eval = FALSE, child="children/Kung.Rmd"}
+```
+
+
+
+```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Hinweise.Rmd"}
+```
