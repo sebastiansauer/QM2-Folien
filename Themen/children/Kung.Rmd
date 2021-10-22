@@ -68,17 +68,17 @@ d <- import("https://raw.githubusercontent.com/rmcelreath/rethinking/master/data
 
 Wir interessieren uns für die Größe der erwachsenen !Kung, $N=352$.
 
-```{r echo = TRUE}
-d2 <- d %>% 
-  filter(age >= 18)
-```
 
 
 ]
 
 .pull-right[
+```{r echo = TRUE}
+d2 <- d %>% 
+  filter(age >= 18)
+```
 
-
+Die ersten paar Zeilen:
 
 ```{r echo = FALSE}
 d %>% 
@@ -286,7 +286,7 @@ sim %>%
 ---
 
 
-## Extrem vage Priori-Verteilung, $\sigma=100$, `m42`
+## Extrem vage Priori-Verteilung, $\sigma=100$
 
 
 
