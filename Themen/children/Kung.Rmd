@@ -66,11 +66,10 @@ d <- import("https://raw.githubusercontent.com/rmcelreath/rethinking/master/data
 ```
 
 
-Wir interessieren uns für die Größe der erwachsenen !Kung, $N=352$:
+Wir interessieren uns für die Größe der erwachsenen !Kung, $N=352$.
 
 ```{r echo = TRUE}
-d2 <-
-  d %>% 
+d2 <- d %>% 
   filter(age >= 18)
 ```
 
@@ -81,7 +80,7 @@ d2 <-
 
 
 
-```{r echo = TRUE}
+```{r echo = FALSE}
 d %>% 
   head(n=3) %>% 
   gt()
@@ -91,7 +90,7 @@ d %>%
 
 </br>
 
-```{r}
+```{r echo = TRUE}
 precis(d)
 ```
 
@@ -126,7 +125,7 @@ $$\mu \sim \mathcal{N}(178, 20)$$
 p1 <-
   tibble(x = seq(from = 100, to = 250, by = .1)) %>% 
   
-  ggplot(aes(x = x, y = dnorm(x, mean = 170, sd = 20))) +
+  ggplot(aes(x = x, y = dnorm(x, mean = 178, sd = 20))) +
   geom_line() +
   scale_x_continuous(breaks = seq(from = 100, to = 250, by = 75)) +
   labs(title = "mu ~ dnorm(178, 20)",
@@ -203,7 +202,7 @@ sim <-
   tibble(
     sample_mu    = 
       rnorm(n, 
-            mean = 170, 
+            mean = 178, 
             sd  = 20),
     sample_sigma = 
       runif(n, 
@@ -287,7 +286,7 @@ sim %>%
 ---
 
 
-## Extrem vage Priori-Verteilung, $\sigma=100$
+## Extrem vage Priori-Verteilung, $\sigma=100$, `m42`
 
 
 
@@ -372,7 +371,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/sebastiansauer/QM2-Fo
 ---
 
 
-## Posteriori-Verteilung des Größen-Modells
+## Posteriori-Verteilung des Größen-Modells, `m41`
 
 .pull-left[
 
@@ -453,7 +452,7 @@ d_grid %>%
 - Mit welcher Wahrscheinlichkeit ist die mittlere !Kung-Person größer als 1,55m?
 - Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
 - In welchem 90%-PI liegt $\mu$ vermutlich?
-- Mit welcher Unsicherheit ist die Schätzung der mittleren Körpergröße behaftet ($\sigma$)?
+- Mit welcher Unsicherheit $\sigma$ ist die Schätzung der mittleren Körpergröße behaftet?
 - Welcher Wert der mittleren Körpergröße hat die höchste Wahrscheinlichkeit?
 
 ]
@@ -489,7 +488,7 @@ d_grid_samples %>%
 
 ---
 
-## Posteriori-Verteilung mit `quap()` berechnen
+## Posteriori-Verteilung mit `quap()` berechnen 1/2
 
 - `quap()` (*Qu*adratische *Ap*proximation) erlaubt uns, komfortabel die Posteriori-Vertelung zu bestimmen.
 - Rechnerisch wird die quadratische Form der Normalverteilung ausgenutzt.
@@ -525,7 +524,7 @@ $\sigma \sim \mathcal{U}(0, 50)$
 
 ---
 
-## Posteriori-Stichproben mit `quap()` berechnen
+## Posteriori-Stichproben mit `quap()` berechnen 2/2
 
 .pull-left[
 
@@ -650,7 +649,7 @@ post_m41 %>%
 
 
 .pull-left[
-- Die Priori-Verteilung von $\mu$ in `m41` ist sehr vage (fast flach, indifferent, informationsarm, fast fleichverteilt, fast "objektiv").
+- Die Priori-Verteilung von $\mu$ in `m42` ist sehr vage (fast flach, indifferent, informationsarm, "objektiv").
 - Aufgrund der großen Stichprobe ist der Schätzbereich für $\mu$ trotzdem schmal. Die vage Priori-Verteilung kommt daher nicht zum tragen.
 - Bei kleineren Stichproben oder komplexeren Modellen kann die Priori-Verteilung deutlich mehr Einfluss haben.
 ]
@@ -672,11 +671,10 @@ m42 <-
 
 ]
 
-```{r}
-precis(m42)
+```{r echo = TRUE}
+precis(m42) # sigma hat sich geändert, vgl. m4.1
 ```
 
-Man beachte, dass $\sigma$ sich im Vergleich zu `m4.1` geändert hat.
 
 ---
 

@@ -1203,12 +1203,11 @@ Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreat
 
 
 
-Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=352\)`:
+Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=352\)`.
 
 
 ```r
-d2 &lt;-
-  d %&gt;% 
+d2 &lt;- d %&gt;% 
   filter(age &gt;= 18)
 ```
 
@@ -1218,13 +1217,6 @@ d2 &lt;-
 .pull-right[
 
 
-
-
-```r
-d %&gt;% 
-  head(n=3) %&gt;% 
-  gt()
-```
 
 <div id="wxmfgaonqc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
@@ -1598,6 +1590,10 @@ d %&gt;%
 &lt;/br&gt;
 
 
+```r
+precis(d)
+```
+
 ```
 ##               mean         sd      5.5%     94.5%     histogram
 ## height 138.2635963 27.6024476 81.108550 165.73500 ▁▁▁▁▁▁▁▂▁▇▇▅▁
@@ -1690,7 +1686,7 @@ sim &lt;-
   tibble(
     sample_mu    = 
       rnorm(n, 
-            mean = 170, 
+            mean = 178, 
             sd  = 20),
     sample_sigma = 
       runif(n, 
@@ -1756,8 +1752,8 @@ sim %&gt;%
 ## # A tibble: 2 × 3
 ##   `height &lt; 100`     n     prop
 ##   &lt;lgl&gt;          &lt;int&gt;    &lt;dbl&gt;
-## 1 FALSE           9731 0.000206
-## 2 TRUE             269 0.00743
+## 1 FALSE           9819 0.000204
+## 2 TRUE             181 0.0110
 ```
 
 
@@ -1768,7 +1764,7 @@ sim %&gt;%
 ---
 
 
-## Extrem vage Priori-Verteilung, `\(\sigma=100\)`
+## Extrem vage Priori-Verteilung, `\(\sigma=100\)`, `m42`
 
 
 
@@ -1821,7 +1817,7 @@ sim %&gt;%
 ---
 
 
-## Posteriori-Verteilung des Größen-Modells
+## Posteriori-Verteilung des Größen-Modells, `m41`
 
 .pull-left[
 
@@ -1860,7 +1856,7 @@ sim %&gt;%
 - Mit welcher Wahrscheinlichkeit ist die mittlere !Kung-Person größer als 1,55m?
 - Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
 - In welchem 90%-PI liegt `\(\mu\)` vermutlich?
-- Mit welcher Unsicherheit ist die Schätzung der mittleren Körpergröße behaftet ($\sigma$)?
+- Mit welcher Unsicherheit `\(\sigma\)` ist die Schätzung der mittleren Körpergröße behaftet?
 - Welcher Wert der mittleren Körpergröße hat die höchste Wahrscheinlichkeit?
 
 ]
@@ -1879,7 +1875,7 @@ sim %&gt;%
 
 ---
 
-## Posteriori-Verteilung mit `quap()` berechnen
+## Posteriori-Verteilung mit `quap()` berechnen 1/2
 
 - `quap()` (*Qu*adratische *Ap*proximation) erlaubt uns, komfortabel die Posteriori-Vertelung zu bestimmen.
 - Rechnerisch wird die quadratische Form der Normalverteilung ausgenutzt.
@@ -1916,7 +1912,7 @@ Modelldefinition:
 
 ---
 
-## Posteriori-Stichproben mit `quap()` berechnen
+## Posteriori-Stichproben mit `quap()` berechnen 2/2
 
 .pull-left[
 
@@ -2436,7 +2432,7 @@ post_m41 %&gt;%
 
 
 .pull-left[
-- Die Priori-Verteilung von `\(\mu\)` in `m41` ist sehr vage (fast flach, indifferent, informationsarm, fast fleichverteilt, fast "objektiv").
+- Die Priori-Verteilung von `\(\mu\)` in `m42` ist sehr vage (fast flach, indifferent, informationsarm, "objektiv").
 - Aufgrund der großen Stichprobe ist der Schätzbereich für `\(\mu\)` trotzdem schmal. Die vage Priori-Verteilung kommt daher nicht zum tragen.
 - Bei kleineren Stichproben oder komplexeren Modellen kann die Priori-Verteilung deutlich mehr Einfluss haben.
 ]
@@ -2460,13 +2456,16 @@ m42 &lt;-
 ]
 
 
+```r
+precis(m42) # sigma hat sich geändert, vgl. m4.1
+```
+
 ```
 ##            mean        sd      5.5%     94.5%
 ## mu    169.81621 0.1003582 169.65582 169.97661
 ## sigma  17.07505 0.6500034  16.03622  18.11388
 ```
 
-Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
 
 ---
 
@@ -2513,7 +2512,7 @@ class: center, middle, inverse
   - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-- Dieses Skript wurde erstellt am 2021-10-22 09:48:18 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-22 13:07:54 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
