@@ -129,7 +129,8 @@ p1 <-
   geom_line() +
   scale_x_continuous(breaks = seq(from = 100, to = 250, by = 75)) +
   labs(title = "mu ~ dnorm(178, 20)",
-       y = "density")
+       y = "") +
+  scale_y_continuous(breaks = NULL)
 
 p2 <-
   tibble(x = seq(from = -10, to = 60, by = .1)) %>%
@@ -182,6 +183,21 @@ p1 + p2
 
 
 ]
+
+
+---
+
+## Der Likelihood wird von den Prioris gespeist
+
+
+
+```{r}
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/L-priors-jpg.001.jpeg")
+```
+
+
+
+
 
 
 ---
@@ -241,7 +257,6 @@ p3
 
 
 
-
 .footnote[.tiny[[Quellcode](https://bookdown.org/content/4857/geocentric-models.html#a-gaussian-model-of-height)]]
 
 ---
@@ -281,6 +296,31 @@ sim %>%
 
 🤔 Sehr kleine Buschleute?
 ]
+
+
+---
+
+
+
+##  Vorhersagen der Priori-Werte
+
+
+```{r}
+library(patchwork)
+library(figpatch)
+
+sw_path <- paste0(here::here(),"/img/south_west_black_24dp2.png")
+se_path <- paste0(here::here(),"/img/south_east_black_24dp2.png")
+
+
+sw <- fig(sw_path)
+se <- fig(se_path)
+
+
+(p1 + p2) / (se + sw) / (plot_spacer() + p3 + plot_spacer())
+```
+
+
 
 
 ---
