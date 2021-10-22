@@ -139,7 +139,7 @@ source(paste0(here::here(),"/R-Code/img14.R"))
 ## Nicht verwechseln
 
 ```{r Normalverteilung-8, echo = FALSE, out.width="30%", fig.align='center'}
-img("ch33910f1.jpg")
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/ch33910f1.jpg")
 ```
 
 `r RefManageR::Citep(bib, "freeman_visual_2006")`
@@ -273,7 +273,7 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/f/f8/10_
 
 
 ```{r Normalverteilung-11, out.width="70%", fig.align="center"}
-img("mult-norm.png")
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/mult-norm.png")
 ```
 
 

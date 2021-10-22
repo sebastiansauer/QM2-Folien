@@ -157,10 +157,13 @@ p1
 Wir nehmen an, dass $\mu$ und $h_i$ normalverteilt, $\sigma$ gleichverteilt sind:
 
 .left-column[
+Likelihood:
 $h_i \sim \mathcal{N}(\mu, \sigma)$
 
+Prior für $\mu$:
 $\mu \sim \mathcal{N}(178, 20)$
 
+Prior für $\sigma$:
 $\sigma \sim \mathcal{U}(0, 50)$
 
 </br>
@@ -362,7 +365,7 @@ sim %>%
 
 
 ```{r, echo = FALSE} 
-knitr::include_graphics("/Users/sebastiansaueruser/github-repos/psych252slides/figures/gifs/pretty_good.gif")
+knitr::include_graphics("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/img/pretty_good.gif")
 ```
 
 
@@ -695,7 +698,7 @@ Man beachte, dass $\sigma$ sich im Vergleich zu `m4.1` geändert hat.
 .center[.content-box-blue[🧡 Bleiben Sie dran!]]
 
 ```{r, echo = FALSE} 
-knitr::include_graphics("/Users/sebastiansaueruser/github-repos/psych252slides/figures/comics/chicken_standard_deviation.jpg")
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/chicken_standard_deviation.jpg")
 ```
 
 ]
