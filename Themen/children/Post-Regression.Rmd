@@ -6,6 +6,9 @@ class: center, middle, inverse
 ```{r}
 library("latex2exp")
 library("patchwork")
+library("gt")
+library("rethinking")
+library("tidyverse")
 ```
 
 
@@ -48,12 +51,145 @@ d2 %>%
 
 ```
 
+
 ]
+
+---
+
+## Statistiken zum !Kung-Datensatz
+
+[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/Howell1a.csv)
+
+.tiny[
+```{r echo = TRUE, eval = FALSE}
+library(tidyverse)
+library(rstatix)
+Kung_path <- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
+
+d <- read_dsv(Kung_path)  
+
+d2 <- 
+  d %>% 
+  filter(age > 18)
+
+get_summary_stats(d2)
+```
+
+]
+
+
+```{r echo = FALSE, eval = TRUE}
+library(rstatix)
+
+get_summary_stats(d2) %>% 
+  gt() %>% 
+  fmt_number(columns = 2:13, decimals = 1)
+```
+
+
+
+```{r}
+weight_mean <- mean(d2$weight)
+weight_sd <- sd(d2$height)
+
+height_mean <- mean(d2$height)
+height_sd <- sd(d2$height)
+
+d2_summary <-
+  d2 %>% 
+  select(weight, height) %>% 
+  pivot_longer(everything()) %>% 
+  group_by(name) %>% 
+  summarise(avg = mean(value),
+            stdev = sd(value))
+```
+
+Das mittlere Körpergewicht (`weight`) liegt bei ca. 45kg (sd 7 kg).
+
+---
+
+## Visualisierung von `weight` und `height`
+
+Explorative Datenanalyse (keine Inferenz auf Populationswerte, sondern auf die Stichprobe bezogen)
+
+```{r echo = FALSE, fig.asp=.5}
+d2 %>% 
+  select(weight, height) %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x = value)) +
+  geom_histogram() +
+  facet_wrap(~ name, scales = "free") +
+  geom_vline(data = d2_summary,
+             aes(xintercept = avg)) +
+  geom_segment(data = d2_summary,
+              aes(x = avg-stdev,
+                  xend = avg+stdev),
+              y = 0,
+              yend = 0,
+              alpha = .7,
+              color = "blue",
+              size = 2) +
+  labs(caption = "Vertikale Linie: Mittelwert\nhorizontale Linie: Std. Abweichung")
+```
 
 
 ---
 
-## Für jede Ausprägung des Prädiktors brauchen wir eine  Post-Verteilung
+
+
+## Prädiktor zentrieren 1/2 
+
+
+
+- Zieht man von jedem Gewichtswert den Mittelwert ab, so bekommt man die Abweichung des Gewichts vom Mittelwert (Präditkor "zentrieren").
+- Wenn man den Prädiktor (`weight`) zentriert hat, ist der Achsenabschnitt, $\alpha$, einfacher zu verstehen.
+- In einem Modell mit zentriertem Prädiktor (`weight`) gibt der Achsenabschnitt die Größe einer Person mit durchschnittlichem Gewicht an. 
+- Würde man `weight` nicht zentrieren, gibt der Achsenabschnitt die Größe einer Person mit `weight=0` an, was nicht wirklich sinnvoll zu interpretieren ist.
+
+---
+
+
+
+## Prädiktor zentrieren 2/2
+
+
+
+.pull-left[
+```{r echo = TRUE}
+d2 <-
+  d2 %>% 
+  mutate(
+    weight_c = weight - 
+      mean(weight))
+```
+
+]
+
+.pull-right[
+```{r}
+d2 %>% 
+  slice_head(n=3) %>% 
+  gt() %>% 
+  fmt_number(columns = everything(), decimals = 0)
+```
+
+]
+
+
+```{r fig.asp=0.5}
+d2 %>% 
+  select(weight, weight_c) %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x = value)) +
+  geom_histogram() +
+  facet_wrap(~ name, scales = "free")
+```
+
+
+---
+
+
+## Für jede Ausprägung des Prädiktors brauchen wir eine  Post-Verteilung für $\mu$
 
 
 
@@ -356,11 +492,11 @@ d %>%
 ## Darf ich vorstellen: Die Exponential-Verteilung 🍾
 
 
-$$\beta \sim \operatorname{Exp}(1)$$
+
 
 .left-column[
 
-```{r fig.asp = 1, fig.width=2, echo = TRUE}
+```{r fig.asp = 1, fig.width=2, echo = FALSE}
 d <-
   tibble(
     x = seq(0, 5,.1),
@@ -371,10 +507,13 @@ d %>%
   ggplot(aes(x,y)) +
   geom_line() 
 ```
+
+$$\beta \sim \operatorname{Exp}(1)$$
+
 ]
 
 .right-column[
-- Eine Exponentialverteilung ist nur für positive Werte, $x>0$, definiert.
+- Eine *Exp*onentialverteilung ist nur für positive Werte, $x>0$, definiert.
 - Sie ist eine praktische Wahl, wenn man einen Parameter auf einen positiven Wertebereich bändigen möchte.
 - Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
 - Sie hat nur einen Parameter, $\lambda$; $\frac{1}{\lambda}$  gibt die Streuung ("Gestrecktheit") der Verteilung an.
@@ -384,6 +523,46 @@ d %>%
     
 Simulieren wir mal die Priori-Prädiktiv-Verteilung und schauen, was passiert.
 
+]
+
+---
+
+
+## Exponentialverteilung mit R
+
+
+
+.pull-left[
+
+```{r dexp-plot, echo = TRUE, eval = FALSE}
+d <-
+  tibble(
+    x = seq(0, 5,.1),
+    y1 = dexp(x, rate = 1),
+    y2 = dexp(x, rate = 0.5)
+  )
+
+d %>% 
+  ggplot(aes(x)) +
+  geom_line(aes(y = y1)) +
+  geom_line(aes(y = y2), 
+            color = "blue")
+```
+
+
+]
+
+.pull-right[
+
+```{r ref.label = "dexp-plot", echo = FALSE, eval = TRUE}
+
+```
+
+$$\beta \sim \operatorname{Exp}(1)$$
+
+$$\color{blue}\beta \color{blue}\sim \color{blue}{\operatorname{Exp}(0.5)}$$
+
+]
 
 ---
 
@@ -462,6 +641,51 @@ Das sieht gut aus; unsere Priori-Werte scheinen vernünftige Vorhersagen zu tät
 ---
 
 
+## Prior-Prädiktiv mit R plotten: R-Code
+
+
+
+```{r prior-praed-plot, echo = TRUE, eval = TRUE}
+n_lines <- 100  # 100 Regr.linien simulieren
+
+lines1 <- 
+  tibble(n = 1:n_lines,
+         a = rnorm(n_lines, mean = 178, sd = 20),  # Prior alpha
+         b = rexp(n_lines, 1))  %>%   # Prior beta
+  mutate(weight_c = 40-45,  # Gewicht einer leichten Person
+         height = a + weight_c*b)  # Größe einer leichten Person
+
+lines2 <- 
+  tibble(n = 1:n_lines,
+         a = rnorm(n_lines, mean = 178, sd = 20),  # Prior alpha
+         b = rexp(n_lines, 1))  %>%   # Prior beta
+  mutate(weight_c = 80-45,  # Gewicht einer schweren Person
+         height = a + weight_c*b)  # Größe einer schweren Person
+
+lines_doppelt <-  # zwei Punkte pro Linie definieren eine Linie
+  lines1 %>% 
+  bind_rows(lines2)
+ 
+prior_pred_plot <- # ein Wertepaar von "n" ist eine Gruppe, d.h. eine Linie
+  lines_doppelt %>%  
+  ggplot(aes(x = weight_c, y = height, group = n)) +
+  geom_line(alpha = 0.1) +
+  ylim(100, 300)
+```
+
+---
+
+## Prior-Prädiktiv mit R plotten: Ausgabe
+
+```{r reeval = TRUE, echo = FALSE}
+prior_pred_plot
+```
+
+
+
+
+---
+
 ## Moment, kann hier jeder machen, was er will?
 
 
@@ -485,52 +709,8 @@ Das sieht gut aus; unsere Priori-Werte scheinen vernünftige Vorhersagen zu tät
 
 ---
 
-## Prädiktor zentrieren 1/2 
 
-
-
-- Zieht man von jedem Gewichtswert den Mittelwert ab, so bekommt man die Abweichung des Gewichts vom Mittelwert (Präditkor "zentrieren").
-- Wenn man den Prädiktor (`weight`) zentriert hat, ist der Achsenabschnitt, $\alpha$, einfacher zu verstehen.
-- In einem Modell mit zentriertem Prädiktor (`weight`) gibt der Achsenabschnitt die Größe einer Person mit durchschnittlichem Gewicht an. 
-- Würde man `weight` nicht zentrieren, gibt der Achsenabschnitt die Größe einer Person mit `weight=0` an, was nicht wirklich sinnvoll zu interpretieren ist.
-
----
-
-
-
-## Prädiktor zentrieren 2/2
-
-Das mittlere Körpergewicht (`weight`; Tabelle `d2`) liegt bei ca. 45kg.
-
-
-.pull-left[
-
-```{r echo = TRUE}
-d2 <-
-  d2 %>% 
-  mutate(
-    weight_c = weight - 
-      mean(weight))
-```
-
-]
-
-.pull-right[
-
-```{r}
-d2 %>% 
-  slice_head(n=3) %>% 
-  gt() %>% 
-  fmt_number(columns = everything(), decimals = 0)
-```
-
-]
-
-
----
-
-
-## Modell `m43a`
+## Hier ist unser Modell, `m43a`
 
 
 .pull-left[
@@ -544,11 +724,15 @@ $$
 \sigma &\sim \operatorname{Uniform}(0, 50)
 \end{align}
 $$
+
 ]
 
 .pull-right[
 
 ```{r echo = TRUE}
+# Zufallszahlen festlegen:
+set.seed(42)  
+# Posteriori-Vert. berechnen:
 m43a <-
   quap(
     alist(
@@ -572,9 +756,3 @@ precis(m43a)
 Voilà! Die Posteriori-Verteilung für `m43a`.
 
 ---
-
-
-
-
-
-
