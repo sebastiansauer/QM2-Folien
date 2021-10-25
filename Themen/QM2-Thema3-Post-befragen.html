@@ -10,6 +10,10 @@
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
   </head>
   <body>
     <textarea id="source">
@@ -20,6 +24,9 @@ class: center, middle, inverse, title-slide
 ### AWM, HS Ansbach
 
 ---
+
+
+
 
 
 
@@ -42,7 +49,16 @@ class: center, middle, inverse, title-slide
 
 
 
+
+
+
+
   
+
+
+
+
+
 
 
 
@@ -86,9 +102,12 @@ class: center, middle, inverse, title-slide
 4. [Literatur](#literatur)
 ]]
 
-
-
 ---
+
+
+
+
+
 
 name: teil1
 class: center, middle, inverse
@@ -99,32 +118,68 @@ class: center, middle, inverse
 
 ---
 
+## Zur Erinnerung: Gitterwerte in R berechnen
+
+
+
+
+
+```r
+n &lt;- 10
+n_success &lt;- 6
+n_trials  &lt;- 9
+
+d &lt;-
+  tibble(p_grid = seq(from = 0, to = 1, length.out = n),
+                  prior  = 1) %&gt;% 
+  mutate(likelihood = dbinom(n_success, 
+                             size = n_trials, 
+                             prob = p_grid)) %&gt;% 
+  mutate(unstand_post = (likelihood * prior),
+         post = unstand_post / sum(unstand_post))
+```
+
+
+
+```
+## Rows: 10
+## Columns: 5
+## $ p_grid       &lt;dbl&gt; 0.0000000, 0.1111111, 0.2222222, 0.3333333, 0.4444444, 0.…
+## $ prior        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+## $ likelihood   &lt;dbl&gt; 0.0000000000, 0.0001110112, 0.0047596037, 0.0341411370, 0…
+## $ unstand_post &lt;dbl&gt; 0.0000000000, 0.0001110112, 0.0047596037, 0.0341411370, 0…
+## $ post         &lt;dbl&gt; 0.0000000000, 0.0001232257, 0.0052833037, 0.0378976918, 0…
+```
+
+
+
+---
+
 name: posttab
 
 ## Zur Erinnerung, die Gittermethode
 
 Die Gittermethode ist ein Weg, die Posteriori-Verteilung zu berechnen. Die Posteriori-Verteilung birgt viele nützliche Informationen.
 
-Modell: `\(W=6\)` Wasser, `\(N=9\)` Würfen und `\(k=1000\)` Gitterwerten.
-
+Modell: `\(W=6\)` Wasser, `\(N=9\)` Würfen und `\(k=10\)` Gitterwerten.
 
 
 
 .left-column[
-&lt;img src="plot-post-d-1.png" width="100%" /&gt;
+&lt;img src="plot-post-d-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 
 .right-column[
-Die ersten paar Zeilen aus der Tabelle `d`:
+Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
 
-<div id="uxaecunuys" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="datvxmlaen" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uxaecunuys .gt_table {
+#datvxmlaen .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -149,7 +204,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-left-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_heading {
+#datvxmlaen .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -161,7 +216,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_title {
+#datvxmlaen .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -171,7 +226,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-bottom-width: 0;
 }
 
-#uxaecunuys .gt_subtitle {
+#datvxmlaen .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -181,13 +236,13 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-top-width: 0;
 }
 
-#uxaecunuys .gt_bottom_border {
+#datvxmlaen .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_col_headings {
+#datvxmlaen .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -202,7 +257,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_col_heading {
+#datvxmlaen .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -222,7 +277,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   overflow-x: hidden;
 }
 
-#uxaecunuys .gt_column_spanner_outer {
+#datvxmlaen .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -234,15 +289,15 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   padding-right: 4px;
 }
 
-#uxaecunuys .gt_column_spanner_outer:first-child {
+#datvxmlaen .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uxaecunuys .gt_column_spanner_outer:last-child {
+#datvxmlaen .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uxaecunuys .gt_column_spanner {
+#datvxmlaen .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -254,7 +309,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   width: 100%;
 }
 
-#uxaecunuys .gt_group_heading {
+#datvxmlaen .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -276,7 +331,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   vertical-align: middle;
 }
 
-#uxaecunuys .gt_empty_group_heading {
+#datvxmlaen .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -291,15 +346,15 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   vertical-align: middle;
 }
 
-#uxaecunuys .gt_from_md > :first-child {
+#datvxmlaen .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uxaecunuys .gt_from_md > :last-child {
+#datvxmlaen .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uxaecunuys .gt_row {
+#datvxmlaen .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -318,7 +373,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   overflow-x: hidden;
 }
 
-#uxaecunuys .gt_stub {
+#datvxmlaen .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -330,7 +385,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   padding-left: 12px;
 }
 
-#uxaecunuys .gt_summary_row {
+#datvxmlaen .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -340,7 +395,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   padding-right: 5px;
 }
 
-#uxaecunuys .gt_first_summary_row {
+#datvxmlaen .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -350,7 +405,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-top-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_grand_summary_row {
+#datvxmlaen .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -360,7 +415,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   padding-right: 5px;
 }
 
-#uxaecunuys .gt_first_grand_summary_row {
+#datvxmlaen .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -370,11 +425,11 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-top-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_striped {
+#datvxmlaen .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uxaecunuys .gt_table_body {
+#datvxmlaen .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -383,7 +438,7 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-bottom-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_footnotes {
+#datvxmlaen .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -397,13 +452,13 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_footnote {
+#datvxmlaen .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#uxaecunuys .gt_sourcenotes {
+#datvxmlaen .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -417,41 +472,41 @@ Die ersten paar Zeilen aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-#uxaecunuys .gt_sourcenote {
+#datvxmlaen .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#uxaecunuys .gt_left {
+#datvxmlaen .gt_left {
   text-align: left;
 }
 
-#uxaecunuys .gt_center {
+#datvxmlaen .gt_center {
   text-align: center;
 }
 
-#uxaecunuys .gt_right {
+#datvxmlaen .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uxaecunuys .gt_font_normal {
+#datvxmlaen .gt_font_normal {
   font-weight: normal;
 }
 
-#uxaecunuys .gt_font_bold {
+#datvxmlaen .gt_font_bold {
   font-weight: bold;
 }
 
-#uxaecunuys .gt_font_italic {
+#datvxmlaen .gt_font_italic {
   font-style: italic;
 }
 
-#uxaecunuys .gt_super {
+#datvxmlaen .gt_super {
   font-size: 65%;
 }
 
-#uxaecunuys .gt_footnote_marks {
+#datvxmlaen .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -479,31 +534,31 @@ Die ersten paar Zeilen aus der Tabelle `d`:
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">0</td></tr>
-    <tr><td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+    <tr><td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;1</sup></td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">8 &times; 10<sup class='gt_super'>&minus;17</sup></td>
-<td class="gt_row gt_right">8 &times; 10<sup class='gt_super'>&minus;17</sup></td>
-<td class="gt_row gt_right">8 &times; 10<sup class='gt_super'>&minus;19</sup></td></tr>
-    <tr><td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;4</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;4</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;4</sup></td></tr>
+    <tr><td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;15</sup></td>
-<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;15</sup></td>
-<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;17</sup></td></tr>
-    <tr><td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;3</sup></td></tr>
+    <tr><td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;1</sup></td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;14</sup></td>
-<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;14</sup></td>
-<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;16</sup></td></tr>
-    <tr><td class="gt_row gt_right">4 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;2</sup></td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;2</sup></td>
+<td class="gt_row gt_right">4 &times; 10<sup class='gt_super'>&minus;2</sup></td></tr>
+    <tr><td class="gt_row gt_right">4 &times; 10<sup class='gt_super'>&minus;1</sup></td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;13</sup></td>
-<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;13</sup></td>
-<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;15</sup></td></tr>
-    <tr><td class="gt_row gt_right">5 &times; 10<sup class='gt_super'>&minus;3</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;1</sup></td></tr>
+    <tr><td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;1</sup></td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;12</sup></td>
-<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;12</sup></td>
-<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;14</sup></td></tr>
+<td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td></tr>
   </tbody>
   
   
@@ -512,9 +567,10 @@ Die ersten paar Zeilen aus der Tabelle `d`:
 ]
 
 
-
-
 ---
+
+
+
 
 ## Befragen wir die Posteriori-Verteilung
 
@@ -560,12 +616,12 @@ samples &lt;-
 Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist proportional zur Posteriori-Wahrscheinlichkeit (`post`) dieses Werts. Ziehen mit Zurücklegen hält die Wahrscheinlichkeiten während des Ziehens konstant.
 
 
-<div id="tnrpqwzykf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ttxafjkbxc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tnrpqwzykf .gt_table {
+#ttxafjkbxc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -590,7 +646,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-left-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_heading {
+#ttxafjkbxc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -602,7 +658,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_title {
+#ttxafjkbxc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -612,7 +668,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-bottom-width: 0;
 }
 
-#tnrpqwzykf .gt_subtitle {
+#ttxafjkbxc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -622,13 +678,13 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-top-width: 0;
 }
 
-#tnrpqwzykf .gt_bottom_border {
+#ttxafjkbxc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_col_headings {
+#ttxafjkbxc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -643,7 +699,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_col_heading {
+#ttxafjkbxc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -663,7 +719,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   overflow-x: hidden;
 }
 
-#tnrpqwzykf .gt_column_spanner_outer {
+#ttxafjkbxc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -675,15 +731,15 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-right: 4px;
 }
 
-#tnrpqwzykf .gt_column_spanner_outer:first-child {
+#ttxafjkbxc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tnrpqwzykf .gt_column_spanner_outer:last-child {
+#ttxafjkbxc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tnrpqwzykf .gt_column_spanner {
+#ttxafjkbxc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -695,7 +751,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   width: 100%;
 }
 
-#tnrpqwzykf .gt_group_heading {
+#ttxafjkbxc .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -717,7 +773,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   vertical-align: middle;
 }
 
-#tnrpqwzykf .gt_empty_group_heading {
+#ttxafjkbxc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -732,15 +788,15 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   vertical-align: middle;
 }
 
-#tnrpqwzykf .gt_from_md > :first-child {
+#ttxafjkbxc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tnrpqwzykf .gt_from_md > :last-child {
+#ttxafjkbxc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tnrpqwzykf .gt_row {
+#ttxafjkbxc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -759,7 +815,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   overflow-x: hidden;
 }
 
-#tnrpqwzykf .gt_stub {
+#ttxafjkbxc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -771,7 +827,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-left: 12px;
 }
 
-#tnrpqwzykf .gt_summary_row {
+#ttxafjkbxc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -781,7 +837,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-right: 5px;
 }
 
-#tnrpqwzykf .gt_first_summary_row {
+#ttxafjkbxc .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -791,7 +847,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-top-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_grand_summary_row {
+#ttxafjkbxc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -801,7 +857,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-right: 5px;
 }
 
-#tnrpqwzykf .gt_first_grand_summary_row {
+#ttxafjkbxc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -811,11 +867,11 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-top-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_striped {
+#ttxafjkbxc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tnrpqwzykf .gt_table_body {
+#ttxafjkbxc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -824,7 +880,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-bottom-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_footnotes {
+#ttxafjkbxc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -838,13 +894,13 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_footnote {
+#ttxafjkbxc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#tnrpqwzykf .gt_sourcenotes {
+#ttxafjkbxc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -858,41 +914,41 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-#tnrpqwzykf .gt_sourcenote {
+#ttxafjkbxc .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#tnrpqwzykf .gt_left {
+#ttxafjkbxc .gt_left {
   text-align: left;
 }
 
-#tnrpqwzykf .gt_center {
+#ttxafjkbxc .gt_center {
   text-align: center;
 }
 
-#tnrpqwzykf .gt_right {
+#ttxafjkbxc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tnrpqwzykf .gt_font_normal {
+#ttxafjkbxc .gt_font_normal {
   font-weight: normal;
 }
 
-#tnrpqwzykf .gt_font_bold {
+#ttxafjkbxc .gt_font_bold {
   font-weight: bold;
 }
 
-#tnrpqwzykf .gt_font_italic {
+#ttxafjkbxc .gt_font_italic {
   font-style: italic;
 }
 
-#tnrpqwzykf .gt_super {
+#ttxafjkbxc .gt_super {
   font-size: 65%;
 }
 
-#tnrpqwzykf .gt_footnote_marks {
+#ttxafjkbxc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -917,21 +973,21 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">0.849</td>
+    <tr><td class="gt_row gt_right">0.778</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.109</td>
-<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;1</sup></td>
-<td class="gt_row gt_right">0.001</td></tr>
-    <tr><td class="gt_row gt_right">0.549</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.211</td>
+<td class="gt_row gt_right">0.204</td>
 <td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td>
-<td class="gt_row gt_right">0.002</td></tr>
-    <tr><td class="gt_row gt_right">0.396</td>
+<td class="gt_row gt_right">0.227</td></tr>
+    <tr><td class="gt_row gt_right">0.889</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.072</td>
-<td class="gt_row gt_right">7 &times; 10<sup class='gt_super'>&minus;2</sup></td>
-<td class="gt_row gt_right">0.001</td></tr>
+<td class="gt_row gt_right">0.057</td>
+<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;2</sup></td>
+<td class="gt_row gt_right">0.063</td></tr>
+    <tr><td class="gt_row gt_right">0.667</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.273</td>
+<td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;1</sup></td>
+<td class="gt_row gt_right">0.303</td></tr>
   </tbody>
   
   
@@ -940,26 +996,59 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
 
 ---
 
-## Visualisierung der Stichprobendaten
+## Visualierung von `samples` 
+
+.pull-left[
+Die ersten 100 gesampelten Gitterwerte (`p_grid`):
+
+```
+##   [1] 0.78 0.89 0.67 0.67 0.33 0.56 0.56 0.67 0.67 0.56 0.56 0.56 0.56 0.44 0.56
+##  [16] 0.78 0.78 0.56 0.67 0.67 0.56 0.67 0.67 0.78 0.67 0.78 0.78 0.78 0.67 0.78
+##  [31] 0.67 0.67 0.67 0.67 0.78 0.44 0.44 0.78 0.78 0.67 0.56 0.67 0.33 0.67 0.78
+##  [46] 0.56 0.56 0.56 0.56 0.78 0.56 0.67 0.44 0.56 0.78 0.56 0.44 0.56 0.78 0.56
+##  [61] 0.89 0.56 0.78 0.67 0.67 0.56 0.78 0.67 0.89 0.56 0.78 0.78 0.89 0.56 0.44
+##  [76] 0.67 0.67 0.56 0.56 0.44 0.78 0.78 0.44 0.78 0.56 0.44 0.89 0.89 0.33 0.67
+##  [91] 0.56 0.78 0.78 0.67 0.78 0.56 0.78 0.78 0.67 0.44
+```
+
+]
 
 
-Datensatz `samples`, `\(n=10^4\)`, basierend auf dem [Modell oben](#posttab).
+.pull-right[
+
+&lt;img src="unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+## Visualisierung der Stichprobendaten mit `\(k=100\)` Gitterwerten
+
+
+Datensatz `samples`, `\(n=10^4\)`, `\(k=100\)` Gitterwerte, basierend auf dem [Modell oben](#posttab).
 
 
 
-&lt;img src="samplesplot-1.png" width="100%" height="400px" /&gt;
+
+
+
+
+
+
+&lt;img src="samplesplot-1.png" width="100%" height="400px" style="display: block; margin: auto;" /&gt;
 
 Die Stichprobendaten nähern sich der Posteriori-Verteilung an.
 
 ---
 
-## Mehr Stichproben glätten die Verteilung
+## Mehr Stichproben und mehr Gitterwerte glätten die Verteilung
 
-`\(n=10^6\)` Stichproben aus der Posteriori-Verteilung
+`\(n=10^6\)` Stichproben bei `\(k=100\)` Gitterwerten aus der Posteriori-Verteilung
 
 
 ```r
-d %&gt;% 
+d_k100 %&gt;% 
   slice_sample(n = 1e6, weight_by = post, replace = T) %&gt;% 
   ggplot(aes(x = p_grid)) +
   geom_density(fill = "black") +
@@ -967,7 +1056,7 @@ d %&gt;%
   labs(y = "")
 ```
 
-&lt;img src="QM2-Thema3-Post-befragen-5-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="QM2-Thema3-Post-befragen-5-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -991,7 +1080,7 @@ d %&gt;%
 ## # A tibble: 1 × 1
 ##     sum
 ##   &lt;dbl&gt;
-## 1 0.172
+## 1 0.167
 ```
 ]
 
@@ -1010,7 +1099,7 @@ samples %&gt;%
 ## # A tibble: 1 × 1
 ##     sum
 ##   &lt;dbl&gt;
-## 1 0.177
+## 1 0.164
 ```
 
 
@@ -1041,7 +1130,7 @@ samples %&gt;%
 ## # A tibble: 1 × 2
 ##     sum percent
 ##   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 0.602    60.2
+## 1 0.552    55.2
 ```
 
 Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen 0.9 und 1?
@@ -1056,61 +1145,58 @@ samples %&gt;%
 
 ```
 ## # A tibble: 1 × 2
-##      sum percent
-##    &lt;dbl&gt;   &lt;dbl&gt;
-## 1 0.0139    1.39
+##     sum percent
+##   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     0       0
 ```
 
 ---
 
-## Visualisierung von Parameterwert-Intervalle
+&lt;!-- ## Visualisierung von Parameterwert-Intervalle --&gt;
 
-.pull-left[
-.small[
+&lt;!-- .pull-left[ --&gt;
+&lt;!-- .small[ --&gt;
 
+&lt;!-- ```{r plot2, echo = TRUE, fig.show = "hide"} --&gt;
+&lt;!-- d %&gt;%  --&gt;
+&lt;!--   ggplot(aes(x = p_grid,  --&gt;
+&lt;!--              y = post)) + --&gt;
+&lt;!--   geom_line() + --&gt;
+&lt;!--   geom_area(data = d %&gt;%  --&gt;
+&lt;!--             filter(p_grid &lt; .5)) + --&gt;
+&lt;!--   labs(x = "Anteil Wasser (p)", --&gt;
+&lt;!--        y = "Dichte", --&gt;
+&lt;!--        title = "Wahrscheinlichkeit für ") --&gt;
 
-```r
-d %&gt;% 
-  ggplot(aes(x = p_grid, 
-             y = post)) +
-  geom_line() +
-  geom_area(data = d %&gt;% 
-            filter(p_grid &lt; .5)) +
-  labs(x = "Anteil Wasser (p)",
-       y = "Dichte")
-```
+&lt;!-- d %&gt;%  --&gt;
+&lt;!--   ggplot(aes(x = p_grid,  --&gt;
+&lt;!--              y = post)) + --&gt;
+&lt;!--   geom_line() + --&gt;
+&lt;!--   geom_area(data = d %&gt;%  --&gt;
+&lt;!--            filter(p_grid &lt; .75 &amp;  --&gt;
+&lt;!--                   p_grid &gt; .5)) + --&gt;
+&lt;!--   labs(x = "Anteil Wasser", --&gt;
+&lt;!--        y = "Dichte", --&gt;
+&lt;!--        title = "Mittleren 25%") --&gt;
+&lt;!-- ``` --&gt;
 
-```r
-d %&gt;% 
-  ggplot(aes(x = p_grid, 
-             y = post)) +
-  geom_line() +
-  geom_area(data = d %&gt;% 
-           filter(p_grid &lt; .75 &amp; 
-                  p_grid &gt; .5)) +
-  labs(x = "Anteil Wasser",
-       y = "Dichte")
-```
+&lt;!-- ] --&gt;
+&lt;!-- ] --&gt;
 
-]
-]
+&lt;!-- .pull-right[ --&gt;
+&lt;!-- ```{r QM2-Thema3-Post-befragen-10, ref.label= "plot2", echo = FALSE} --&gt;
 
-.pull-right[
-&lt;img src="QM2-Thema3-Post-befragen-10-1.png" width="100%" /&gt;&lt;img src="QM2-Thema3-Post-befragen-10-2.png" width="100%" /&gt;
+&lt;!-- ``` --&gt;
 
-]
+&lt;!-- ] --&gt;
 
----
+&lt;!-- --- --&gt;
 
 
 ## Fragen zu Bereichen von Wahrscheinlichkeitsmassen
 
 
-- Nennt man auch *Konfidenz- oder Vertrauensintervall*. 
-
-- Synonym: *Kompatibilitätsintervall* oder *Passungsbereich*.
-
-- 💥 Traue niemals einem Golem, er lebt in der kleinen Welt. 
+- Schätzbereiche von Parameterwerten nennt man auch *Konfidenz- oder Vertrauensintervall* (synonym: *Kompatibilitätsintervall* oder *Passungsbereich*).
 
 
 
@@ -1119,11 +1205,17 @@ Welcher Parameterwert wird mit 80% Wahrscheinlichkeit nicht überschritten, laut
 
 
 
+```r
+samples %&gt;% 
+  summarise(quantil80 = 
+              quantile(p_grid, p = .8))
+```
+
 ```
 ## # A tibble: 1 × 1
 ##   quantil80
 ##       &lt;dbl&gt;
-## 1     0.759
+## 1     0.778
 ```
 
 ]
@@ -1132,11 +1224,19 @@ Welcher Parameterwert wird mit 80% Wahrscheinlichkeit nicht überschritten, laut
 Was ist das *mittlere* Intervall, das mit 80% Wahrscheinlichkeit den Parameterwert enthält, laut dem Modell?
 
 
+```r
+samples %&gt;% 
+  summarise(quant_10 = 
+              quantile(p_grid, 0.1),
+            quant_90 = 
+              quantile(p_grid, 0.9))
+```
+
 ```
 ## # A tibble: 1 × 2
 ##   quant_10 quant_90
 ##      &lt;dbl&gt;    &lt;dbl&gt;
-## 1    0.447    0.811
+## 1    0.444    0.778
 ```
 
 ]
@@ -1149,7 +1249,7 @@ Was ist das *mittlere* Intervall, das mit 80% Wahrscheinlichkeit den Parameterwe
 Intervalle (Bereiche), die die  Wahrscheinlichkeitsmasse hälftig auf die beiden Ränder aufteilen, nennen wir *Perzentilintervalle*.
 
 
-&lt;img src="piplot-1.png" width="100%" /&gt;
+&lt;img src="piplot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1162,23 +1262,26 @@ Intervalle (Bereiche), die die  Wahrscheinlichkeitsmasse hälftig auf die beiden
 
 
 ```r
-d &lt;- d %&gt;% 
-  mutate(likelihood = dbinom(3, size = 3, prob = p_grid),
-         unstand_post = likelihood * prior) %&gt;% 
-  mutate(posterior  = unstand_post / sum(unstand_post)) 
+d_33 &lt;- 
+  tibble(p_grid = seq(0,1, by =.01),
+         prior = 1) %&gt;% 
+  mutate(likelihood = dbinom(3, size = 3, prob = p_grid)) %&gt;% 
+  mutate(unstand_post = likelihood * prior) %&gt;% 
+  mutate(post_33  = unstand_post / sum(unstand_post)) 
 
-samples &lt;- d %&gt;% 
+samples_33 &lt;- 
+  d_33 %&gt;% 
     slice_sample(n = 1e4, 
-                 weight_by = posterior, 
+                 weight_by = post_33, 
                  replace = T)
 ```
 
-<div id="ecghrgjfio" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="owaccnupep" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ecghrgjfio .gt_table {
+#owaccnupep .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1203,7 +1306,7 @@ samples &lt;- d %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_heading {
+#owaccnupep .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1215,7 +1318,7 @@ samples &lt;- d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_title {
+#owaccnupep .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1225,7 +1328,7 @@ samples &lt;- d %&gt;%
   border-bottom-width: 0;
 }
 
-#ecghrgjfio .gt_subtitle {
+#owaccnupep .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1235,13 +1338,13 @@ samples &lt;- d %&gt;%
   border-top-width: 0;
 }
 
-#ecghrgjfio .gt_bottom_border {
+#owaccnupep .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_col_headings {
+#owaccnupep .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1256,7 +1359,7 @@ samples &lt;- d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_col_heading {
+#owaccnupep .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1276,7 +1379,7 @@ samples &lt;- d %&gt;%
   overflow-x: hidden;
 }
 
-#ecghrgjfio .gt_column_spanner_outer {
+#owaccnupep .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1288,15 +1391,15 @@ samples &lt;- d %&gt;%
   padding-right: 4px;
 }
 
-#ecghrgjfio .gt_column_spanner_outer:first-child {
+#owaccnupep .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ecghrgjfio .gt_column_spanner_outer:last-child {
+#owaccnupep .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ecghrgjfio .gt_column_spanner {
+#owaccnupep .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1308,7 +1411,7 @@ samples &lt;- d %&gt;%
   width: 100%;
 }
 
-#ecghrgjfio .gt_group_heading {
+#owaccnupep .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1330,7 +1433,7 @@ samples &lt;- d %&gt;%
   vertical-align: middle;
 }
 
-#ecghrgjfio .gt_empty_group_heading {
+#owaccnupep .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1345,15 +1448,15 @@ samples &lt;- d %&gt;%
   vertical-align: middle;
 }
 
-#ecghrgjfio .gt_from_md > :first-child {
+#owaccnupep .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ecghrgjfio .gt_from_md > :last-child {
+#owaccnupep .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ecghrgjfio .gt_row {
+#owaccnupep .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1372,7 +1475,7 @@ samples &lt;- d %&gt;%
   overflow-x: hidden;
 }
 
-#ecghrgjfio .gt_stub {
+#owaccnupep .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1384,7 +1487,7 @@ samples &lt;- d %&gt;%
   padding-left: 12px;
 }
 
-#ecghrgjfio .gt_summary_row {
+#owaccnupep .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1394,7 +1497,7 @@ samples &lt;- d %&gt;%
   padding-right: 5px;
 }
 
-#ecghrgjfio .gt_first_summary_row {
+#owaccnupep .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1404,7 +1507,7 @@ samples &lt;- d %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_grand_summary_row {
+#owaccnupep .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1414,7 +1517,7 @@ samples &lt;- d %&gt;%
   padding-right: 5px;
 }
 
-#ecghrgjfio .gt_first_grand_summary_row {
+#owaccnupep .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1424,11 +1527,11 @@ samples &lt;- d %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_striped {
+#owaccnupep .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ecghrgjfio .gt_table_body {
+#owaccnupep .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1437,7 +1540,7 @@ samples &lt;- d %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_footnotes {
+#owaccnupep .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1451,13 +1554,13 @@ samples &lt;- d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_footnote {
+#owaccnupep .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ecghrgjfio .gt_sourcenotes {
+#owaccnupep .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1471,41 +1574,41 @@ samples &lt;- d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#ecghrgjfio .gt_sourcenote {
+#owaccnupep .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ecghrgjfio .gt_left {
+#owaccnupep .gt_left {
   text-align: left;
 }
 
-#ecghrgjfio .gt_center {
+#owaccnupep .gt_center {
   text-align: center;
 }
 
-#ecghrgjfio .gt_right {
+#owaccnupep .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ecghrgjfio .gt_font_normal {
+#owaccnupep .gt_font_normal {
   font-weight: normal;
 }
 
-#ecghrgjfio .gt_font_bold {
+#owaccnupep .gt_font_bold {
   font-weight: bold;
 }
 
-#ecghrgjfio .gt_font_italic {
+#owaccnupep .gt_font_italic {
   font-style: italic;
 }
 
-#ecghrgjfio .gt_super {
+#owaccnupep .gt_super {
   font-size: 65%;
 }
 
-#ecghrgjfio .gt_footnote_marks {
+#owaccnupep .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1519,40 +1622,33 @@ samples &lt;- d %&gt;%
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">prior</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">likelihood</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">unstand_post</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">posterior</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">0.793</td>
+    <tr><td class="gt_row gt_right">0.79</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.498</td>
-<td class="gt_row gt_right">0.498</td>
-<td class="gt_row gt_right">0.002</td></tr>
-    <tr><td class="gt_row gt_right">0.820</td>
+<td class="gt_row gt_right">0.49</td>
+<td class="gt_row gt_right">0.49</td></tr>
+    <tr><td class="gt_row gt_right">0.92</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.551</td>
-<td class="gt_row gt_right">0.551</td>
-<td class="gt_row gt_right">0.002</td></tr>
-    <tr><td class="gt_row gt_right">0.857</td>
+<td class="gt_row gt_right">0.78</td>
+<td class="gt_row gt_right">0.78</td></tr>
+    <tr><td class="gt_row gt_right">0.74</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.629</td>
-<td class="gt_row gt_right">0.629</td>
-<td class="gt_row gt_right">0.003</td></tr>
-    <tr><td class="gt_row gt_right">0.656</td>
+<td class="gt_row gt_right">0.41</td>
+<td class="gt_row gt_right">0.41</td></tr>
+    <tr><td class="gt_row gt_right">0.82</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.282</td>
-<td class="gt_row gt_right">0.282</td>
-<td class="gt_row gt_right">0.001</td></tr>
-    <tr><td class="gt_row gt_right">0.886</td>
+<td class="gt_row gt_right">0.55</td>
+<td class="gt_row gt_right">0.55</td></tr>
+    <tr><td class="gt_row gt_right">0.82</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.695</td>
-<td class="gt_row gt_right">0.695</td>
-<td class="gt_row gt_right">0.003</td></tr>
-    <tr><td class="gt_row gt_right">0.852</td>
+<td class="gt_row gt_right">0.55</td>
+<td class="gt_row gt_right">0.55</td></tr>
+    <tr><td class="gt_row gt_right">0.58</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.618</td>
-<td class="gt_row gt_right">0.618</td>
-<td class="gt_row gt_right">0.002</td></tr>
+<td class="gt_row gt_right">0.20</td>
+<td class="gt_row gt_right">0.20</td></tr>
   </tbody>
   
   
@@ -1574,9 +1670,9 @@ Daten: 3 Würfe mit 3 Treffern
 ### 50%-Perzentil-Intervall
 
 
-&lt;img src="QM2-Thema3-Post-befragen-15-1.png" width="100%" /&gt;
+&lt;img src="QM2-Thema3-Post-befragen-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-Der wahrscheinlichste Paramterwert (1) ist *nicht* im Intervall enthalten!
+Der wahrscheinlichste Parameterwert (1) ist *nicht* im Intervall enthalten!
 ]
 
 
@@ -1586,7 +1682,7 @@ Der wahrscheinlichste Paramterwert (1) ist *nicht* im Intervall enthalten!
 .pull-right[
 ### 50%-Intervall höchster Dichte
 
-&lt;img src="QM2-Thema3-Post-befragen-16-1.png" width="100%" /&gt;
+&lt;img src="QM2-Thema3-Post-befragen-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 Der wahrscheinlichste Paramterwert (1) *ist* im Intervall enthalten!
@@ -1615,7 +1711,7 @@ rethinking::HPDI(samples$p_grid, prob = .5)
 
 ```
 ##      |0.5      0.5| 
-## 0.8458458 1.0000000
+## 0.5555556 0.6666667
 ```
 
 Intervallbreite PI: 0.23
@@ -1627,7 +1723,7 @@ rethinking::PI(samples$p_grid, prob = .5)
 
 ```
 ##       25%       75% 
-## 0.7097097 0.9329329
+## 0.5555556 0.7777778
 ```
 
 
@@ -1636,11 +1732,14 @@ rethinking::PI(samples$p_grid, prob = .5)
 
 ## Punktschätzungen 
 
-Daten: 3 Treffer bei 3 Würfen.
+Datendatz `samples`,  6 Treffer bei 9 Würfen.
+
 
 
 .pull-left[
 ### Lageparameter
+
+Z.B. Welchen mittleren Wasseranteil muss man annehmen?
 
 
 ```r
@@ -1657,7 +1756,7 @@ samples %&gt;%
 ## # A tibble: 1 × 3
 ##    mean median modus
 ##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-## 1 0.803  0.846 0.955
+## 1 0.636  0.667 0.667
 ```
 
 ]
@@ -1666,20 +1765,22 @@ samples %&gt;%
 
 ### Streuungsparameter
 
+Z.B. "Wie unsicher sind wir in der Schätzung des mittleren Wasseranteils?"
+
 
 ```r
 samples %&gt;% 
   summarise(
-    mean   = sd(p_grid),
-    median = IQR(p_grid),
-    modus = mad(p_grid))  
+    p_sd   = sd(p_grid),
+    p_iqr = IQR(p_grid),
+    p_mad = mad(p_grid))  
 ```
 
 ```
 ## # A tibble: 1 × 3
-##    mean median modus
-##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-## 1 0.163  0.223 0.151
+##    p_sd p_iqr p_mad
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.137 0.222 0.165
 ```
 ]
 
@@ -1689,7 +1790,7 @@ samples %&gt;%
 
 ## Visualisierungen der Punktschätzer
 
-&lt;img src="pointestimators-1.png" width="100%" /&gt;
+&lt;img src="pointestimators-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 Je symmetrischer die Verteilung, desto näher liegen die Punktschätzer aneinander (und umgekehrt).
@@ -1699,7 +1800,7 @@ Je symmetrischer die Verteilung, desto näher liegen die Punktschätzer aneinand
 ---
 
 
-## Der zwielichte Dozent
+## Der zwielichte Dozent: Stichproben-Vert. vs. Post-Vert.
 
 
 Daten: 8 von 10 Treffern beim Münwurf
@@ -1707,9 +1808,9 @@ Daten: 8 von 10 Treffern beim Münwurf
 
 .pull-left[
 
-&lt;img src="QM2-Thema3-Post-befragen-21-1.png" width="100%" /&gt;
+&lt;img src="QM2-Thema3-Post-befragen-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-Die Stichprobenverteilung zeigt, wie Wahrscheinlich der empirischen Daten `\(D\)` (z.B. mind. 8 von 10 Treffer) ist *gegeben* eines Parameterwerts `\(p\)` (z.B. `\(p=0.5\)`): `\(Pr(D|p)\)`.
+Die *Stichprobenverteilung* zeigt, wie Wahrscheinlich der empirischen Daten `\(D\)` (z.B. 9 von 10 Treffer) ist *gegeben* eines Parameterwerts `\(p\)` (z.B. `\(p=0.5\)`): `\(Pr(D|p)\)`.
 
 ]
 
@@ -1717,16 +1818,19 @@ Die Stichprobenverteilung zeigt, wie Wahrscheinlich der empirischen Daten `\(D\)
 .pull-right[
 
 
-&lt;img src="QM2-Thema3-Post-befragen-22-1.png" width="100%" /&gt;
+&lt;img src="QM2-Thema3-Post-befragen-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-Die Posteriori-Verteilung gibt die Wahrscheinlichkeit jedes Parameterwerts `\(p\)` wider, gegeben der empirischen Daten `\(D\)`: `\(Pr(p|D)\)`.
+Die *Posteriori-Verteilung* gibt die Wahrscheinlichkeit jedes Parameterwerts `\(p\)` wider, gegeben der empirischen Daten `\(D\)`: `\(Pr(p|D)\)`. M
 
 ]
 
-
-
+Die meisten Forschungsfragen lassen sich mit der Post-Verteilung beantworten, nicht mit der Stichprobenverteilung.
 
 ---
+
+
+
+
 name: teil2
 class: center, middle, inverse
 
@@ -1886,7 +1990,7 @@ d %&gt;%
 ]
 
 .pull-right[
-&lt;img src="QM2-Thema3-Post-befragen-31-1.png" width="100%" /&gt;
+&lt;img src="QM2-Thema3-Post-befragen-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Die *Stichprobenverteilung* zeigt, welche Stichrpobendaten laut unserem Modell zu erwarten sind. Wir können jetzt prüfen, ob die echten Daten zu den Vorhersagen des Modells passen.
 
@@ -1898,25 +2002,69 @@ Die *Stichprobenverteilung* zeigt, welche Stichrpobendaten laut unserem Modell z
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/ppv.png" width="100%" /&gt;
-
+&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/ppv.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 .footnote[Quelle: &lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath (2020)](#bib-mcelreath_statistical_2020)]
+
+---
+
+## Posteriori-Verteilung vs. PPV
+
+
+
+
+
+
+- Die *Posteriori-Verteilung* gibt Aufschluss zur Häufigkeit (Wahrscheinlichkeit) von Parameterwerten:
+    - Wie wahrscheinlich ist es, dass "in Wirklichkeit" der Wasseranteil 70% beträgt, also `\(\pi=.7\)`
+    - In der Wissenschaft ist man meist an den Parametern interessiert.
+    
+- Die *PPV* gibt Aufschluss zur Häufigkeit von neuen Beobachtungen:
+    - Welche Beobachtungen (wie viele Wasser/Treffer) sind in Zukunft, bei erneuter Durchführung, zu erwarten.
+    - Für die Praxis kann das eine interessante Frage sein.
+
+
+
+
+
+---
+
+## PPV berechnen
+
+.pull-left[
+
+```r
+ppv &lt;- 
+  rbinom(1e4, 
+         size = 9, 
+         prob = samples$p_grid) %&gt;% 
+  as_tibble()
+
+ppv_plot2 &lt;-
+  ppv %&gt;% 
+  ggplot() +
+  aes(x = value) +
+  geom_histogram() +
+  scale_x_continuous(
+    breaks = 0:9)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+
+
+
+]
+
+
 ---
 
 ## Vorhersagen sind schwierig
@@ -1925,7 +2073,7 @@ Die *Stichprobenverteilung* zeigt, welche Stichrpobendaten laut unserem Modell z
 ... gerade wenn sie die Zukunft betreffen. Das zeigt uns die PPV: Der PPV unseres Modells gelingt es zwar, der theoretisch wahrscheinlichste Parameterwert ist auch der häufigste in unseren Stichproben, aber die Vorhersagen haben eine große Streuung, birgt also hohe Ungewissheit.
 
 .pull-left[
-&lt;img src="QM2-Thema3-Post-befragen-37-1.png" width="100%" /&gt;
+&lt;img src="QM2-Thema3-Post-befragen-37-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -1936,35 +2084,6 @@ Würde man die Vorhersagen nur anhand eines bestimmten Parameterwertes (z.B `\(p
 
 ---
 
-&lt;!-- ## Variieren von `\(p\)` und `\(N\)` --&gt;
-
-&lt;!-- ```{r} --&gt;
-&lt;!-- n_draws &lt;- 1e5 --&gt;
-
-&lt;!-- simulate_binom &lt;- function(n, probability) { --&gt;
-&lt;!--   set.seed(3) --&gt;
-&lt;!--   rbinom(n_draws, size = n, prob = probability)  --&gt;
-&lt;!-- } --&gt;
-
-&lt;!-- d &lt;- --&gt;
-&lt;!--   crossing(n           = c(3, 9, 27), --&gt;
-&lt;!--            probability = c(.3, .6, .9)) %&gt;%  --&gt;
-&lt;!--   mutate(draws = map2(n, probability, simulate_binom)) %&gt;%  --&gt;
-&lt;!--   ungroup() %&gt;%  --&gt;
-&lt;!--   mutate(n           = str_c("n = ", n), --&gt;
-&lt;!--          probability = str_c("p = ", probability)) %&gt;%  --&gt;
-&lt;!--   unnest(draws) --&gt;
-
-&lt;!-- d %&gt;%  --&gt;
-&lt;!--   ggplot(aes(x = draws)) + --&gt;
-&lt;!--   geom_histogram(binwidth = 1, center = 0, --&gt;
-&lt;!--                  color = "grey92", size = 1/10) + --&gt;
-&lt;!--   scale_x_continuous("dummy water count",) + --&gt;
-&lt;!--   ylab("frequency") + --&gt;
-&lt;!--   #coord_cartesian(xlim = c(0, 9)) + --&gt;
-&lt;!--   theme(panel.grid = element_blank()) + --&gt;
-&lt;!--   facet_grid(n ~ probability, scales = "free_x") --&gt;
-&lt;!-- ``` --&gt;
 
 
 ## Zwei Arten von Ungewissheit in Vorhersagen von Modellen
@@ -1983,12 +2102,13 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 
 ---
 
+
 ## Vergleich der Verteilungen
 
 
 
 
-&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/post-pred-ppv-anim.gif" width="100%" /&gt;
+&lt;img src="/Users/sebastiansaueruser/github-repos/QM2-Folien/img/post-pred-ppv-anim.gif" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 - Links - *Posterior-Verteilung*: Wahrscheinlichkeiten der Parameterwerte
@@ -1998,8 +2118,12 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 
 .footnote[[Quelle: R. McElreath](https://twitter.com/rlmcelreath/status/1448978045247893505)]
 
-
 ---
+
+
+
+
+
 
 name: hinweise
 class: center, middle, inverse
@@ -2012,18 +2136,22 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+  - *Statistical Rethinking* (2. Auflage), Kapitel 3, [McElreath (2020)](#bib-mcelreath_statistical_2020)
+
+  - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-    - Kapitel 3 aus [McElreath (2020)](#bib-mcelreath_statistical_2020)
-
-    - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
-
-
-- Dieses Skript wurde erstellt am 2021-10-25 07:51:37 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-25 11:01:25 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
 - Autor ist Sebastian Sauer.
+
+- Um diese HTMLM-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
 
 
 ---
@@ -2044,7 +2172,6 @@ R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
 a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
 statistical science. Boca Raton: Taylor and Francis, CRC Press. ISBN:
 978-0-367-13991-9.
-
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
