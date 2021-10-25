@@ -377,8 +377,7 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 
 
 ```{r QM2-Thema3-Post-befragen-38, eval = TRUE}
-img_file <- paste0(here::here(),"/img/post-pred-ppv-anim.gif")
-#file.exists(img_file)
+img_file <- paste0("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/post-pred-ppv-anim.gif")
 knitr::include_graphics(img_file)
 ```
 
