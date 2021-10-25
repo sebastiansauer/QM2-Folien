@@ -379,6 +379,7 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 ```{r QM2-Thema3-Post-befragen-38, eval = TRUE}
 img_file <- paste0("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/post-pred-ppv-anim.gif")
 knitr::include_graphics(img_file)
+
 ```
 
 
@@ -386,6 +387,7 @@ knitr::include_graphics(img_file)
 - Mitte - *Stichprobenverteilung*: Wahrscheinlichkeiten der Beobachtungen gegeben eines bestimmten Parameterwertes
 - Rechts - *Posterior-Prädiktiv-Verteilung*: Wahrscheinlichkeiten der Beobachtungen unter Berücksichtigung der Unsicherheit der Posteriori-Verteilung
 
+[Bild](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema3-Post-befragen.html#1)
 
 .footnote[[Quelle: R. McElreath](https://twitter.com/rlmcelreath/status/1448978045247893505)]
 
