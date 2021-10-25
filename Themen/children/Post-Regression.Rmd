@@ -3,7 +3,7 @@ name: teila
 class: center, middle, inverse
 
 
-```{r}
+```{r Post-Regression-1}
 library("latex2exp")
 library("patchwork")
 library("gt")
@@ -32,7 +32,7 @@ library("tidyverse")
 
 .pull-right[
 
-```{r fig.asp = 1}
+```{r Post-Regression-2, fig.asp = 1}
 library(rethinking)
 data("Howell1")
 d <- Howell1
@@ -61,7 +61,7 @@ d2 %>%
 [Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/Howell1a.csv)
 
 .tiny[
-```{r echo = TRUE, eval = FALSE}
+```{r Post-Regression-3, echo = TRUE, eval = FALSE}
 library(tidyverse)
 library(rstatix)
 Kung_path <- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
@@ -78,7 +78,7 @@ get_summary_stats(d2)
 ]
 
 
-```{r echo = FALSE, eval = TRUE}
+```{r Post-Regression-4, echo = FALSE, eval = TRUE}
 library(rstatix)
 
 get_summary_stats(d2) %>% 
@@ -88,7 +88,7 @@ get_summary_stats(d2) %>%
 
 
 
-```{r}
+```{r Post-Regression-5}
 weight_mean <- mean(d2$weight)
 weight_sd <- sd(d2$height)
 
@@ -112,7 +112,7 @@ Das mittlere Körpergewicht (`weight`) liegt bei ca. 45kg (sd 7 kg).
 
 Explorative Datenanalyse (keine Inferenz auf Populationswerte, sondern auf die Stichprobe bezogen)
 
-```{r echo = FALSE, fig.asp=.5}
+```{r Post-Regression-6, echo = FALSE, fig.asp=.5}
 d2 %>% 
   select(weight, height) %>% 
   pivot_longer(everything()) %>% 
@@ -155,7 +155,7 @@ d2 %>%
 
 
 .pull-left[
-```{r echo = TRUE}
+```{r Post-Regression-7, echo = TRUE}
 d2 <-
   d2 %>% 
   mutate(
@@ -166,7 +166,7 @@ d2 <-
 ]
 
 .pull-right[
-```{r}
+```{r Post-Regression-8}
 d2 %>% 
   slice_head(n=3) %>% 
   gt() %>% 
@@ -176,7 +176,7 @@ d2 %>%
 ]
 
 
-```{r fig.asp=0.5}
+```{r Post-Regression-9, fig.asp=0.5}
 d2 %>% 
   select(weight, weight_c) %>% 
   pivot_longer(everything()) %>% 
@@ -211,7 +211,7 @@ post_m41 <- extract.samples(m41, n = 1e4)
 ```
 
 
-```{r}
+```{r Post-Regression-10}
 plot_post_41 <- 
   post_m41 %>% 
   ggplot() +
@@ -222,7 +222,7 @@ plot_post_41 <-
   scale_y_continuous(breaks = NULL)
 ```
 
-```{r}
+```{r Post-Regression-11}
 
 lm1 <- lm(height ~ weight, data = d2)
 
@@ -285,7 +285,7 @@ post_at_plot <-
 
 
 
-```{r out.width="100%", fig.width=7}
+```{r Post-Regression-12, out.width="100%", fig.width=7}
 p1 <- (plot_post_41 | plot_condition) / post_at_plot
 p1
 ```
@@ -393,7 +393,7 @@ $$
 .pull-left[
 Wir simulieren 100 Regressionslinien:
 
-```{r echo = TRUE}
+```{r Post-Regression-13, echo = TRUE}
 n_lines <- 100
 lines <-
   tibble(n = 1:n_lines,
@@ -405,7 +405,7 @@ lines <-
                    sd = 10))
 ```
 
-```{r}
+```{r Post-Regression-14}
 lines %>% 
   slice_head(n = 3) %>% 
   gt() %>% 
@@ -419,7 +419,7 @@ lines %>%
 .pull-right[
 🤯 Oh nein! Viele dieser Regressionsgeraden sind unsinnig!
 
-```{r fig.asp=1}
+```{r Post-Regression-15, fig.asp=1}
 # how many lines would you like?
 lines <- 
   lines %>% 
@@ -448,7 +448,7 @@ lines %>%
 
 Eine Normalverteilung mit viel Streuung:
 
-```{r}
+```{r Post-Regression-16}
 d <-
   tibble(
     x = seq(-30,30,.1),
@@ -470,7 +470,7 @@ d %>%
 
 Wir bräuchten eher so eine Verteilung:
 
-```{r}
+```{r Post-Regression-17}
 d <-
   tibble(
     x = seq(-1, 10,.1),
@@ -496,7 +496,7 @@ d %>%
 
 .left-column[
 
-```{r fig.asp = 1, fig.width=2, echo = FALSE}
+```{r Post-Regression-18, fig.asp = 1, fig.width=2, echo = FALSE}
 d <-
   tibble(
     x = seq(0, 5,.1),
@@ -554,7 +554,7 @@ d %>%
 
 .pull-right[
 
-```{r ref.label = "dexp-plot", echo = FALSE, eval = TRUE}
+```{r Post-Regression-19, ref.label = "dexp-plot", echo = FALSE, eval = TRUE}
 
 ```
 
@@ -571,14 +571,14 @@ $$\color{blue}\beta \color{blue}\sim \color{blue}{\operatorname{Exp}(0.5)}$$
 $$\beta \sim \operatorname{Exp}(1)$$
 
 
-```{r echo = FALSE}
+```{r Post-Regression-20, echo = FALSE}
 lines2 <- 
   tibble(n = 1:n_lines,
          a = rnorm(n_lines, mean = 178, sd = 20),
          b = rexp(n_lines, 1)) 
 ```
 
-```{r eval = FALSE}
+```{r Post-Regression-21, eval = FALSE}
 lines2 %>% 
   ggplot(aes(x = weight, y = height)) +
  #geom_point() +
@@ -590,7 +590,7 @@ lines2 %>%
 
 
 
-```{r eval = FALSE}
+```{r Post-Regression-22, eval = FALSE}
 # plot
 d2 %>% 
   ggplot(aes(x = weight, y = height)) +
@@ -607,7 +607,7 @@ d2 %>%
 
 
 
-```{r out.width="70%"}
+```{r Post-Regression-23, out.width="70%"}
 text_df <-
   tibble(weight = c(34, 43),
          height = c(0 - 25, 272 + 25),
@@ -677,7 +677,7 @@ prior_pred_plot <- # ein Wertepaar von "n" ist eine Gruppe, d.h. eine Linie
 
 ## Prior-Prädiktiv mit R plotten: Ausgabe
 
-```{r reeval = TRUE, echo = FALSE}
+```{r Post-Regression-24, reeval = TRUE, echo = FALSE}
 prior_pred_plot
 ```
 
@@ -729,7 +729,7 @@ $$
 
 .pull-right[
 
-```{r echo = TRUE}
+```{r Post-Regression-25, echo = TRUE}
 # Zufallszahlen festlegen:
 set.seed(42)  
 # Posteriori-Vert. berechnen:
@@ -748,7 +748,7 @@ m43a <-
 
 ]
 
-```{r echo = TRUE}
+```{r Post-Regression-26, echo = TRUE}
 precis(m43a)
 ```
 

@@ -13,7 +13,7 @@ class: center, middle, inverse
 
 .pull-left[
 
-```{r, echo = FALSE, out.width="100%"} 
+```{r Kung-1, echo = FALSE, out.width="100%" }
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/b/b5/Wandering_hunters_%28Masarwa_bushmen%29%2C_North_Kalahari_Desert.jpg")
 ```
 
@@ -27,7 +27,7 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/b/b5/Wan
 
 .pull-right[
 
-```{r, echo = FALSE, out.width="100%"} 
+```{r Kung-2, echo = FALSE, out.width="100%" }
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/KhoisanLanguagesModernDistribution.png/1024px-KhoisanLanguagesModernDistribution.png")
 ```
 
@@ -52,7 +52,7 @@ background-size: contain
 
 
 .pull-left[
-```{r echo = TRUE, results = "hide"}
+```{r Kung-3, echo = TRUE, results = "hide"}
 library(rethinking)
 data(Howell1)
 d <- Howell1
@@ -60,7 +60,7 @@ d <- Howell1
 
 Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv) herunterladen.
 
-```{r echo = FALSE, eval = FALSE}
+```{r Kung-4, echo = FALSE, eval = FALSE}
 library(rio)
 d <- import("https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv")
 ```
@@ -73,14 +73,14 @@ Wir interessieren uns für die Größe der erwachsenen !Kung, $N=352$.
 ]
 
 .pull-right[
-```{r echo = TRUE}
+```{r Kung-5, echo = TRUE}
 d2 <- d %>% 
   filter(age >= 18)
 ```
 
 Die ersten paar Zeilen:
 
-```{r echo = FALSE}
+```{r Kung-6, echo = FALSE}
 d %>% 
   head(n=3) %>% 
   gt()
@@ -90,7 +90,7 @@ d %>%
 
 </br>
 
-```{r echo = TRUE}
+```{r Kung-7, echo = TRUE}
 precis(d)
 ```
 
@@ -106,7 +106,7 @@ precis(d)
 
 </br>
 </br>
-```{r, echo = FALSE, out.width="50%"} 
+```{r Kung-8, echo = FALSE, out.width="50%" }
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/8/83/SVG_Human_Silhouette.svg")
 ```
 
@@ -121,7 +121,7 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/8/83/SVG
 $$\mu \sim \mathcal{N}(178, 20)$$
 
 
-```{r out.width="70%"}
+```{r Kung-9, out.width="70%"}
 p1 <-
   tibble(x = seq(from = 100, to = 250, by = .1)) %>% 
   
@@ -177,7 +177,7 @@ $178 \pm 40$
 
 .right-column[
 
-```{r}
+```{r Kung-10}
 p1 + p2
 ```
 
@@ -191,7 +191,7 @@ p1 + p2
 
 
 
-```{r}
+```{r Kung-11}
 knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/L-priors-jpg.001.jpeg")
 ```
 
@@ -238,7 +238,7 @@ sim <-
 🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. voilà:
 
 
-```{r}
+```{r Kung-12}
 p3 <- 
   sim %>% 
   ggplot(aes(x = height)) +
@@ -273,7 +273,7 @@ $\sigma \sim \mathcal{U}(0, 50)$
 
 Die Priori-Prädiktiv-Verteilung zeigt, dass unsere Priori-Werte ziemlich vage sind, also einen zu breiten Bereich an Größenwerten zulassen:
 
-```{r}
+```{r Kung-13}
 p3
 ```
 
@@ -287,7 +287,7 @@ p3
 
 Anteil $h_i < 100$:
 
-```{r echo = TRUE}
+```{r Kung-14, echo = TRUE}
 sim %>% 
   count(height < 100) %>% 
   mutate(prop = n()/n)
@@ -305,7 +305,7 @@ sim %>%
 ##  Vorhersagen der Priori-Werte
 
 
-```{r}
+```{r Kung-15}
 library(patchwork)
 library(figpatch)
 
@@ -334,7 +334,7 @@ se <- fig(se_path)
 
 
 
-```{r}
+```{r Kung-16}
 # simulate
 set.seed(4)
 
@@ -384,7 +384,7 @@ p4
 
 Anteil negativer Größe:
 
-```{r echo = TRUE}
+```{r Kung-17, echo = TRUE}
 sim %>% 
   count(height < 0) %>% 
   mutate(prop = n()/n)
@@ -403,7 +403,7 @@ sim %>%
 ## Zufällige Motivationsseite
 
 
-```{r, echo = FALSE} 
+```{r Kung-18, echo = FALSE }
 knitr::include_graphics("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/img/pretty_good.gif")
 ```
 
@@ -442,7 +442,7 @@ d_grid <-
 
 
 
-```{r eval = FALSE}
+```{r Kung-19, eval = FALSE}
 d_grid %>% 
   ggplot(aes(x = mu, y = sigma, z = probability)) + 
   geom_contour() +
@@ -454,7 +454,7 @@ d_grid %>%
 ```
 
 
-```{r eval = TRUE, fig.asp = 1}
+```{r Kung-20, eval = TRUE, fig.asp = 1}
 d_grid %>% 
   ggplot(aes(x = mu, y = sigma, fill = probability)) + 
   geom_raster(interpolate = T) +
@@ -501,7 +501,7 @@ d_grid %>%
 .pull-left[
 
 
-```{r}
+```{r Kung-21}
 set.seed(4)
 
 d_grid_samples <- 
@@ -510,7 +510,7 @@ d_grid_samples <-
 ```
 
 
-```{r fig.asp = 1}
+```{r Kung-22, fig.asp = 1}
 d_grid_samples %>% 
   pivot_longer(mu:sigma) %>% 
   ggplot(aes(x = value)) + 
@@ -536,7 +536,7 @@ d_grid_samples %>%
 - `quap()` hat auch den Vorteil, dass es wenig rechenintensiv ist als die Gittermethode, gerade bei komplexeren Modellen.
 
 .pull-left[
-```{r echo = TRUE, eval = FALSE}
+```{r Kung-23, echo = TRUE, eval = FALSE}
 library(rethinking)
 # berechnet Post.-Vert.:
 quap(
@@ -568,7 +568,7 @@ $\sigma \sim \mathcal{U}(0, 50)$
 
 .pull-left[
 
-```{r echo = TRUE}
+```{r Kung-24, echo = TRUE}
 modell_definition <-
   alist(  
     height ~ dnorm(mu, sigma),
@@ -605,7 +605,7 @@ $\sigma \sim \mathcal{U}(0, 50)$
 Posteriori-Verteilung für Modell 4.1 `m41`:
 
 
-```{r echo = TRUE}
+```{r Kung-25, echo = TRUE}
 precis(m41)  # precis, engl. "Kurzfassung"
 ```
 
@@ -618,7 +618,7 @@ precis(m41)  # precis, engl. "Kurzfassung"
 
 
 
-```{r echo = TRUE}
+```{r Kung-26, echo = TRUE}
 post_m41 <- extract.samples(m41, n = 1e4)
 precis(post_m41)
 ```
@@ -626,7 +626,7 @@ precis(post_m41)
 .pull-left[
 Hier die ersten paar Zeilen von `post_m41`:
 
-```{r}
+```{r Kung-27}
 head(post_m41) %>% 
   gt()
 ```
@@ -637,7 +637,7 @@ head(post_m41) %>%
 .pull-right[
 
 Mit welcher Wahrscheinlichkeit ist $\mu>155$? 
-```{r echo = TRUE}
+```{r Kung-28, echo = TRUE}
 post_m41 %>% 
   count(mu > 155) %>% 
   mutate(prop = n/sum(n))
@@ -654,7 +654,7 @@ post_m41 %>%
 .pull-left[
 Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
 
-```{r echo = TRUE}
+```{r Kung-29, echo = TRUE}
 post_m41 %>% 
   summarise(
     q95 = 
@@ -666,7 +666,7 @@ post_m41 %>%
 .pull-right[
 In welchem 90%-PI liegt $\mu$ vermutlich?
 
-```{r echo = TRUE}
+```{r Kung-30, echo = TRUE}
 post_m41 %>% 
   summarise(
     pi_90 =
@@ -697,7 +697,7 @@ post_m41 %>%
 .pull-right[
 Untersuchen wir den Effekt von Prior-Werten für $\mu$ mit mehr Information:
 
-```{r echo = TRUE}
+```{r Kung-31, echo = TRUE}
 m42 <-
   quap(
     alist(
@@ -711,7 +711,7 @@ m42 <-
 
 ]
 
-```{r echo = TRUE}
+```{r Kung-32, echo = TRUE}
 precis(m42) # sigma hat sich geändert, vgl. m4.1
 ```
 
@@ -735,7 +735,7 @@ precis(m42) # sigma hat sich geändert, vgl. m4.1
 
 .center[.content-box-blue[🧡 Bleiben Sie dran!]]
 
-```{r, echo = FALSE} 
+```{r Kung-33, echo = FALSE }
 knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/chicken_standard_deviation.jpg")
 ```
 

@@ -28,7 +28,7 @@ set.seed(42)
 
 
 ```{r QM2-Thema3-Post-befragen-26, echo = TRUE}
-rbinom(n = 1, size = 2, prob = 0.7)  # 0 Treffer (Wasser)
+rbinom(n = 1, size = 2, prob = .7)  # 0 Treffer (Wasser)
 
 ```
 
@@ -109,7 +109,7 @@ dbinom(0:2, size = 2, prob = .7)
 
 ## Stichprobenverteilung
 
-Wir ziehen viele Stichproben für den Versuch $N=9$ Globuswürfe mit $p=0.7$. 
+Wir ziehen viele ($n=10^6$) Stichproben für den Versuch $N=9$ Globuswürfe mit $p=0.7$. 
 
 Wie viele Wasser (W) erhalten wir wohl typischerweise?
 
@@ -152,7 +152,7 @@ d %>%
   theme(panel.grid = element_blank())
 ```
 
-Die *Stichprobenverteilung* zeigt, welche Stichrpobendaten laut unserem Modell zu erwarten sind. Wir können jetzt prüfen, ob die echten Daten zu den Vorhersagen des Modells passen.
+Die *Stichprobenverteilung* zeigt, welche Stichprobendaten laut unserem Modell zu erwarten sind. Wir können jetzt prüfen, ob die echten Daten zu den Vorhersagen des Modells passen.
 
 ]
 
@@ -182,7 +182,7 @@ img("ppv.png")
 
 ---
 
-## Posteriori-Verteilung vs. PPV
+## So viele Verteilungen... 
 
 ```{r PPV1, fig.asp = 0.25}
 ppv1_plot <-
@@ -208,7 +208,7 @@ d %>%
 ```
 
 
-```{r eval = FALSE}
+```{r QM2-Thema3-Teil2-1, eval = FALSE}
 ppv1_plot
 ```
 
@@ -219,6 +219,10 @@ ppv1_plot
 - Die *PPV* gibt Aufschluss zur Häufigkeit von neuen Beobachtungen:
     - Welche Beobachtungen (wie viele Wasser/Treffer) sind in Zukunft, bei erneuter Durchführung, zu erwarten.
     - Für die Praxis kann das eine interessante Frage sein.
+    
+- Der *Likelihood* gibt Aufschluss, wie gut eine bestimmte Hypothese die Datenlage erklärt.
+    - Wie gut passt die Hypothese $\pi=0.7$ auf die Datenlage 6 von 9 Treffern beim Globusversuch?
+    - Der Likelihood kann aus der Stichprobenverteilung herausgelesen werden. 
 
 ```{r QM2-Thema3-Post-befragen-33}
 n_draws <- 1e5
@@ -274,7 +278,7 @@ ppv_plot2 <-
 
 .pull-right[
 
-```{r}
+```{r QM2-Thema3-Teil2-2, fig.width = 4, fig.asp = 1}
 ppv_plot2
 ```
 
@@ -318,13 +322,21 @@ ppv1_plot / ppv2_plot / (plot_spacer() + ppv3_plot + plot_spacer()) +
 
 ]
 
+- Die PPV unseres Modells zeigt uns, dass wir in künftigen Versuchen zumeist 6 Treffer zu erwarten haben. 
+- Aber ein relativer breiter Bereich an Treffern ist ebenfalls gut laut unserer PPV erwartbar.
+
 
 ---
 
 ## Vorhersagen sind schwierig
 
 
-... gerade wenn sie die Zukunft betreffen. Das zeigt uns die PPV: Der PPV unseres Modells gelingt es zwar, der theoretisch wahrscheinlichste Parameterwert ist auch der häufigste in unseren Stichproben, aber die Vorhersagen haben eine große Streuung, birgt also hohe Ungewissheit.
+... gerade wenn sie die Zukunft betreffen, so ein Sprichtwort.
+
+Das zeigt uns die PPV: Der PPV unseres Modells gelingt es zwar, der theoretisch wahrscheinlichste Parameterwert ist auch der häufigste in unseren Stichproben, aber die Vorhersagen haben eine große Streuung, birgt also hohe Ungewissheit.
+
+Die PPV zeigt also, welche Beobachtungen laut unserem Modell künftig zu erwarten sind.
+
 
 .pull-left[
 ```{r QM2-Thema3-Post-befragen-37}

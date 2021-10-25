@@ -247,7 +247,7 @@ Die Normalverteilung wird auch *[Gauss](https://de.wikipedia.org/wiki/Carl_Fried
 </br>
 </br>
 
-```{r, echo = FALSE} 
+```{r Normalverteilung-1-bis, echo = FALSE }
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/f/f8/10_Deutsche_Mark_-_detail.png")
 ```
 
@@ -315,7 +315,7 @@ Mit `scale_fill_continuous(type = "viridis")`kann man die Farbpalette der Füllf
 
 .pull-right[
 
-```{r echo = FALSE}
+```{r Normalverteilung-2-bis, echo = FALSE}
 d1 <- 
   tibble( 
     x=rnorm(1e4), 
@@ -346,7 +346,7 @@ ggplot(d1) +
 
 Die ersten paar Zeilen der Daten:
 
-```{r echo = FALSE}
+```{r Normalverteilung-3-bis, echo = FALSE}
 library(faux)
 
 d2 <- rnorm_multi(
@@ -357,7 +357,7 @@ d2 <- rnorm_multi(
 )
 ```
 
-```{r}
+```{r Normalverteilung-4-bis}
 d2 %>% 
   head(n=3) %>% 
   gt() %>% 
@@ -366,7 +366,7 @@ d2 %>%
 
 Berechnen wir die Korrelation `r`:
 
-```{r echo = TRUE, eval = FALSE}
+```{r Normalverteilung-5-bis, echo = TRUE, eval = FALSE}
 d2 %>% 
   summarise(
     r = cor(X1,X2),
@@ -374,7 +374,7 @@ d2 %>%
   )
 ```
 
-```{r}
+```{r Normalverteilung-6-bis}
 d2 %>% 
   summarise(
     r = cor(X1,X2),
@@ -389,7 +389,7 @@ d2 %>%
 
 .pull-right[
 
-```{r}
+```{r Normalverteilung-7-bis}
 ggplot(d2) +
   aes(X1, X2) +
   geom_hex() +
