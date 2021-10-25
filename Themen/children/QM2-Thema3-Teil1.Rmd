@@ -32,7 +32,7 @@ d <-
 
 
 
-```{r}
+```{r QM2-Thema3-Teil1-1}
 d %>% 
   mutate_all(round, 2) %>% 
   glimpse()
@@ -147,13 +147,13 @@ samples %>%
 
 
 Die ersten 100 gesampelten Gitterwerte (`p_grid`):
-```{r}
+```{r QM2-Thema3-Teil1-2}
 samples$p_grid[1:100] %>% round(2)
 ```
 
 
 
-```{r}
+```{r QM2-Thema3-Teil1-3, out.width="70%", fig.asp=0.5}
 samples %>% 
   ggplot() +
   aes(x = p_grid) +
@@ -168,12 +168,13 @@ samples %>%
 ## Visualisierung der Stichprobendaten mit $k=100$ Gitterwerten
 
 
-Datensatz `samples`, $n=10^4$, $k=100$ Gitterwerte, basierend auf dem [Modell oben](#posttab).
+Datensatz `samples`, $n=10^3$, $k=100$ Gitterwerte, basierend auf dem [Modell oben](#posttab).
 
 ```{r QM2-Thema2-kleineModelle-28a, echo = FALSE, eval = TRUE}
 k <- 100
 n_success <- 6
 n_trials  <- 9
+n <- 1e3
 
 d_k100 <-
   tibble(p_grid = seq(from = 0, 
@@ -189,11 +190,11 @@ d_k100 <-
 
 
 
-```{r}
+```{r QM2-Thema3-Teil1-4}
 samples_k100 <-
   d_k100 %>%  # nimmt die Tabelle mit Posteriori-Daten,
   slice_sample(  # Ziehe daraus eine Stichprobe,
-    n = 1e4,  # mit insgesamt n=10000 Elementen,
+    n = n,  # mit insgesamt n=1000 Elementen,
     weight_by = post,  # Gewichte nach Spalte mit Post-Wskt.,
     replace = T)  # Ziehe mit Zurücklegen
 ```
@@ -300,45 +301,6 @@ samples %>%
 
 ---
 
-<!-- ## Visualisierung von Parameterwert-Intervalle -->
-
-<!-- .pull-left[ -->
-<!-- .small[ -->
-
-<!-- ```{r plot2, echo = TRUE, fig.show = "hide"} -->
-<!-- d %>%  -->
-<!--   ggplot(aes(x = p_grid,  -->
-<!--              y = post)) + -->
-<!--   geom_line() + -->
-<!--   geom_area(data = d %>%  -->
-<!--             filter(p_grid < .5)) + -->
-<!--   labs(x = "Anteil Wasser (p)", -->
-<!--        y = "Dichte", -->
-<!--        title = "Wahrscheinlichkeit für ") -->
-
-<!-- d %>%  -->
-<!--   ggplot(aes(x = p_grid,  -->
-<!--              y = post)) + -->
-<!--   geom_line() + -->
-<!--   geom_area(data = d %>%  -->
-<!--            filter(p_grid < .75 &  -->
-<!--                   p_grid > .5)) + -->
-<!--   labs(x = "Anteil Wasser", -->
-<!--        y = "Dichte", -->
-<!--        title = "Mittleren 25%") -->
-<!-- ``` -->
-
-<!-- ] -->
-<!-- ] -->
-
-<!-- .pull-right[ -->
-<!-- ```{r QM2-Thema3-Post-befragen-10, ref.label= "plot2", echo = FALSE} -->
-
-<!-- ``` -->
-
-<!-- ] -->
-
-<!-- --- -->
 
 
 ## Fragen zu Bereichen von Wahrscheinlichkeitsmassen
@@ -365,13 +327,74 @@ Was ist das *mittlere* Intervall, das mit 80% Wahrscheinlichkeit den Parameterwe
 
 ```{r QM2-Thema3-Post-befragen-12, echo = TRUE}
 samples %>% 
-  summarise(quant_10 = 
-              quantile(p_grid, 0.1),
-            quant_90 = 
-              quantile(p_grid, 0.9))
+  summarise(
+    quant_10 = quantile(p_grid, 0.1),
+    quant_90 = quantile(p_grid, 0.9))
 ```
 
 ]
+
+Solche Fragen lassen sich mit Hilfe von *Quantilen* beantworten.
+
+---
+
+
+## Zur Erinnerung: Quantile
+
+Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io/cran/openintro/man/speed_gender_height.html))? Das Quantil von z.B. 25% zeigt die Körpergröße der 25% kleinsten Studentis an, analog für 50%, 75%:
+
+```{r QM2-Thema3-Teil1-5, echo = FALSE}
+library(openintro)
+data(speed_gender_height)
+
+height_summary <- 
+  speed_gender_height %>% 
+  drop_na(height) %>% 
+  summarise(q25 = quantile(height, prob = .25),
+            q50 = quantile(height, prob = .5),
+            q75 = quantile(height, prob = .75))
+
+height_summary %>% 
+  gt()
+```
+
+Visualisierung der Quantile:
+
+```{r QM2-Thema3-Teil1-6, results = "hold", fig.width = 8, fig.asp = .4, cache= FALSE}
+p1 <- speed_gender_height %>% 
+  ggplot() +
+  aes(x = 1, y = height) +
+  geom_boxplot() +
+  labs(x = "",
+       y = "Größe in Inch",
+       title = "Die Box zeigt das 25%-, 50%- und 75%-Quantil")
+
+height_summary_long <- 
+  height_summary %>% 
+  pivot_longer(everything(),
+               names_to = "q",
+               values_to = "height")
+
+p2 <- speed_gender_height %>% 
+  ggplot() +
+  aes(x = height) +
+  geom_histogram() +
+  geom_vline(data = height_summary_long,
+             aes(xintercept = height)) +
+  geom_text(data = height_summary_long,
+             aes(x = height+1,
+                 y = 0,
+                 label = paste0(q, ": ",height)),
+             angle = 90,
+            hjust = 0,
+            color = "white"
+             ) +
+  labs(title = "Die vertikalen Striche zeigen die Quantile",
+       y = "Häufigkeit")
+
+p1+p2
+```
+
 
 
 ---
@@ -386,19 +409,21 @@ q_80 <- quantile(samples$p_grid, prob = .8)
 q_10_and_90 <- quantile(samples$p_grid, prob = c(.1, .9))
 
 p1 <-
-  d %>% 
+  d_k100 %>% 
   ggplot(aes(x = p_grid, y = post)) +
   geom_line() +
   labs(title="Untere 80%",
        caption = paste0("q80: ", round(q_80, 2))) +
-  geom_area(data = d %>% filter(p_grid < q_80)) 
+  geom_area(data = d_k100 %>% 
+              filter(p_grid < q_80)) 
 
 # lower right panel
 p2 <-
-  d %>% 
+  d_k100 %>% 
   ggplot(aes(x = p_grid, y = post)) +
   geom_line() +
-  geom_area(data = d %>% filter(p_grid > q_10_and_90[1] & p_grid < q_10_and_90[2])) +
+  geom_area(data = d_k100 %>% 
+              filter(p_grid > q_10_and_90[1] & p_grid < q_10_and_90[2])) +
   labs(subtitle = "Perzentilintervall",
        title = "Mittlere 80%",
        caption = paste0("q10: ", round(q_10_and_90[1], 2), 
@@ -520,7 +545,7 @@ Intervallbreite HDPI: 0.16
 rethinking::HPDI(samples$p_grid, prob = .5)
 ```
 
-Intervallbreite PI: 0.23
+Intervallbreite PI: 0.23 (Quantile)
 
 ```{r QM2-Thema3-Post-befragen-18, echo = TRUE}
 rethinking::PI(samples$p_grid, prob = .5)
@@ -608,7 +633,7 @@ Je symmetrischer die Verteilung, desto näher liegen die Punktschätzer aneinand
 ## Der zwielichte Dozent: Stichproben-Vert. vs. Post-Vert.
 
 
-Daten: 8 von 10 Treffern beim Münwurf
+Daten: 9 von 10 Treffern beim Münzwurf. Ist die Münze fair?
 
 
 .pull-left[
@@ -622,7 +647,7 @@ tibble(
   aes(x = Trefferzahl, fill = signifikant) +
   geom_bar() +
   scale_x_continuous(breaks = 0:10) +
-  theme(legend.position = c(0.9, 0.8)) +
+  theme(legend.position = c(0.1, 0.8)) +
   geom_vline(xintercept = 9) +
   labs(title = "Stichprobenverteilung für p=0.5")
 ```
@@ -635,11 +660,10 @@ Die *Stichprobenverteilung* zeigt, wie Wahrscheinlich der empirischen Daten $D$ 
 .pull-right[
 
 
-```{r QM2-Thema3-Post-befragen-22}
-
+```{r zwielicht-daten, cache=TRUE}
 d_zwielicht <-
   tibble(
-    p_grid = seq( from=0 , to=1 , length.out=1000 ),
+    p_grid = seq( from=0 , to=1 , length.out=100),
     prior = 1,  # Priori-Gewichte
     likelihood = dbinom(8, size = 10, prob=p_grid) ,
     unstandardisierte_posterior = likelihood * prior ,
@@ -650,20 +674,26 @@ samples_zwielicht <-
   tibble(
     gewinnchance_muenze = sample(
       d_zwielicht$p_grid , 
-      prob=d_zwielicht$posterior, size=1e4, replace=TRUE)) %>% 
+      prob=d_zwielicht$posterior, 
+      size=1e4, 
+      replace=TRUE)) %>% 
   mutate(
     id = row_number())
+```
 
+```{r QM2-Thema3-Post-befragen-22, cache=TRUE}
 samples_zwielicht %>% 
   ggplot() +
   aes(x = gewinnchance_muenze) +
-  geom_histogram(fill = "grey60") +
-  geom_vline(xintercept = 0.8) +
+  geom_histogram(fill = "grey60", bins = 30) +
+  geom_vline(xintercept = 0.9) +
+  #geom_label(x = 0.8, y= 0, label = "Emp. Ergebnis") +
   labs(title = "Posteriori-Verteilung",
+       subtitle = "Vertikale Linie: Emp. Ergebnis (9/10 Treffer)",
        x = "Gewinnchance der Münze (50%: faire Münze)")
 ```
 
-Die *Posteriori-Verteilung* gibt die Wahrscheinlichkeit jedes Parameterwerts $p$ wider, gegeben der empirischen Daten $D$: $Pr(p|D)$. M
+Die *Posteriori-Verteilung* gibt die Wahrscheinlichkeit jedes Parameterwerts $p$ wider, gegeben der empirischen Daten $D$: $Pr(p|D)$. 
 
 ]
 

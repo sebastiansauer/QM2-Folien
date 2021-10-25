@@ -3,7 +3,7 @@ name: teilb
 class: center, middle, inverse
 
 
-```{r}
+```{r Post-Regression-befragen-1}
 library("latex2exp")
 library("patchwork")
 library("gt")
@@ -18,20 +18,20 @@ library("tidyverse")
 ## Post-Verteilung 1: Mittelwerte von $\alpha$ und $\beta$
 
 .pull-left[
-```{r echo = TRUE}
+```{r Post-Regression-befragen-2, echo = TRUE}
 post_m43a <-
   extract.samples(m43a)
 ```
 
 
-```{r}
+```{r Post-Regression-befragen-3}
 post_m43a %>% 
   head(n=3) %>% 
   gt() %>% 
   fmt_number(columns = everything(), decimals = 1)
 ```
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-4, echo = TRUE}
 post_m43a_summary <-
   post_m43a %>% 
   summarise(
@@ -39,7 +39,7 @@ post_m43a_summary <-
     b_mean = mean(b),
     s_mean = mean(sigma))
 ```
-```{r}
+```{r Post-Regression-befragen-5}
 post_m43a_summary %>% 
   gt() %>% 
   fmt_number(everything(), decimals = 1)
@@ -51,7 +51,7 @@ post_m43a_summary %>%
 
 .pull-right[
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-6, echo = TRUE}
 d2 %>% 
   ggplot() +
   aes(x = weight_c, y = height) +
@@ -77,7 +77,7 @@ In diesem Modell gibt es drei Parameter: $\mu, \beta, \sigma$.
 - Schätzwert für den Zusammenhang von Gewicht und Größe?
 - Schätzwert für Ungewissheit in der Schätzung der Größe?
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-7, echo = TRUE}
 post_m43a_summary
 ```
 
@@ -86,7 +86,7 @@ post_m43a_summary
 .pull-right[
 ### Streuungen
 - Wie unsicher sind wir uns in den Schätzungen der Parameter?
-```{r echo = TRUE}
+```{r Post-Regression-befragen-8, echo = TRUE}
 post_m43a_summary2 <-
   post_m43a %>% 
   summarise(
@@ -96,7 +96,7 @@ post_m43a_summary2 <-
 ```
 
 
-```{r}
+```{r Post-Regression-befragen-9}
 post_m43a_summary2 %>% 
   slice_head(n=3) %>% 
   gt() %>% 
@@ -116,7 +116,7 @@ post_m43a_summary2 %>%
 
 .pull-left[
 Die ersten 10 Stichproben
-```{r echo = TRUE}
+```{r Post-Regression-befragen-10, echo = TRUE}
 d2 %>% 
   ggplot(aes(x = weight_c, y = height)) +
   geom_point() +
@@ -134,7 +134,7 @@ d2 %>%
 
 .pull-right[
 Die ersten 100 Stichproben
-```{r echo = TRUE}
+```{r Post-Regression-befragen-11, echo = TRUE}
 d2 %>% 
   ggplot(aes(x = weight_c, y = height)) +
   geom_point() +
@@ -182,7 +182,7 @@ post_m43a %>%
 ]
 
 .pull-right[
-```{r ref.label = "quantile-post", eval = FALSE, echo = TRUE}
+```{r Post-Regression-befragen-12, ref.label = "quantile-post", eval = FALSE, echo = TRUE}
 
 ```
 
@@ -198,7 +198,7 @@ post_m43a %>%
 
 .pull-left[
 
-```{r echo = TRUE, eval = TRUE}
+```{r Post-Regression-befragen-13, echo = TRUE, eval = TRUE}
 post_m43a %>% 
   ggplot(aes(x = a)) +
   geom_density()
@@ -208,7 +208,7 @@ post_m43a %>%
 
 .pull-right[
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-14, echo = TRUE}
 post_m43a %>% 
   ggplot(aes(x = b)) +
   geom_density()
@@ -234,14 +234,14 @@ mu_at_45_50 <-
 ```
 
 
-```{r echo = TRUE, eval = FALSE}
+```{r Post-Regression-befragen-15, echo = TRUE, eval = FALSE}
 mu_at_45_50 %>% 
   ggplot(aes(x = mu_at_45)) +
   geom_density()
 ```
 
 
-```{r echo = TRUE, eval = FALSE}
+```{r Post-Regression-befragen-16, echo = TRUE, eval = FALSE}
 mu_at_45_50 %>% 
   ggplot(aes(x = mu_at_50)) +
   geom_density()
@@ -252,7 +252,7 @@ mu_at_45_50 %>%
 
 .pull-right[
 
-```{r}
+```{r Post-Regression-befragen-17}
 mu_at_45_50 %>% 
   ggplot(aes(x = mu_at_45)) +
   geom_density() +
@@ -261,7 +261,7 @@ mu_at_45_50 %>%
 ```
 
 
-```{r}
+```{r Post-Regression-befragen-18}
 mu_at_45_50 %>% 
   ggplot(aes(x = mu_at_50)) +
   geom_density() +
@@ -278,7 +278,7 @@ mu_at_45_50 %>%
 
 ## Wie groß ist ein !Kung mit 50kg Gewicht im Mittel?
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-19, echo = TRUE}
 mu_at_45_50 %>% 
   summarise(pi = quantile(mu_at_50, prob = c(0.5, .9)))
 ```
@@ -287,7 +287,7 @@ Die mittlere Größe liegt mit 90% Wahrscheinlichkeit zwischen den beiden Werten
 
 Welche mittlere Größe wird mit 95% Wahrscheinlichkeit nicht überschritten, wenn die Person 45kg wiegt?
 
-```{r}
+```{r Post-Regression-befragen-20}
 mu_at_45_50 %>% 
   summarise(q_95 = quantile(mu_at_45, prob = .95))
 ```
@@ -301,7 +301,7 @@ mu_at_45_50 %>%
 Die Funktion `link()` erstellt eine Posteriori-Verteilung für jeden Wert des Prädiktors (`weight`), im Standard werden 1000 Stichproben aus der Posteriori-Verteilung gezogen (für jede Beobachtung im Datensatz `d2`).
 
 .pull-left[
-```{r echo = TRUE}
+```{r Post-Regression-befragen-21, echo = TRUE}
 weight_seq <- 
   seq(-20,20, by = 1)
 mu <- link(m43a, 
@@ -313,14 +313,14 @@ dim(mu)  # 1000 Zeilen, 41 Spalten
 ```
 
 
-```{r out.width="45%"}
+```{r Post-Regression-befragen-22, out.width="45%"}
 knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/link.png")
 ```
 ]
 
 .pull-right[
 Auszug aus `mu`:
-```{r}
+```{r Post-Regression-befragen-23}
 mu %>% 
   select(1:7) %>% 
   slice_head(n = 5) %>% 
@@ -346,7 +346,7 @@ mu_tidy <-
     mu = 155 + 0.9*weight_c)
 ```
 
-```{r}
+```{r Post-Regression-befragen-24}
 mu_tidy %>% 
   slice_head(n = 5) %>% 
   gt() %>%   
@@ -380,7 +380,7 @@ d2 %>%
 
 - Die Posteriori-Verteilung (`m43_post`) gibt uns Stichproben für die Parameter, d.i. $\alpha, \sigma,\beta$ des Modells, z.B. Zeile 1:
 
-```{r}
+```{r Post-Regression-befragen-25}
 post_m43a %>% 
   mutate(id = 1:nrow(.), .before = 1) %>% 
   slice_head(n = 1) %>% 
@@ -390,7 +390,7 @@ post_m43a %>%
 
 - Auf dieser Basis können wir $h_i \sim \mathcal{N}(\mu_i=\alpha, \sigma)$ schätzen, also eine tatsächliche Größe:
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-26, echo = TRUE}
 h_1 <- rnorm(n = 1, mean = 155, sd = 5)
 h_1
 ```
@@ -406,7 +406,7 @@ h_1
 
 
 .pull-left[
-```{r echo = TRUE}
+```{r Post-Regression-befragen-27, echo = TRUE}
 set.seed(42)
 ppv <-
   tibble(
@@ -427,7 +427,7 @@ ppv %>%
 
 .pull-right[
 
-```{r ref.label="ppv-regr", eval = TRUE}
+```{r Post-Regression-befragen-28, ref.label="ppv-regr", eval = TRUE}
 
 ```
 
@@ -442,7 +442,7 @@ ppv %>%
 - Welche Größe wird von 90% der Personen nicht überschritten?
 - Wie groß sind die 10% kleinsten?
 
-```{r echo = TRUE }
+```{r Post-Regression-befragen-29, echo = TRUE }
 ppv %>% 
   summarise(
     q_50 = quantile(
@@ -460,7 +460,7 @@ ppv %>%
 .pull-right[
 - Was ist der 50% Bereich der Körpergröße?
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-30, echo = TRUE}
 ppv %>% 
   summarise(
     pi_50 = quantile(
@@ -482,7 +482,7 @@ ppv %>%
 Simulieren wir die tatsächlichen Größen bedingt auf ein bestimmtes Körpergewicht:
 
 
-```{r}
+```{r Post-Regression-befragen-31}
 post_m43a %>% 
   mutate(id = 1:nrow(.), .before = 1) %>% 
   slice_head(n = 1) %>% 
@@ -494,7 +494,7 @@ post_m43a %>%
 
 - Auf dieser Basis können wir $h_i \sim \mathcal{N}(\mu_i=\alpha +\beta \cdot \text{weight}_i, \sigma)$ schätzen, also eine tatsächliche Größe, bedingt auf ein Gewicht, sagen wir 55 kg (10kg über dem Mittelwert):
 
-```{r echo = TRUE}
+```{r Post-Regression-befragen-32, echo = TRUE}
 h_1_55kg <- rnorm(n = 1, mean = 155 + 0.9*10, sd = 5)
 h_1_55kg
 ```
@@ -529,7 +529,7 @@ dim(sim_height)
 ]
 
 .pull-right[
-```{r}
+```{r Post-Regression-befragen-33}
 sim_height %>% 
   slice_head(n=5) %>% 
   select(1:5) %>% 
@@ -547,7 +547,7 @@ Die Tabelle sieht aus wie die vorherige, $\mu$, aber sie enthält simulierte Gr�
 ## Bedingte PPV visualisiert, 2
 
 .pull-left[
-```{r echo = TRUE}
+```{r Post-Regression-befragen-34, echo = TRUE}
 sim_height_tidy <-
   sim_height %>% 
   map_dfr(PI) %>% 
@@ -556,7 +556,7 @@ sim_height_tidy <-
     mu = 155 + 0.9*weight_c)
 ```
 
-```{r}
+```{r Post-Regression-befragen-35}
 sim_height_tidy %>% 
   slice_head(n=5) %>% 
   gt() %>% 
