@@ -58,7 +58,7 @@ knitr::opts_chunk$set(
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
-  cache = TRUE,
+  cache = FALSE,
   fig.show = "hold")
 
 knitr::opts_knit$set(
@@ -111,8 +111,8 @@ BibOptions(check.entries = FALSE, bib.style = "authoryear", style = "markdown",
            dashed = TRUE)
 bib_file <- "bib.bib"
 bib <- ReadBib(bib_file)
-
 ```
+
 
 
 
