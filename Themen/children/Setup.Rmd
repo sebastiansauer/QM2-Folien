@@ -108,6 +108,6 @@ use_xaringan_extra(c("tile_view", "tachyons"))
 
 
 ```{r xaringanExtra-scribble, echo=FALSE}
-xaringanExtra::use_scribble()
+#xaringanExtra::use_scribble()
 ```
 

@@ -161,7 +161,7 @@ Die *Stichprobenverteilung* zeigt, welche Stichprobendaten laut unserem Modell z
 ## Visualisierung der PPV
 
 ```{r QM2-Thema3-Post-befragen-36}
-knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/post-pred-ppv-anim.gif")
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/ppv.png")
 ```
 
 .footnote[Quelle: `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`]
