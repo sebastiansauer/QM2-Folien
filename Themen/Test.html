@@ -90,13 +90,13 @@ class: center, middle, inverse, title-slide
 
 
 
+name: kung
+class: center, middle, inverse
 
 
+# Wie groß sind die !Kung San?
 
-
-
-
-
+---
 
 ## !Kung San 
 
@@ -150,35 +150,27 @@ Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreat
 
 
 
-Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=352\)`:
+Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=352\)`.
 
-
-```r
-d2 &lt;-
-  d %&gt;% 
-  filter(age &gt;= 18)
-```
 
 
 ]
 
 .pull-right[
 
-
-
-
 ```r
-d %&gt;% 
-  head(n=3) %&gt;% 
-  gt()
+d2 &lt;- d %&gt;% 
+  filter(age &gt;= 18)
 ```
 
-<div id="cfxvwzhmpx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+Die ersten paar Zeilen:
+
+<div id="ofqjhspyxo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#cfxvwzhmpx .gt_table {
+#ofqjhspyxo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -203,7 +195,7 @@ d %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_heading {
+#ofqjhspyxo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -215,7 +207,7 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_title {
+#ofqjhspyxo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -225,7 +217,7 @@ d %&gt;%
   border-bottom-width: 0;
 }
 
-#cfxvwzhmpx .gt_subtitle {
+#ofqjhspyxo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -235,13 +227,13 @@ d %&gt;%
   border-top-width: 0;
 }
 
-#cfxvwzhmpx .gt_bottom_border {
+#ofqjhspyxo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_col_headings {
+#ofqjhspyxo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -256,7 +248,7 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_col_heading {
+#ofqjhspyxo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -276,7 +268,7 @@ d %&gt;%
   overflow-x: hidden;
 }
 
-#cfxvwzhmpx .gt_column_spanner_outer {
+#ofqjhspyxo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -288,15 +280,15 @@ d %&gt;%
   padding-right: 4px;
 }
 
-#cfxvwzhmpx .gt_column_spanner_outer:first-child {
+#ofqjhspyxo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cfxvwzhmpx .gt_column_spanner_outer:last-child {
+#ofqjhspyxo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cfxvwzhmpx .gt_column_spanner {
+#ofqjhspyxo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -308,7 +300,7 @@ d %&gt;%
   width: 100%;
 }
 
-#cfxvwzhmpx .gt_group_heading {
+#ofqjhspyxo .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -330,7 +322,7 @@ d %&gt;%
   vertical-align: middle;
 }
 
-#cfxvwzhmpx .gt_empty_group_heading {
+#ofqjhspyxo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -345,15 +337,15 @@ d %&gt;%
   vertical-align: middle;
 }
 
-#cfxvwzhmpx .gt_from_md > :first-child {
+#ofqjhspyxo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cfxvwzhmpx .gt_from_md > :last-child {
+#ofqjhspyxo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cfxvwzhmpx .gt_row {
+#ofqjhspyxo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -372,7 +364,7 @@ d %&gt;%
   overflow-x: hidden;
 }
 
-#cfxvwzhmpx .gt_stub {
+#ofqjhspyxo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -384,7 +376,7 @@ d %&gt;%
   padding-left: 12px;
 }
 
-#cfxvwzhmpx .gt_summary_row {
+#ofqjhspyxo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -394,7 +386,7 @@ d %&gt;%
   padding-right: 5px;
 }
 
-#cfxvwzhmpx .gt_first_summary_row {
+#ofqjhspyxo .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -404,7 +396,7 @@ d %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_grand_summary_row {
+#ofqjhspyxo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -414,7 +406,7 @@ d %&gt;%
   padding-right: 5px;
 }
 
-#cfxvwzhmpx .gt_first_grand_summary_row {
+#ofqjhspyxo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -424,11 +416,11 @@ d %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_striped {
+#ofqjhspyxo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cfxvwzhmpx .gt_table_body {
+#ofqjhspyxo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -437,7 +429,7 @@ d %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_footnotes {
+#ofqjhspyxo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -451,13 +443,13 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_footnote {
+#ofqjhspyxo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#cfxvwzhmpx .gt_sourcenotes {
+#ofqjhspyxo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -471,41 +463,41 @@ d %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#cfxvwzhmpx .gt_sourcenote {
+#ofqjhspyxo .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#cfxvwzhmpx .gt_left {
+#ofqjhspyxo .gt_left {
   text-align: left;
 }
 
-#cfxvwzhmpx .gt_center {
+#ofqjhspyxo .gt_center {
   text-align: center;
 }
 
-#cfxvwzhmpx .gt_right {
+#ofqjhspyxo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cfxvwzhmpx .gt_font_normal {
+#ofqjhspyxo .gt_font_normal {
   font-weight: normal;
 }
 
-#cfxvwzhmpx .gt_font_bold {
+#ofqjhspyxo .gt_font_bold {
   font-weight: bold;
 }
 
-#cfxvwzhmpx .gt_font_italic {
+#ofqjhspyxo .gt_font_italic {
   font-style: italic;
 }
 
-#cfxvwzhmpx .gt_super {
+#ofqjhspyxo .gt_super {
   font-size: 65%;
 }
 
-#cfxvwzhmpx .gt_footnote_marks {
+#ofqjhspyxo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -543,15 +535,23 @@ d %&gt;%
 ]
 
 &lt;/br&gt;
-&lt;/br&gt;
 
+
+```r
+precis(d)
+```
 
 ```
-##               mean         sd      5.5%     94.5%     histogram
-## height 138.2635963 27.6024476 81.108550 165.73500 ▁▁▁▁▁▁▁▂▁▇▇▅▁
-## weight  35.6106176 14.7191782  9.360721  54.50289 ▁▂▃▂▂▂▂▅▇▇▃▂▁
-## age     29.3443934 20.7468882  1.000000  66.13500     ▇▅▅▃▅▂▂▁▁
-## male     0.4724265  0.4996986  0.000000   1.00000    ▇▁▁▁▁▁▁▁▁▇
+##               mean         sd      5.5%     94.5%
+## height 138.2635963 27.6024476 81.108550 165.73500
+## weight  35.6106176 14.7191782  9.360721  54.50289
+## age     29.3443934 20.7468882  1.000000  66.13500
+## male     0.4724265  0.4996986  0.000000   1.00000
+##            histogram
+## height ▁▁▁▁▁▁▁▂▁▇▇▅▁
+## weight ▁▂▃▂▂▂▂▅▇▇▃▂▁
+## age        ▇▅▅▃▅▂▂▁▁
+## male      ▇▁▁▁▁▁▁▁▁▇
 ```
 
 
@@ -564,11 +564,13 @@ d %&gt;%
 
 .left-column[
 
+&lt;/br&gt;
+&lt;/br&gt;
 &lt;img src="https://upload.wikimedia.org/wikipedia/commons/8/83/SVG_Human_Silhouette.svg" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 .footnote[.tiny[Own alterations andFile:SVG_Human_With_All_Organs.svg by Madhero88, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons]
-6]
+]
 
 ]
 
@@ -577,7 +579,7 @@ d %&gt;%
 `$$\mu \sim \mathcal{N}(178, 20)$$`
 
 
-&lt;img src="unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-9-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -588,12 +590,16 @@ d %&gt;%
 
 ## Unser Gauss-Modell der !Kung
 
+Wir nehmen an, dass `\(\mu\)` und `\(h_i\)` normalverteilt, `\(\sigma\)` gleichverteilt sind:
 
 .left-column[
+Likelihood:
 `\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
 
-`\(\mu \sim \mathcal{N}(170, 20)\)`
+Prior für `\(\mu\)`:
+`\(\mu \sim \mathcal{N}(178, 20)\)`
 
+Prior für `\(\sigma\)`:
 `\(\sigma \sim \mathcal{U}(0, 50)\)`
 
 &lt;/br&gt;
@@ -607,10 +613,23 @@ d %&gt;%
 
 .right-column[
 
-&lt;img src="unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
+
+
+---
+
+## Der Likelihood wird von den Prioris gespeist
+
+
+
+&lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/L-priors-jpg.001.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
 
 
 ---
@@ -632,7 +651,7 @@ sim &lt;-
   tibble(
     sample_mu    = 
       rnorm(n, 
-            mean = 170, 
+            mean = 178, 
             sd  = 20),
     sample_sigma = 
       runif(n, 
@@ -649,13 +668,12 @@ sim &lt;-
 .pull-right[
 💭 Was denkt der Golem apriori von der Größe der !Kung?
 
-🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells.
+🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. voilà:
 
 
-&lt;img src="unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
-
 
 
 
@@ -663,20 +681,19 @@ sim &lt;-
 
 ---
 
-## Priori-Werte prüfen
+## Priori-Werte prüfen mit der Die Priori-Prädiktiv-Verteilung
 
-- Die Priori-Prädiktiv-Verteilung simuliert Beobachtungen (nur) auf Basis der Priori-Verteilung.
+- Die Priori-Prädiktiv-Verteilung simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
+`\(h_i \sim \mathcal{N}(\mu, \sigma),\)`
+`\(\mu \sim \mathcal{N}(178, 20),\)`
+`\(\sigma \sim \mathcal{U}(0, 50)\)`
 - Priori-Prädiktiv-Verteilungen sind praktisch, um zu prüfen, ob die Priori-Werte vernünftig sind
 
 .pull-left[
 
 Die Priori-Prädiktiv-Verteilung zeigt, dass unsere Priori-Werte ziemlich vage sind, also einen zu breiten Bereich an Größenwerten zulassen:
 
-`\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
-`\(\mu \sim \mathcal{N}(178, 20)\)`
-`\(\sigma \sim \mathcal{U}(0, 50)\)`
-
-&lt;img src="unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -686,25 +703,38 @@ Die Priori-Prädiktiv-Verteilung zeigt, dass unsere Priori-Werte ziemlich vage s
 
 
 
-Anteil negativer Größe:
+Anteil `\(h_i &lt; 100\)`:
 
 
 ```r
 sim %&gt;% 
-  count(height &lt; 0) %&gt;% 
+  count(height &lt; 100) %&gt;% 
   mutate(prop = n()/n)
 ```
 
 ```
-## # A tibble: 1 × 3
-##   `height &lt; 0`     n   prop
-##   &lt;lgl&gt;        &lt;int&gt;  &lt;dbl&gt;
-## 1 FALSE        10000 0.0001
+## # A tibble: 2 × 3
+##   `height &lt; 100`     n     prop
+##   &lt;lgl&gt;          &lt;int&gt;    &lt;dbl&gt;
+## 1 FALSE           9807 0.000204
+## 2 TRUE             193 0.0104
 ```
 
 
 🤔 Sehr kleine Buschleute?
 ]
+
+
+---
+
+
+
+##  Vorhersagen der Priori-Werte
+
+
+&lt;img src="Kung-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
 
 
 ---
@@ -718,7 +748,7 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -740,8 +770,8 @@ sim %&gt;%
 ## # A tibble: 2 × 3
 ##   `height &lt; 0`     n     prop
 ##   &lt;lgl&gt;        &lt;int&gt;    &lt;dbl&gt;
-## 1 FALSE         9495 0.000211
-## 2 TRUE           505 0.00396
+## 1 FALSE         9571 0.000209
+## 2 TRUE           429 0.00466
 ```
 
 ]
@@ -749,19 +779,21 @@ sim %&gt;%
 
 🤔 Das Modell geht apriori von ein paar Prozent Menschen mit *negativer* Größe aus. Ein Haufen Riesen 👹 werden auch erwartet. 
 
-❗Vage Priori-Werte machen oft keinen Sinn.
+🤯   Vage (flache, informationsarme, "neutrale", "objektive") Priori-Werte machen oft keinen Sinn.
+
+
 ---
 
 ## Zufällige Motivationsseite
 
 
-&lt;img src="/Users/sebastiansaueruser/github-repos/psych252slides/figures/gifs/pretty_good.gif" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/img/pretty_good.gif" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 
-## Posteriori-Verteilung des Größen-Modells
+## Posteriori-Verteilung des Größen-Modells, `m41`
 
 .pull-left[
 
@@ -772,15 +804,15 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 .pull-right[
 
-- Wir bekommen eine Wahrscheinlichkeitsverteilung für `\(\mu\)` und eine für `\(\sigma\)` (bzw. eine zweidimensionale für die `\(\mu,\sigma\)`-Paare).
+- Wir bekommen eine Wahrscheinlichkeitsverteilung für `\(\mu\)` und eine für `\(\sigma\)` (bzw. eine zweidimensionale Verteilung, für die `\(\mu,\sigma\)`-Paare).
 
-- Trotz des vagen Priors sind die Posteriori-Werte für `\(\mu\)` und `\(\sigma\)` klein: Die Daten haben die Priori-Werte überstimmt.
+- Trotz des vagen Priors sind die Posteriori-Werte für `\(\mu\)` und `\(\sigma\)` klein: Die große Stichprobe hat die Priori-Werte überstimmt.
 
 - Ziehen wir Stichproben aus der Posteriori-Verteilung, so können wir interessante Fragen stellen. 
 
@@ -800,7 +832,7 @@ sim %&gt;%
 - Mit welcher Wahrscheinlichkeit ist die mittlere !Kung-Person größer als 1,55m?
 - Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
 - In welchem 90%-PI liegt `\(\mu\)` vermutlich?
-- Mit welcher Unsicherheit ist die Schätzung der mittleren Körpergröße behaftet ($\sigma$)?
+- Mit welcher Unsicherheit `\(\sigma\)` ist die Schätzung der mittleren Körpergröße behaftet?
 - Welcher Wert der mittleren Körpergröße hat die höchste Wahrscheinlichkeit?
 
 ]
@@ -812,28 +844,64 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
 
 ---
 
-## Posteriori-Stichproben mit `quap()` berechnen
+## Posteriori-Verteilung mit `quap()` berechnen 1/2
+
+- `quap()` (*Qu*adratische *Ap*proximation) erlaubt uns, komfortabel die Posteriori-Vertelung zu bestimmen.
+- Rechnerisch wird die quadratische Form der Normalverteilung ausgenutzt.
+- Die Gittermethode wird nicht verwendet, aber die Ergebnisse sind - in bestimmten Situationen - ähnlich.
+- `quap()` hat auch den Vorteil, dass es wenig rechenintensiv ist als die Gittermethode, gerade bei komplexeren Modellen.
 
 .pull-left[
-Modell 4.1 (`m41`) mit `quap` berechnen:
+
+```r
+library(rethinking)
+# berechnet Post.-Vert.:
+quap(
+  alist(
+    # modelldefinition
+  ),
+  data = meine_daten
+)
+```
+
+]
+
+.pull-right[
+Modelldefinition:
+
+`\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
+
+`\(\mu \sim \mathcal{N}(178, 20)\)`
+
+`\(\sigma \sim \mathcal{U}(0, 50)\)`
+
+
+
+]
+
+---
+
+## Posteriori-Stichproben mit `quap()` berechnen 2/2
+
+.pull-left[
 
 
 ```r
 modell_definition &lt;-
-  alist(  # definiert Modell
+  alist(  
     height ~ dnorm(mu, sigma),
-    mu ~ dnorm(170, 20),
+    mu ~ dnorm(178, 20),
     sigma ~ dunif(0, 50)
   )  
 
-m41 &lt;- quap( # berechnet Post.-Vert.
+m41 &lt;- quap( 
   modell_definition,
   data = d2
 )
@@ -843,30 +911,36 @@ m41 &lt;- quap( # berechnet Post.-Vert.
 
 ]
 
+
+
 Modelldefinition: 
 
 .pull-right[
 
 `\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
 
-`\(\mu \sim \mathcal{N}(170, 20)\)`
+`\(\mu \sim \mathcal{N}(178, 20)\)`
 
 `\(\sigma \sim \mathcal{U}(0, 50)\)`
 
 ]
 
+
+
 Posteriori-Verteilung für Modell 4.1 `m41`:
 
 
+
 ```r
-precis(m41)
+precis(m41)  # precis, engl. "Kurzfassung"
 ```
 
 ```
-##            mean        sd       5.5%     94.5%
-## mu    154.60376 0.4119941 153.945310 155.26220
-## sigma   7.73133 0.2913856   7.265639   8.19702
+##             mean        sd       5.5%     94.5%
+## mu    154.607022 0.4119945 153.948575 155.26547
+## sigma   7.731329 0.2913857   7.265638   8.19702
 ```
+
 
 
 ---
@@ -883,9 +957,12 @@ precis(post_m41)
 ```
 
 ```
-##             mean        sd       5.5%      94.5%     histogram
-## mu    154.607988 0.4101483 153.947051 155.259864      ▁▁▁▅▇▂▁▁
-## sigma   7.732906 0.2919312   7.269026   8.201596 ▁▁▁▁▂▅▇▇▃▁▁▁▁
+##             mean        sd       5.5%      94.5%
+## mu    154.611253 0.4101497 153.950117 155.263315
+## sigma   7.732909 0.2919296   7.269278   8.201933
+##           histogram
+## mu         ▁▁▁▅▇▂▁▁
+## sigma ▁▁▁▁▂▅▇▇▃▁▁▁▁
 ```
 
 .pull-left[
@@ -1238,18 +1315,18 @@ Hier die ersten paar Zeilen von `post_m41`:
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">155.0354</td>
-<td class="gt_row gt_right">7.660312</td></tr>
-    <tr><td class="gt_row gt_right">154.4232</td>
-<td class="gt_row gt_right">7.532289</td></tr>
-    <tr><td class="gt_row gt_right">154.9843</td>
-<td class="gt_row gt_right">8.263350</td></tr>
-    <tr><td class="gt_row gt_right">154.1805</td>
-<td class="gt_row gt_right">7.989856</td></tr>
-    <tr><td class="gt_row gt_right">154.4940</td>
-<td class="gt_row gt_right">7.482492</td></tr>
-    <tr><td class="gt_row gt_right">154.5183</td>
-<td class="gt_row gt_right">8.020130</td></tr>
+    <tr><td class="gt_row gt_right">155.0387</td>
+<td class="gt_row gt_right">7.660676</td></tr>
+    <tr><td class="gt_row gt_right">154.4266</td>
+<td class="gt_row gt_right">7.532136</td></tr>
+    <tr><td class="gt_row gt_right">154.9872</td>
+<td class="gt_row gt_right">8.263670</td></tr>
+    <tr><td class="gt_row gt_right">154.1836</td>
+<td class="gt_row gt_right">7.989497</td></tr>
+    <tr><td class="gt_row gt_right">154.4975</td>
+<td class="gt_row gt_right">7.482399</td></tr>
+    <tr><td class="gt_row gt_right">154.5213</td>
+<td class="gt_row gt_right">8.020057</td></tr>
   </tbody>
   
   
@@ -1271,8 +1348,8 @@ post_m41 %&gt;%
 
 ```
 ##   mu &gt; 155    n   prop
-## 1    FALSE 8304 0.8304
-## 2     TRUE 1696 0.1696
+## 1    FALSE 8282 0.8282
+## 2     TRUE 1718 0.1718
 ```
 
 ]
@@ -1296,7 +1373,7 @@ post_m41 %&gt;%
 
 ```
 ##        q95
-## 1 155.2793
+## 1 155.2825
 ```
 
 ]
@@ -1315,8 +1392,8 @@ post_m41 %&gt;%
 
 ```
 ##      pi_90
-## 1 153.9266
-## 2 155.2793
+## 1 153.9298
+## 2 155.2825
 ```
 
 ]
@@ -1334,7 +1411,7 @@ post_m41 %&gt;%
 
 
 .pull-left[
-- Die Priori-Verteilung von `\(\mu\)` in `m41` ist sehr vage (fast flach, indifferent, informationsarm, fast fleichverteilt, fast "objektiv").
+- Die Priori-Verteilung von `\(\mu\)` in `m42` ist sehr vage (fast flach, indifferent, informationsarm, "objektiv").
 - Aufgrund der großen Stichprobe ist der Schätzbereich für `\(\mu\)` trotzdem schmal. Die vage Priori-Verteilung kommt daher nicht zum tragen.
 - Bei kleineren Stichproben oder komplexeren Modellen kann die Priori-Verteilung deutlich mehr Einfluss haben.
 ]
@@ -1348,7 +1425,7 @@ m42 &lt;-
   quap(
     alist(
       height ~ dnorm(mu, sigma),
-      mu ~ dnorm(170, 0.1),
+      mu ~ dnorm(178, 0.1),
       sigma ~ dunif(0, 50)
     ),
     data = d2
@@ -1358,13 +1435,16 @@ m42 &lt;-
 ]
 
 
-```
-##            mean        sd      5.5%     94.5%
-## mu    169.81621 0.1003582 169.65582 169.97661
-## sigma  17.07505 0.6500034  16.03622  18.11388
+```r
+precis(m42) # sigma hat sich geändert, vgl. m4.1
 ```
 
-Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
+```
+##            mean        sd      5.5%     94.5%
+## mu    177.86375 0.1002354 177.70356 178.02395
+## sigma  24.51755 0.9289224  23.03296  26.00215
+```
+
 
 ---
 
@@ -1374,7 +1454,6 @@ Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
 
 
 ## Fazit
-
 .pull-left[
 - Wir haben die Posteriori-Verteilung für ein Gauss-Modell  berechnet.
 - Dabei hatten wir ein einfaches Modell mit metrischer Zielvariablen, ohne Prädiktoren, betrachtet.
@@ -1384,9 +1463,9 @@ Man beachte, dass `\(\sigma\)` sich im Vergleich zu `m4.1` geändert hat.
 
 .pull-right[
 
-### Bleiben Sie dran! 🧡
+.center[.content-box-blue[🧡 Bleiben Sie dran!]]
 
-&lt;img src="/Users/sebastiansaueruser/github-repos/psych252slides/figures/comics/chicken_standard_deviation.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/chicken_standard_deviation.jpg" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 

@@ -66,7 +66,7 @@ library(tidyverse)
 library(rstatix)
 Kung_path <- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
 
-d <- read_dsv(Kung_path)  
+d <- read_csv(Kung_path)  
 
 d2 <- 
   d %>% 

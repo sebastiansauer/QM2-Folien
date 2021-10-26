@@ -52,46 +52,46 @@ background-size: contain
 
 
 .pull-left[
-```{r Kung-3, echo = TRUE, results = "hide"}
-library(rethinking)
-data(Howell1)
-d <- Howell1
+
+[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/Howell1a.csv)
+
+.tiny[
+```{r Post-Regression-3, echo = TRUE, eval = TRUE}
+library(tidyverse)
+Kung_path <- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
+
+d <- read_csv(Kung_path)  
+
+d2 <- 
+  d %>% 
+  filter(age > 18)
 ```
-
-Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv) herunterladen.
-
-```{r Kung-4, echo = FALSE, eval = FALSE}
-library(rio)
-d <- import("https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv")
-```
-
-
-Wir interessieren uns für die Größe der erwachsenen !Kung, $N=352$.
-
-
 
 ]
 
+
+
+
+
+
+
+
 .pull-right[
-```{r Kung-5, echo = TRUE}
+Wir interessieren uns für die Größe der erwachsenen !Kung, $N=`r nrow(d2)`$:
+```{r Kung-5, echo = TRUE, eval = FALSE}
 d2 <- d %>% 
   filter(age >= 18)
 ```
 
-Die ersten paar Zeilen:
-
-```{r Kung-6, echo = FALSE}
-d %>% 
-  head(n=3) %>% 
-  gt()
-```
 
 ]
 
 </br>
 
 ```{r Kung-7, echo = TRUE}
-precis(d)
+library(rstatix)
+get_summary_stats(d2) %>% 
+  gt()
 ```
 
 
@@ -235,7 +235,7 @@ sim <-
 .pull-right[
 💭 Was denkt der Golem apriori von der Größe der !Kung?
 
-🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. voilà:
+🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. Voilà:
 
 
 ```{r Kung-12}
@@ -263,7 +263,7 @@ p3
 
 ## Priori-Werte prüfen mit der Die Priori-Prädiktiv-Verteilung
 
-- Die Priori-Prädiktiv-Verteilung simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
+- Die Priori-Prädiktiv-Verteilung (`sim`) simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
 $h_i \sim \mathcal{N}(\mu, \sigma),$
 $\mu \sim \mathcal{N}(178, 20),$
 $\sigma \sim \mathcal{U}(0, 50)$
@@ -420,12 +420,15 @@ n <- 200
 
 d_grid <-
   # we'll accomplish with `tidyr::crossing()` what McElreath did with base R `expand.grid()`
-  crossing(mu    = seq(from = 140, to = 160, length.out = n),
-           sigma = seq(from = 4, to = 9, length.out = n))
+  crossing(mu    = seq(from = 140, to = 160,
+                       length.out = n),
+           sigma = seq(from = 4, to = 9, 
+                       length.out = n))
 
 grid_function <- function(mu, sigma) {
   
-  dnorm(d2$height, mean = mu, sd = sigma, log = T) %>% 
+  dnorm(d2$height, mean = mu, 
+        sd = sigma, log = T) %>% 
     sum()
   
 }
@@ -434,10 +437,14 @@ d_grid <-
   d_grid %>% 
   mutate(log_likelihood = map2(mu, sigma, grid_function)) %>%
   unnest(log_likelihood) %>% 
-  mutate(prior_mu    = dnorm(mu, mean = 178, sd = 20, log = T),
-         prior_sigma = dunif(sigma, min = 0, max = 50, log = T)) %>% 
-  mutate(product = log_likelihood + prior_mu + prior_sigma) %>% 
-  mutate(probability = exp(product - max(product)))
+  mutate(prior_mu    = dnorm(mu, mean = 178, 
+                             sd = 20, log = T),
+         prior_sigma = dunif(sigma, min = 0, 
+                             max = 50, log = T)) %>% 
+  mutate(product = 
+           log_likelihood + prior_mu + prior_sigma) %>% 
+  mutate(probability = 
+           exp(product - max(product)))
 ```
 
 

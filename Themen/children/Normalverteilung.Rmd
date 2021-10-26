@@ -315,7 +315,7 @@ Mit `scale_fill_continuous(type = "viridis")`kann man die Farbpalette der Füllf
 
 .pull-right[
 
-```{r Normalverteilung-2-bis, echo = FALSE}
+```{r Normalverteilung-2-bis, echo = FALSE, fig.asp = 0.618}
 d1 <- 
   tibble( 
     x=rnorm(1e4), 

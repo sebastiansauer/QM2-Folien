@@ -1,6 +1,6 @@
 ---
-title: TEST
-
+title: TEST2
+date: "`r Sys.time()`"
 output:
   xaringan::moon_reader:
 #    css: ["xaringan-themer.css"]
@@ -19,7 +19,7 @@ csquotes: TRUE
 
 
 
-```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd"}
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd", eval = TRUE}
 ```
 
 
@@ -29,53 +29,48 @@ rethink_chap <- "3"
 
 
 
-## Visualisierung der PPV
+## Gliederung
 
-```{r QM2-Thema3-Post-befragen-32}
-n <- 1001
-n_success <- 6
-n_trials  <- 9
 
-d <-
-  tibble(p_grid = seq(from = 0, to = 1, length.out = n),
-         # note we're still using a flat uniform prior
-         prior  = 1) %>% 
-  mutate(likelihood = dbinom(n_success, size = n_trials, prob = p_grid)) %>% 
-  mutate(post = (likelihood * prior) / sum(likelihood * prior))
 
-```
+.center2[.large[
+1. [Mit Stichproben die Post-Verteilung zusammenfassen](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema3-Post-befragen.html#3)
+2. [Mit Stichproben neue Beobachtungen simulieren](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema3-Post-befragen.html#22)
+3. [Hinweise](#hinweise)
+4. [Literatur](#literatur)
+]]
 
-```{r QM2-Thema3-Post-befragen-36}
-img("ppv.png")
-```
+---
 
-.footnote[Quelle: `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`]
+name: teil2
+class: center, middle, inverse
+
+
+# Mit Stichproben neue Beobachtungen simulieren
 
 ---
 
 
+name: teil1
+class: center, middle, inverse
 
 
-## Vergleich der Verteilungen
+# Mit Stichproben die Post-Verteilung zusammenfassen
 
-
-
-
-```{r QM2-Thema3-Post-befragen-38, eval = TRUE}
-img_file <- paste0("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/post-pred-ppv-anim.gif")
-knitr::include_graphics(img_file)
-
-```
-
-
-- Links - *Posterior-Verteilung*: Wahrscheinlichkeiten der Parameterwerte
-- Mitte - *Stichprobenverteilung*: Wahrscheinlichkeiten der Beobachtungen gegeben eines bestimmten Parameterwertes
-- Rechts - *Posterior-Prädiktiv-Verteilung*: Wahrscheinlichkeiten der Beobachtungen unter Berücksichtigung der Unsicherheit der Posteriori-Verteilung
-
-[Bild](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema3-Post-befragen.html#1)
-
-.footnote[[Quelle: R. McElreath](https://twitter.com/rlmcelreath/status/1448978045247893505)]
 
 ---
+
+## Zur Erinnerung: Gitterwerte in R berechnen
+
+
+dsaflk
+asdklj
+sadjfk
+
+fkdsjl
+
+
+---
+
 
 
