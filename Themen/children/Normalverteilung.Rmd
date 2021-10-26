@@ -63,6 +63,8 @@ ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
 
 Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 40%.
 
+In Summe liegen 100$ Wahrscheinlichkeitsmasse unter der Kurve.
+
 ]
 
 .pull-right[
@@ -402,5 +404,155 @@ ggplot(d2) +
 
 ]
 
+
+---
+
+## Die Mensch-ärgere-dich-nicht-Verteilung
+
+
+.pull-left[
+
+- Wie lange muss man warten, bis man bei Mensch-ärgere-dich-nicht raus darf?
+- Wieviel Vitamine sind nach einer Woche noch in meiner Möhre?
+- Wie lange hält eine Glühbirne, bevor sie den Geist aufgibt?
+- Wie weit rollt ein Apfel vom Stamm?
+- Wie weit liegt eine Expertin mit ihrer Schätzung daneben?
+- ...
+
+]
+
+
+.pull-right[
+Solche Fragen kann man mit dieser Verteilung darstellen:
+```{r}
+d <-
+  tibble(
+    x = seq(0, 5,.1),
+    y = dexp(x, rate = 1)
+  )
+
+d %>% 
+  ggplot(aes(x,y)) +
+  geom_line() 
+```
+
+
+
+]
+
+
+.center[.content-box-blue[Die Exponentialverteilung]]
+
+---
+
+## Darf ich vorstellen: Die Exponential-Verteilung
+
+
+
+
+.left-column[
+
+```{r Post-Regression-18, fig.asp = 1, fig.width=2, echo = FALSE}
+d <-
+  tibble(
+    x = seq(0, 5,.1),
+    y = dexp(x, rate = 1)
+  )
+
+d %>% 
+  ggplot(aes(x,y)) +
+  geom_line() 
+```
+
+$$\beta \sim \operatorname{Exp}(1)$$
+
+]
+
+.right-column[
+- Eine *Exp*onentialverteilung ist nur für positive Werte, $x>0$, definiert.
+- Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
+- Sie hat nur einen Parameter, $\lambda$ ("lambda").
+- $\frac{1}{\lambda}$  gibt gleichzeitig Mittelwert und Streuung ("Gestrecktheit") der Verteilung an.
+
+
+]
+
+---
+
+
+## Exponentialverteilung berechnen
+
+
+.pull-left[
+Im einfachsten Fall gilt: 
+$y = 2^{-x}$ bzw $y = e^{-x}$ mit $e=2.71...$
+
+```{r exp1, echo = TRUE, eval = FALSE, results='hide'}
+d <- tibble(
+  x = seq(0, 5, by = 0.01),
+  y = 2^(-x),
+  y2 = 2.71^(-x))  # e=2.71...
+
+d %>% 
+  ggplot(aes(x)) +
+  geom_line(aes(y=y)) +
+  geom_line(aes(y=y2), 
+            color ="blue")
+```
+
+]
+
+.pull-right[
+```{r exp1-plot, ref.label = "exp1", eval = TRUE}
+
+```
+
+]
+
+
+
+
+
+---
+
+
+## Exponentialverteilung mit R
+
+
+Für $e^x$ -- Exponenziern mit $e$ (Eulersche Zahl) als Basis -- gibt's in R die Funktion `exp()`. Mit `dexp()` bekommt man die zugehörige Wahrscheinlichkeitsdichte.
+
+.pull-left[
+
+```{r dexp-plot, echo = TRUE, eval = FALSE}
+d <-
+  tibble(
+    x = seq(0, 5,.1),
+    y1 = dexp(x, rate = 1),
+    y2 = dexp(x, rate = 0.5)
+  )
+
+d %>% 
+  ggplot(aes(x)) +
+  geom_line(aes(y = y1)) +
+  geom_line(aes(y = y2), 
+            color = "blue")
+```
+
+
+]
+
+.pull-right[
+
+```{r Post-Regression-19, ref.label = "dexp-plot", echo = FALSE, eval = TRUE}
+
+```
+
+$$\beta \sim \operatorname{Exp}(1)$$
+
+$$\color{blue}\beta \color{blue}\sim \color{blue}{\operatorname{Exp}(0.5)}$$
+
+]
+
+Je kleiner die Rate $\lambda$, desto *größer* die Streuung der Verteilung.
 
 ---

@@ -95,10 +95,9 @@ class: center, middle, inverse, title-slide
 
 
 .center2[.Large[
-1. [Teil 1: Verteilungen](#teila)
-2. [Teil 2: Wie groß sind die !Kung San?](#kung)
-3. [Hinweise](#hinweise)
-4. [Literatur](#literatur)
+1. [Teil 1: Verteilungen](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#3)
+2. [Teil 2: Wie groß sind die !Kung San?](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#18)
+3. [Hinweise](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#38)
 ]]
 
 ---
@@ -168,6 +167,8 @@ Bei *stetigen* Merkmalen `\(X\)` geht man von unendlich vielen Ausprägungen aus
 &lt;img src="Normalverteilung-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 40%.
+
+In Summe liegen 100$ Wahrscheinlichkeitsmasse unter der Kurve.
 
 ]
 
@@ -383,7 +384,7 @@ Mit `scale_fill_continuous(type = "viridis")`kann man die Farbpalette der Füllf
 
 .pull-right[
 
-&lt;img src="unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-3-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Normalverteilung-2-bis-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Normalverteilung-2-bis-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1131,12 +1132,141 @@ d2 %&gt;%
 
 .pull-right[
 
-&lt;img src="unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-8-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Normalverteilung-7-bis-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Normalverteilung-7-bis-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 
 ---
+
+## Die Mensch-ärgere-dich-nicht-Verteilung
+
+
+.pull-left[
+
+- Wie lange muss man warten, bis man bei Mensch-ärgere-dich-nicht raus darf?
+- Wieviel Vitamine sind nach einer Woche noch in meiner Möhre?
+- Wie lange hält eine Glühbirne, bevor sie den Geist aufgibt?
+- Wie weit rollt ein Apfel vom Stamm?
+- Wie weit liegt eine Expertin mit ihrer Schätzung daneben?
+- ...
+
+]
+
+
+.pull-right[
+Solche Fragen kann man mit dieser Verteilung darstellen:
+&lt;img src="unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+]
+
+
+.center[.content-box-blue[Die Exponentialverteilung]]
+
+---
+
+## Darf ich vorstellen: Die Exponential-Verteilung
+
+
+
+
+.left-column[
+
+&lt;img src="Post-Regression-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+`$$\beta \sim \operatorname{Exp}(1)$$`
+
+]
+
+.right-column[
+- Eine *Exp*onentialverteilung ist nur für positive Werte, `\(x&gt;0\)`, definiert.
+- Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
+- Sie hat nur einen Parameter, `\(\lambda\)` ("lambda").
+- `\(\frac{1}{\lambda}\)`  gibt gleichzeitig Mittelwert und Streuung ("Gestrecktheit") der Verteilung an.
+
+
+]
+
+---
+
+
+## Exponentialverteilung berechnen
+
+
+.pull-left[
+Im einfachsten Fall gilt: 
+`\(y = 2^{-x}\)` bzw `\(y = e^{-x}\)` mit `\(e=2.71...\)`
+
+
+```r
+d &lt;- tibble(
+  x = seq(0, 5, by = 0.01),
+  y = 2^(-x),
+  y2 = 2.71^(-x))  # e=2.71...
+
+d %&gt;% 
+  ggplot(aes(x)) +
+  geom_line(aes(y=y)) +
+  geom_line(aes(y=y2), 
+            color ="blue")
+```
+
+]
+
+.pull-right[
+&lt;img src="exp1-plot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+
+
+---
+
+
+## Exponentialverteilung mit R
+
+
+Für `\(e^x\)` -- Exponenziern mit `\(e\)` (Eulersche Zahl) als Basis -- gibt's in R die Funktion `exp()`. Mit `dexp()` bekommt man die zugehörige Wahrscheinlichkeitsdichte.
+
+.pull-left[
+
+
+```r
+d &lt;-
+  tibble(
+    x = seq(0, 5,.1),
+    y1 = dexp(x, rate = 1),
+    y2 = dexp(x, rate = 0.5)
+  )
+
+d %&gt;% 
+  ggplot(aes(x)) +
+  geom_line(aes(y = y1)) +
+  geom_line(aes(y = y2), 
+            color = "blue")
+```
+
+
+]
+
+.pull-right[
+
+&lt;img src="Post-Regression-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+`$$\beta \sim \operatorname{Exp}(1)$$`
+
+`$$\color{blue}\beta \color{blue}\sim \color{blue}{\operatorname{Exp}(0.5)}$$`
+
+]
+
+Je kleiner die Rate `\(\lambda\)`, desto *größer* die Streuung der Verteilung.
+
+---
+
 
 
 
@@ -1192,31 +1322,45 @@ background-size: contain
 
 .pull-left[
 
+[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/Howell1a.csv)
+
+.tiny[
+
 ```r
-library(rethinking)
-data(Howell1)
-d &lt;- Howell1
+library(tidyverse)
+Kung_path &lt;- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
+
+d &lt;- read_csv(Kung_path)  
+
+d2 &lt;- 
+  d %&gt;% 
+  filter(age &gt; 18)
 ```
 
-Alternativ kann man die Daten [hier](https://raw.githubusercontent.com/rmcelreath/rethinking/master/data/Howell1.csv) herunterladen.
-
-
-
-
-Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=352\)`.
-
-
-
+]
 ]
 
+
+
+
+
 .pull-right[
+Wir interessieren uns für die Größe der erwachsenen !Kung, `\(N=346\)`:
 
 ```r
 d2 &lt;- d %&gt;% 
   filter(age &gt;= 18)
 ```
 
-Die ersten paar Zeilen:
+
+```r
+library(rstatix)
+get_summary_stats(d2)
+```
+
+]
+
+&lt;/br&gt;
 
 <div id="wxmfgaonqc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
@@ -1560,47 +1704,79 @@ Die ersten paar Zeilen:
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">height</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weight</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">age</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">male</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">variable</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">min</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">max</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">median</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">iqr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mad</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mean</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">sd</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">se</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">ci</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">151.765</td>
-<td class="gt_row gt_right">47.82561</td>
-<td class="gt_row gt_right">63</td>
-<td class="gt_row gt_right">1</td></tr>
-    <tr><td class="gt_row gt_right">139.700</td>
-<td class="gt_row gt_right">36.48581</td>
-<td class="gt_row gt_right">63</td>
-<td class="gt_row gt_right">0</td></tr>
-    <tr><td class="gt_row gt_right">136.525</td>
-<td class="gt_row gt_right">31.86484</td>
-<td class="gt_row gt_right">65</td>
-<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_left">age</td>
+<td class="gt_row gt_right">346</td>
+<td class="gt_row gt_right">19.00</td>
+<td class="gt_row gt_right">88.00</td>
+<td class="gt_row gt_right">40.00</td>
+<td class="gt_row gt_right">29.00</td>
+<td class="gt_row gt_right">51.00</td>
+<td class="gt_row gt_right">22.00</td>
+<td class="gt_row gt_right">16.31</td>
+<td class="gt_row gt_right">41.54</td>
+<td class="gt_row gt_right">15.81</td>
+<td class="gt_row gt_right">0.85</td>
+<td class="gt_row gt_right">1.67</td></tr>
+    <tr><td class="gt_row gt_left">height</td>
+<td class="gt_row gt_right">346</td>
+<td class="gt_row gt_right">136.53</td>
+<td class="gt_row gt_right">179.07</td>
+<td class="gt_row gt_right">154.31</td>
+<td class="gt_row gt_right">148.59</td>
+<td class="gt_row gt_right">160.66</td>
+<td class="gt_row gt_right">12.06</td>
+<td class="gt_row gt_right">8.47</td>
+<td class="gt_row gt_right">154.64</td>
+<td class="gt_row gt_right">7.77</td>
+<td class="gt_row gt_right">0.42</td>
+<td class="gt_row gt_right">0.82</td></tr>
+    <tr><td class="gt_row gt_left">male</td>
+<td class="gt_row gt_right">346</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">0.47</td>
+<td class="gt_row gt_right">0.50</td>
+<td class="gt_row gt_right">0.03</td>
+<td class="gt_row gt_right">0.05</td></tr>
+    <tr><td class="gt_row gt_left">weight</td>
+<td class="gt_row gt_right">346</td>
+<td class="gt_row gt_right">31.52</td>
+<td class="gt_row gt_right">62.99</td>
+<td class="gt_row gt_right">45.01</td>
+<td class="gt_row gt_right">40.33</td>
+<td class="gt_row gt_right">49.38</td>
+<td class="gt_row gt_right">9.04</td>
+<td class="gt_row gt_right">6.72</td>
+<td class="gt_row gt_right">45.05</td>
+<td class="gt_row gt_right">6.46</td>
+<td class="gt_row gt_right">0.35</td>
+<td class="gt_row gt_right">0.68</td></tr>
   </tbody>
   
   
 </table>
 </div>
-
-]
-
-&lt;/br&gt;
-
-
-```r
-precis(d)
-```
-
-```
-##               mean         sd      5.5%     94.5%     histogram
-## height 138.2635963 27.6024476 81.108550 165.73500 ▁▁▁▁▁▁▁▂▁▇▇▅▁
-## weight  35.6106176 14.7191782  9.360721  54.50289 ▁▂▃▂▂▂▂▅▇▇▃▂▁
-## age     29.3443934 20.7468882  1.000000  66.13500     ▇▅▅▃▅▂▂▁▁
-## male     0.4724265  0.4996986  0.000000   1.00000    ▇▁▁▁▁▁▁▁▁▇
-```
 
 
 
@@ -1627,7 +1803,7 @@ precis(d)
 `$$\mu \sim \mathcal{N}(178, 20)$$`
 
 
-&lt;img src="unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-9-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1648,7 +1824,7 @@ Prior für `\(\mu\)`:
 `\(\mu \sim \mathcal{N}(178, 20)\)`
 
 Prior für `\(\sigma\)`:
-`\(\sigma \sim \mathcal{U}(0, 50)\)`
+`\(\sigma \sim \mathcal{E}(0, 1)\)`
 
 &lt;/br&gt;
 &lt;/br&gt;
@@ -1661,7 +1837,7 @@ Prior für `\(\sigma\)`:
 
 .right-column[
 
-&lt;img src="unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1673,7 +1849,7 @@ Prior für `\(\sigma\)`:
 
 
 
-&lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/L-priors-jpg.001.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/Lik-Prior.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1702,24 +1878,26 @@ sim &lt;-
             mean = 178, 
             sd  = 20),
     sample_sigma = 
-      runif(n, 
-            min = 0, 
-            max = 50)) %&gt;% 
+      rexp(n, 
+            rate = 1)) %&gt;% 
   mutate(
     height = 
       rnorm(n, 
             mean = sample_mu, 
             sd = sample_sigma))
+
+height_sim_sd &lt;- sd(sim$height) %&gt;% round()
+height_sim_mean &lt;- mean(sim$height) %&gt;% round()
 ```
 ]
 
 .pull-right[
-💭 Was denkt der Golem apriori von der Größe der !Kung?
+💭 Was denkt der Golem (`m41`) apriori von der Größe der !Kung?
 
-🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. voilà:
+🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. Voilà:
 
 
-&lt;img src="unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1729,9 +1907,9 @@ sim &lt;-
 
 ---
 
-## Priori-Werte prüfen mit der Die Priori-Prädiktiv-Verteilung
+## Priori-Werte prüfen mit der Priori-Prädiktiv-Verteilung
 
-- Die Priori-Prädiktiv-Verteilung simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
+- Die Priori-Prädiktiv-Verteilung (`sim`) simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
 `\(h_i \sim \mathcal{N}(\mu, \sigma),\)`
 `\(\mu \sim \mathcal{N}(178, 20),\)`
 `\(\sigma \sim \mathcal{U}(0, 50)\)`
@@ -1741,7 +1919,7 @@ sim &lt;-
 
 Die Priori-Prädiktiv-Verteilung zeigt, dass unsere Priori-Werte ziemlich vage sind, also einen zu breiten Bereich an Größenwerten zulassen:
 
-&lt;img src="unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1761,11 +1939,10 @@ sim %&gt;%
 ```
 
 ```
-## # A tibble: 2 × 3
-##   `height &lt; 100`     n     prop
-##   &lt;lgl&gt;          &lt;int&gt;    &lt;dbl&gt;
-## 1 FALSE           9819 0.000204
-## 2 TRUE             181 0.0110
+## # A tibble: 1 × 3
+##   `height &lt; 100`     n   prop
+##   &lt;lgl&gt;          &lt;int&gt;  &lt;dbl&gt;
+## 1 FALSE          10000 0.0001
 ```
 
 
@@ -1780,7 +1957,7 @@ sim %&gt;%
 ##  Vorhersagen der Priori-Werte
 
 
-&lt;img src="unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1788,7 +1965,10 @@ sim %&gt;%
 ---
 
 
-## Extrem vage Priori-Verteilung, `\(\sigma=100\)`
+## Extrem vage Priori-Verteilung für die Streuung
+
+
+`\(\sigma \sim \mathcal{E}(\lambda=0.1)\)`
 
 
 
@@ -1796,7 +1976,7 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1805,22 +1985,12 @@ sim %&gt;%
 .pull-right[
 
 
-Anteil negativer Größe:
+Die Streuung der Größen ist weit:
+
+&lt;img src="unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
-```r
-sim %&gt;% 
-  count(height &lt; 0) %&gt;% 
-  mutate(prop = n()/n)
-```
 
-```
-## # A tibble: 2 × 3
-##   `height &lt; 0`     n     prop
-##   &lt;lgl&gt;        &lt;int&gt;    &lt;dbl&gt;
-## 1 FALSE         9571 0.000209
-## 2 TRUE           429 0.00466
-```
 
 ]
 
@@ -1852,7 +2022,7 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1892,29 +2062,31 @@ sim %&gt;%
 
 
 
-&lt;img src="unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kung-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
 
 ---
 
-## Posteriori-Verteilung mit `quap()` berechnen 1/2
+## Posteriori-Stichproben mit `stan_glm()` berechnen 
 
-- `quap()` (*Qu*adratische *Ap*proximation) erlaubt uns, komfortabel die Posteriori-Vertelung zu bestimmen.
-- Rechnerisch wird die quadratische Form der Normalverteilung ausgenutzt.
+- Mit `stan_glm()` können wir komfortabel die Posteriori-Verteilung berechnen. 
 - Die Gittermethode wird nicht verwendet, aber die Ergebnisse sind - in bestimmten Situationen - ähnlich.
-- `quap()` hat auch den Vorteil, dass es wenig rechenintensiv ist als die Gittermethode, gerade bei komplexeren Modellen.
+- Es werden aber auch viele Stichproben simuliert (sog. MCMC-Methode).
+- Gibt man keine Priori-Werte an, so greift die Funktion auf Standardwerte zurück.
+
 
 .pull-left[
 
 ```r
-library(rethinking)
+library(rstanarm)
 # berechnet Post.-Vert.:
-quap(
-  alist(
-    # modelldefinition
-  ),
+
+stan_glm(
+  # modelldefinition:
+  AV ~ UV,
+, # Datensatz:
   data = meine_daten
 )
 ```
@@ -1924,11 +2096,11 @@ quap(
 .pull-right[
 Modelldefinition:
 
-`\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
+`\(h_i \sim \mathcal{N}(\mu, \sigma)\)`, Likelihood
 
-`\(\mu \sim \mathcal{N}(178, 20)\)`
+`\(\mu \sim \mathcal{N}(155, 19)\)`, Prior Größenmittelwert
 
-`\(\sigma \sim \mathcal{U}(0, 50)\)`
+`\(\sigma \sim \mathcal{E}(0.13)\)`, Prior Streuung der Größen
 
 
 
@@ -1936,59 +2108,66 @@ Modelldefinition:
 
 ---
 
-## Posteriori-Stichproben mit `quap()` berechnen 2/2
-
-.pull-left[
 
 
-```r
-modell_definition &lt;-
-  alist(  
-    height ~ dnorm(mu, sigma),
-    mu ~ dnorm(178, 20),
-    sigma ~ dunif(0, 50)
-  )  
-
-m41 &lt;- quap( 
-  modell_definition,
-  data = d2
-)
-```
-
-
-
-]
-
-
-
-Modelldefinition: 
-
-.pull-right[
-
-`\(h_i \sim \mathcal{N}(\mu, \sigma)\)`
-
-`\(\mu \sim \mathcal{N}(178, 20)\)`
-
-`\(\sigma \sim \mathcal{U}(0, 50)\)`
-
-]
-
-
-
-Posteriori-Verteilung für Modell 4.1 `m41`:
+## Ausgabe von `stan_glm()` 
 
 
 
 ```r
-precis(m41)  # precis, engl. "Kurzfassung"
+m41 &lt;- stan_glm(height ~ 1, data = d2)
+
+print(m41)
 ```
 
+
+
+
+
 ```
-##             mean        sd       5.5%     94.5%
-## mu    154.607022 0.4119945 153.948575 155.26547
-## sigma   7.731329 0.2913857   7.265638   8.19702
+## stan_glm
+##  family:       gaussian [identity]
+##  formula:      height ~ 1
+##  observations: 346
+##  predictors:   1
+## ------
+##             Median MAD_SD
+## (Intercept) 154.6    0.4 
+## 
+## Auxiliary parameter(s):
+##       Median MAD_SD
+## sigma 7.8    0.3   
+## 
+## ------
+## * For help interpreting the printed output see ?print.stanreg
+## * For info on the priors used see ?prior_summary.stanreg
 ```
 
+
+---
+
+
+## Wie tickt `stan_glm()`?
+
+
+.left-column[
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;img src="https://mc-stan.org/rstanarm/reference/figures/stanlogo.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.right-column[
+- *Stan* ist eine Software zur Berechnung von Bayesmodellen; das Paket `rstanarm` stellt Stan für uns bereit.
+- `stan_glm()` ist für die Berechnung von Regressionsmodellen ausgelegt.
+- Will man nur die Verteilung einer Variablen (wie `heights`) schätzen, so hat man man ... eine Regression ohne Prädiktor.
+- Eine Regression ohne Prädiktor schreibt man auf Errisch so: `y ~ 1`. Die `1` steht also für die nicht vorhandene UV; `y` meint die AV (`height`).
+- `MAD_SD` ist eine robuste Version der Streuung, mit inhaltlich gleicher Aussage
+- `(Intercept)` (Achsenabschnitt) gibt den Mittelwert an.
+
+]
 
 
 ---
@@ -2000,25 +2179,19 @@ precis(m41)  # precis, engl. "Kurzfassung"
 
 
 ```r
-post_m41 &lt;- extract.samples(m41, n = 1e4)
-precis(post_m41)
-```
-
-```
-##             mean        sd       5.5%      94.5%     histogram
-## mu    154.611253 0.4101497 153.950117 155.263315      ▁▁▁▅▇▂▁▁
-## sigma   7.732909 0.2919296   7.269278   8.201933 ▁▁▁▁▂▅▇▇▃▁▁▁▁
+post_m41 &lt;- as_tibble(m41)
+print(post_m41)
 ```
 
 .pull-left[
 Hier die ersten paar Zeilen von `post_m41`:
 
-<div id="xojlmcvwbd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="rssxqzoqih" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xojlmcvwbd .gt_table {
+#rssxqzoqih .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2043,7 +2216,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-left-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_heading {
+#rssxqzoqih .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2055,7 +2228,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_title {
+#rssxqzoqih .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2065,7 +2238,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-bottom-width: 0;
 }
 
-#xojlmcvwbd .gt_subtitle {
+#rssxqzoqih .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2075,13 +2248,13 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-top-width: 0;
 }
 
-#xojlmcvwbd .gt_bottom_border {
+#rssxqzoqih .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_col_headings {
+#rssxqzoqih .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2096,7 +2269,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_col_heading {
+#rssxqzoqih .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2116,7 +2289,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   overflow-x: hidden;
 }
 
-#xojlmcvwbd .gt_column_spanner_outer {
+#rssxqzoqih .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2128,15 +2301,15 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-right: 4px;
 }
 
-#xojlmcvwbd .gt_column_spanner_outer:first-child {
+#rssxqzoqih .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xojlmcvwbd .gt_column_spanner_outer:last-child {
+#rssxqzoqih .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xojlmcvwbd .gt_column_spanner {
+#rssxqzoqih .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2148,7 +2321,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   width: 100%;
 }
 
-#xojlmcvwbd .gt_group_heading {
+#rssxqzoqih .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2170,7 +2343,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   vertical-align: middle;
 }
 
-#xojlmcvwbd .gt_empty_group_heading {
+#rssxqzoqih .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2185,15 +2358,15 @@ Hier die ersten paar Zeilen von `post_m41`:
   vertical-align: middle;
 }
 
-#xojlmcvwbd .gt_from_md > :first-child {
+#rssxqzoqih .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xojlmcvwbd .gt_from_md > :last-child {
+#rssxqzoqih .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xojlmcvwbd .gt_row {
+#rssxqzoqih .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2212,7 +2385,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   overflow-x: hidden;
 }
 
-#xojlmcvwbd .gt_stub {
+#rssxqzoqih .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2224,7 +2397,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-left: 12px;
 }
 
-#xojlmcvwbd .gt_summary_row {
+#rssxqzoqih .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2234,7 +2407,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-right: 5px;
 }
 
-#xojlmcvwbd .gt_first_summary_row {
+#rssxqzoqih .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2244,7 +2417,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-top-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_grand_summary_row {
+#rssxqzoqih .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2254,7 +2427,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-right: 5px;
 }
 
-#xojlmcvwbd .gt_first_grand_summary_row {
+#rssxqzoqih .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2264,11 +2437,11 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-top-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_striped {
+#rssxqzoqih .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xojlmcvwbd .gt_table_body {
+#rssxqzoqih .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2277,7 +2450,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-bottom-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_footnotes {
+#rssxqzoqih .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2291,13 +2464,13 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_footnote {
+#rssxqzoqih .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#xojlmcvwbd .gt_sourcenotes {
+#rssxqzoqih .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2311,41 +2484,41 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#xojlmcvwbd .gt_sourcenote {
+#rssxqzoqih .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#xojlmcvwbd .gt_left {
+#rssxqzoqih .gt_left {
   text-align: left;
 }
 
-#xojlmcvwbd .gt_center {
+#rssxqzoqih .gt_center {
   text-align: center;
 }
 
-#xojlmcvwbd .gt_right {
+#rssxqzoqih .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xojlmcvwbd .gt_font_normal {
+#rssxqzoqih .gt_font_normal {
   font-weight: normal;
 }
 
-#xojlmcvwbd .gt_font_bold {
+#rssxqzoqih .gt_font_bold {
   font-weight: bold;
 }
 
-#xojlmcvwbd .gt_font_italic {
+#rssxqzoqih .gt_font_italic {
   font-style: italic;
 }
 
-#xojlmcvwbd .gt_super {
+#rssxqzoqih .gt_super {
   font-size: 65%;
 }
 
-#xojlmcvwbd .gt_footnote_marks {
+#rssxqzoqih .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -2355,23 +2528,23 @@ Hier die ersten paar Zeilen von `post_m41`:
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mu</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">(Intercept)</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">sigma</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">155.0387</td>
-<td class="gt_row gt_right">7.660676</td></tr>
-    <tr><td class="gt_row gt_right">154.4266</td>
-<td class="gt_row gt_right">7.532136</td></tr>
-    <tr><td class="gt_row gt_right">154.9872</td>
-<td class="gt_row gt_right">8.263670</td></tr>
-    <tr><td class="gt_row gt_right">154.1836</td>
-<td class="gt_row gt_right">7.989497</td></tr>
-    <tr><td class="gt_row gt_right">154.4975</td>
-<td class="gt_row gt_right">7.482399</td></tr>
-    <tr><td class="gt_row gt_right">154.5213</td>
-<td class="gt_row gt_right">8.020057</td></tr>
+    <tr><td class="gt_row gt_right">155.2843</td>
+<td class="gt_row gt_right">8.178427</td></tr>
+    <tr><td class="gt_row gt_right">155.0105</td>
+<td class="gt_row gt_right">8.240208</td></tr>
+    <tr><td class="gt_row gt_right">154.9410</td>
+<td class="gt_row gt_right">7.788031</td></tr>
+    <tr><td class="gt_row gt_right">154.7717</td>
+<td class="gt_row gt_right">7.878997</td></tr>
+    <tr><td class="gt_row gt_right">154.3574</td>
+<td class="gt_row gt_right">7.840033</td></tr>
+    <tr><td class="gt_row gt_right">154.2414</td>
+<td class="gt_row gt_right">7.764622</td></tr>
   </tbody>
   
   
@@ -2386,15 +2559,20 @@ Hier die ersten paar Zeilen von `post_m41`:
 Mit welcher Wahrscheinlichkeit ist `\(\mu&gt;155\)`? 
 
 ```r
+names(post_m41) &lt;- 
+  c("mu", "sigma")
+
 post_m41 %&gt;% 
   count(mu &gt; 155) %&gt;% 
   mutate(prop = n/sum(n))
 ```
 
 ```
-##   mu &gt; 155    n   prop
-## 1    FALSE 8282 0.8282
-## 2     TRUE 1718 0.1718
+## # A tibble: 2 × 3
+##   `mu &gt; 155`     n  prop
+##   &lt;lgl&gt;      &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE       3202 0.800
+## 2 TRUE         798 0.200
 ```
 
 ]
@@ -2406,7 +2584,7 @@ post_m41 %&gt;%
 ## Antworten von der Posteriori-Verteilung
 
 .pull-left[
-Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
+Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell `m41`?
 
 
 ```r
@@ -2417,8 +2595,10 @@ post_m41 %&gt;%
 ```
 
 ```
-##        q95
-## 1 155.2825
+## # A tibble: 1 × 1
+##     q95
+##   &lt;dbl&gt;
+## 1  155.
 ```
 
 ]
@@ -2436,9 +2616,11 @@ post_m41 %&gt;%
 ```
 
 ```
-##      pi_90
-## 1 153.9298
-## 2 155.2825
+## # A tibble: 2 × 1
+##   pi_90
+##   &lt;dbl&gt;
+## 1  154.
+## 2  155.
 ```
 
 ]
@@ -2451,51 +2633,119 @@ post_m41 %&gt;%
 
 ---
 
-
-## Priori-Werte mit mehr Information, `m42`
-
-
-.pull-left[
-- Die Priori-Verteilung von `\(\mu\)` in `m42` ist sehr vage (fast flach, indifferent, informationsarm, "objektiv").
-- Aufgrund der großen Stichprobe ist der Schätzbereich für `\(\mu\)` trotzdem schmal. Die vage Priori-Verteilung kommt daher nicht zum tragen.
-- Bei kleineren Stichproben oder komplexeren Modellen kann die Priori-Verteilung deutlich mehr Einfluss haben.
-]
-
-.pull-right[
-Untersuchen wir den Effekt von Prior-Werten für `\(\mu\)` mit mehr Information:
+## Standard-Prioriwerte bei `stan_glm()` 1/2
 
 
 ```r
-m42 &lt;-
-  quap(
-    alist(
-      height ~ dnorm(mu, sigma),
-      mu ~ dnorm(178, 0.1),
-      sigma ~ dunif(0, 50)
-    ),
-    data = d2
-  )
-```
-
-]
-
-
-```r
-precis(m42) # sigma hat sich geändert, vgl. m4.1
+prior_summary(m41)
 ```
 
 ```
-##            mean        sd      5.5%     94.5%
-## mu    177.86375 0.1002354 177.70356 178.02395
-## sigma  24.51755 0.9289224  23.03296  26.00215
+## Priors for model 'm41' 
+## ------
+## Intercept (after predictors centered)
+##   Specified prior:
+##     ~ normal(location = 155, scale = 2.5)
+##   Adjusted prior:
+##     ~ normal(location = 155, scale = 19)
+## 
+## Auxiliary (sigma)
+##   Specified prior:
+##     ~ exponential(rate = 1)
+##   Adjusted prior:
+##     ~ exponential(rate = 0.13)
+## ------
+## See help('prior_summary.stanreg') for more details
 ```
 
 
 ---
 
+## Standard-Prioriwerte bei `stan_glm()` 1/2
+
+- `stan_glm()` verwendet (in der Voreinstellung) *schwach informative* Priori-Werte, die nur wenig Vorabwissen in das Modell geben.
+- Es werden dafür die Stichproben-Daten als Priori-Daten verwendet.
+- Man sollte diese Standardwerte als Minimalvorschlag sehen. Kennt man sich im Sachgebiet aus, kann man meist bessere Prioris finden.
+- Die Voreinstellung hat keinen tiefen Hintergrund; andere Werte wären auch denkbar.
+
+
+- `Intercept`: `\(\mu\)`, der Mittelwert der Verteilung `\(X\)`
+    - `\(\mu \sim \mathcal{N}(\bar{X}, sd(X)\cdot 2.5)\)`
+    - als Streuung von `\(\mu\)` wird die 2.5-fache Streuung der Stichprobe angenommen.
+
+- `Auxiliary (sigma)`: `\(\sigma\)`, die Streuung der Verteilung `\(X\)`
+    - `\(\sigma \sim \mathcal{E}(\lambda=1/sd(X))\)`
+    
+    
+    
 
 
 
+
+---
+
+## Modell `m42`: unsere Priori-Werte 
+
+
+
+
+```r
+m42 &lt;- 
+  stan_glm(height ~ 1, 
+           prior_intercept = normal(178, 20),  # mu
+           prior_aux = exponential(1),  # sigma
+           refresh = FALSE,  # bitte nicht so viel Ausgabe drucken
+           data = d2)
+print(m42)
+```
+
+```
+## stan_glm
+##  family:       gaussian [identity]
+##  formula:      height ~ 1
+##  observations: 346
+##  predictors:   1
+## ------
+##             Median MAD_SD
+## (Intercept) 154.7    0.4 
+## 
+## Auxiliary parameter(s):
+##       Median MAD_SD
+## sigma 7.7    0.3   
+## 
+## ------
+## * For help interpreting the printed output see ?print.stanreg
+## * For info on the priors used see ?prior_summary.stanreg
+```
+
+
+
+---
+
+
+## Posteriori-Verteilung plotten
+
+.pull-left[
+
+```r
+library(bayesplot)
+plot(m42,
+     pars = "(Intercept)")
+
+plot(m42,
+     pars = "sigma")
+
+#plot(m42)
+```
+
+]
+
+.pull-right[
+&lt;img src="unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="unnamed-chunk-10-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
 
 
 ## Fazit
@@ -2536,7 +2786,7 @@ class: center, middle, inverse
   - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-- Dieses Skript wurde erstellt am 2021-10-22 19:46:45 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-26 23:24:58 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 

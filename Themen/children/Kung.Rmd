@@ -1,3 +1,6 @@
+```{r}
+library(rstanarm)
+```
 
 
 name: kung
@@ -68,9 +71,7 @@ d2 <-
 ```
 
 ]
-
-
-
+]
 
 
 
@@ -83,15 +84,20 @@ d2 <- d %>%
   filter(age >= 18)
 ```
 
+```{r Kung-7, echo = TRUE, eval = FALSE}
+library(rstatix)
+get_summary_stats(d2)
+```
 
 ]
 
 </br>
 
-```{r Kung-7, echo = TRUE}
+```{r Kung-7a, eval = TRUE, echo = FALSE}
 library(rstatix)
 get_summary_stats(d2) %>% 
-  gt()
+  gt() %>% 
+  fmt_number(columns = c(3:last_col()))
 ```
 
 
@@ -133,13 +139,12 @@ p1 <-
   scale_y_continuous(breaks = NULL)
 
 p2 <-
-  tibble(x = seq(from = -10, to = 60, by = .1)) %>%
-  
-  ggplot(aes(x = x, y = dunif(x, min = 0, max = 50))) +
+  tibble(x = seq(0, 5, by = .01)) %>%
+  ggplot(aes(x = x, y = dexp(x, rate = 1))) +
   geom_line() +
-  scale_x_continuous(breaks = c(0, 50)) +
+  scale_x_continuous() +
   scale_y_continuous(NULL, breaks = NULL) +
-  ggtitle("sigma ~ dunif(0, 50)")
+  ggtitle("sigma ~ dexp(1)")
 
 
 p1
@@ -164,7 +169,7 @@ Prior für $\mu$:
 $\mu \sim \mathcal{N}(178, 20)$
 
 Prior für $\sigma$:
-$\sigma \sim \mathcal{U}(0, 50)$
+$\sigma \sim \mathcal{E}(0, 1)$
 
 </br>
 </br>
@@ -192,7 +197,7 @@ p1 + p2
 
 
 ```{r Kung-11}
-knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/L-priors-jpg.001.jpeg")
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/Lik-Prior.png")
 ```
 
 
@@ -221,19 +226,22 @@ sim <-
             mean = 178, 
             sd  = 20),
     sample_sigma = 
-      runif(n, 
-            min = 0, 
-            max = 50)) %>% 
+      rexp(n, 
+            rate = 1)) %>% 
   mutate(
     height = 
       rnorm(n, 
             mean = sample_mu, 
             sd = sample_sigma))
+
+height_sim_sd <- sd(sim$height) %>% round()
+height_sim_mean <- mean(sim$height) %>% round()
+
 ```
 ]
 
 .pull-right[
-💭 Was denkt der Golem apriori von der Größe der !Kung?
+💭 Was denkt der Golem (`m41`) apriori von der Größe der !Kung?
 
 🦾 Ziehen wir mal ein paar Stichproben auf Basis des Modells. Voilà:
 
@@ -243,7 +251,7 @@ p3 <-
   sim %>% 
   ggplot(aes(x = height)) +
   geom_density(fill = "grey33") +
-  scale_x_continuous(breaks = c(0, 73, 178, 283)) +
+  scale_x_continuous(breaks = c(0, 178-3*height_sim_sd, 178, 178+3*height_sim_sd)) +
   scale_y_continuous(NULL, breaks = NULL) +
   labs(title = "height ~ dnorm(mu, sigma)",
        caption = "X-Achse zeigt MW±3SD",
@@ -261,7 +269,7 @@ p3
 
 ---
 
-## Priori-Werte prüfen mit der Die Priori-Prädiktiv-Verteilung
+## Priori-Werte prüfen mit der Priori-Prädiktiv-Verteilung
 
 - Die Priori-Prädiktiv-Verteilung (`sim`) simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
 $h_i \sim \mathcal{N}(\mu, \sigma),$
@@ -326,7 +334,10 @@ se <- fig(se_path)
 ---
 
 
-## Extrem vage Priori-Verteilung, $\sigma=100$
+## Extrem vage Priori-Verteilung für die Streuung
+
+
+$\sigma \sim \mathcal{E}(\lambda=0.1)$
 
 
 
@@ -338,14 +349,14 @@ se <- fig(se_path)
 # simulate
 set.seed(4)
 
-sim <-
+sim2 <-
   tibble(sample_mu    = rnorm(n, mean = 178, sd = 100),
-         sample_sigma = runif(n, min = 0, max = 50)) %>% 
+         sample_sigma = rexp(n, rate = .1)) %>% 
   mutate(height = rnorm(n, mean = sample_mu, sd = sample_sigma))
 
 # compute the values we'll use to break on our x axis
 breaks <-
-  c(mean(sim$height) - 3 * sd(sim$height), 0, mean(sim$height), mean(sim$height) + 3 * sd(sim$height)) %>% 
+  c(mean(sim2$height) - 3 * sd(sim2$height), 0, mean(sim2$height), mean(sim2$height) + 3 * sd(sim2$height)) %>% 
   round(digits = 0)
 
 # this is just for aesthetics
@@ -357,7 +368,7 @@ text <-
 
 # plot
 p4 <-
-  sim %>% 
+  sim2 %>% 
   ggplot(aes(x = height)) +
   geom_density(fill = "black", size = 0) +
   geom_vline(xintercept = 0, color = "grey92") +
@@ -367,7 +378,7 @@ p4 <-
             color = "grey92") +
   scale_x_continuous(breaks = breaks) +
   scale_y_continuous(NULL, breaks = NULL) +
-  labs(title = "height ~ dnorm(mu, sigma)\nmu ~ dnorm(178, 100)",
+  labs(title = "height ~ dnorm(mu, sigma)\nmu ~ dnorm(178, 100)\nsigma ~ E(0.1)",
        x = "Größe",
        caption = "X-Achse zeigt MW±3SD") +
   theme(panel.grid = element_blank()) 
@@ -382,10 +393,21 @@ p4
 .pull-right[
 
 
-Anteil negativer Größe:
+Die Streuung der Größen ist weit:
 
-```{r Kung-17, echo = TRUE}
-sim %>% 
+```{r}
+d <- 
+  tibble(x = seq(0,50, by =.01),
+         y = dexp(x, rate = .1))
+
+d %>% 
+  ggplot(aes(x,y)) +
+  geom_line()
+```
+
+
+```{r Kung-17, echo = FALSE, eval = FALSE}
+sim2 %>% 
   count(height < 0) %>% 
   mutate(prop = n()/n)
 ```
@@ -535,21 +557,23 @@ d_grid_samples %>%
 
 ---
 
-## Posteriori-Verteilung mit `quap()` berechnen 1/2
+## Posteriori-Stichproben mit `stan_glm()` berechnen 
 
-- `quap()` (*Qu*adratische *Ap*proximation) erlaubt uns, komfortabel die Posteriori-Vertelung zu bestimmen.
-- Rechnerisch wird die quadratische Form der Normalverteilung ausgenutzt.
+- Mit `stan_glm()` können wir komfortabel die Posteriori-Verteilung berechnen. 
 - Die Gittermethode wird nicht verwendet, aber die Ergebnisse sind - in bestimmten Situationen - ähnlich.
-- `quap()` hat auch den Vorteil, dass es wenig rechenintensiv ist als die Gittermethode, gerade bei komplexeren Modellen.
+- Es werden aber auch viele Stichproben simuliert (sog. MCMC-Methode).
+- Gibt man keine Priori-Werte an, so greift die Funktion auf Standardwerte zurück.
+
 
 .pull-left[
 ```{r Kung-23, echo = TRUE, eval = FALSE}
-library(rethinking)
+library(rstanarm)
 # berechnet Post.-Vert.:
-quap(
-  alist(
-    # modelldefinition
-  ),
+
+stan_glm(
+  # modelldefinition:
+  AV ~ UV,
+, # Datensatz:
   data = meine_daten
 )
 ```
@@ -559,11 +583,11 @@ quap(
 .pull-right[
 Modelldefinition:
 
-$h_i \sim \mathcal{N}(\mu, \sigma)$
+$h_i \sim \mathcal{N}(\mu, \sigma)$, Likelihood
 
-$\mu \sim \mathcal{N}(178, 20)$
+$\mu \sim \mathcal{N}(155, 19)$, Prior Größenmittelwert
 
-$\sigma \sim \mathcal{U}(0, 50)$
+$\sigma \sim \mathcal{E}(0.13)$, Prior Streuung der Größen
 
 
 
@@ -571,53 +595,54 @@ $\sigma \sim \mathcal{U}(0, 50)$
 
 ---
 
-## Posteriori-Stichproben mit `quap()` berechnen 2/2
 
-.pull-left[
 
-```{r Kung-24, echo = TRUE}
-modell_definition <-
-  alist(  
-    height ~ dnorm(mu, sigma),
-    mu ~ dnorm(178, 20),
-    sigma ~ dunif(0, 50)
-  )  
+## Ausgabe von `stan_glm()` 
 
-m41 <- quap( 
-  modell_definition,
-  data = d2
-)
+
+```{r Kung-24, echo = TRUE, results="hide"}
+m41 <- stan_glm(height ~ 1, data = d2)
+
+print(m41)
 ```
 
 
 
-]
 
-
-
-Modelldefinition: 
-
-.pull-right[
-
-$h_i \sim \mathcal{N}(\mu, \sigma)$
-
-$\mu \sim \mathcal{N}(178, 20)$
-
-$\sigma \sim \mathcal{U}(0, 50)$
-
-]
-
-
-
-Posteriori-Verteilung für Modell 4.1 `m41`:
-
-
-```{r Kung-25, echo = TRUE}
-precis(m41)  # precis, engl. "Kurzfassung"
+```{r}
+print(m41)
 ```
 
 
+---
 
+
+## Wie tickt `stan_glm()`?
+
+
+.left-column[
+</br>
+</br>
+</br>
+```{r}
+knitr::include_graphics("https://mc-stan.org/rstanarm/reference/figures/stanlogo.png")
+```
+
+.tiny[[Quelle](https://mc-stan.org/), `r RefManageR::CiteP(bib, "stan")`]
+
+]
+
+.right-column[
+- *Stan* ist eine Software zur Berechnung von Bayesmodellen; das Paket `rstanarm` stellt Stan für uns bereit.
+- `stan_glm()` ist für die Berechnung von Regressionsmodellen ausgelegt.
+- Will man nur die Verteilung einer Variablen (wie `heights`) schätzen, so hat man man ... eine Regression ohne Prädiktor.
+- Eine Regression ohne Prädiktor schreibt man auf Errisch so: `y ~ 1`. Die `1` steht also für die nicht vorhandene UV; `y` meint die AV (`height`).
+- `MAD_SD` ist eine robuste Version der Streuung, mit inhaltlich gleicher Aussage
+- `(Intercept)` (Achsenabschnitt) gibt den Mittelwert an.
+
+]
+
+[RstanARM](https://mc-stan.org/rstanarm/)
 ---
 
 ## Stichproben aus der Posteriori-Verteilung ziehen
@@ -625,9 +650,9 @@ precis(m41)  # precis, engl. "Kurzfassung"
 
 
 
-```{r Kung-26, echo = TRUE}
-post_m41 <- extract.samples(m41, n = 1e4)
-precis(post_m41)
+```{r Kung-26, echo = TRUE, results = "hide"}
+post_m41 <- as_tibble(m41)
+print(post_m41)
 ```
 
 .pull-left[
@@ -645,6 +670,9 @@ head(post_m41) %>%
 
 Mit welcher Wahrscheinlichkeit ist $\mu>155$? 
 ```{r Kung-28, echo = TRUE}
+names(post_m41) <- 
+  c("mu", "sigma")
+
 post_m41 %>% 
   count(mu > 155) %>% 
   mutate(prop = n/sum(n))
@@ -659,7 +687,7 @@ post_m41 %>%
 ## Antworten von der Posteriori-Verteilung
 
 .pull-left[
-Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell?
+Welche mittlere Körpergröße wird mit 95% Wahrscheinlichkeit nicht überschritten, laut dem Modell `m41`?
 
 ```{r Kung-29, echo = TRUE}
 post_m41 %>% 
@@ -691,43 +719,86 @@ post_m41 %>%
 
 ---
 
+## Standard-Prioriwerte bei `stan_glm()` 1/2
 
-## Priori-Werte mit mehr Information, `m42`
-
-
-.pull-left[
-- Die Priori-Verteilung von $\mu$ in `m42` ist sehr vage (fast flach, indifferent, informationsarm, "objektiv").
-- Aufgrund der großen Stichprobe ist der Schätzbereich für $\mu$ trotzdem schmal. Die vage Priori-Verteilung kommt daher nicht zum tragen.
-- Bei kleineren Stichproben oder komplexeren Modellen kann die Priori-Verteilung deutlich mehr Einfluss haben.
-]
-
-.pull-right[
-Untersuchen wir den Effekt von Prior-Werten für $\mu$ mit mehr Information:
-
-```{r Kung-31, echo = TRUE}
-m42 <-
-  quap(
-    alist(
-      height ~ dnorm(mu, sigma),
-      mu ~ dnorm(178, 0.1),
-      sigma ~ dunif(0, 50)
-    ),
-    data = d2
-  )
-```
-
-]
-
-```{r Kung-32, echo = TRUE}
-precis(m42) # sigma hat sich geändert, vgl. m4.1
+```{r echo = TRUE}
+prior_summary(m41)
 ```
 
 
 ---
 
+## Standard-Prioriwerte bei `stan_glm()` 1/2
+
+- `stan_glm()` verwendet (in der Voreinstellung) *schwach informative* Priori-Werte, die nur wenig Vorabwissen in das Modell geben.
+- Es werden dafür die Stichproben-Daten als Priori-Daten verwendet.
+- Man sollte diese Standardwerte als Minimalvorschlag sehen. Kennt man sich im Sachgebiet aus, kann man meist bessere Prioris finden.
+- Die Voreinstellung hat keinen tiefen Hintergrund; andere Werte wären auch denkbar.
+
+
+- `Intercept`: $\mu$, der Mittelwert der Verteilung $X$
+    - $\mu \sim \mathcal{N}(\bar{X}, sd(X)\cdot 2.5)$
+    - als Streuung von $\mu$ wird die 2.5-fache Streuung der Stichprobe angenommen.
+
+- `Auxiliary (sigma)`: $\sigma$, die Streuung der Verteilung $X$
+    - $\sigma \sim \mathcal{E}(\lambda=1/sd(X))$
+    
+    
+    
 
 
 
+
+---
+
+## Modell `m42`: unsere Priori-Werte 
+```{r}
+d2 <- 
+  d2 %>% 
+  mutate(height_c = height - mean(height))  # zentrieren
+```
+
+
+```{r echo = TRUE}
+m42 <- 
+  stan_glm(height ~ 1, 
+           prior_intercept = normal(178, 20),  # mu
+           prior_aux = exponential(1),  # sigma
+           refresh = FALSE,  # bitte nicht so viel Ausgabe drucken
+           data = d2)
+print(m42)
+```
+
+
+
+---
+
+
+## Posteriori-Verteilung plotten
+
+.pull-left[
+```{r m41-post-plot, echo = TRUE, eval = FALSE}
+library(bayesplot)
+plot(m42,
+     pars = "(Intercept)")
+
+plot(m42,
+     pars = "sigma")
+
+#plot(m42)
+```
+
+Im Standard werden Mediane und 50%- sowie 90%-Perzentilintervalle gezeigt, [s. Doku](https://mc-stan.org/rstanarm/reference/plot.stanreg.html).
+]
+
+.pull-right[
+```{r ref.label="m41-post-plot", fig.asp = 0.5, echo = FALSE}
+
+```
+
+]
+
+---
 
 
 ## Fazit
