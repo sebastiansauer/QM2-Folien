@@ -81,13 +81,13 @@ Immer prüfen und wachsam bleiben:
 Warum nicht $n=10^6$ neue Globusversuche simulieren:
 
 ```{r QM2-Thema3-Post-befragen-28, echo = TRUE}
-d <- 
+draws <- 
   tibble(
     draws = 
       rbinom(1e6, 
              size = 2, 
              prob = .7))
-d %>% 
+draws %>% 
   count(draws) %>% 
   mutate(proportion = 
            n / nrow(d))
@@ -117,7 +117,7 @@ Wie viele Wasser (W) erhalten wir wohl typischerweise?
 ```{r QM2-Thema3-Post-befragen-30, echo = TRUE, results = "hide", eval = FALSE}
 n_draws <- 1e6
 
-d <- 
+draws <- 
   tibble(draws = 
            rbinom(
              n_draws, 
@@ -126,7 +126,7 @@ d <-
            ))
 
 plot1 <- 
-d %>% 
+  draws %>% 
   ggplot(aes(x = draws)) +
   geom_histogram() 
 ```
@@ -135,12 +135,12 @@ d %>%
 .pull-right[
 ```{r QM2-Thema3-Post-befragen-31}
 n_draws <- 1e6
-d <- tibble(draws = rbinom(n_draws, 
-                           size = 9, 
-                           prob = .7))
+draws <- tibble(draws = rbinom(n_draws, 
+                               size = 9, 
+                               prob = .7))
 
 # the histogram
-d %>% 
+draws %>% 
   ggplot(aes(x = draws)) +
   geom_histogram(binwidth = 1, center = 0,
                  color = "grey92", size = 1/10) +
@@ -160,22 +160,8 @@ Die *Stichprobenverteilung* zeigt, welche Stichprobendaten laut unserem Modell z
 
 ## Visualisierung der PPV
 
-```{r QM2-Thema3-Post-befragen-32}
-n <- 1001
-n_success <- 6
-n_trials  <- 9
-
-d <-
-  tibble(p_grid = seq(from = 0, to = 1, length.out = n),
-         # note we're still using a flat uniform prior
-         prior  = 1) %>% 
-  mutate(likelihood = dbinom(n_success, size = n_trials, prob = p_grid)) %>% 
-  mutate(post = (likelihood * prior) / sum(likelihood * prior))
-
-```
-
 ```{r QM2-Thema3-Post-befragen-36}
-img("ppv.png")
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/post-pred-ppv-anim.gif")
 ```
 
 .footnote[Quelle: `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`]
@@ -184,33 +170,8 @@ img("ppv.png")
 
 ## So viele Verteilungen... 
 
-```{r PPV1, fig.asp = 0.25}
-ppv1_plot <-
-d %>% 
-  ggplot(aes(x = p_grid, y = post)) +
-  geom_area(color = "grey67", fill = "grey67") +
-  geom_segment(data = . %>% 
-                 filter(p_grid %in% c(seq(from = .1, to = .9, by = .1), 3 / 10)),
-               aes(xend = p_grid, yend = 0, size = post),
-               color = "grey33", show.legend = F) +
-  geom_point(data = . %>%
-               filter(p_grid %in% c(seq(from = .1, to = .9, by = .1), 3 / 10))) +
-  annotate(geom = "text", 
-            x = .208, y = .0020,
-          label = "Posteriori-Wahrscheinlichkeit") +
-  #ggtitle("Posteriori-Verteilung") +
-  scale_size_continuous(range = c(0, 1)) +
-  scale_x_continuous("Wahrscheinlichkeit Wasser (pi)", breaks = c(0:10) / 10) +
-  scale_y_continuous(NULL, breaks = NULL) +
-  theme(panel.grid = element_blank())
 
 
-```
-
-
-```{r QM2-Thema3-Teil2-1, eval = FALSE}
-ppv1_plot
-```
 
 - Die *Posteriori-Verteilung* gibt Aufschluss zur Häufigkeit (Wahrscheinlichkeit) von Parameterwerten:
     - Wie wahrscheinlich ist es, dass "in Wirklichkeit" der Wasseranteil 70% beträgt, also $\pi=.7$
@@ -269,7 +230,7 @@ ppv_plot2 <-
   ppv %>% 
   ggplot() +
   aes(x = value) +
-  geom_histogram() +
+  geom_bar() +
   scale_x_continuous(
     breaks = 0:9)
 ```
@@ -283,42 +244,8 @@ ppv_plot2
 ```
 
 
-```{r PPV3,fig.asp = .2, eval = TRUE}
-# how many samples would you like?
-n_samples <- 1e4
 
-# make it reproducible
-set.seed(3)
 
-samples3 <-
-  d %>% 
-  slice_sample(n = n_samples, weight_by = post, replace = T) %>% 
-  mutate(w = purrr::map_dbl(p_grid, rbinom, n = 1, size = 9))
-
-```
-
-```{r QM2-Thema3-Post-befragen-34}
-ppv3_plot <- 
-samples3 %>% 
-  ggplot(aes(x = w)) +
-  geom_histogram(binwidth = 1, center = 0,
-                 color = "grey92", size = 1/10) +
-  scale_x_continuous("Wasser",
-                     breaks = seq(from = 0, to = 9, by = 3)) +
-  scale_y_continuous(NULL, breaks = NULL) +
-    annotate(geom = "text", 
-            x = 1, y = 2000,
-          label = "PPV") +
-  # ggtitle("PPV") +
-  coord_cartesian(xlim = c(0, 9),
-                  ylim = c(0, 3000)) +
-  theme(panel.grid = element_blank())
-```
-
-```{r QM2-Thema3-Post-befragen-35, fig.asp = .8, out.width="90%", eval = FALSE}
-ppv1_plot / ppv2_plot / (plot_spacer() + ppv3_plot + plot_spacer()) +
-  plot_layout(heights = c(3,3,2.5))
-```
 
 ]
 
@@ -340,7 +267,7 @@ Die PPV zeigt also, welche Beobachtungen laut unserem Modell künftig zu erwarte
 
 .pull-left[
 ```{r QM2-Thema3-Post-befragen-37}
-ppv3_plot
+ppv_plot2
 ```
 ]
 
@@ -379,7 +306,6 @@ Die PPV zeigt, welche Daten das Modell vorhersagt (prädiktiv) und mit welcher H
 ```{r QM2-Thema3-Post-befragen-38, eval = TRUE}
 img_file <- paste0("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/post-pred-ppv-anim.gif")
 knitr::include_graphics(img_file)
-
 ```
 
 

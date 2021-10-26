@@ -1,0 +1,608 @@
+---
+title: "QM2-Thema5-Fallstudie1: Filmbewertungen"
+author: "ses"
+date: "`r Sys.time()`"
+output: 
+  html_document:
+    toc: TRUE
+    number_sections: TRUE
+editor_options: 
+  chunk_output_type: console
+---
+
+# Vorbereitung
+
+```{r global-knitr-options, include=FALSE}
+knitr::opts_chunk$set(fig.pos = 'H',
+  fig.asp = 0.618,
+  fig.width = 5,
+  fig.cap = "", 
+  out.width = "50%",
+  fig.path = "",
+  fig.align = "center",
+  fig.show = "hold",
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  cache = FALSE)
+```
+
+
+## R-Pakete 
+
+```{r message=FALSE}
+library(rstanarm)  # Bayes-Modelle
+library(tidyverse)
+library(bayesplot)  # Plotting
+library(gt)  # Tabellen
+library(parallel)  # Turbo
+library(rstatix)  # Deskriptive Statistiken
+library(bayestestR)  # Vernachlässigbare Unterschiede/Zusammenhänge
+library(see)  # Visualisierung
+```
+
+
+Turbo einschalten:
+
+```{r}
+#options(mc.cores = parallel::detectCores())
+```
+
+
+## Daten: Filmbeurteilung
+
+
+```{r}
+library(ggplot2movies)
+data(movies)
+```
+
+Hilfe zu den Daten gibt es hier:
+
+```{r eval = FALSE}
+help(movies)
+```
+
+
+# Forschungsfrage
+
+Wie ist der Zusammenhang von logarithmierten Budget und Bewertung eines Films?
+
+# Explorative Analyse
+
+
+## Datensatz vorverarbeiten 
+
+```{r}
+movies <-
+  movies %>% 
+  mutate(budget_log10 = log10(budget))
+
+movies2 <-
+  movies %>% 
+  select(budget_log10, rating) %>% 
+  drop_na() %>% 
+  filter(budget_log10 != -Inf)
+```
+
+
+## Logarithmus
+
+`budget_log10` fasst die Größenordnung des Budgets:
+
+- 1000: 10^3 -> log10 = 3
+- 10000: 10^4 -> log10 = 4
+- 100000: 10^5 -> log10 = 5
+
+Wir nehmen also die Größenordnung heran, nicht den Betrag selber.
+
+
+## Deskriptive Statistiken
+
+
+```{r}
+movies2 %>% 
+  get_summary_stats() %>% 
+  gt()
+```
+
+
+
+## Zusammenhang im Datensatz visualisieren
+
+```{r}
+plot0 <- movies %>% 
+  ggplot(aes(x = budget_log10, y = rating)) +
+  geom_point(alpha = .2)
+
+plot0 +
+  geom_smooth(method = "lm")
+```
+Es scheint  einen sehr schwachen, negativen Zusammenhang zu geben.
+
+
+
+# Modellefinition
+
+
+
+
+## Priors
+
+
+- $\alpha \sim N(7,1)$: Rating-Mittelwert
+- $\beta \sim N(0,1)$: Zusammenhang log10-Budget und Rating - b=1 hieße: ändert sich das Log10-Budget um 1 Einheit (d.h eine Größenordnung, also Faktor 10), so ändert sich das Rating um 1 Einheit
+- $\sigma \sim Exp(1)$: Streuung um $\mu_i$
+
+
+
+
+## Likelihood
+
+- $r_i \sim N(\mu_i, \sigma)$
+
+mit $r_i$: Rating für Film $i$
+
+## Lineares Modell
+
+
+- $\mu_i = \alpha + \beta_1 b$
+
+
+
+# Modell in R
+
+## Modell 1: Standard-Priors
+
+### Modellefinition in R (rstanarm)
+
+```{r}
+post1 <- stan_glm(rating ~ budget_log10,
+               data = movies2,
+               refresh = 0)  # Nicht so viel Ausgabe
+```
+
+
+
+### Priors
+
+```{r}
+prior_summary(post1)
+```
+
+
+Mit `coefficients` ist das Regressionsgewicht $\beta$ gemeint.
+
+
+### Posteriori-Verteilung
+
+Überblick über die Parameter:
+
+```{r}
+print(post1)
+```
+
+
+Langfassung:
+
+```{r}
+summary(post1)
+```
+
+
+Nur die mittleren Schätzwerte für die Regression:
+
+```{r}
+coef(post1)
+```
+
+
+Man kann sich die Posteriori-Intervalle so ausgeben lassen:
+
+```{r}
+posterior_interval(post1) %>% 
+  round(2)
+```
+
+
+
+### Visualisieren
+
+
+#### Regressionsgerade 
+
+```{r}
+plot1 <- plot0 +
+  geom_abline(intercept = coef(post1)[1],
+              slope = coef(post1)[2],
+              color = "blue")
+plot1
+```
+
+
+```{r}
+col_names <- c("a", "b", "sigma")
+draws_m1 <-
+  post1 %>% 
+  as_tibble() 
+
+names(draws_m1) <- col_names
+```
+
+```{r}
+draws_m1 %>% 
+  slice_head(n=10) %>% 
+  gt() %>% 
+  fmt_number(everything(), decimals = 1)
+```
+
+
+```{r}
+plot0 +
+  geom_abline(data = draws_m1,
+              aes(intercept = a,
+                  slope = b),
+              color = "skyblue1",
+              alpha = .1) +
+  geom_abline(intercept = coef(post1)[1],
+              slope = coef(post1)[2],
+              color = "blue")
+```
+
+
+
+
+
+#### Verteilung von $\beta$
+
+
+```{r}
+draws_m1 %>% 
+  ggplot(aes(x = b)) +
+  geom_density()
+```
+
+
+#### Posterior-Intervalle
+
+S. [Hilfe hier](https://mc-stan.org/bayesplot/reference/MCMC-intervals.html)
+
+```{r}
+mcmc_areas(post1) +
+  labs(title = "Posteriori-Verteilung",
+       caption = "Gezeigt werden Median und 50% bzw. 90% Perzentil-Intervalle")
+```
+
+
+```{r}
+mcmc_areas(post1) 
+```
+
+
+
+### Fazit
+
+
+Die Wahrscheinlichkeit, dass der Zusammenhang in Wirklichkeit *praktisch Null* beträgt, ist fast 100%.
+
+
+
+## Modell 2: Informierte (?) Priors
+
+
+### Modellefinition in R (rstanarm)
+
+```{r}
+post2 <- stan_glm(rating ~ budget_log10,
+               data = movies2,
+               prior_intercept = normal(7, 2),  # alpha
+               prior_aux = exponential(1),  # sigma
+               prior = normal(0, 1),  # beta
+               refresh = 0)  # Nicht so viel Ausgabe
+```
+
+
+Um Rechenzeit zu sparen, kann man das Modell auch speichern:
+
+```{r eval = FALSE}
+save(post1, file = "post2.rda")
+load(file = "post2.rda")
+```
+
+
+### Priors
+
+```{r}
+prior_summary(post2)
+```
+
+### Posteriori-Verteilung
+
+
+#### Kurzfassung
+
+Überblick über die Parameter:
+
+```{r}
+print(post2)
+```
+
+
+Nur die mittleren Schätzwerte für die Regression:
+
+```{r}
+coef(post2)
+```
+
+
+#### Langfassung
+
+Ausführlicher:
+
+```{r}
+summary(post2)
+```
+
+
+### Visualisieren
+
+
+#### Regressionsgerade 
+
+```{r}
+plot1_m2 <- plot0 +
+  geom_abline(intercept = coef(post2)[1],
+              slope = coef(post2)[2],
+              color = "blue")
+plot1_m2
+```
+
+```{r}
+col_names <- c("a", "b", "sigma")
+draws_m2 <-
+  post2 %>% 
+  as_tibble() 
+
+names(draws_m2) <- col_names
+```
+
+```{r}
+draws_m2 %>% 
+  slice_head(n=10) %>% 
+  gt() %>% 
+  fmt_number(everything(), decimals = 1)
+```
+
+
+```{r}
+plot0 +
+  geom_abline(data = draws_m2,
+              aes(intercept = a,
+                  slope = b),
+              color = "skyblue1",
+              alpha = .1) +
+  geom_abline(intercept = coef(post2)[1],
+              slope = coef(post2)[2],
+              color = "blue")
+```
+
+#### Verteilung von $\beta$
+
+
+```{r}
+draws_m2 %>% 
+  ggplot(aes(x = b)) +
+  geom_density()
+```
+
+
+#### Posterior-Intervalle
+
+S. [Hilfe hier](https://mc-stan.org/bayesplot/reference/MCMC-intervals.html)
+
+```{r}
+mcmc_areas(post2) +
+  labs(title = "Posteriori-Verteilung",
+       caption = "Gezeigt werden Median und 50% bzw. 90% Perzentil-Intervalle")
+```
+
+
+```{r}
+mcmc_intervals(post2,
+               pars = "budget_log10") 
+```
+
+
+```{r}
+mcmc_areas(post2,
+           pars = "budget_log10") +
+  labs(title = "Posteriori-Verteilung",
+       caption = "Gezeigt werden Median und 50% bzw. 90% Perzentil-Intervalle")
+```
+
+
+### Quantile
+
+```{r}
+summary(post2)
+```
+
+Laut dem Modell (`post2`) liegt der Regressionskoeffizient mit 90% Wahrscheinlichkeit eng um -0.1 herum.
+
+Genauer gesagt: $90\%PI_b: (-0.1, -0.07)$:
+
+```{r}
+draws_m2 %>% 
+  summarise(b_90pi = quantile(b, probs = c(0.5, .95)))
+```
+
+
+### Wahrscheinlichkeiten für Parameterwerte
+
+#### Positiver Zusammenhang
+
+$p(b > 0|D)$
+
+mit "D", den Daten des Modells.
+
+```{r}
+draws_m2 %>% 
+  count(b > 0)
+```
+
+
+Die Wahrscheinlichkeit beträgt praktisch Null, dass der Zusammenhang positiv ist.
+
+
+#### "Praktisch kein Zusammenhang"
+
+"Praktisch kein Zusammenhang" auf Englisch *region of practical equivalence (ROPE)*.
+
+Laut [einiger Autoren](https://easystats.github.io/bayestestR/articles/region_of_practical_equivalence.html) kann ein Effekt, der weniger als 10% der Streuung der Ausgabe-Variable ausmacht, als "vernachlässigbar" gelten.
+
+Das entspricht ca. 0.15 Bewertungseinheiten:
+
+```{r}
+sd(movies2$rating) * 0.1
+```
+
+
+Mit anderen Worten: Verze
+
+
+```{r}
+percentage_in_rope <- rope(post2)
+plot(percentage_in_rope)
+```
+
+
+### $R^2$
+
+
+```{r}
+post2_r2 <- 
+  bayes_R2(post2) %>% 
+  as_tibble()
+```
+
+
+```{r}
+post2_r2 %>% 
+  ggplot(aes(x=value)) +
+  geom_density()
+```
+
+
+```{r}
+post2_r2 %>% 
+  summarise(r2_mean = mean(value),
+            r2_median = median(value))
+```
+Der Anteil erklärter Varianz ist praktisch Null.
+
+`
+
+### PPV
+
+#### PPV berechnen
+
+Simulieren wir den Erfolg neuer Filme; dabei betrachten wir das Budget von $10^3$ bis $10^8$ (6 Werte). Wir ziehen pro Budgetwert 1000 Stichproben aus der PPV.
+
+```{r}
+neue_Filme <- tibble(
+  budget_log10 = c(1e3, 1e4, 1e5, 1e6, 1e7, 1e8))
+```
+
+
+
+```{r}
+ppv_m2 <- 
+  posterior_predict(post2, neue_Filme, draws = 1e3) %>% 
+  as_tibble() 
+
+
+dim(ppv_m2)  # Zeilen, Spalten
+```
+
+
+Vom breiten ins lange Format überführen:
+
+```{r}
+ppv_m2_long <- 
+  ppv_m2 %>% 
+  pivot_longer(everything(),
+               names_to="budget_log10",
+               values_to="rating")
+```
+
+
+```{r}
+ppv_m2_long %>% 
+  ggplot(aes(x = budget_log10,
+             y = rating)) +
+  geom_boxplot()
+```
+
+
+
+
+### 90%-Vorhersage-Intervalle
+
+Mit der Funktion `predictive_interval` kann man sich obige Berechnung sparen, sondern bekommt sie genussfertig nach Hause.
+
+Wir sehen hier die tatsächlichen Rating-Werte pro Budget-Wert, nicht nur $\mu|b$.
+
+
+
+
+```{r}
+post2_pred <- 
+  predictive_interval(post2,
+                      newdata=neue_Filme)
+
+post2_pred
+```
+
+
+Wie man sieht, sind die Intervalle sehr groß: Das Modell ist *sehr* schlecht.
+
+
+
+# Fazit
+
+
+Die Forschungsfrage war, ob das Budget eines Films mit der Bewertung zusammenhängt.
+
+Dazu wurden zwei einfache lineare Modelle berechnet, die sich in ihren Vorannahmen leicht unterschieden.
+
+
+## Schätzbereiche für $\beta$ 
+
+Beide Modelle fanden konsistent einen schwachen, negativen linearen Zusammenhang $\beta$ zwischen Budget und Bewertung: Filme mit mehr Budget wurden konsistent schlechter bewertet, laut den beiden Modellen. 
+Hier sind 90%-PI berichtet:
+
+- Modell 2: [-0.13, -0.07]
+- Modell 2: [-0.10, -0.07] 
+
+
+## Medianerbzw. mitlerer Effekt
+
+
+- Modell 1: -0.1 bzw. -0.1
+- Modell 2: -0.1 bzw. -0.1
+
+
+## Hypothesentests
+
+### "Der Zusammenhang ist positiv"
+
+
+
+
+Insgesamt war der Effekt sehr schwach und weitere Modellinspektion zeigte, dass die Modelle den Daten nur schlecht gerecht werden. Die Ergebnisse sollten daher nur mit großer Vorsicht interpretiert werden.
+
+Zu beachten ist, dass diese Analyse keinerlei kausalen Anspruch hat; Gegenstand war allein die Analyse eines statistischen Zusammenhangs (in Form einer Regresssionsanalyse).
+
+
+Insgesamt zeigen die D
+

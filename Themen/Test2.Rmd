@@ -28,58 +28,54 @@ rethink_chap <- "3"
 ```
 
 
-## Zur Erinnerung: Quantile
 
-Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io/cran/openintro/man/speed_gender_height.html))? Hier die Quantile für 25%, 50%, 75%:
+## Visualisierung der PPV
 
-```{r QM2-Thema3-Teil1-5, echo = FALSE}
-library(openintro)
-data(speed_gender_height)
+```{r QM2-Thema3-Post-befragen-32}
+n <- 1001
+n_success <- 6
+n_trials  <- 9
 
-height_summary <- 
-  speed_gender_height %>% 
-  drop_na(height) %>% 
-  summarise(q25 = quantile(height, prob = .25),
-            q50 = quantile(height, prob = .5),
-            q75 = quantile(height, prob = .75))
+d <-
+  tibble(p_grid = seq(from = 0, to = 1, length.out = n),
+         # note we're still using a flat uniform prior
+         prior  = 1) %>% 
+  mutate(likelihood = dbinom(n_success, size = n_trials, prob = p_grid)) %>% 
+  mutate(post = (likelihood * prior) / sum(likelihood * prior))
 
-height_summary %>% 
-  gt()
 ```
 
-Visualisierung der Quantile:
-
-```{r QM2-Thema3-Teil1-6, results = "hold", fig.width = 8, fig.asp = .4, cache= FALSE}
-p1 <- speed_gender_height %>% 
-  ggplot() +
-  aes(x = 1, y = height) +
-  geom_boxplot() +
-  labs(x = "",
-       y = "Größe in Inch",
-       title = "Die Box zeigt das 25%-, 50%- und 75%-Quantil")
-
-height_summary_long <- 
-  height_summary %>% 
-  pivot_longer(everything(),
-               names_to = "q",
-               values_to = "height")
-
-p2 <- speed_gender_height %>% 
-  ggplot() +
-  aes(x = height) +
-  geom_histogram() +
-  geom_vline(data = height_summary_long,
-             aes(xintercept = height)) +
-  geom_text(data = height_summary_long,
-             aes(x = height+1,
-                 y = 0,
-                 label = paste0(q, ": ",height)),
-             angle = 90,
-            hjust = 0,
-            color = "white"
-             ) +
-  labs(title = "Die vertikalen Striche zeigen die Quantile")
-
-p1+p2
+```{r QM2-Thema3-Post-befragen-36}
+img("ppv.png")
 ```
+
+.footnote[Quelle: `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`]
+
+---
+
+
+
+
+## Vergleich der Verteilungen
+
+
+
+
+```{r QM2-Thema3-Post-befragen-38, eval = TRUE}
+img_file <- paste0("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/post-pred-ppv-anim.gif")
+knitr::include_graphics(img_file)
+
+```
+
+
+- Links - *Posterior-Verteilung*: Wahrscheinlichkeiten der Parameterwerte
+- Mitte - *Stichprobenverteilung*: Wahrscheinlichkeiten der Beobachtungen gegeben eines bestimmten Parameterwertes
+- Rechts - *Posterior-Prädiktiv-Verteilung*: Wahrscheinlichkeiten der Beobachtungen unter Berücksichtigung der Unsicherheit der Posteriori-Verteilung
+
+[Bild](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema3-Post-befragen.html#1)
+
+.footnote[[Quelle: R. McElreath](https://twitter.com/rlmcelreath/status/1448978045247893505)]
+
+---
+
 
