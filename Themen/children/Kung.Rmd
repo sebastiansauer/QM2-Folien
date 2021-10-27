@@ -2,8 +2,11 @@
 library(rstanarm)
 ```
 
+```{r}
+rstan::rstan_options(auto_write = TRUE)
+```
 
-name: kung
+name: teil2
 class: center, middle, inverse
 
 
@@ -139,12 +142,12 @@ p1 <-
   scale_y_continuous(breaks = NULL)
 
 p2 <-
-  tibble(x = seq(0, 5, by = .01)) %>%
-  ggplot(aes(x = x, y = dexp(x, rate = 1))) +
+  tibble(x = seq(0, 50, by = .01)) %>%
+  ggplot(aes(x = x, y = dexp(x, rate = .1))) +
   geom_line() +
   scale_x_continuous() +
   scale_y_continuous(NULL, breaks = NULL) +
-  ggtitle("sigma ~ dexp(1)")
+  ggtitle("sigma ~ dexp(0.1)")
 
 
 p1
@@ -159,7 +162,7 @@ p1
 
 ## Unser Gauss-Modell der !Kung
 
-Wir nehmen an, dass $\mu$ und $h_i$ normalverteilt, $\sigma$ gleichverteilt sind:
+Wir nehmen an, dass $\mu$ und $h_i$ normalverteilt sind und $\sigma$ exponentialverteilt (da notwendig positiv) ist:
 
 .left-column[
 Likelihood:
@@ -169,7 +172,7 @@ Prior für $\mu$:
 $\mu \sim \mathcal{N}(178, 20)$
 
 Prior für $\sigma$:
-$\sigma \sim \mathcal{E}(0, 1)$
+$\sigma \sim \mathcal{E}(0, 0.1)$
 
 </br>
 </br>
@@ -184,6 +187,7 @@ $178 \pm 40$
 
 ```{r Kung-10}
 p1 + p2
+
 ```
 
 
@@ -195,12 +199,20 @@ p1 + p2
 ## Der Likelihood wird von den Prioris gespeist
 
 
+### Likelihood
 
-```{r Kung-11}
-knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/Lik-Prior.png")
-```
+Die einzelnen Größen $h_i$ sind normalverteilt mit Mittelwert $\mu$ und Streuung $\sigma$:
 
+$$h_i \sim \mathcal{N}(\color{blue}{\mu},\color{green}{\sigma})$$
+### Prioris
 
+Mittelwert der Größe ist normalverteilt mit $\mu=178$ und $\sigma=20$:
+
+$$\color{blue}{\mu \sim \mathcal{N}(178, 20)}$$
+
+Die Streuung $\sigma$ der Größen ist exponentialverteil mit $\lambda = 0.1$.
+
+$$\color{green}{\sigma \sim \mathcal{E}(0.1)}$$
 
 
 
@@ -227,7 +239,7 @@ sim <-
             sd  = 20),
     sample_sigma = 
       rexp(n, 
-            rate = 1)) %>% 
+            rate = 0.11)) %>% 
   mutate(
     height = 
       rnorm(n, 
@@ -274,7 +286,7 @@ p3
 - Die Priori-Prädiktiv-Verteilung (`sim`) simuliert Beobachtungen (nur) auf Basis der Priori-Annahmen: 
 $h_i \sim \mathcal{N}(\mu, \sigma),$
 $\mu \sim \mathcal{N}(178, 20),$
-$\sigma \sim \mathcal{U}(0, 50)$
+$\sigma \sim \mathcal{E}(0.1)$
 - Priori-Prädiktiv-Verteilungen sind praktisch, um zu prüfen, ob die Priori-Werte vernünftig sind
 
 .pull-left[
@@ -293,16 +305,16 @@ p3
 
 
 
-Anteil $h_i < 100$:
+Anteil $h_i > 200$:
 
 ```{r Kung-14, echo = TRUE}
 sim %>% 
-  count(height < 100) %>% 
+  count(height > 200) %>% 
   mutate(prop = n()/n)
 ```
 
 
-🤔 Sehr kleine Buschleute?
+🤔 Sehr große Buschleute?
 ]
 
 
@@ -325,7 +337,9 @@ sw <- fig(sw_path)
 se <- fig(se_path)
 
 
-(p1 + p2) / (se + sw) / (plot_spacer() + p3 + plot_spacer())
+
+(p1 + p2) / (se + sw) / (plot_spacer() + p3 + plot_spacer()) 
+
 ```
 
 
@@ -334,10 +348,10 @@ se <- fig(se_path)
 ---
 
 
-## Extrem vage Priori-Verteilung für die Streuung
+## Extrem vage Priori-Verteilung für die Streuung?
 
 
-$\sigma \sim \mathcal{E}(\lambda=0.1)$
+$$\sigma \sim \mathcal{E}(\lambda=0.01)$$
 
 
 
@@ -351,7 +365,7 @@ set.seed(4)
 
 sim2 <-
   tibble(sample_mu    = rnorm(n, mean = 178, sd = 100),
-         sample_sigma = rexp(n, rate = .1)) %>% 
+         sample_sigma = rexp(n, rate = .01)) %>% 
   mutate(height = rnorm(n, mean = sample_mu, sd = sample_sigma))
 
 # compute the values we'll use to break on our x axis
@@ -398,7 +412,7 @@ Die Streuung der Größen ist weit:
 ```{r}
 d <- 
   tibble(x = seq(0,50, by =.01),
-         y = dexp(x, rate = .1))
+         y = dexp(x, rate = .01))
 
 d %>% 
   ggplot(aes(x,y)) +
@@ -444,7 +458,7 @@ d_grid <-
   # we'll accomplish with `tidyr::crossing()` what McElreath did with base R `expand.grid()`
   crossing(mu    = seq(from = 140, to = 160,
                        length.out = n),
-           sigma = seq(from = 4, to = 9, 
+           sigma = seq(from = 0.01, to = 50, 
                        length.out = n))
 
 grid_function <- function(mu, sigma) {
@@ -461,8 +475,7 @@ d_grid <-
   unnest(log_likelihood) %>% 
   mutate(prior_mu    = dnorm(mu, mean = 178, 
                              sd = 20, log = T),
-         prior_sigma = dunif(sigma, min = 0, 
-                             max = 50, log = T)) %>% 
+         prior_sigma = dexp(sigma, rate = 1, log = T)) %>% 
   mutate(product = 
            log_likelihood + prior_mu + prior_sigma) %>% 
   mutate(probability = 
@@ -486,7 +499,7 @@ d_grid %>%
 ```{r Kung-20, eval = TRUE, fig.asp = 1}
 d_grid %>% 
   ggplot(aes(x = mu, y = sigma, fill = probability)) + 
-  geom_raster(interpolate = T) +
+  geom_raster(interpolate = F) +
   scale_fill_viridis_c() +
   labs(x = expression(mu),
        y = expression(sigma)) +
@@ -628,7 +641,7 @@ print(m41)
 knitr::include_graphics("https://mc-stan.org/rstanarm/reference/figures/stanlogo.png")
 ```
 
-.tiny[[Quelle](https://mc-stan.org/), `r RefManageR::CiteP(bib, "stan")`]
+.tiny[[Quelle](https://mc-stan.org/), `r RefManageR::Citep(bib, "stan")`]
 
 ]
 
@@ -642,7 +655,8 @@ knitr::include_graphics("https://mc-stan.org/rstanarm/reference/figures/stanlogo
 
 ]
 
-[RstanARM](https://mc-stan.org/rstanarm/)
+[Dokumentation RstanARM](https://mc-stan.org/rstanarm/)
+
 ---
 
 ## Stichproben aus der Posteriori-Verteilung ziehen

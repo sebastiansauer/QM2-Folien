@@ -1,6 +1,6 @@
 
 
-name: teila
+name: teil1
 class: center, middle, inverse
 
 
@@ -239,6 +239,115 @@ Die Normalverteilung wird auch *[Gauss](https://de.wikipedia.org/wiki/Carl_Fried
 
 ---
 
+## IQ-Verteilung: Quantile
+
+$IQ \sim \mathcal{N}(100,15)$
+
+- Wie schlau muss man sein, um zu den unteren 75%, 50%, 25%, 5%, 1% zu gehören?
+- Anders gesagt: Welcher IQ-Wert wird von 75%, 50%, ... der Leute nicht überschritten?
+
+
+
+.pull-left[
+
+Ziehen wir Stichproben aus $\mathcal{N}(100,15)$:
+
+```{r echo = TRUE}
+d <-tibble(
+  iq = rnorm(1e4, 
+             mean = 100, 
+             sd = 15))
+
+probs <- c(0.75,.5,.25,.05,.01)
+
+d_summary <- d %>% 
+  summarise(
+    p = probs,
+    q = quantile(iq, probs))
+```
+
+]
+
+.pull-right[
+
+```{r}
+d_summary %>% 
+  gt() %>% 
+  fmt_number(p, decimals = 2) %>% 
+  fmt_number(q, decimals = 0)
+```
+
+Das *Quantil* $q$ zur Wahrscheinlichkeit $p=75$ ist 110, etc. 
+]
+
+
+---
+
+## IQ-Verteilung: Anteile 
+
+$IQ \sim \mathcal{N}(100,15)$
+
+- Welcher Anteil $p$ gehört zu den IQ-Werten 75, 100, 115, 130?
+- Anders gesagt: Welcher Anteil der Wahrscheinlichkeitsmasser der Verteilung liegt unter IQ=75, IQ=100, etc.?
+
+.pull-left[
+Ziehen wir Stichproben aus $\mathcal{N}(100,15)$:
+
+```{r echo = TRUE, eval = FALSE}
+d <-
+  tibble(
+    iq = rnorm(1e4, 
+               mean = 100, 
+               sd = 15)) %>% 
+  mutate(iq = round(iq))
+
+qs <- c(75,100,115,130)
+
+d %>% 
+  count(p_100 = iq < 100) %>% 
+  mutate(prop = n / sum(n)) 
+```
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, eval = TRUE}
+d <-
+  tibble(
+    iq = rnorm(1e4, 
+               mean = 100, 
+               sd = 15)) %>% 
+  mutate(iq = round(iq))
+
+qs <- c(75,100,115,130)
+
+d %>% 
+  count(p_100 = iq < 100) %>% 
+  mutate(prop = n / sum(n)) %>% 
+  gt() %>% 
+  fmt_number(columns = 3)
+```
+
+Anstelle von `iq < 100` kann man `iq < 115` einsetzen, etc.
+ 
+```{r eval= FALSE}
+d %>% 
+  mutate(prop = percent_rank(iq)) %>% 
+  filter(iq %in% qs) %>% 
+  distinct(iq, .keep_all = TRUE)
+```
+
+Die *Wahrscheinlichkeitsmasse* $p$ zum Quantil $q=100$ ist 50%, etc. 
+]
+
+
+
+
+
+---
+
 ## Normalverteilung als konservative Wahl
 
 
@@ -441,7 +550,7 @@ d %>%
 ]
 
 
-.center[.content-box-blue[Die Exponentialverteilung]]
+.content-box-blue[Voilà: Die Exponentialverteilung]
 
 ---
 
@@ -450,32 +559,49 @@ d %>%
 
 
 
-.left-column[
 
-```{r Post-Regression-18, fig.asp = 1, fig.width=2, echo = FALSE}
+
+```{r Post-Regression-18, fig.asp = .3, fig.width=7, echo = FALSE}
 d <-
   tibble(
     x = seq(0, 5,.1),
     y = dexp(x, rate = 1)
   )
 
+
+d_qs <-
+  tibble(
+    prob = c(0.05, .25, .50, .75, .95),
+    q = qexp(prob) 
+  )
+
 d %>% 
   ggplot(aes(x,y)) +
-  geom_line() 
+  geom_line() +
+  geom_area(fill = "grey60") +
+  geom_vline(data = d_qs,
+             aes(xintercept = q)) +
+  geom_label(data = d_qs,
+             aes(x = q, 
+                 label = prob,
+                 y = prob)) +
+  labs(title = "x ~ Exp(1)",
+       caption = "Vertikale Striche zeigen die Quantile für 5%, 25%, 50%, 75%, 95%",
+       y = "Dichte")
 ```
 
-$$\beta \sim \operatorname{Exp}(1)$$
+$$X \sim \operatorname{Exp}(1)$$
 
-]
 
-.right-column[
+
+
 - Eine *Exp*onentialverteilung ist nur für positive Werte, $x>0$, definiert.
 - Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
-- Sie hat nur einen Parameter, $\lambda$ ("lambda").
+- Sie hat nur einen Parameter, genannt *Rate* oder $\lambda$ ("lambda").
 - $\frac{1}{\lambda}$  gibt gleichzeitig Mittelwert und Streuung ("Gestrecktheit") der Verteilung an.
+- Je größer die Rate $\lambda$, desto *kleiner* die Streuung und der Mittelwert der Verteilung.
+- Je größer  $1/\lambda$, desto *größer* die Streuung und der Mittelwert der Verteilung.
 
-
-]
 
 ---
 
@@ -485,7 +611,7 @@ $$\beta \sim \operatorname{Exp}(1)$$
 
 .pull-left[
 Im einfachsten Fall gilt: 
-$y = 2^{-x}$ bzw $y = e^{-x}$ mit $e=2.71...$
+$y = 2^{-x}$ bzw. $y = e^{-x}$ mit $e=2.71...$
 
 ```{r exp1, echo = TRUE, eval = FALSE, results='hide'}
 d <- tibble(
@@ -554,5 +680,52 @@ $$\color{blue}\beta \color{blue}\sim \color{blue}{\operatorname{Exp}(0.5)}$$
 ]
 
 Je kleiner die Rate $\lambda$, desto *größer* die Streuung der Verteilung.
+
+---
+
+## Quantile der Exponentialverteilung
+
+... Wenn du nicht mehr weiter weißt, ziehe ein Stichprobe.
+
+Wie weit fällt ein Apfel 🍎 vom Stamm 🌳, wenn wir $\text{Apfel} \sim \mathcal{E}(1)$ annehmen?
+
+
+
+```{r echo = TRUE, results = "hide", eval = FALSE}
+d <- tibble(apfel = rexp(n = 1e4, rate = 1))
+
+d %>% ggplot(aes(x = apfel)) + geom_histogram()
+```
+
+
+```{r fig.asp = .4, cache = FALSE}
+d <- tibble(apfel = rexp(n = 1e4, rate = 1))
+
+d_sum <-
+  d %>% 
+  summarise(
+    q05 = quantile(apfel, prob = .05), 
+    q25 = quantile(apfel, prob = .25), 
+    q50 = quantile(apfel, prob = .50), 
+    q75 = quantile(apfel, prob = .75), 
+    q95 = quantile(apfel, prob = .95)
+  ) %>% 
+  pivot_longer(everything())
+
+
+d %>% 
+  ggplot(aes(x = apfel)) +
+  geom_histogram() +
+  geom_vline(data = d_sum,
+             aes(xintercept = value)) +
+  geom_text(data = d_sum,
+            aes(x = value + max(value)*.05,
+                label = name),
+            angle = 90,
+            nudge_y = 0,
+            y = 500)
+```
+
+
 
 ---

@@ -27,6 +27,8 @@ class: center, middle, inverse
 
 - Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
 
+- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. Wenn Sie mit `.Rmd` ersetzen, den Quellcode.
+
 
 ---
 
