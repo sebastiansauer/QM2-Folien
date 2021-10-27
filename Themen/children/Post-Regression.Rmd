@@ -8,7 +8,7 @@ class: center, middle, inverse
 library("latex2exp")
 library("patchwork")
 library("gt")
-library("rethinking")
+library("rstanarm")
 library("tidyverse")
 ```
 
@@ -34,13 +34,15 @@ library("tidyverse")
 .pull-right[
 
 ```{r Post-Regression-2, fig.asp = 1}
-library(rethinking)
-data("Howell1")
-d <- Howell1
+library(tidyverse)
+
+Kung_path <- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
+
+d <- read_csv(Kung_path)  
+
 d2 <- 
   d %>% 
-  filter(age > 18) %>% 
-  as_tibble()
+  filter(age > 18)
 
 d2 %>% 
   #select(weight, height) %>% 
@@ -194,32 +196,26 @@ d2 %>%
 
 
 
-```{r m41, echo = FALSE}
-modell_definition <-
-  alist(  
-    height ~ dnorm(mu, sigma),
-    mu ~ dnorm(178, 20),
-    sigma ~ dunif(0, 50)
-  )  
+```{r m42-read-from-disk, echo = FALSE}
 
-m41 <- quap( 
-  modell_definition,
-  data = d2
-)
+m42 <- read_rds("objects/m42.rds")
 
-post_m41 <- extract.samples(m41, n = 1e4)
+m42_post <- as_tibble(m42)
+names(m42_post) <- c("mu", "sigma")
 
 ```
 
 
+
+
 ```{r Post-Regression-10}
-plot_post_41 <- 
-  post_m41 %>% 
+plot_post_42 <- 
+  m42_post %>% 
   ggplot() +
   aes(x = mu) +
   geom_density(fill = "grey60") +
   labs(x = expression(mu),
-       title = TeX("Posteriori-Verteilung für $\\mu$, m41")) +
+       title = TeX("Posteriori-Verteilung für $\\mu$, m42")) +
   scale_y_continuous(breaks = NULL)
 ```
 
@@ -243,45 +239,76 @@ plot_condition <-
   labs(title = "Für jeden Wert von X\nwird eine Post-Vert. berechnet")
 ```
 
+```{r m3}
+m43 <- 
+  stan_glm(height ~ weight_c, 
+           prior = normal(0, 10),
+           prior_intercept = normal(178, 20),  # mu
+           prior_aux = exponential(0.1),  # sigma
+           refresh = FALSE,  # bitte nicht so viel Ausgabe drucken
+           data = d2)
 
-```{r m43}
-d2 <-
-  d2 %>% 
-  mutate(weight_c = weight - mean(weight))
+m43_prior_pred <-
+    stan_glm(height ~ weight_c, 
+           prior_intercept = normal(178, 20),  # mu
+           prior_aux = exponential(0.1),  # sigma
+           refresh = FALSE, 
+           prior_PD = TRUE,
+           data = d2)
+```
+
+```{r eval = FALSE}
+print(m43)
+summary(m43_prior_pred)
+write_rds(m43, "objects/m43.rds")
+```
 
 
-m43 <-
-  quap(
-    alist(
-      height ~ dnorm(mu, sigma),
-      mu <- a + b*weight_c,
-      a ~ dnorm(178, 20),
-      b ~ dlnorm(0, 1),
-      sigma ~ dunif(0, 50)
-    ),
-    data = d2)
 
-post_m43 <-
-  extract.samples(m43)
 
-post_m43 <-
-  post_m43  %>% 
-  mutate(mu_at_40 = post_m43$a + post_m43$b*(40 - mean(d2$weight)),
-         mu_at_45 = post_m43$a + post_m43$b*(45 - mean(d2$weight)),
-         mu_at_50 = post_m43$a + post_m43$b*(50 - mean(d2$weight)),
-         mu_at_55 = post_m43$a + post_m43$b*(55 - mean(d2$weight)))
+```{r m43-plot}
+
+nd <- tibble(
+  weight_c = c(-5, 0, +5, 10)
+)
+
+ppv_m43 <- 
+  posterior_predict(m43, , newdata = nd) %>% 
+  as_tibble() %>% 
+  pivot_longer(everything(), 
+               names_to = "weight_condition",
+               values_to = "h")
+
+
+
+ppv_m43_summary <-
+  ppv_m43 %>% 
+  group_by(weight_condition) %>% 
+  summarise(m = mean(h),
+            s = sd(h))
+
 
 post_at_plot <-
-  post_m43 %>% 
-  select(starts_with("mu")) %>% 
-  pivot_longer(everything(), names_to = "condition",
-               values_to = "mu") %>% 
+  ppv_m43 %>% 
   ggplot() +
-  aes(x = mu) +
+  aes(x = h) +
   geom_density(fill = "grey60") +
-  facet_wrap(~ condition, nrow = 1, scales = "free") +
+  facet_wrap(~ weight_condition, nrow = 1, scales = "free") +
   scale_y_continuous(breaks = NULL) +
-  labs(title = "Post-Verteilungen an verschiedenen Werten von X")
+  labs(title = "Post-Verteilungen an verschiedenen Werten von X",
+       caption = "MW±2sd") +
+  geom_point(data = ppv_m43_summary,
+             aes(x = m,
+                 y = 0),
+             size = 2, color = "blue", alpha = .5) +
+  geom_segment(data = ppv_m43_summary,
+               aes(x = m-2*s,
+                   xend = m+2*s),
+               y = 0,
+               yend = 0,
+               color = "blue",
+               alpha = .5,
+               size = 2)
 ```
 
 
@@ -295,11 +322,11 @@ p1
 
 ## Modelldefinition von `m43`
 
-- Für jede Ausprägung von `weight` wird eine Post-Verteilung für `height` berechnet.
-- Der Mittelwert $\mu$ für jede Post-Verteilung ergibt sich aus dem .green[linearen Modell (der Regression)].
+- Für jede Ausprägung von `weight`, $h_i$ wird eine Post-Verteilung für `height` berechnet.
+- Der Mittelwert $\mu$ für jede Post-Verteilung ergibt sich aus dem .green[linearen Modell (unserer Regressionsformel)].
 - Die Post-Verteilung berechnet sich auf Basis der .blue[Priori-Werte] und des .red[Likelihood] (Bayes-Formel).
 - Wir brauchen .blue[Priori-Werte] für die Steigung $\beta$ und den Achsenabschnitt $\alpha$ der Regressionsgeraden.
-- Außerdem brauchen wir einen .blue[Priori-Wert], der die Streuung $\sigma$ der Größe (`height`) angibt.
+- Außerdem brauchen wir einen .blue[Priori-Wert], der die Streuung $\sigma$ der Größe (`height`) angibt; dieser Wert wird als exonentialverteilt angenommen.
 - Der .green[Likelihood] gibt an, wie wahrscheinlich ein Wert `height` ist, gegeben $\mu$ und $\sigma$.
 
 
@@ -309,7 +336,7 @@ $$
 \color{green}{\mu_i} & \color{green}= \color{green}{\alpha + \beta\cdot \text{weight}_i}  && \color{green}{\text{Lineares Modell} } \\
 \color{blue}\alpha & \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} && \color{blue}{\text{Priori}} \\
 \color{blue}\beta  & \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  && \color{blue}{\text{Priori}}\\
-\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Uniform}(0, 50)}  && \color{blue}{\text{Priori}}
+\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Exp}(0.1)}  && \color{blue}{\text{Priori}}
 \end{align*}
 $$
 
@@ -372,7 +399,7 @@ $$
 \begin{align*}
 \color{blue}\alpha & \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} && \color{blue}{\text{Priori}} \\
 \color{blue}\beta  & \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  && \color{blue}{\text{Priori}}\\
-\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Uniform}(0, 50)}  && \color{blue}{\text{Priori}}
+\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Exp}(0.1)}  && \color{blue}{\text{Priori}}
 \end{align*}
 $$
 
@@ -389,28 +416,58 @@ $$
 ## Prior-Prädiktiv-Simulation für `m43`
 
 
+.right-column[
+
+```{r echo = TRUE}
+m43_prior_pred <-
+    stan_glm(height ~ weight_c, 
+             prior = normal(0, 10),
+             prior_intercept = normal(178, 20),  # mu
+             prior_aux = exponential(0.1),  # sigma
+             refresh = FALSE, 
+             prior_PD = TRUE,  # DIESER Schalter machts
+             data = d2)
 
 
-.pull-left[
-Wir simulieren 100 Regressionslinien:
-
-```{r Post-Regression-13, echo = TRUE}
-n_lines <- 100
-lines <-
-  tibble(n = 1:n_lines,
-       a = rnorm(n_lines, 
-                   mean = 178, 
-                   sd = 20),
-         b = rnorm(n_lines, 
-                   mean = 0, 
-                   sd = 10))
+m43_prior_pred_draws <- 
+  m43_prior_pred %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) 
 ```
 
-```{r Post-Regression-14}
-lines %>% 
-  slice_head(n = 3) %>% 
+]
+
+
+.left-column[
+
+```{r}
+m43_prior_pred_draws %>% 
+  slice_head(n=5) %>% 
   gt() %>% 
-  fmt_number(columns = everything(), decimals = 0)
+  fmt_number(everything(), decimals = 1)
+```
+
+]
+
+
+---
+
+## Visualisieren der Prior-Prädiktiv-Verteilung
+
+.pull-left[
+
+```{r prior-pv1, echo = TRUE, eval = FALSE}
+d2 %>% 
+  ggplot(aes(x = weight_c,
+             y = height)) +
+  geom_point() +
+  geom_abline(data = m43_prior_pred_draws %>% slice_head(n = 50),
+              aes(intercept = a,
+                  slope = weight_c),
+              color = "skyblue", size = 0.2) +
+  scale_y_continuous(limits = c(0, 500)) +
+  geom_hline(yintercept = 272, size = .5) +
+  geom_hline(yintercept = 0, linetype = "dashed")
 ```
 
 
@@ -418,22 +475,14 @@ lines %>%
 
 
 .pull-right[
-🤯 Oh nein! Viele dieser Regressionsgeraden sind unsinnig!
+🤯 Oh nein! Einige dieser Regressionsgeraden sind unsinnig!
 
-```{r Post-Regression-15, fig.asp=1}
-# how many lines would you like?
-lines <- 
-  lines %>% 
-  expand(nesting(n, a, b), weight = range(d2$weight)) %>% 
-  mutate(height = a + b * (weight - mean(d2$weight)))
 
-lines %>% 
-  ggplot(aes(x = weight, y = height, group = n)) +
-  geom_hline(yintercept = c(0, 272), linetype = 2:1, size = 1/3) +
-  geom_line(alpha = 1/10) +
-  coord_cartesian(ylim = c(-100, 400)) +
-  ggtitle("b ~ dnorm(0, 10)")
+```{r ref.label = "prior-pv1", eval = TRUE}
+
 ```
+
+
 .tiny[Die durchgezogene horizontale Linie gibt die Größe des [größten Menschens, Robert Pershing Wadlow](https://en.wikipedia.org/wiki/Robert_Wadlow), an.]
 
 ]
@@ -442,7 +491,8 @@ lines %>%
 ---
 
 
-## Wir müssen die Steigung zurecht stauchen
+## Ein positiver Wert für $\beta$ ist plausibler
+
 
 .pull-left[
 ### Oh no
@@ -459,10 +509,11 @@ d <-
 d %>% 
   ggplot(aes(x,y)) +
   geom_line() +
-  scale_y_continuous(breaks = NULL)
+  scale_y_continuous(breaks = NULL) +
+  labs(title = "mu=0, s=10")
 ```
 
-🤯 $\beta=-20$ ist gut möglich: Pro kg Gewicht sind Menschen im Schnitt 20cm kleiner, laut dem Modell. Quatsch.
+🤯 $\beta=-20$ wäre mit diesem Prior gut möglich: Pro kg Gewicht sind Menschen im Schnitt 20cm kleiner, laut dem Modell. Quatsch.
 ]
 
 
@@ -474,167 +525,98 @@ Wir bräuchten eher so eine Verteilung:
 ```{r Post-Regression-17}
 d <-
   tibble(
-    x = seq(-1, 10,.1),
-    y = dexp(x, rate =.5)
+    x = seq(-30,30,.1),
+    y = dnorm(x, mean = 5, sd = 3)
   )
 
 d %>% 
   ggplot(aes(x,y)) +
   geom_line() +
-  scale_y_continuous(breaks = NULL)
+  scale_y_continuous(breaks = NULL) +
+  labs(title = "mu=5, sd = 3")
 ```
 
-😍 Wo gibt's diese Verteilung?
+Vermutlich besser: Ein Großteil der Wahrscheinlichkeitsmasse ist $X>0$. Allerdings gibt's keine Gewähr, dass unser Prior "richtig" ist.
 ]
 
 
----
 
-## Darf ich vorstellen: Die Exponential-Verteilung 🍾
-
-
-
-
-.left-column[
-
-```{r Post-Regression-18, fig.asp = 1, fig.width=2, echo = FALSE}
-d <-
-  tibble(
-    x = seq(0, 5,.1),
-    y = dexp(x, rate = 1)
-  )
-
-d %>% 
-  ggplot(aes(x,y)) +
-  geom_line() 
-```
-
-$$\beta \sim \operatorname{Exp}(1)$$
-
-]
-
-.right-column[
-- Eine *Exp*onentialverteilung ist nur für positive Werte, $x>0$, definiert.
-- Sie ist eine praktische Wahl, wenn man einen Parameter auf einen positiven Wertebereich bändigen möchte.
-- Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
-- Sie hat nur einen Parameter, $\lambda$; $\frac{1}{\lambda}$  gibt die Streuung ("Gestrecktheit") der Verteilung an.
-- Die Verteilung für $\beta$ ist plausibel:
-    - Nur positive Steigungen
-    - Keine sehr starken Zusammenhänge.
-    
-Simulieren wir mal die Priori-Prädiktiv-Verteilung und schauen, was passiert.
-
-]
-
----
-
-
-## Exponentialverteilung mit R
-
-
-
-.pull-left[
-
-```{r dexp-plot, echo = TRUE, eval = FALSE}
-d <-
-  tibble(
-    x = seq(0, 5,.1),
-    y1 = dexp(x, rate = 1),
-    y2 = dexp(x, rate = 0.5)
-  )
-
-d %>% 
-  ggplot(aes(x)) +
-  geom_line(aes(y = y1)) +
-  geom_line(aes(y = y2), 
-            color = "blue")
-```
-
-
-]
-
-.pull-right[
-
-```{r Post-Regression-19, ref.label = "dexp-plot", echo = FALSE, eval = TRUE}
-
-```
-
-$$\beta \sim \operatorname{Exp}(1)$$
-
-$$\color{blue}\beta \color{blue}\sim \color{blue}{\operatorname{Exp}(0.5)}$$
-
-]
 
 ---
 
 ## Priori-Prädiktiv-Simulation, 2. Versuch
 
-$$\beta \sim \operatorname{Exp}(1)$$
 
 
-```{r Post-Regression-20, echo = FALSE}
-lines2 <- 
-  tibble(n = 1:n_lines,
-         a = rnorm(n_lines, mean = 178, sd = 20),
-         b = rexp(n_lines, 1)) 
+
+.right-column[
+
+```{r echo = TRUE}
+m43a_prior_pred <-
+    stan_glm(height ~ weight_c, 
+             prior = normal(3, 2),
+             prior_intercept = normal(178, 20),  # mu
+             prior_aux = exponential(0.1),  # sigma
+             refresh = FALSE, 
+             prior_PD = TRUE,  # DIESER Schalter machts
+             data = d2)
+
+
+m43a_prior_pred_draws <- 
+  m43a_prior_pred %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) 
 ```
 
-```{r Post-Regression-21, eval = FALSE}
-lines2 %>% 
-  ggplot(aes(x = weight, y = height)) +
- #geom_point() +
-  geom_abline(aes(slope = b, intercept = a), alpha = .1) +
-  scale_y_continuous(limits = c(0, 400)) +
-  scale_x_continuous(limits = c(30,90))
+]
+
+
+.left-column[
+
+```{r}
+m43a_prior_pred_draws %>% 
+  slice_head(n=5) %>% 
+  gt() %>% 
+  fmt_number(everything(), decimals = 1)
 ```
 
+]
+
+---
 
 
+## Visualisieren der Prior-Prädiktiv-Verteilung, `m43a`
 
-```{r Post-Regression-22, eval = FALSE}
-# plot
+.pull-left[
+
+```{r prior-pv2, echo = TRUE, eval = FALSE}
 d2 %>% 
-  ggplot(aes(x = weight, y = height)) +
-  geom_hline(yintercept = c(0, 272), linetype = 2:1, size = 1/3) +
-  geom_line(data = lines2, 
-            alpha = 1/10, aes(group = n)) 
-  geom_text(data = text_df,
-            aes(label = label),
-            size = 3) +
-  coord_cartesian(ylim = c(-100, 400)) +
-  ggtitle("b ~ dexp(1)")
+  ggplot(aes(x = weight_c,
+             y = height)) +
+  geom_point() +
+  geom_abline(data = m43a_prior_pred_draws %>% slice_head(n = 50),
+              aes(intercept = a,
+                  slope = weight_c),
+              color = "skyblue", size = 0.2) +
+  scale_y_continuous(limits = c(0, 500)) +
+  geom_hline(yintercept = 272, size = .5) +
+  geom_hline(yintercept = 0, linetype = "dashed")
 ```
 
 
+]
 
 
-```{r Post-Regression-23, out.width="70%"}
-text_df <-
-  tibble(weight = c(34, 43),
-         height = c(0 - 25, 272 + 25),
-         label  = c("Embryo", "Größter Mensch (272 cm)"))
+.pull-right[
 
-# simulate
-set.seed(2971)
+```{r ref.label = "prior-pv2", eval = TRUE}
 
-lines3 <- 
-tibble(n = 1:n_lines,
-       a = rnorm(n_lines, mean = 178, sd = 20),
-       b = rexp(n_lines, 1)) %>% 
-  expand(nesting(n, a, b), weight = range(d2$weight)) %>% 
-  mutate(height = a + b * (weight - mean(d2$weight))) 
- 
-lines3 %>%  
-  # plot
-  ggplot(aes(x = weight, y = height)) +
-  geom_hline(yintercept = c(0, 272), linetype = 2:1, size = 1/3) +
-  geom_line(alpha = 1/10, aes(group = n)) +
-  geom_text(data = text_df,
-            aes(label = label),
-            size = 3) +
-  coord_cartesian(ylim = c(-100, 400)) +
-  ggtitle("b ~ dexp(1)")
 ```
+
+
+.tiny[Die durchgezogene horizontale Linie gibt die Größe des [größten Menschens, Robert Pershing Wadlow](https://en.wikipedia.org/wiki/Robert_Wadlow), an.]
+
+]
 
 
 Das sieht gut aus; unsere Priori-Werte scheinen vernünftige Vorhersagen zu tätigen.
@@ -642,39 +624,6 @@ Das sieht gut aus; unsere Priori-Werte scheinen vernünftige Vorhersagen zu tät
 ---
 
 
-## Prior-Prädiktiv mit R plotten: R-Code
-
-
-
-```{r prior-praed-plot, echo = TRUE, eval = TRUE}
-n_lines <- 100  # 100 Regr.linien simulieren
-
-lines1 <- 
-  tibble(n = 1:n_lines,
-         a = rnorm(n_lines, mean = 178, sd = 20),  # Prior alpha
-         b = rexp(n_lines, 1))  %>%   # Prior beta
-  mutate(weight_c = 40-45,  # Gewicht einer leichten Person
-         height = a + weight_c*b)  # Größe einer leichten Person
-
-lines2 <- 
-  tibble(n = 1:n_lines,
-         a = rnorm(n_lines, mean = 178, sd = 20),  # Prior alpha
-         b = rexp(n_lines, 1))  %>%   # Prior beta
-  mutate(weight_c = 80-45,  # Gewicht einer schweren Person
-         height = a + weight_c*b)  # Größe einer schweren Person
-
-lines_doppelt <-  # zwei Punkte pro Linie definieren eine Linie
-  lines1 %>% 
-  bind_rows(lines2)
- 
-prior_pred_plot <- # ein Wertepaar von "n" ist eine Gruppe, d.h. eine Linie
-  lines_doppelt %>%  
-  ggplot(aes(x = weight_c, y = height, group = n)) +
-  geom_line(alpha = 0.1) +
-  ylim(100, 300)
-```
-
----
 
 ## Prior-Prädiktiv mit R plotten: Ausgabe
 
@@ -721,8 +670,8 @@ $$
 \text{height}_i &\sim \operatorname{Normal}(\mu_i, \sigma) \\
 \mu_i &= \alpha + \beta \cdot  \text{weight}_i\\
 \alpha &\sim \operatorname{Normal}(178, 20)\\
-\beta &\sim \operatorname{Exp}(1)\\
-\sigma &\sim \operatorname{Uniform}(0, 50)
+\beta &\sim \operatorname{Normal}(5,3)\\
+\sigma &\sim \operatorname{Exp}(0.1)
 \end{align}
 $$
 
@@ -735,22 +684,20 @@ $$
 set.seed(42)  
 # Posteriori-Vert. berechnen:
 m43a <-
-  quap(
-    alist(
-      height ~ dnorm(mu, sigma),
-      mu <- a + b*weight_c,
-      a ~ dnorm(178, 20),
-      b ~ dexp(1),
-      sigma ~ dunif(0, 50)
-    ), 
-    data = d2)
+  stan_glm(height ~ weight_c, 
+           prior = normal(0, 10),
+           prior_intercept = normal(178, 20),  # mu
+           prior_aux = exponential(0.1),  # sigma
+           refresh = FALSE,
+           data = d2)
 ```
 
 
 ]
 
 ```{r Post-Regression-26, echo = TRUE}
-precis(m43a)
+print(m43a,
+        pars = c("(Intercept)", "weight_c"))
 ```
 
 
