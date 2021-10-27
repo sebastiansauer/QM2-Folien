@@ -8,7 +8,7 @@ institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
 #    css: ["xaringan-themer.css"]
-    css: [default, default-fonts, hygge, "xaringan-themer.css"]
+    css: [default, default-fonts, hygge]
 #    css: [default, default-fonts, hygge, "custom.css"]
     lib_dir: libs
    
@@ -22,9 +22,77 @@ output:
 
 
 
+## Zur Erinnerung: Gitterwerte in R berechnen
 
-```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Kung.Rmd"}
+
+
+
+```{r QM2-Thema2-kleineModelle-28, echo = TRUE, eval = TRUE}
+n <- 10
+n_success <- 6
+n_trials  <- 9
+
+d <-
+  tibble(p_grid = seq(from = 0, to = 1, length.out = n),
+         prior  = 1) %>% 
+  mutate(likelihood = dbinom(n_success, 
+                             size = n_trials, 
+                             prob = p_grid)) %>% 
+  mutate(unstand_post = (likelihood * prior),
+         post = unstand_post / sum(unstand_post))
 ```
+
+
+
+```{r QM2-Thema3-Teil1-1}
+d %>% 
+  mutate_all(round, 2) %>% 
+  glimpse()
+```
+
+
+
+---
+
+name: posttab
+
+## Zur Erinnerung, die Gittermethode
+
+Die Gittermethode ist ein Weg, die Posteriori-Verteilung zu berechnen. Die Posteriori-Verteilung birgt viele nützliche Informationen.
+
+Modell: $W=6$ Wasser, $N=9$ Würfen und $k=10$ Gitterwerten.
+
+
+
+.left-column[
+```{r plot-post-d, fig.width = 2, fig.asp = 2.5}
+d %>% 
+  ggplot() +
+  aes(x = p_grid, y = post) +
+  geom_point(alpha = .5, size = 3) +
+  geom_point(color = "blue")
+```
+
+]
+
+
+.right-column[
+Die ersten paar Zeilen (von `r nrow(d)`) aus der Tabelle `d`:
+
+```{r QM2-Thema3-Post-befragen-2}
+d %>% 
+  head() %>% 
+  gt() %>% 
+  #fmt_number(columns = 3, decimals = 3) %>% 
+  fmt_scientific(columns = c(1,3, 4,5),
+             decimals = 0) %>% 
+  tab_header(md("Tabelle *d* mit Daten zur Posteriori-Verteilung"))
+
+```
+]
+
+
+---
 
 
 

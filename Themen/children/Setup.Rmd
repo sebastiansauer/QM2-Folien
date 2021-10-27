@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
   fig.width = 5,
   out.width = "100%",
   fig.cap = "", 
-  fig.path = "",
+  fig.path = "chunk-img/",
   dpi = 300,
   #tidy = TRUE,
   echo = FALSE,
