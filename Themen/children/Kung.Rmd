@@ -736,10 +736,14 @@ d2 <-
 m42 <- 
   stan_glm(height ~ 1, 
            prior_intercept = normal(178, 20),  # mu
-           prior_aux = exponential(1),  # sigma
+           prior_aux = exponential(0.1),  # sigma
            refresh = FALSE,  # bitte nicht so viel Ausgabe drucken
            data = d2)
 print(m42)
+```
+
+```{r eval = FALSE}
+write_rds(m42, "objects/m42.rds")
 ```
 
 
