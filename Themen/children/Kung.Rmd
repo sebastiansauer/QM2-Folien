@@ -64,7 +64,8 @@ background-size: contain
 .tiny[
 ```{r Post-Regression-3, echo = TRUE, eval = TRUE}
 library(tidyverse)
-Kung_path <- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
+Kung_path <-  # Datenquelle s.o.
+  "https://tinyurl.com/jr7ckxxj"  
 
 d <- read_csv(Kung_path)  
 
@@ -411,7 +412,7 @@ Die Streuung der Größen ist weit:
 
 ```{r}
 d <- 
-  tibble(x = seq(0,50, by =.01),
+  tibble(x = seq(0,75, by =.01),
          y = dexp(x, rate = .01))
 
 d %>% 
@@ -451,62 +452,26 @@ knitr::include_graphics("https://raw.githubusercontent.com/sebastiansauer/QM2-Fo
 
 .pull-left[
 
-```{r post-m41}
-n <- 200
+```{r message=FALSE, results="hide"}
+m41 <- stan_glm(height ~ 1, data = d2)
+m41_post <- as_tibble(m41)
+names(m41_post) <- c("mu", "sigma")
+```
 
-d_grid <-
-  # we'll accomplish with `tidyr::crossing()` what McElreath did with base R `expand.grid()`
-  crossing(mu    = seq(from = 140, to = 160,
-                       length.out = n),
-           sigma = seq(from = 0.01, to = 50, 
-                       length.out = n))
+</br>
+</br>
+</br>
 
-grid_function <- function(mu, sigma) {
-  
-  dnorm(d2$height, mean = mu, 
-        sd = sigma, log = T) %>% 
-    sum()
-  
-}
-
-d_grid <-
-  d_grid %>% 
-  mutate(log_likelihood = map2(mu, sigma, grid_function)) %>%
-  unnest(log_likelihood) %>% 
-  mutate(prior_mu    = dnorm(mu, mean = 178, 
-                             sd = 20, log = T),
-         prior_sigma = dexp(sigma, rate = 1, log = T)) %>% 
-  mutate(product = 
-           log_likelihood + prior_mu + prior_sigma) %>% 
-  mutate(probability = 
-           exp(product - max(product)))
+```{r post-m41-plot}
+m41_post %>% 
+  ggplot() +
+  aes(x = mu, y = sigma) %>% 
+  geom_hex() +
+  scale_fill_viridis_c()
 ```
 
 
 
-```{r Kung-19, eval = FALSE}
-d_grid %>% 
-  ggplot(aes(x = mu, y = sigma, z = probability)) + 
-  geom_contour() +
-  labs(x = expression(mu),
-       y = expression(sigma)) +
-  coord_cartesian(xlim = range(d_grid$mu),
-                  ylim = range(d_grid$sigma)) +
-  theme(panel.grid = element_blank())
-```
-
-
-```{r Kung-20, eval = TRUE, fig.asp = 1}
-d_grid %>% 
-  ggplot(aes(x = mu, y = sigma, fill = probability)) + 
-  geom_raster(interpolate = F) +
-  scale_fill_viridis_c() +
-  labs(x = expression(mu),
-       y = expression(sigma)) +
-  theme(panel.grid = element_blank()) +
-  scale_x_continuous(limits = c(150, 160)) +
-  scale_y_continuous(limits = c(7, 9))
-```
 
 ]
 
@@ -514,7 +479,7 @@ d_grid %>%
 
 - Wir bekommen eine Wahrscheinlichkeitsverteilung für $\mu$ und eine für $\sigma$ (bzw. eine zweidimensionale Verteilung, für die $\mu,\sigma$-Paare).
 
-- Trotz des vagen Priors sind die Posteriori-Werte für $\mu$ und $\sigma$ klein: Die große Stichprobe hat die Priori-Werte überstimmt.
+- Trotz des eher vagen Priors ist die Streuung Posteriori-Werte für $\mu$ und $\sigma$ klein: Die große Stichprobe hat die Priori-Werte überstimmt.
 
 - Ziehen wir Stichproben aus der Posteriori-Verteilung, so können wir interessante Fragen stellen. 
 
@@ -543,17 +508,10 @@ d_grid %>%
 .pull-left[
 
 
-```{r Kung-21}
-set.seed(4)
-
-d_grid_samples <- 
-  d_grid %>% 
-  sample_n(size = 1e4, replace = T, weight = probability)
-```
 
 
 ```{r Kung-22, fig.asp = 1}
-d_grid_samples %>% 
+m41_post %>% 
   pivot_longer(mu:sigma) %>% 
   ggplot(aes(x = value)) + 
   geom_density(fill = "grey33") +
@@ -756,6 +714,7 @@ prior_summary(m41)
 
 - `Auxiliary (sigma)`: $\sigma$, die Streuung der Verteilung $X$
     - $\sigma \sim \mathcal{E}(\lambda=1/sd(X))$
+    - als Streuung von $h_i$ wird 7.8 angenommen.
     
     
     

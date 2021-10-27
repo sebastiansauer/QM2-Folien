@@ -1,5 +1,5 @@
 
-name: teilb
+name: teil2
 class: center, middle, inverse
 
 

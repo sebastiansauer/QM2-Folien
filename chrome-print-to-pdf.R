@@ -5,5 +5,6 @@ f <- filename
 
 pagedown::chrome_print(paste0("Themen/", thema4, ".Rmd"),
                        output = paste0("Themen/", thema4, ".pdf"),
-                       wait = 10)
+                       wait = 10,
+                       timeout = 120)
 

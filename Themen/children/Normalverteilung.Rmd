@@ -629,7 +629,7 @@ d %>%
 ]
 
 .pull-right[
-```{r exp1-plot, ref.label = "exp1", eval = TRUE}
+```{r exp1-plot, ref.label = "exp1", fig.asp = 1, eval = TRUE}
 
 ```
 

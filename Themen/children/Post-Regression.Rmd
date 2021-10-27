@@ -1,10 +1,6 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 
-name: teila
+
+name: teil1
 class: center, middle, inverse
 
 
