@@ -52,7 +52,7 @@ options("knitr.graphics.auto_pdf" = FALSE)
 ```
 
 
-```{r xaringan-themer, include=FALSE, warning=FALSE}
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval = FALSE}
 library(xaringanthemer)
 style_mono_dark(base_color = "#99a300")
 
@@ -107,7 +107,7 @@ use_xaringan_extra(c("tile_view", "tachyons"))
 
 
 
-```{r xaringanExtra-scribble, echo=FALSE}
+```{r xaringanExtra-scribble, echo=FALSE, eval = FALSE}
 xaringanExtra::use_scribble()
 ```
 

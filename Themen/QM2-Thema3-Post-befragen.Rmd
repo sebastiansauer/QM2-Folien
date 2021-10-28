@@ -7,8 +7,6 @@ bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-se
 institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
-#    css: ["xaringan-themer.css"]
-
     css: [default, default-fonts, hygge ]
     lib_dir: libs
     nature:
@@ -16,8 +14,6 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 
-#numbersections: yes
-csquotes: TRUE     
 ---
 
 

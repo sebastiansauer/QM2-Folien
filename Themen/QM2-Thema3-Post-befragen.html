@@ -10,10 +10,6 @@
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
-    <script src="libs/fabric/fabric.min.js"></script>
-    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
   </head>
   <body>
     <textarea id="source">
@@ -145,11 +141,11 @@ d &lt;-
 ```
 ## Rows: 10
 ## Columns: 5
-## $ p_grid       &lt;dbl&gt; 0.00, 0…
-## $ prior        &lt;dbl&gt; 1, 1, 1…
-## $ likelihood   &lt;dbl&gt; 0.00, 0…
-## $ unstand_post &lt;dbl&gt; 0.00, 0…
-## $ post         &lt;dbl&gt; 0.00, 0…
+## $ p_grid       &lt;dbl&gt; 0.00, 0.11, 0.22, 0.33, 0.44, 0.56, 0.67, 0.78, 0.89, 1.00
+## $ prior        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+## $ likelihood   &lt;dbl&gt; 0.00, 0.00, 0.00, 0.03, 0.11, 0.22, 0.27, 0.20, 0.06, 0.00
+## $ unstand_post &lt;dbl&gt; 0.00, 0.00, 0.00, 0.03, 0.11, 0.22, 0.27, 0.20, 0.06, 0.00
+## $ post         &lt;dbl&gt; 0.00, 0.00, 0.01, 0.04, 0.12, 0.24, 0.30, 0.23, 0.06, 0.00
 ```
 
 
@@ -175,20 +171,12 @@ Modell: `\(W=6\)` Wasser, `\(N=9\)` Würfen und `\(k=10\)` Gitterwerten.
 .right-column[
 Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
 
-<<<<<<< HEAD
-<div id="iqgtbyhtif" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-=======
-<div id="hwsdkpjtky" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+<div id="sifxyhdtxh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_table {
-=======
-#hwsdkpjtky .gt_table {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -213,11 +201,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-left-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_heading {
-=======
-#hwsdkpjtky .gt_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -229,11 +213,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_title {
-=======
-#hwsdkpjtky .gt_title {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -243,11 +223,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-bottom-width: 0;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_subtitle {
-=======
-#hwsdkpjtky .gt_subtitle {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -257,21 +233,13 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-top-width: 0;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_bottom_border {
-=======
-#hwsdkpjtky .gt_bottom_border {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_col_headings {
-=======
-#hwsdkpjtky .gt_col_headings {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -286,11 +254,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_col_heading {
-=======
-#hwsdkpjtky .gt_col_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -310,11 +274,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_column_spanner_outer {
-=======
-#hwsdkpjtky .gt_column_spanner_outer {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -326,27 +286,15 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   padding-right: 4px;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_column_spanner_outer:first-child {
+#sifxyhdtxh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iqgtbyhtif .gt_column_spanner_outer:last-child {
+#sifxyhdtxh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iqgtbyhtif .gt_column_spanner {
-=======
-#hwsdkpjtky .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#hwsdkpjtky .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#hwsdkpjtky .gt_column_spanner {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -358,11 +306,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   width: 100%;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_group_heading {
-=======
-#hwsdkpjtky .gt_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -384,11 +328,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_empty_group_heading {
-=======
-#hwsdkpjtky .gt_empty_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -403,27 +343,15 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_from_md > :first-child {
+#sifxyhdtxh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iqgtbyhtif .gt_from_md > :last-child {
+#sifxyhdtxh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iqgtbyhtif .gt_row {
-=======
-#hwsdkpjtky .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#hwsdkpjtky .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#hwsdkpjtky .gt_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -442,11 +370,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_stub {
-=======
-#hwsdkpjtky .gt_stub {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -458,11 +382,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   padding-left: 12px;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_summary_row {
-=======
-#hwsdkpjtky .gt_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -472,11 +392,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_first_summary_row {
-=======
-#hwsdkpjtky .gt_first_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -486,11 +402,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_grand_summary_row {
-=======
-#hwsdkpjtky .gt_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -500,11 +412,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_first_grand_summary_row {
-=======
-#hwsdkpjtky .gt_first_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -514,19 +422,11 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_striped {
+#sifxyhdtxh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iqgtbyhtif .gt_table_body {
-=======
-#hwsdkpjtky .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#hwsdkpjtky .gt_table_body {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -535,11 +435,7 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_footnotes {
-=======
-#hwsdkpjtky .gt_footnotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -553,21 +449,13 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_footnote {
-=======
-#hwsdkpjtky .gt_footnote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_sourcenotes {
-=======
-#hwsdkpjtky .gt_sourcenotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -581,77 +469,41 @@ Die ersten paar Zeilen (von 10) aus der Tabelle `d`:
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_sourcenote {
-=======
-#hwsdkpjtky .gt_sourcenote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_left {
+#sifxyhdtxh .gt_left {
   text-align: left;
 }
 
-#iqgtbyhtif .gt_center {
+#sifxyhdtxh .gt_center {
   text-align: center;
 }
 
-#iqgtbyhtif .gt_right {
-=======
-#hwsdkpjtky .gt_left {
-  text-align: left;
-}
-
-#hwsdkpjtky .gt_center {
-  text-align: center;
-}
-
-#hwsdkpjtky .gt_right {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-<<<<<<< HEAD
-#iqgtbyhtif .gt_font_normal {
+#sifxyhdtxh .gt_font_normal {
   font-weight: normal;
 }
 
-#iqgtbyhtif .gt_font_bold {
+#sifxyhdtxh .gt_font_bold {
   font-weight: bold;
 }
 
-#iqgtbyhtif .gt_font_italic {
+#sifxyhdtxh .gt_font_italic {
   font-style: italic;
 }
 
-#iqgtbyhtif .gt_super {
+#sifxyhdtxh .gt_super {
   font-size: 65%;
 }
 
-#iqgtbyhtif .gt_footnote_marks {
-=======
-#hwsdkpjtky .gt_font_normal {
-  font-weight: normal;
-}
-
-#hwsdkpjtky .gt_font_bold {
-  font-weight: bold;
-}
-
-#hwsdkpjtky .gt_font_italic {
-  font-style: italic;
-}
-
-#hwsdkpjtky .gt_super {
-  font-size: 65%;
-}
-
-#hwsdkpjtky .gt_footnote_marks {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#sifxyhdtxh .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -761,20 +613,12 @@ samples &lt;-
 Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist proportional zur Posteriori-Wahrscheinlichkeit (`post`) dieses Werts. Ziehen mit Zurücklegen hält die Wahrscheinlichkeiten während des Ziehens konstant.
 
 
-<<<<<<< HEAD
-<div id="pqxubmwxzx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-=======
-<div id="hsqpbsftxv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+<div id="syfwbsnujo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_table {
-=======
-#hsqpbsftxv .gt_table {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -799,11 +643,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-left-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_heading {
-=======
-#hsqpbsftxv .gt_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -815,11 +655,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_title {
-=======
-#hsqpbsftxv .gt_title {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -829,11 +665,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-bottom-width: 0;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_subtitle {
-=======
-#hsqpbsftxv .gt_subtitle {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -843,21 +675,13 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-top-width: 0;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_bottom_border {
-=======
-#hsqpbsftxv .gt_bottom_border {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_col_headings {
-=======
-#hsqpbsftxv .gt_col_headings {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -872,11 +696,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_col_heading {
-=======
-#hsqpbsftxv .gt_col_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -896,11 +716,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_column_spanner_outer {
-=======
-#hsqpbsftxv .gt_column_spanner_outer {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -912,27 +728,15 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-right: 4px;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_column_spanner_outer:first-child {
+#syfwbsnujo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pqxubmwxzx .gt_column_spanner_outer:last-child {
+#syfwbsnujo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pqxubmwxzx .gt_column_spanner {
-=======
-#hsqpbsftxv .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#hsqpbsftxv .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#hsqpbsftxv .gt_column_spanner {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -944,11 +748,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   width: 100%;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_group_heading {
-=======
-#hsqpbsftxv .gt_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -970,11 +770,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_empty_group_heading {
-=======
-#hsqpbsftxv .gt_empty_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -989,27 +785,15 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_from_md > :first-child {
+#syfwbsnujo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pqxubmwxzx .gt_from_md > :last-child {
+#syfwbsnujo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pqxubmwxzx .gt_row {
-=======
-#hsqpbsftxv .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#hsqpbsftxv .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#hsqpbsftxv .gt_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1028,11 +812,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_stub {
-=======
-#hsqpbsftxv .gt_stub {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1044,11 +824,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-left: 12px;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_summary_row {
-=======
-#hsqpbsftxv .gt_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1058,11 +834,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_first_summary_row {
-=======
-#hsqpbsftxv .gt_first_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1072,11 +844,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_grand_summary_row {
-=======
-#hsqpbsftxv .gt_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1086,11 +854,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_first_grand_summary_row {
-=======
-#hsqpbsftxv .gt_first_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1100,19 +864,11 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_striped {
+#syfwbsnujo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pqxubmwxzx .gt_table_body {
-=======
-#hsqpbsftxv .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#hsqpbsftxv .gt_table_body {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1121,11 +877,7 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_footnotes {
-=======
-#hsqpbsftxv .gt_footnotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1139,21 +891,13 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_footnote {
-=======
-#hsqpbsftxv .gt_footnote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_sourcenotes {
-=======
-#hsqpbsftxv .gt_sourcenotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1167,77 +911,41 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_sourcenote {
-=======
-#hsqpbsftxv .gt_sourcenote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_left {
+#syfwbsnujo .gt_left {
   text-align: left;
 }
 
-#pqxubmwxzx .gt_center {
+#syfwbsnujo .gt_center {
   text-align: center;
 }
 
-#pqxubmwxzx .gt_right {
-=======
-#hsqpbsftxv .gt_left {
-  text-align: left;
-}
-
-#hsqpbsftxv .gt_center {
-  text-align: center;
-}
-
-#hsqpbsftxv .gt_right {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-<<<<<<< HEAD
-#pqxubmwxzx .gt_font_normal {
+#syfwbsnujo .gt_font_normal {
   font-weight: normal;
 }
 
-#pqxubmwxzx .gt_font_bold {
+#syfwbsnujo .gt_font_bold {
   font-weight: bold;
 }
 
-#pqxubmwxzx .gt_font_italic {
+#syfwbsnujo .gt_font_italic {
   font-style: italic;
 }
 
-#pqxubmwxzx .gt_super {
+#syfwbsnujo .gt_super {
   font-size: 65%;
 }
 
-#pqxubmwxzx .gt_footnote_marks {
-=======
-#hsqpbsftxv .gt_font_normal {
-  font-weight: normal;
-}
-
-#hsqpbsftxv .gt_font_bold {
-  font-weight: bold;
-}
-
-#hsqpbsftxv .gt_font_italic {
-  font-style: italic;
-}
-
-#hsqpbsftxv .gt_super {
-  font-size: 65%;
-}
-
-#hsqpbsftxv .gt_footnote_marks {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#syfwbsnujo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1262,32 +970,21 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">0.444</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.111</td>
-<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;1</sup></td>
-<td class="gt_row gt_right">0.123</td></tr>
-    <tr><td class="gt_row gt_right">0.556</td>
-<td class="gt_row gt_right">1</td>
-<<<<<<< HEAD
-<td class="gt_row gt_right">0.217</td>
-<td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td>
-<td class="gt_row gt_right">0.241</td></tr>
     <tr><td class="gt_row gt_right">0.667</td>
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_right">0.273</td>
 <td class="gt_row gt_right">3 &times; 10<sup class='gt_super'>&minus;1</sup></td>
 <td class="gt_row gt_right">0.303</td></tr>
-=======
-<td class="gt_row gt_right">0.111</td>
-<td class="gt_row gt_right">1 &times; 10<sup class='gt_super'>&minus;1</sup></td>
-<td class="gt_row gt_right">0.123</td></tr>
-    <tr><td class="gt_row gt_right">0.556</td>
+    <tr><td class="gt_row gt_right">0.889</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.217</td>
+<td class="gt_row gt_right">0.057</td>
+<td class="gt_row gt_right">6 &times; 10<sup class='gt_super'>&minus;2</sup></td>
+<td class="gt_row gt_right">0.063</td></tr>
+    <tr><td class="gt_row gt_right">0.778</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.204</td>
 <td class="gt_row gt_right">2 &times; 10<sup class='gt_super'>&minus;1</sup></td>
-<td class="gt_row gt_right">0.241</td></tr>
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+<td class="gt_row gt_right">0.227</td></tr>
   </tbody>
   
   
@@ -1302,36 +999,13 @@ Die Wahrscheinlichkeit, einen Parameterwert aus Tabelle `d` zu ziehen, ist propo
 Die ersten 100 gesampelten Gitterwerte (`p_grid`):
 
 ```
-<<<<<<< HEAD
-##   [1] 0.44 0.56 0.67 0.67 0.67
-##   [6] 0.56 0.44 0.67 0.78 0.67
-##  [11] 0.44 0.67 0.78 0.56 0.67
-##  [16] 0.67 0.44 0.56 0.78 0.44
-##  [21] 0.44 0.78 0.56 0.67 0.78
-##  [26] 0.78 0.67 0.78 0.44 0.56
-##  [31] 0.56 0.56 0.56 0.33 0.67
-##  [36] 0.67 0.78 0.78 0.44 0.67
-##  [41] 0.67 0.56 0.44 0.44 0.44
-##  [46] 0.67 0.56 0.67 0.67 0.78
-##  [51] 0.33 0.67 0.56 0.67 0.78
-##  [56] 0.33 0.78 0.67 0.56 0.67
-##  [61] 0.89 0.67 0.67 0.44 0.56
-##  [66] 0.78 0.78 0.44 0.44 0.67
-##  [71] 0.44 0.78 0.67 0.67 0.78
-##  [76] 0.44 0.56 0.56 0.78 0.89
-##  [81] 0.56 0.56 0.78 0.67 0.89
-##  [86] 0.78 0.78 0.78 0.67 0.78
-##  [91] 0.89 0.56 0.56 0.56 0.67
-##  [96] 0.56 0.78 0.89 0.67 0.56
-=======
-##   [1] 0.44 0.44 0.56 0.56 0.44 0.33 0.67 0.44 0.78 0.56 0.78 0.56 0.67 0.67 0.56
-##  [16] 0.67 0.44 0.67 0.56 0.78 0.67 0.78 0.44 0.67 0.56 0.67 0.56 0.78 0.78 0.56
-##  [31] 0.67 0.44 0.67 0.67 0.89 0.56 0.67 0.56 0.67 0.67 0.56 0.56 0.44 0.78 0.78
-##  [46] 0.67 0.67 0.67 0.67 0.78 0.89 0.78 0.67 0.78 0.78 0.33 0.67 0.89 0.67 0.56
-##  [61] 0.67 0.44 0.44 0.78 0.78 0.78 0.78 0.67 0.78 0.56 0.67 0.67 0.67 0.78 0.56
-##  [76] 0.44 0.56 0.33 0.67 0.78 0.44 0.56 0.67 0.78 0.78 0.67 0.67 0.67 0.78 0.56
-##  [91] 0.67 0.44 0.56 0.44 0.67 0.67 0.78 0.67 0.56 0.78
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+##   [1] 0.67 0.89 0.78 0.56 0.56 0.78 0.56 0.56 0.44 0.78 0.78 0.67 0.56 0.67 0.67
+##  [16] 0.67 0.67 0.56 0.44 0.44 0.67 0.67 0.78 0.67 0.67 0.56 0.67 0.78 0.44 0.67
+##  [31] 0.44 0.56 0.44 0.56 0.44 0.78 0.44 0.67 0.67 0.67 0.44 0.67 0.89 0.78 0.44
+##  [46] 0.56 0.67 0.56 0.56 0.67 0.67 0.33 0.56 0.56 0.56 0.67 0.56 0.67 0.78 0.67
+##  [61] 0.44 0.67 0.56 0.33 0.78 0.78 0.67 0.67 0.78 0.67 0.44 0.67 0.89 0.89 0.67
+##  [76] 0.67 0.78 0.78 0.67 0.56 0.67 0.67 0.67 0.67 0.67 0.44 0.67 0.78 0.56 0.78
+##  [91] 0.78 0.67 0.56 0.67 0.78 0.78 0.56 0.67 0.67 0.56
 ```
 
 
@@ -1419,11 +1093,7 @@ samples %&gt;%
 ## # A tibble: 1 × 1
 ##     sum
 ##   &lt;dbl&gt;
-<<<<<<< HEAD
-## 1 0.169
-=======
 ## 1 0.167
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
 ```
 
 
@@ -1454,11 +1124,7 @@ samples %&gt;%
 ## # A tibble: 1 × 2
 ##     sum percent
 ##   &lt;dbl&gt;   &lt;dbl&gt;
-<<<<<<< HEAD
-## 1 0.539    53.9
-=======
-## 1 0.533    53.3
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+## 1 0.546    54.6
 ```
 
 Mit welcher Wahrscheinlichkeit liegt der Parameter zwischen 0.9 und 1?
@@ -1538,20 +1204,12 @@ Solche Fragen lassen sich mit Hilfe von *Quantilen* beantworten.
 
 Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io/cran/openintro/man/speed_gender_height.html))? Das Quantil von z.B. 25% zeigt die Körpergröße der 25% kleinsten Studentis an, analog für 50%, 75%:
 
-<<<<<<< HEAD
-<div id="ehbogdcpmg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-=======
-<div id="wolhwwgrsy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+<div id="pumnwfurtc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_table {
-=======
-#wolhwwgrsy .gt_table {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1576,11 +1234,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-left-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_heading {
-=======
-#wolhwwgrsy .gt_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1592,11 +1246,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_title {
-=======
-#wolhwwgrsy .gt_title {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1606,11 +1256,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-bottom-width: 0;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_subtitle {
-=======
-#wolhwwgrsy .gt_subtitle {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1620,21 +1266,13 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-top-width: 0;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_bottom_border {
-=======
-#wolhwwgrsy .gt_bottom_border {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_col_headings {
-=======
-#wolhwwgrsy .gt_col_headings {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1649,11 +1287,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_col_heading {
-=======
-#wolhwwgrsy .gt_col_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1673,11 +1307,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_column_spanner_outer {
-=======
-#wolhwwgrsy .gt_column_spanner_outer {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1689,27 +1319,15 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   padding-right: 4px;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_column_spanner_outer:first-child {
+#pumnwfurtc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ehbogdcpmg .gt_column_spanner_outer:last-child {
+#pumnwfurtc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ehbogdcpmg .gt_column_spanner {
-=======
-#wolhwwgrsy .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#wolhwwgrsy .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#wolhwwgrsy .gt_column_spanner {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1721,11 +1339,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   width: 100%;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_group_heading {
-=======
-#wolhwwgrsy .gt_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1747,11 +1361,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_empty_group_heading {
-=======
-#wolhwwgrsy .gt_empty_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1766,27 +1376,15 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_from_md > :first-child {
+#pumnwfurtc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ehbogdcpmg .gt_from_md > :last-child {
+#pumnwfurtc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ehbogdcpmg .gt_row {
-=======
-#wolhwwgrsy .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#wolhwwgrsy .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#wolhwwgrsy .gt_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1805,11 +1403,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_stub {
-=======
-#wolhwwgrsy .gt_stub {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1821,11 +1415,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   padding-left: 12px;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_summary_row {
-=======
-#wolhwwgrsy .gt_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1835,11 +1425,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_first_summary_row {
-=======
-#wolhwwgrsy .gt_first_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1849,11 +1435,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_grand_summary_row {
-=======
-#wolhwwgrsy .gt_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1863,11 +1445,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_first_grand_summary_row {
-=======
-#wolhwwgrsy .gt_first_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1877,19 +1455,11 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_striped {
+#pumnwfurtc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ehbogdcpmg .gt_table_body {
-=======
-#wolhwwgrsy .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#wolhwwgrsy .gt_table_body {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1898,11 +1468,7 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_footnotes {
-=======
-#wolhwwgrsy .gt_footnotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1916,21 +1482,13 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_footnote {
-=======
-#wolhwwgrsy .gt_footnote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_sourcenotes {
-=======
-#wolhwwgrsy .gt_sourcenotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1944,77 +1502,41 @@ Beispiel: Wie groß sind die Studentis ([Quelle des Datensatzes](https://rdrr.io
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_sourcenote {
-=======
-#wolhwwgrsy .gt_sourcenote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_left {
+#pumnwfurtc .gt_left {
   text-align: left;
 }
 
-#ehbogdcpmg .gt_center {
+#pumnwfurtc .gt_center {
   text-align: center;
 }
 
-#ehbogdcpmg .gt_right {
-=======
-#wolhwwgrsy .gt_left {
-  text-align: left;
-}
-
-#wolhwwgrsy .gt_center {
-  text-align: center;
-}
-
-#wolhwwgrsy .gt_right {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-<<<<<<< HEAD
-#ehbogdcpmg .gt_font_normal {
+#pumnwfurtc .gt_font_normal {
   font-weight: normal;
 }
 
-#ehbogdcpmg .gt_font_bold {
+#pumnwfurtc .gt_font_bold {
   font-weight: bold;
 }
 
-#ehbogdcpmg .gt_font_italic {
+#pumnwfurtc .gt_font_italic {
   font-style: italic;
 }
 
-#ehbogdcpmg .gt_super {
+#pumnwfurtc .gt_super {
   font-size: 65%;
 }
 
-#ehbogdcpmg .gt_footnote_marks {
-=======
-#wolhwwgrsy .gt_font_normal {
-  font-weight: normal;
-}
-
-#wolhwwgrsy .gt_font_bold {
-  font-weight: bold;
-}
-
-#wolhwwgrsy .gt_font_italic {
-  font-style: italic;
-}
-
-#wolhwwgrsy .gt_super {
-  font-size: 65%;
-}
-
-#wolhwwgrsy .gt_footnote_marks {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#pumnwfurtc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -2079,20 +1601,12 @@ samples_33 &lt;-
                  replace = T)
 ```
 
-<<<<<<< HEAD
-<div id="nfbgoevdyv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-=======
-<div id="wlneydcgtm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+<div id="ocymqskppb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_table {
-=======
-#wlneydcgtm .gt_table {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2117,11 +1631,7 @@ samples_33 &lt;-
   border-left-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_heading {
-=======
-#wlneydcgtm .gt_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2133,11 +1643,7 @@ samples_33 &lt;-
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_title {
-=======
-#wlneydcgtm .gt_title {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2147,11 +1653,7 @@ samples_33 &lt;-
   border-bottom-width: 0;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_subtitle {
-=======
-#wlneydcgtm .gt_subtitle {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2161,21 +1663,13 @@ samples_33 &lt;-
   border-top-width: 0;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_bottom_border {
-=======
-#wlneydcgtm .gt_bottom_border {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_col_headings {
-=======
-#wlneydcgtm .gt_col_headings {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2190,11 +1684,7 @@ samples_33 &lt;-
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_col_heading {
-=======
-#wlneydcgtm .gt_col_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2214,11 +1704,7 @@ samples_33 &lt;-
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_column_spanner_outer {
-=======
-#wlneydcgtm .gt_column_spanner_outer {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2230,27 +1716,15 @@ samples_33 &lt;-
   padding-right: 4px;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_column_spanner_outer:first-child {
+#ocymqskppb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nfbgoevdyv .gt_column_spanner_outer:last-child {
+#ocymqskppb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nfbgoevdyv .gt_column_spanner {
-=======
-#wlneydcgtm .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#wlneydcgtm .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#wlneydcgtm .gt_column_spanner {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2262,11 +1736,7 @@ samples_33 &lt;-
   width: 100%;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_group_heading {
-=======
-#wlneydcgtm .gt_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2288,11 +1758,7 @@ samples_33 &lt;-
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_empty_group_heading {
-=======
-#wlneydcgtm .gt_empty_group_heading {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2307,27 +1773,15 @@ samples_33 &lt;-
   vertical-align: middle;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_from_md > :first-child {
+#ocymqskppb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nfbgoevdyv .gt_from_md > :last-child {
+#ocymqskppb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nfbgoevdyv .gt_row {
-=======
-#wlneydcgtm .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#wlneydcgtm .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#wlneydcgtm .gt_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2346,11 +1800,7 @@ samples_33 &lt;-
   overflow-x: hidden;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_stub {
-=======
-#wlneydcgtm .gt_stub {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2362,11 +1812,7 @@ samples_33 &lt;-
   padding-left: 12px;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_summary_row {
-=======
-#wlneydcgtm .gt_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2376,11 +1822,7 @@ samples_33 &lt;-
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_first_summary_row {
-=======
-#wlneydcgtm .gt_first_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2390,11 +1832,7 @@ samples_33 &lt;-
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_grand_summary_row {
-=======
-#wlneydcgtm .gt_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2404,11 +1842,7 @@ samples_33 &lt;-
   padding-right: 5px;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_first_grand_summary_row {
-=======
-#wlneydcgtm .gt_first_grand_summary_row {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2418,19 +1852,11 @@ samples_33 &lt;-
   border-top-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_striped {
+#ocymqskppb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nfbgoevdyv .gt_table_body {
-=======
-#wlneydcgtm .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#wlneydcgtm .gt_table_body {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2439,11 +1865,7 @@ samples_33 &lt;-
   border-bottom-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_footnotes {
-=======
-#wlneydcgtm .gt_footnotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2457,21 +1879,13 @@ samples_33 &lt;-
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_footnote {
-=======
-#wlneydcgtm .gt_footnote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_sourcenotes {
-=======
-#wlneydcgtm .gt_sourcenotes {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2485,77 +1899,41 @@ samples_33 &lt;-
   border-right-color: #D3D3D3;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_sourcenote {
-=======
-#wlneydcgtm .gt_sourcenote {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_left {
+#ocymqskppb .gt_left {
   text-align: left;
 }
 
-#nfbgoevdyv .gt_center {
+#ocymqskppb .gt_center {
   text-align: center;
 }
 
-#nfbgoevdyv .gt_right {
-=======
-#wlneydcgtm .gt_left {
-  text-align: left;
-}
-
-#wlneydcgtm .gt_center {
-  text-align: center;
-}
-
-#wlneydcgtm .gt_right {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-<<<<<<< HEAD
-#nfbgoevdyv .gt_font_normal {
+#ocymqskppb .gt_font_normal {
   font-weight: normal;
 }
 
-#nfbgoevdyv .gt_font_bold {
+#ocymqskppb .gt_font_bold {
   font-weight: bold;
 }
 
-#nfbgoevdyv .gt_font_italic {
+#ocymqskppb .gt_font_italic {
   font-style: italic;
 }
 
-#nfbgoevdyv .gt_super {
+#ocymqskppb .gt_super {
   font-size: 65%;
 }
 
-#nfbgoevdyv .gt_footnote_marks {
-=======
-#wlneydcgtm .gt_font_normal {
-  font-weight: normal;
-}
-
-#wlneydcgtm .gt_font_bold {
-  font-weight: bold;
-}
-
-#wlneydcgtm .gt_font_italic {
-  font-style: italic;
-}
-
-#wlneydcgtm .gt_super {
-  font-size: 65%;
-}
-
-#wlneydcgtm .gt_footnote_marks {
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+#ocymqskppb .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -2572,53 +1950,30 @@ samples_33 &lt;-
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">0.47</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.10</td>
-<td class="gt_row gt_right">0.10</td></tr>
-<<<<<<< HEAD
-    <tr><td class="gt_row gt_right">0.76</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.44</td>
-<td class="gt_row gt_right">0.44</td></tr>
-    <tr><td class="gt_row gt_right">0.86</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.64</td>
-<td class="gt_row gt_right">0.64</td></tr>
-    <tr><td class="gt_row gt_right">0.76</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.44</td>
-<td class="gt_row gt_right">0.44</td></tr>
     <tr><td class="gt_row gt_right">0.81</td>
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_right">0.53</td>
 <td class="gt_row gt_right">0.53</td></tr>
-    <tr><td class="gt_row gt_right">0.97</td>
+    <tr><td class="gt_row gt_right">0.89</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.91</td>
-<td class="gt_row gt_right">0.91</td></tr>
-=======
-    <tr><td class="gt_row gt_right">0.62</td>
+<td class="gt_row gt_right">0.70</td>
+<td class="gt_row gt_right">0.70</td></tr>
+    <tr><td class="gt_row gt_right">0.90</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.24</td>
-<td class="gt_row gt_right">0.24</td></tr>
-    <tr><td class="gt_row gt_right">0.49</td>
+<td class="gt_row gt_right">0.73</td>
+<td class="gt_row gt_right">0.73</td></tr>
+    <tr><td class="gt_row gt_right">0.85</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.12</td>
-<td class="gt_row gt_right">0.12</td></tr>
-    <tr><td class="gt_row gt_right">0.87</td>
+<td class="gt_row gt_right">0.61</td>
+<td class="gt_row gt_right">0.61</td></tr>
+    <tr><td class="gt_row gt_right">0.85</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.66</td>
-<td class="gt_row gt_right">0.66</td></tr>
-    <tr><td class="gt_row gt_right">0.71</td>
+<td class="gt_row gt_right">0.61</td>
+<td class="gt_row gt_right">0.61</td></tr>
+    <tr><td class="gt_row gt_right">0.75</td>
 <td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.36</td>
-<td class="gt_row gt_right">0.36</td></tr>
-    <tr><td class="gt_row gt_right">0.86</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.64</td>
-<td class="gt_row gt_right">0.64</td></tr>
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+<td class="gt_row gt_right">0.42</td>
+<td class="gt_row gt_right">0.42</td></tr>
   </tbody>
   
   
@@ -2726,11 +2081,7 @@ samples %&gt;%
 ## # A tibble: 1 × 3
 ##    mean median modus
 ##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-<<<<<<< HEAD
 ## 1 0.636  0.667 0.667
-=======
-## 1 0.638  0.667 0.667
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
 ```
 
 ]
@@ -2754,11 +2105,7 @@ samples %&gt;%
 ## # A tibble: 1 × 3
 ##    p_sd p_iqr p_mad
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-<<<<<<< HEAD
-## 1 0.140 0.222 0.165
-=======
 ## 1 0.139 0.222 0.165
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
 ```
 ]
 
@@ -3128,11 +2475,7 @@ class: center, middle, inverse
   - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-<<<<<<< HEAD
-- Dieses Skript wurde erstellt am 2021-10-28 11:43:22 (WiSe 21).
-=======
-- Dieses Skript wurde erstellt am 2021-10-28 11:39:49 (WiSe 21).
->>>>>>> d59386e3b8c5d8e0c77ed2690dbc39ccdd5174e2
+- Dieses Skript wurde erstellt am 2021-10-28 15:53:28 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
@@ -3154,30 +2497,16 @@ name: literatur
 ## Literatur
 
 
-&lt;a
-name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz,
-A.
-S.](#cite-kurz_statistical_2021)
-(2021). _Statistical
-rethinking with brms,
-ggplot2, and the
-tidyverse: Second
-edition_. URL:
+&lt;a name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz, A.
+S.](#cite-kurz_statistical_2021) (2021). _Statistical rethinking with
+brms, ggplot2, and the tidyverse: Second edition_. URL:
 [https://bookdown.org/content/4857/](https://bookdown.org/content/4857/)
-(visited on Sep. 08,
-2021).
+(visited on Sep. 08, 2021).
 
-&lt;a
-name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
-R.](#cite-mcelreath_statistical_2020)
-(2020). _Statistical
-rethinking: a Bayesian
-course with examples in R
-and Stan_. 2nd ed. CRC
-texts in statistical
-science. Boca Raton:
-Taylor and Francis, CRC
-Press. ISBN:
+&lt;a name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
+a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
+statistical science. Boca Raton: Taylor and Francis, CRC Press. ISBN:
 978-0-367-13991-9.
 
     </textarea>
