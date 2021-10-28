@@ -112,7 +112,7 @@ Solche Fragen kann man in drei Gruppen aufteilen:
 ---
 
 
-
+name:haeufig
 
 ## Häufigkeiten sind einfacher als Wahrscheinlichkeiten
 

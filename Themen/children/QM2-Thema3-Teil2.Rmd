@@ -219,6 +219,7 @@ d_small %>%
 ## PPV berechnen
 
 .pull-left[
+[Tabelle `samples`](#haeufig)
 ```{r pp-plot1, echo = TRUE, eval = TRUE}
 ppv <- 
   rbinom(1e4, 
