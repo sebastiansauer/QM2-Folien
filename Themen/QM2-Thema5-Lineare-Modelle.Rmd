@@ -43,6 +43,7 @@ rethink_chap <- "4.4"
 .center2[.Large[
 1. [Teil 1: Die Post-Verteilung der Regression berechnen](#teil1)
 2. [Teil 2: Die Post-Verteilung befragen](#teil2)
+3. [Teil 3: Die PPV befragen](#teil3)
 3. [Hinweise](#hinweise)
 4. [Literatur](#literatur)
 ]]

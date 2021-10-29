@@ -8,30 +8,40 @@ library("latex2exp")
 library("patchwork")
 library("gt")
 library("rethinking")
-library("tidyverse")
+library(rstanarm)
+#library("tidyverse")
 ```
 
 # Die Post-Verteilung befragen
 
 ---
 
-## Post-Verteilung 1: Mittelwerte von $\alpha$ und $\beta$
+## Mittelwerte von $\alpha$ und $\beta$ aus der Post-Verteilung
 
 .pull-left[
 ```{r Post-Regression-befragen-2, echo = TRUE}
 post_m43a <-
-  extract.samples(m43a)
+  as_tibble(m43a)
 ```
 
+Die ersten paar Zeilen:
 
 ```{r Post-Regression-befragen-3}
 post_m43a %>% 
+  mutate(id = 1:nrow(post_m43a), .before = 1) %>% 
   head(n=3) %>% 
   gt() %>% 
-  fmt_number(columns = everything(), decimals = 1)
+  fmt_number(columns = 2:4, decimals = 1)
 ```
 
+]
+
+.pull-right[
+
 ```{r Post-Regression-befragen-4, echo = TRUE}
+names(post_m43a) <- 
+  c("a", "b", "sigma")
+
 post_m43a_summary <-
   post_m43a %>% 
   summarise(
@@ -39,19 +49,37 @@ post_m43a_summary <-
     b_mean = mean(b),
     s_mean = mean(sigma))
 ```
+
+
 ```{r Post-Regression-befragen-5}
 post_m43a_summary %>% 
   gt() %>% 
-  fmt_number(everything(), decimals = 1)
+  fmt_number(1:3, decimals = 1)
 ```
 
 
 
 ]
 
+---
+
+
+## Visualisieren der "mittleren" Regressiongeraden
+
+
+.pull-left[
+
+```{r}
+post_m43a_summary %>% 
+  gt() %>% 
+  fmt_number(1:3, decimals = 1)
+```
+
+]
+
 .pull-right[
 
-```{r Post-Regression-befragen-6, echo = TRUE}
+```{r Post-Regression-befragen-6, echo = TRUE, eval = FALSE}
 d2 %>% 
   ggplot() +
   aes(x = weight_c, y = height) +
@@ -63,6 +91,12 @@ d2 %>%
 ```
 
 ]
+
+
+```{r ref.label="Post-Regression-befragen-6", echo = FALSE, fig.asp = .4}
+
+```
+
 
 ---
 
@@ -111,19 +145,21 @@ post_m43a_summary2 %>%
 ---
 
 
-## Post-Verteilung 2: Ungewissheit von $\alpha$ und $\beta$
+## Ungewissheit von $\alpha$ und $\beta$ aus der Post-Verteilung
 
 
 .pull-left[
 Die ersten 10 Stichproben
 ```{r Post-Regression-befragen-10, echo = TRUE}
 d2 %>% 
-  ggplot(aes(x = weight_c, y = height)) +
+  ggplot(aes(x = weight_c, 
+             y = height)) +
   geom_point() +
-  geom_abline(data = post_m43a %>% slice_head(n=10),
-              aes(slope = b,
-                  intercept = a),
-              alpha = .3)
+  geom_abline(
+    data = post_m43a %>% slice_head(n=10),
+    aes(slope = b,
+        intercept = a),
+    alpha = .3)
 ```
 
 
@@ -136,12 +172,14 @@ d2 %>%
 Die ersten 100 Stichproben
 ```{r Post-Regression-befragen-11, echo = TRUE}
 d2 %>% 
-  ggplot(aes(x = weight_c, y = height)) +
+  ggplot(aes(x = weight_c, 
+             y = height)) +
   geom_point() +
-  geom_abline(data = post_m43a %>% slice_head(n=100),
-              aes(slope = b,
-                  intercept = a),
-              alpha = .05)
+  geom_abline(
+    data = post_m43a %>% slice_head(n=100),
+    aes(slope = b,
+        intercept = a),
+    alpha = .02)
 ```
 
 
@@ -150,13 +188,15 @@ d2 %>%
 
 ---
 
-## Fragen zum Achsenabschnitt (mittlere Größe)
+## Fragen zu Quantilen des Achsenabschnitts 
+
+Bei einem zentrierten Prädiktor misst der Achsenabschnitt die mittlere Größe.
 
 .pull-left[
 - Welche mittlere Größe mit zu 50%, 90% Wskt. nicht überschritten?
 - Welche mittlere Größe mit zu 95% Wskt. nicht unterschritten?
 - Von wo bis wo reicht der innere 50%-Schätzbereich der mittleren Größe?
-- Wie wahrscheinlich ist es, dass die mittlere Größe bei 155 cm oder mehr liegt?
+
 
 
 ```{r quantile-post, echo = FALSE, eval = TRUE}
@@ -175,8 +215,6 @@ post_m43a %>%
     quantile(a, 
              prob = c(.25, .75)))
 
-post_m43a %>% 
-  count(a >= 155)
 ```
 
 ]
@@ -188,6 +226,60 @@ post_m43a %>%
 
 ]
 
+---
+## Fragen zu Wahrscheinlichkeitsmassen des Achsenabschnitts 
+
+Bei einem zentrierten Prädiktor misst der Achsenabschnitt die mittlere Größe.
+
+.pull-left[
+- Wie wahrscheinlich ist es, dass die mittlere Größe bei mind. 155 cm liegt?
+
+
+```{r echo = TRUE}
+post_m43a %>% 
+  count(gross = a >= 155) %>% 
+  mutate(prop = n / sum(n))
+```
+
+```{r}
+wskt_gross <- 
+  post_m43a %>% 
+  count(gross = a >= 155) %>% 
+  mutate(prop = n / sum(n)) %>% 
+  pull(prop) %>% 
+  `[`(2) %>% 
+  round(2)
+```
+
+Die Wahrscheinlichkeit beträgt `r wskt_gross`.
+]
+
+.pull-right[
+
+- Wie wahrscheinlich ist es, dass die mittlere Größe höchstens 154.5 cm beträgt?
+
+
+```{r echo = TRUE}
+post_m43a %>% 
+  count(klein = (a <= 154.5)) %>% 
+  mutate(prop = n / sum(n))
+```
+
+```{r}
+wskt_klein <- 
+  post_m43a %>% 
+  count(klein = a <= 154.5) %>% 
+  mutate(prop = n / sum(n)) %>% 
+  pull(prop) %>% 
+  `[`(2) %>% 
+  round(2)
+```
+
+
+Die Wahrscheinlichkeit beträgt `r wskt_klein`.
+]
+
+
 
 
 ---
@@ -198,6 +290,8 @@ post_m43a %>%
 
 .pull-left[
 
+### Achsenabschnitt
+
 ```{r Post-Regression-befragen-13, echo = TRUE, eval = TRUE}
 post_m43a %>% 
   ggplot(aes(x = a)) +
@@ -207,6 +301,8 @@ post_m43a %>%
 ]
 
 .pull-right[
+
+### Regressionsgewicht (Steigung)
 
 ```{r Post-Regression-befragen-14, echo = TRUE}
 post_m43a %>% 
@@ -223,14 +319,13 @@ post_m43a %>%
 ## Ungewissheit für $\mu|\text{weight}=45, 50$
 
 .pull-left[
-
+- 50 kg ist 5 kg über dem MW
+- `b` ist zentriert: `b=0` ist MW von `weight`
 ```{r mu-at-50, echo = TRUE}
 mu_at_45_50 <-
   post_m43a %>% 
   mutate(mu_at_45 = a,
          mu_at_50 = a + b * 5)
-# 50kg ist 5 kg über dem MW
-# b ist zentriert: b=0 ist MW von weight
 ```
 
 
@@ -257,7 +352,8 @@ mu_at_45_50 %>%
   ggplot(aes(x = mu_at_45)) +
   geom_density() +
   scale_y_continuous(NULL, breaks = NULL) +
-  xlab(expression(mu["height | weight = 45"])) 
+  xlab(expression(mu["height | weight = 45"])) +
+  scale_x_continuous(limits = c(150, 160))
 ```
 
 
@@ -266,7 +362,8 @@ mu_at_45_50 %>%
   ggplot(aes(x = mu_at_50)) +
   geom_density() +
   scale_y_continuous(NULL, breaks = NULL) +
-  xlab(expression(mu["height | weight = 50"])) 
+  xlab(expression(mu["height | weight = 50"])) +
+  scale_x_continuous(limits = c(150, 160))
 ```
 
 
@@ -278,11 +375,13 @@ mu_at_45_50 %>%
 
 ## Wie groß ist ein !Kung mit 50kg Gewicht im Mittel?
 
+$\mu|w=50$
+
 ```{r Post-Regression-befragen-19, echo = TRUE}
 mu_at_45_50 %>% 
   summarise(pi = quantile(mu_at_50, prob = c(0.5, .9)))
 ```
-Die mittlere Größe liegt mit 90% Wahrscheinlichkeit zwischen den beiden Werten.
+Die mittlere Größe - gegeben $w=50$ - liegt mit 90% Wahrscheinlichkeit zwischen den beiden Werten.
 
 
 Welche mittlere Größe wird mit 95% Wahrscheinlichkeit nicht überschritten, wenn die Person 45kg wiegt?
@@ -293,305 +392,5 @@ mu_at_45_50 %>%
 ```
 
 ---
-
-
-
-## Posteriori-Verteilungen für alle Größen
-
-Die Funktion `link()` erstellt eine Posteriori-Verteilung für jeden Wert des Prädiktors (`weight`), im Standard werden 1000 Stichproben aus der Posteriori-Verteilung gezogen (für jede Beobachtung im Datensatz `d2`).
-
-.pull-left[
-```{r Post-Regression-befragen-21, echo = TRUE}
-weight_seq <- 
-  seq(-20,20, by = 1)
-mu <- link(m43a, 
-  data = tibble(
-    weight_c=weight_seq)) %>% 
-  as_tibble()
-
-dim(mu)  # 1000 Zeilen, 41 Spalten
-```
-
-
-```{r Post-Regression-befragen-22, out.width="45%"}
-knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/link.png")
-```
-]
-
-.pull-right[
-Auszug aus `mu`:
-```{r Post-Regression-befragen-23}
-mu %>% 
-  select(1:7) %>% 
-  slice_head(n = 5) %>% 
-  gt() %>% 
-  fmt_number(everything(), decimals = 0)
-```
-
-In den *Zeilen* stehen die (1000) Stichproben aus der Posteriori-Verteilung; in den *Spalten* die (41) verschiedenen Gewichtswerte. In den Zellen steht jeweils die mittere geschätzte Größe.
-
-]
-
----
-
-## !Kung-Größen mit Schätzbereich für $\mu$
-
-.pull-left[
-```{r mu-tidy, echo = TRUE}
-mu_tidy <- 
-  mu %>% 
-  map_dfr(PI) %>% 
-  mutate(
-    weight_c = weight_seq,
-    mu = 155 + 0.9*weight_c)
-```
-
-```{r Post-Regression-befragen-24}
-mu_tidy %>% 
-  slice_head(n = 5) %>% 
-  gt() %>%   
-  fmt_number(everything(),
-             decimals = 0)
-```
-
-`PI()` berechnet im Default Intervalle mit 89%-Breite (die Zahl gefiel dem Autor der Funktion. 🤷)
-]
-
-.pull-right[
-```{r mu-all-plot, echo=TRUE, eval = TRUE, results="hide"}
-d2 %>% 
-  ggplot(aes(x = weight_c)) +
-  geom_point(aes(
-    y = height),
-    alpha = .5) +
-  geom_smooth(data = mu_tidy,
-              aes(y = mu,
-                  ymin = `5%`, 
-                  ymax = `94%`),
-              stat = "identity",
-              color = "blue")
-```
-
-]
-
----
-
-## Körpergrößen simulieren: PPV
-
-- Die Posteriori-Verteilung (`m43_post`) gibt uns Stichproben für die Parameter, d.i. $\alpha, \sigma,\beta$ des Modells, z.B. Zeile 1:
-
-```{r Post-Regression-befragen-25}
-post_m43a %>% 
-  mutate(id = 1:nrow(.), .before = 1) %>% 
-  slice_head(n = 1) %>% 
-  gt() %>% 
-  fmt_number(everything(), decimals = 0)
-```
-
-- Auf dieser Basis können wir $h_i \sim \mathcal{N}(\mu_i=\alpha, \sigma)$ schätzen, also eine tatsächliche Größe:
-
-```{r Post-Regression-befragen-26, echo = TRUE}
-h_1 <- rnorm(n = 1, mean = 155, sd = 5)
-h_1
-```
-
-- Das wiederholen wir oft (z.B. $10^4$ Mal).
-
-- Voilà: Unsere Posteriori-Prädiktiv-Verteilung (PPV).
-
-
----
-
-## PPV plotten
-
-
-.pull-left[
-```{r Post-Regression-befragen-27, echo = TRUE}
-set.seed(42)
-ppv <-
-  tibble(
-    ppv = rnorm(
-      n = 1e4, 
-      mean = post_m43a$a, 
-      sd = post_m43a$sigma))
-```
-
-```{r ppv-regr, echo = TRUE, eval = FALSE}
-ppv %>% 
-  ggplot(aes(x = ppv)) +
-  geom_density()
-```
-
-
-]
-
-.pull-right[
-
-```{r Post-Regression-befragen-28, ref.label="ppv-regr", eval = TRUE}
-
-```
-
-]
-
----
-
-## Fragen an die PPV
-
-.pull-left[
-- Wie groß sind die !Kung im Schnitt?
-- Welche Größe wird von 90% der Personen nicht überschritten?
-- Wie groß sind die 10% kleinsten?
-
-```{r Post-Regression-befragen-29, echo = TRUE }
-ppv %>% 
-  summarise(
-    q_50 = quantile(
-      ppv, prob = .5),
-    height_mean = mean(ppv),
-    q_90 = quantile(
-      ppv, prob = .9),
-    q_10 = quantile(
-      ppv, prob = .1)
-  )
-```
-
-]
-
-.pull-right[
-- Was ist der 50% Bereich der Körpergröße?
-
-```{r Post-Regression-befragen-30, echo = TRUE}
-ppv %>% 
-  summarise(
-    pi_50 = quantile(
-      ppv, 
-      prob = c(.25, .75))
-  )
-```
-
-]
-
-
-
-
-
----
-
-## Vorhersage-Intervall
-
-Simulieren wir die tatsächlichen Größen bedingt auf ein bestimmtes Körpergewicht:
-
-
-```{r Post-Regression-befragen-31}
-post_m43a %>% 
-  mutate(id = 1:nrow(.), .before = 1) %>% 
-  slice_head(n = 1) %>% 
-  gt() %>% 
-  fmt_number(everything(), decimals = 0)
-```
-
-
-
-- Auf dieser Basis können wir $h_i \sim \mathcal{N}(\mu_i=\alpha +\beta \cdot \text{weight}_i, \sigma)$ schätzen, also eine tatsächliche Größe, bedingt auf ein Gewicht, sagen wir 55 kg (10kg über dem Mittelwert):
-
-```{r Post-Regression-befragen-32, echo = TRUE}
-h_1_55kg <- rnorm(n = 1, mean = 155 + 0.9*10, sd = 5)
-h_1_55kg
-```
-
-- Das wiederholen wir oft (z.B. $10^4$ Mal) für jeden Gewichtswert, der uns interessiert.
-
-- Voilà: Unsere PPV bedingt auf die Gewichtswerte.
-
-- Mit `sim()` können wir uns diese Arbeit abnehmen lassen.
-
-
----
-
-
-## Bedingte PPV visualisiert, 1
-
-`sim()` berechnen eine PPV bedingt auf Gewichtswerte 
-
-.pull-left[
-```{r sim-height, echo = TRUE}
-sim_height <- sim(
-  m43a,
-  data = tibble(
-    weight_c = weight_seq)
-  ) %>% 
-  as_tibble()
-
-dim(sim_height)
-```
-
-
-]
-
-.pull-right[
-```{r Post-Regression-befragen-33}
-sim_height %>% 
-  slice_head(n=5) %>% 
-  select(1:5) %>% 
-  gt() %>% 
-  fmt_number(everything(), decimals = 0)
-```
-
-Die Tabelle sieht aus wie die vorherige, $\mu$, aber sie enthält simulierte Größenwerte, keine $\mu$-Werte.
-
-]
-
-
----
-
-## Bedingte PPV visualisiert, 2
-
-.pull-left[
-```{r Post-Regression-befragen-34, echo = TRUE}
-sim_height_tidy <-
-  sim_height %>% 
-  map_dfr(PI) %>% 
-  mutate(
-    weight_c = weight_seq,
-    mu = 155 + 0.9*weight_c)
-```
-
-```{r Post-Regression-befragen-35}
-sim_height_tidy %>% 
-  slice_head(n=5) %>% 
-  gt() %>% 
-  fmt_number(everything(), decimals = 0)
-```
-
-]
-
-.pull-right[
-
-```{r sim-all-plot, echo=TRUE, eval = TRUE, results="hide"}
-d2 %>% 
-  ggplot(aes(x = weight_c)) +
-  geom_point(aes(
-    y = height),
-    alpha = .5) +
-  geom_smooth(data = sim_height_tidy,
-              aes(y = mu,
-                  ymin = `5%`, 
-                  ymax = `94%`),
-              stat = "identity",
-              color = "blue")
-```
-
-]
-
-
----
-
-
-
-
-
-
-
-
 
 

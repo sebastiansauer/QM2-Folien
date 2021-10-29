@@ -1,0 +1,213 @@
+
+name: teil3
+
+# Die PPV befragen
+
+## Perzentil-Intervalle für verschiedenen Prädiktor-Werte
+
+
+Wir erstellen uns eine Sequenz an Prädiktorwerten, die uns interessieren:
+
+```{r}
+weight_df <-
+  tibble(
+    weight_c = seq(-20,20, by = 5))
+
+```
+
+
+Für diese Werte lassen wir uns dann die Perzentil-Intervalle ausgeben:
+
+.pull-left[
+```{r Post-Regression-befragen-21, echo = TRUE}
+
+mus <- 
+  predictive_interval(
+    m43a, 
+    newdata = weight_df) %>% 
+  as_tibble() %>% 
+  bind_cols(weight_df)
+```
+
+Um die Perzentilintervalle zu erstellen, wird für jeden Prädiktorwert eine Posteriori-Verteilung erstellt und das 5%- sowie 95%-Quantil berechnet.
+
+
+]
+
+.pull-right[
+
+```{r Post-Regression-befragen-23}
+mus %>% 
+  relocate(weight_c, .before = 1) %>% 
+  gt() %>% 
+  fmt_number(everything(), decimals = 1)
+```
+
+
+
+
+]
+
+---
+
+## Perzentilintervalle für verschiedenen Prädiktorwerte visualisiert
+
+.pull-left[
+
+```{r}
+mus <- 
+  mus %>% 
+  mutate(height = 154.6 + 0.9*weight_c)
+
+d2 %>% 
+  ggplot(aes(x = weight_c, y = height)) +
+  geom_point() +
+  geom_abline(slope = coef(m43a)[2], intercept = coef(m43a)[1], color = "blue") +
+  geom_errorbar(data = mus,
+                aes(ymin = `5%`,
+                    ymax = `95%`),
+                size = .5,
+                width = .5,
+                color = "grey60")
+```
+]
+
+.pull-right[
+
+
+```{r}
+ppv_m43_weight_df <-
+  posterior_predict(m43a,
+                    newdata = weight_df) %>% 
+  as_tibble() %>% 
+  pivot_longer(everything(),
+               names_to = "weight_condition",
+               values_to = "height")
+
+weight_df <-
+  weight_df %>% 
+  mutate(weight_condition = as.character(c(1:9)))
+
+ppv_m43_weight_df <- 
+  ppv_m43_weight_df %>% 
+  full_join(weight_df, by = "weight_condition")
+
+d2 %>% 
+  ggplot() +
+  geom_violin(data = ppv_m43_weight_df,
+              aes(x = weight_c, y = height, group = weight_c),
+                fill = "grey80",
+              width = 1) +
+    geom_point(aes(x = weight_c, y = height)) +
+  geom_abline(slope = coef(m43a)[2], intercept = coef(m43a)[1], color = "blue")
+```
+
+
+]
+
+
+---
+
+PPV visualisiert
+
+.pull-left[
+Vergleichen wir die echten Werte für `height`, $h$, mit den von der PPV simulierten Werten für `height`, $h_{sim}$.
+
+```{r ppv-plot1, eval = FALSE, echo = TRUE}
+library(bayesplot)
+h <- d2$height
+h_sim <- 
+  posterior_predict(m43a, 
+                    draws = 50)
+ppc_dens_overlay(
+  h, h_sim)
+```
+
+Die zwei Gipfel hat unser Modell nicht mitgekriegt, ansonsten decken sich die Vorhersagen der PPV gut mit den echten Daten.
+
+]
+
+.pull-right[
+
+```{r ref.label="ppv-plot1"}
+
+```
+
+]
+
+
+
+---
+
+
+
+## PPV plotten, von Hand
+
+
+
+```{r Post-Regression-befragen-27, echo = TRUE}
+set.seed(42)
+ppv_m43a <- posterior_predict(
+  m43a,
+  newdata = weight_df,
+  draws = 100) %>% 
+  as_tibble() %>% 
+  pivot_longer(
+    columns = everything(),
+    names_to = "weight_condition",
+    values_to = "height")
+```
+
+```{r ppv-regr, echo = TRUE, eval = FALSE, fig.asp = .4}
+ppv_m43a %>% 
+  ggplot(aes(x = height)) +
+  geom_density()
+```
+
+
+
+
+
+---
+
+## Fragen an die PPV
+
+.pull-left[
+- Wie groß sind die !Kung im Schnitt?
+- Welche Größe wird von 90% der Personen nicht überschritten?
+- Wie groß sind die 10% kleinsten?
+
+```{r Post-Regression-befragen-29, echo = TRUE }
+ppv_m43a %>% 
+  summarise(
+    q_10 = quantile(
+      height, prob = .1),
+    height_mean = mean(height),
+    q_50 = quantile(
+      height, prob = .5),
+    q_90 = quantile(
+      height, prob = .9)
+  )
+```
+
+]
+
+.pull-right[
+- Was ist der 50% Bereich der Körpergröße?
+
+```{r Post-Regression-befragen-30, echo = TRUE}
+ppv_m43a %>% 
+  summarise(
+    pi_50 = quantile(
+      height, 
+      prob = c(.25, .75))
+  )
+```
+
+]
+
+
+
+
+
+---

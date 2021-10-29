@@ -71,9 +71,7 @@ Kung_path <- "https://tinyurl.com/jr7ckxxj"  # Datenquelle s.o.
 
 d <- read_csv(Kung_path)  
 
-d2 <- 
-  d %>% 
-  filter(age > 18)
+d2 <- d %>% filter(age > 18)
 
 get_summary_stats(d2)
 ```
@@ -132,7 +130,7 @@ d2 %>%
               alpha = .7,
               color = "blue",
               size = 2) +
-  labs(caption = "Vertikale Linie: Mittelwert\nhorizontale Linie: Std. Abweichung")
+  labs(caption = "Vertikale Linie: Mittelwert\nhorizontale Linie: Standardabweichung")
 ```
 
 
@@ -192,7 +190,7 @@ d2 %>%
 ---
 
 
-## Für jede Ausprägung des Prädiktors brauchen wir eine  Post-Verteilung für $\mu$
+## Bei jedem Prädiktorwert eine Post-Verteilung für $\mu$
 
 
 
@@ -218,6 +216,7 @@ plot_post_42 <-
        title = TeX("Posteriori-Verteilung für $\\mu$, m42")) +
   scale_y_continuous(breaks = NULL)
 ```
+
 
 ```{r Post-Regression-11}
 
@@ -296,7 +295,9 @@ post_at_plot <-
   facet_wrap(~ weight_condition, nrow = 1, scales = "free") +
   scale_y_continuous(breaks = NULL) +
   labs(title = "Post-Verteilungen an verschiedenen Werten von X",
-       caption = "MW±2sd") +
+       caption = "MW±2sd",
+       x = "Größe",
+       y = "Post-Wskt") +
   geom_point(data = ppv_m43_summary,
              aes(x = m,
                  y = 0),
@@ -308,13 +309,13 @@ post_at_plot <-
                yend = 0,
                color = "blue",
                alpha = .5,
-               size = 2)
+               size = 2) 
 ```
 
 
 
 ```{r Post-Regression-12, out.width="100%", fig.width=7}
-p1 <- (plot_post_41 | plot_condition) / post_at_plot
+p1 <- (plot_condition) / post_at_plot
 p1
 ```
 
@@ -322,7 +323,7 @@ p1
 
 ## Modelldefinition von `m43`
 
-- Für jede Ausprägung von `weight`, $h_i$ wird eine Post-Verteilung für `height` berechnet.
+- Für jede Ausprägung des Prädiktors (`weight`), $h_i$, wird eine Post-Verteilung für die abhängige Variable (`height`) berechnet.
 - Der Mittelwert $\mu$ für jede Post-Verteilung ergibt sich aus dem .green[linearen Modell (unserer Regressionsformel)].
 - Die Post-Verteilung berechnet sich auf Basis der .blue[Priori-Werte] und des .red[Likelihood] (Bayes-Formel).
 - Wir brauchen .blue[Priori-Werte] für die Steigung $\beta$ und den Achsenabschnitt $\alpha$ der Regressionsgeraden.
@@ -408,37 +409,40 @@ $$
 - $\sigma$ ist uns schon als Parameter bekannt und behält seine Bedeutung.
 - $\beta$ fasst unser Vorwissen, ob und wie sehr der Zusammenhang zwischen Gewicht und Größe positiv (gleichsinnig ist).
    - 🤔 Moment. Dieser Prior, $\beta$ erachtet positive und negative Zusammenhang als gleich wahrscheinlich?!
+   - Sind wir wirklich indifferent, ob der Zusammenhang von Gewicht und Größe positiv oder negativ ist? [Nein, sind wir nicht.](https://media.giphy.com/media/daPCSjwus6UR2JxRX1/giphy.gif) 
     
     
 ---
 
+## Priori-Prädiktiv-Verteilung für `m43`
 
-## Prior-Prädiktiv-Simulation für `m43`
 
 
-.right-column[
+- Was denkt [wir](https://media.giphy.com/media/Aausss8uUBIe3bZ3d2/giphy.gif) bzw. unser Golem *apriori* über den Zusammenhang von Größe und Gewicht?
+- Um diese Frage zu beantworten ziehen wir Stichproben aus den Priori-Verteilungen des Modells, also für $\alpha$, $\beta$ und $\sigma$.
 
-```{r echo = TRUE}
+.pull-left[
+
+```{r m43-prior-pred}
 m43_prior_pred <-
     stan_glm(height ~ weight_c, 
              prior = normal(0, 10),
              prior_intercept = normal(178, 20),  # mu
              prior_aux = exponential(0.1),  # sigma
              refresh = FALSE, 
-             prior_PD = TRUE,  # DIESER Schalter machts
+             prior_PD = TRUE,  # Schalter für Prior-Pred-Verteilung
              data = d2)
 
 
 m43_prior_pred_draws <- 
   m43_prior_pred %>% 
   as_tibble() %>% 
-  rename(a = `(Intercept)`) 
+  rename(a = `(Intercept)`,
+         b = weight_c) %>% 
+  slice_sample(n = 50)
 ```
 
-]
 
-
-.left-column[
 
 ```{r}
 m43_prior_pred_draws %>% 
@@ -449,43 +453,71 @@ m43_prior_pred_draws %>%
 
 ]
 
+.pull-right[
+
+Jede Zeile definiert eine Regressionsgerade.
+
+]
+
+---
+
+## Prior-Prädiktiv-Simulation für `m43` mit `stan_glm()` 
+
+
+
+
+```{r echo = TRUE, eval = FALSE}
+m43_prior_pred <-
+    stan_glm(height ~ weight_c, 
+             prior = normal(0, 10),
+             prior_intercept = normal(178, 20),  # mu
+             prior_aux = exponential(0.1),  # sigma
+             refresh = FALSE, 
+             prior_PD = TRUE,  # DIESER Schalter machts
+             data = d2)
+
+m43_prior_pred_draws <- 
+  m43_prior_pred %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`,
+         b = weight_c) %>% 
+  slice_sample(n = 50)
+```
+
+]
+
+
+
 
 ---
 
 ## Visualisieren der Prior-Prädiktiv-Verteilung
 
-.pull-left[
 
-```{r prior-pv1, echo = TRUE, eval = FALSE}
-d2 %>% 
-  ggplot(aes(x = weight_c,
-             y = height)) +
-  geom_point() +
-  geom_abline(data = m43_prior_pred_draws %>% slice_head(n = 50),
-              aes(intercept = a,
-                  slope = weight_c),
-              color = "skyblue", size = 0.2) +
+
+```{r prior-pv1, echo = TRUE, eval = FALSE, fig.asp = .5}
+d2 %>% ggplot() +
+  geom_point(aes(x = weight_c, y = height)) + 
+  geom_abline(data = m43_prior_pred_draws,
+aes(intercept = a, slope = b), color = "skyblue", size = 0.2) +
   scale_y_continuous(limits = c(0, 500)) +
   geom_hline(yintercept = 272, size = .5) +
   geom_hline(yintercept = 0, linetype = "dashed")
 ```
 
 
-]
+
+🤯 Einige dieser Regressionsgeraden sind unsinnig!
 
 
-.pull-right[
-🤯 Oh nein! Einige dieser Regressionsgeraden sind unsinnig!
-
-
-```{r ref.label = "prior-pv1", eval = TRUE}
+```{r ref.label = "prior-pv1", eval = TRUE, fig.asp = .5}
 
 ```
 
 
 .tiny[Die durchgezogene horizontale Linie gibt die Größe des [größten Menschens, Robert Pershing Wadlow](https://en.wikipedia.org/wiki/Robert_Wadlow), an.]
 
-]
+
 
 
 ---
@@ -499,7 +531,7 @@ d2 %>%
 
 Eine Normalverteilung mit viel Streuung:
 
-```{r Post-Regression-16}
+```{r Post-Regression-16, fig.asp = .5}
 d <-
   tibble(
     x = seq(-30,30,.1),
@@ -513,7 +545,7 @@ d %>%
   labs(title = "mu=0, s=10")
 ```
 
-🤯 $\beta=-20$ wäre mit diesem Prior gut möglich: Pro kg Gewicht sind Menschen im Schnitt 20cm kleiner, laut dem Modell. Quatsch.
+👎 $\beta=-20$ wäre mit diesem Prior gut möglich: Pro kg Gewicht sind Menschen im Schnitt 20cm kleiner, laut dem Modell. Quatsch.
 ]
 
 
@@ -522,11 +554,11 @@ d %>%
 
 Wir bräuchten eher so eine Verteilung:
 
-```{r Post-Regression-17}
+```{r Post-Regression-17, fig.asp=.5}
 d <-
   tibble(
     x = seq(-30,30,.1),
-    y = dnorm(x, mean = 5, sd = 3)
+    y = dnorm(x, mean = 3, sd = 2)
   )
 
 d %>% 
@@ -536,7 +568,7 @@ d %>%
   labs(title = "mu=5, sd = 3")
 ```
 
-Vermutlich besser: Ein Großteil der Wahrscheinlichkeitsmasse ist $X>0$. Allerdings gibt's keine Gewähr, dass unser Prior "richtig" ist.
+👍 Vermutlich besser: Ein Großteil der Wahrscheinlichkeitsmasse ist $X>0$. Allerdings gibt's keine Gewähr, dass unser Prior "richtig" ist.
 ]
 
 
@@ -550,29 +582,33 @@ Vermutlich besser: Ein Großteil der Wahrscheinlichkeitsmasse ist $X>0$. Allerdi
 
 
 .right-column[
-
 ```{r echo = TRUE}
 m43a_prior_pred <-
-    stan_glm(height ~ weight_c, 
-             prior = normal(3, 2),
-             prior_intercept = normal(178, 20),  # mu
-             prior_aux = exponential(0.1),  # sigma
-             refresh = FALSE, 
-             prior_PD = TRUE,  # DIESER Schalter machts
-             data = d2)
+    stan_glm(
+      height ~ weight_c, 
+      prior = normal(2, 2),  # Regressionsgewicht
+      prior_intercept = normal(178, 20),  # mu
+      prior_aux = exponential(0.1),  # sigma
+      refresh = FALSE, 
+      # Schalter für Prior-Pred-Verteilung:
+      prior_PD = TRUE, 
+      data = d2)
 
 
 m43a_prior_pred_draws <- 
   m43a_prior_pred %>% 
   as_tibble() %>% 
-  rename(a = `(Intercept)`) 
+  # Spaltennamen kürzen: 
+  rename(a = `(Intercept)`) %>%  
+  rename(b = weight_c,
+         s = sigma)
 ```
 
 ]
 
 
 .left-column[
-
+</br>
 ```{r}
 m43a_prior_pred_draws %>% 
   slice_head(n=5) %>% 
@@ -582,59 +618,44 @@ m43a_prior_pred_draws %>%
 
 ]
 
+
+Das Argument `prior_PD = TRUE` sorgt dafür, dass keine Posteriori-Verteilung, sondern eine Prior-Prädiktiv-Verteilung berechnet wird.
+
 ---
 
 
 ## Visualisieren der Prior-Prädiktiv-Verteilung, `m43a`
 
-.pull-left[
 
-```{r prior-pv2, echo = TRUE, eval = FALSE}
+Unsere Priori-Werte scheinen einigermaßen vernünftige Vorhersagen zu tätigen. Allerdings erwartet unser Golem einige Riesen.
+
+
+```{r, eval = TRUE}
 d2 %>% 
-  ggplot(aes(x = weight_c,
-             y = height)) +
+  ggplot(aes(x = weight_c, y = height)) +
   geom_point() +
-  geom_abline(data = m43a_prior_pred_draws %>% slice_head(n = 50),
-              aes(intercept = a,
-                  slope = weight_c),
-              color = "skyblue", size = 0.2) +
-  scale_y_continuous(limits = c(0, 500)) +
+  geom_abline(data = {m43a_prior_pred_draws %>% slice_head(n=50)},
+              aes(slope = b,
+                  intercept = a),
+              color = "skyblue",
+              size = .2,
+              alpha = .7) +
   geom_hline(yintercept = 272, size = .5) +
-  geom_hline(yintercept = 0, linetype = "dashed")
-```
-
-
-]
-
-
-.pull-right[
-
-```{r ref.label = "prior-pv2", eval = TRUE}
-
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  scale_y_continuous(limits = c(0, 500)) 
 ```
 
 
 .tiny[Die durchgezogene horizontale Linie gibt die Größe des [größten Menschens, Robert Pershing Wadlow](https://en.wikipedia.org/wiki/Robert_Wadlow), an.]
 
-]
 
-
-Das sieht gut aus; unsere Priori-Werte scheinen vernünftige Vorhersagen zu tätigen.
-
----
-
-
-
-## Prior-Prädiktiv mit R plotten: Ausgabe
-
-```{r Post-Regression-24, reeval = TRUE, echo = FALSE}
-prior_pred_plot
-```
 
 
 
 
 ---
+
+
 
 ## Moment, kann hier jeder machen, was er will?
 
@@ -657,13 +678,15 @@ prior_pred_plot
 
 
 
+
+
 ---
 
 
 ## Hier ist unser Modell, `m43a`
 
 
-.pull-left[
+
 
 $$
 \begin{align}
@@ -675,32 +698,35 @@ $$
 \end{align}
 $$
 
-]
 
-.pull-right[
 
 ```{r Post-Regression-25, echo = TRUE}
 # Zufallszahlen festlegen:
 set.seed(42)  
 # Posteriori-Vert. berechnen:
 m43a <-
-  stan_glm(height ~ weight_c, 
-           prior = normal(0, 10),
-           prior_intercept = normal(178, 20),  # mu
-           prior_aux = exponential(0.1),  # sigma
-           refresh = FALSE,
-           data = d2)
+  stan_glm(
+    height ~ weight_c,  # Regressionsformel
+    prior = normal(5, 3),  # beta
+    prior_intercept = normal(178, 20),  # mu
+    prior_aux = exponential(0.1),  # sigma
+    refresh = 0,  # zeig mir keine Details
+    data = d2)
 ```
 
 
-]
 
-```{r Post-Regression-26, echo = TRUE}
-print(m43a,
-        pars = c("(Intercept)", "weight_c"))
+
+---
+
+## Eine Zusammenfassung der Posteriori-Verteilung für `m43a`
+
+
+```{r}
+m43a
 ```
 
 
-Voilà! Die Posteriori-Verteilung für `m43a`.
+
 
 ---
