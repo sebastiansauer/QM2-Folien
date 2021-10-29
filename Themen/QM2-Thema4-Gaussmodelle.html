@@ -10,10 +10,6 @@
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
-    <script src="libs/fabric/fabric.min.js"></script>
-    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
   </head>
   <body>
     <textarea id="source">
@@ -96,9 +92,9 @@ class: center, middle, inverse, title-slide
 
 
 .center2[.Large[
-1. [Teil 1: Verteilungen](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#3)
-2. [Teil 2: Wie groß sind die !Kung San?](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#teil1)
-3. [Hinweise](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#teil2)
+1. [Teil 1: Verteilungen](#teil1)
+2. [Teil 2: Wie groß sind die !Kung San?](#teil2)
+3. [Hinweise](#hinweise)
 ]]
 
 ---
@@ -170,7 +166,7 @@ Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
 
 
 Eine *diskrete* Wahrscheinlichkeitsverteilung des Merkmals `\(X\)` ordnet jeder der `\(k\)` Ausprägungen `\(X=x\)` eine Wahrscheinlichkeit `\(p\)` zu. So hat die Variable *Geschlecht eines Babies* die beiden Ausprägungen *Mädchen* und *Junge* mit den Wahrscheinlichkeiten `\(p_M = 51.2\%\)` bzw. `\(p_J = 48.8\%\)` 
-([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021)).
+&lt;a name=cite-gelman_regression_2021&gt;&lt;/a&gt;([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021)).
 
 Bei *stetigen* Merkmalen `\(X\)` geht man von unendlich vielen Ausprägungen aus; die Wahrscheinlichkeit einer bestimmten Ausprägung ist (praktisch) Null: `\(p(X=x_j)=0, \quad j=1,...,k\)`. Daher gibt man stattdessen die *Dichte* der Wahrscheinlichkeit an: Das ist die Wahrscheinlichkeit(smasse) pro eine Einheit von `\(X\)`.
 
@@ -186,7 +182,7 @@ Bei *stetigen* Merkmalen `\(X\)` geht man von unendlich vielen Ausprägungen aus
 
 Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 40%.
 
-In Summe liegen 100$ Wahrscheinlichkeitsmasse unter der Kurve.
+In Summe liegen 100% der Wahrscheinlichkeitsmasse unter der Kurve.
 
 ]
 
@@ -203,7 +199,7 @@ Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 50% 
 
 
 Zieht man (zufällig) immer mehr Werte aus einer Verteilung (mit endlichem Mittelwert), nähert sich der Mittelwert der Stichprobe immer mehr mit dem Mittelwert (oft als Erwartungswert bezeichnet) der Verteilung an 
-([Taleb, 2019](https://nassimtaleb.org/2020/01/final-version-fat-tails/))
+&lt;a name=cite-taleb2019technical&gt;&lt;/a&gt;([Taleb, 2019](https://nassimtaleb.org/2020/01/final-version-fat-tails/))
 
 
 
@@ -238,7 +234,7 @@ Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erz
 
 &lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/ch33910f1.jpg" width="30%" style="display: block; margin: auto;" /&gt;
 
-([Freeman, 2006](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/))
+&lt;a name=cite-freeman_visual_2006&gt;&lt;/a&gt;([Freeman, 2006](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/))
 
 
 ---
@@ -733,7 +729,7 @@ Das *Quantil* `\(q\)` zur Wahrscheinlichkeit `\(p=75\)` ist 110, etc.
 `\(IQ \sim \mathcal{N}(100,15)\)`
 
 - Welcher Anteil `\(p\)` gehört zu den IQ-Werten 75, 100, 115, 130?
-- Anders gesagt: Welcher Anteil der Wahrscheinlichkeitsmasser der Verteilung liegt unter IQ=75, IQ=100, etc.?
+- Anders gesagt: Welcher Anteil der Wahrscheinlichkeitsmasse der Verteilung liegt unter IQ=75, IQ=100, etc.?
 
 .pull-left[
 Ziehen wir Stichproben aus `\(\mathcal{N}(100,15)\)`:
@@ -1152,7 +1148,7 @@ Die *Wahrscheinlichkeitsmasse* `\(p\)` zum Quantil `\(q=100\)` ist 50%, etc.
 
 ### Ontologische Begründung
 
-- Wirken viele, gleichstarke Einflüsse additiv zusammen, entsteht eine Normalverteilung  ([McElreath, 2020](#bib-mcelreath_statistical_2020)), Kap. 4.1.4.
+- Wirken viele, gleichstarke Einflüsse additiv zusammen, entsteht eine Normalverteilung  &lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;([McElreath, 2020](#bib-mcelreath_statistical_2020)), Kap. 4.1.4.
 
 ### Epistemologische Begründung
 
@@ -3015,7 +3011,7 @@ print(m41)
 &lt;/br&gt;
 &lt;img src="https://mc-stan.org/rstanarm/reference/figures/stanlogo.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-.tiny[[Quelle](https://mc-stan.org/), ([Team, 2021](https://mc-stan.org))]
+.tiny[[Quelle](https://mc-stan.org/), &lt;a name=cite-stan&gt;&lt;/a&gt;([Team, 2021](https://mc-stan.org))]
 
 ]
 
@@ -3648,10 +3644,10 @@ class: center, middle, inverse
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
   - *Statistical Rethinking* (2. Auflage), Kapitel 4.1 - 4.3, [McElreath (2020)](#bib-mcelreath_statistical_2020)
 
-  - Der R-Code stammt aus [Kurz (2021)](https://bookdown.org/content/4857/).
+  - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
 
 
-- Dieses Skript wurde erstellt am 2021-10-27 13:28:28 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-10-29 16:53:14 (WiSe 21).
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
@@ -3673,46 +3669,68 @@ name: literatur
 ## Literatur
 
 
-&lt;a name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
-M.](#cite-freeman_visual_2006) (2006). "A visual
-comparison of normal and paranormal distributions".
-In: _Journal of Epidemiology and Community Health_
-60.1, p. 6. ISSN: 0143-005X. URL:
+&lt;a
+name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
+M.](#cite-freeman_visual_2006)
+(2006). "A visual comparison
+of normal and paranormal
+distributions". In: _Journal
+of Epidemiology and Community
+Health_ 60.1, p. 6. ISSN:
+0143-005X. URL:
 [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/)
 (visited on Sep. 09, 2021).
 
-&lt;a name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman, A.,
-J. Hill, and A.
-Vehtari](#cite-gelman_regression_2021) (2021).
-_Regression and other stories_. Analytical methods
-for social research. Cambridge: Cambridge University
-Press. 534 pp. ISBN: 978-1-107-67651-0
+&lt;a
+name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
+A., J. Hill, and A.
+Vehtari](#cite-gelman_regression_2021)
+(2021). _Regression and other
+stories_. Analytical methods
+for social research.
+Cambridge: Cambridge
+University Press. 534 pp.
+ISBN: 978-1-107-67651-0
 978-1-107-02398-7.
 
-&lt;a name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz, A.
-S.](#cite-kurz_statistical_2021) (2021). _Statistical
-rethinking with brms, ggplot2, and the tidyverse:
+&lt;a
+name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz,
+A.
+S.](#cite-kurz_statistical_2021)
+(2021). _Statistical
+rethinking with brms,
+ggplot2, and the tidyverse:
 Second edition_. URL:
 [https://bookdown.org/content/4857/](https://bookdown.org/content/4857/)
 (visited on Sep. 08, 2021).
 
 &lt;a
 name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
-R.](#cite-mcelreath_statistical_2020) (2020).
-_Statistical rethinking: a Bayesian course with
-examples in R and Stan_. 2nd ed. CRC texts in
-statistical science. Boca Raton: Taylor and Francis,
-CRC Press. ISBN: 978-0-367-13991-9.
+R.](#cite-mcelreath_statistical_2020)
+(2020). _Statistical
+rethinking: a Bayesian course
+with examples in R and Stan_.
+2nd ed. CRC texts in
+statistical science. Boca
+Raton: Taylor and Francis,
+CRC Press. ISBN:
+978-0-367-13991-9.
 
-&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb, N.
-N.](#cite-taleb2019technical) (2019). _The
-statistical consequences of fat tails, papers and
-commentaries_. Publisher: Monograph. URL:
+&lt;a
+name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb,
+N.
+N.](#cite-taleb2019technical)
+(2019). _The statistical
+consequences of fat tails,
+papers and commentaries_.
+Publisher: Monograph. URL:
 [https://nassimtaleb.org/2020/01/final-version-fat-tails/](https://nassimtaleb.org/2020/01/final-version-fat-tails/).
 
-&lt;a name=bib-stan&gt;&lt;/a&gt;[Team, S. D.](#cite-stan)
-(2021). _Stan Modeling Language Users Guide and
-Reference Manual Version 2.28_. URL:
+&lt;a name=bib-stan&gt;&lt;/a&gt;[Team,
+S. D.](#cite-stan) (2021).
+_Stan Modeling Language Users
+Guide and Reference Manual
+Version 2.28_. URL:
 [https://mc-stan.org](https://mc-stan.org).
 
     </textarea>

@@ -63,7 +63,7 @@ ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
 
 Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 40%.
 
-In Summe liegen 100$ Wahrscheinlichkeitsmasse unter der Kurve.
+In Summe liegen 100% der Wahrscheinlichkeitsmasse unter der Kurve.
 
 ]
 
@@ -288,7 +288,7 @@ Das *Quantil* $q$ zur Wahrscheinlichkeit $p=75$ ist 110, etc.
 $IQ \sim \mathcal{N}(100,15)$
 
 - Welcher Anteil $p$ gehört zu den IQ-Werten 75, 100, 115, 130?
-- Anders gesagt: Welcher Anteil der Wahrscheinlichkeitsmasser der Verteilung liegt unter IQ=75, IQ=100, etc.?
+- Anders gesagt: Welcher Anteil der Wahrscheinlichkeitsmasse der Verteilung liegt unter IQ=75, IQ=100, etc.?
 
 .pull-left[
 Ziehen wir Stichproben aus $\mathcal{N}(100,15)$:

@@ -43,9 +43,9 @@ rethink_chap <- "4.1 - 4.3"
 
 
 .center2[.Large[
-1. [Teil 1: Verteilungen](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#3)
-2. [Teil 2: Wie groß sind die !Kung San?](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#teil1)
-3. [Hinweise](https://sebastiansauer.github.io/QM2-Folien/Themen/QM2-Thema4-Gaussmodelle.html#teil2)
+1. [Teil 1: Verteilungen](#teil1)
+2. [Teil 2: Wie groß sind die !Kung San?](#teil2)
+3. [Hinweise](#hinweise)
 ]]
 
 ---
