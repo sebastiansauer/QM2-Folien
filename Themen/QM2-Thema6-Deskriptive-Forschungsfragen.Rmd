@@ -1,0 +1,77 @@
+---
+title: Deskriptive Forschungsfragen 
+subtitle: QM2, Thema 6
+#date: WiSe 21
+lang: de-DE
+#bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+institute: AWM, HS Ansbach
+output:
+  xaringan::moon_reader:
+    keep_md: false
+    css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
+    lib_dir: libs
+#    seal: true
+    nature:
+#      titleSlideClass: ["right", "bottom", "test"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    
+---
+
+
+
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd", eval = TRUE}
+```
+
+
+```{r}
+book <- "Gelman et al."
+rethink_chap <- "10"
+```
+
+
+
+
+## Gliederung
+
+
+
+
+
+.center2[.xlarge[
+1. [Teil 1: Wissenschaft als Gerechtigkeitsprojekt](#intro)
+2. [Teil 2: binär, AV: metrisch](#teil1)
+3. [Teil 3: Metrische plus nominale UV](#teil2)
+3. [Hinweise](#hinweise)
+4. [Literatur](#literatur)
+]
+]
+---
+
+
+
+
+```{r QM2-Thema6-Intro, eval = FALSE, child="children/Thema6-Intro.Rmd"}
+```
+
+
+
+```{r QM2-Thema6-Intro, eval = FALSE, child="children/Thema6-Teil1.Rmd"}
+```
+
+
+
+```{r QM2-Thema6-Intro, eval = FALSE, child="children/Thema6-Teil2.Rmd"}
+```
+
+
+
+
+```{r QM2-Thema6-Intro, eval = TRUE, child="children/Thema6-Teil3.Rmd"}
+```
+
+
+
+```{r QM2-Thema4-Gaussmodelle-3, eval = FALSE, child="children/Hinweise.Rmd"}
+```

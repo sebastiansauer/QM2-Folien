@@ -1,0 +1,139 @@
+```{r}
+library(icons)
+```
+
+
+name: teil1
+class: middle, center
+
+
+# Wissenschaft als Gerechtigkeitsprojekt
+
+
+---
+
+
+
+
+## Meinungen als Grundlage der Konfliktlösung 
+
+
+.pull-left[
+
+- "Ich find Masken doof!"
+- "Impfen ist schädlich!"
+- "Corona gibt's gar nicht!"
+
+.center[
+```{r}
+icon_style(fontawesome("angry", style = "solid"), scale = 5, fill = "red")
+
+```
+]
+]
+
+.pull-right[
+
+- "Ich find Masken gut!"
+- "Impfen ist nützlich!"
+- "Corona ist gefährlich!"
+
+.center[
+```{r}
+icon_style(fontawesome("tired", style = "solid"), scale = 5, fill = "red")
+
+```
+]
+]
+
+</br>
+</br>
+
+.center[.content-box[Meinungen kennen kein richtig und kein falsch. Konflikte können auf Basis von Meinungen nur schwer gelöst werden.]]
+
+
+
+---
+
+
+## Fakten als Grundlage der Konfliktlösung
+
+.center[.content-box-blue[Wissenschaft produziert Fakten.]]
+
+</br>
+
+Da Fakten universell sind (sein können), ist Wissenschaft potenziell ein Weg zur Konfliktlösung.
+
+### Warum helfen Fakten bei Konflikten?
+
+- Fakten sind neutral gegenüber Personen.
+- Fakten bieten daher eine Chance zur fairen Einigung.
+
+
+### Wann ist ein Fakt ein Fakt?
+
+
+- Fakten müssen vor allem nachprüfbar sein (Daten, Analyse und Bericht müssen offen zugänglich sein).
+
+
+---
+
+## Was nützt die Covid-19-Impfung?
+
+
+
+
+>    The effectiveness of full messenger RNA (mRNA) vaccination (≥14 days after the second dose) was 89% (95% confidence interval [CI], 87 to 91) against laboratory-confirmed SARS-CoV-2 infection leading to hospitalization, 90% (95% CI, 86 to 93) against infection leading to an ICU admission, and 91% (95% CI, 89 to 93) against infection leading to an emergency department or urgent care clinic visit.
+
+`r RefManageR::Citet(bib, "thompson_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))`; vgl. auch `r RefManageR::Citet(bib, "nasreen_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))`
+
+### Die aktuelle Faktenlage spricht klar zugunsten der Schutzwirkung der Corona-Impfung 
+
+---
+
+## Was heißt "ist effektiv"?
+
+`r RefManageR::Citep(bib, "nasreen_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))` definieren *effectivity* $e$ so:
+
+
+
+$$e = 1 - C; C= \frac{n_{vacc|pos}}{n_{vacc|neg}}$$
+
+- $C$ nennt man das *Chancenverhältnis* (*odds ratio*)
+- $n_{vacc|pos}$: Anzahl der geimpften Personen unter allen Personen mit positiver Corona-Diagnose
+- $n_{vacc|neg}$: Anzahl der geimpften Personen unter allen Personen mit negativer Corona-Diagnose
+
+
+*Beispiel*: Von den 100 Personen mit *positiver* Corona-Diagnose sind 10 geimpft, $n_{vacc|pos}=10$. Von den 100 Personen mit *negativer* Corona-Diagnose sind 90 geimpft, $n_{vacc|neg}=90$
+
+$$C= \frac{10}{90} = \frac{1}{9}; e = 1 - \frac{1}{9} = \frac{8}{9} \approx 0.88$$
+
+
+In diesem Beispiel liegt die Effektvitität $e$ bei knapp 90%.
+
+
+---
+
+## Arten von Forschungsfragen
+
+
+### Deskriptiv (beschreibend)
+
+- Wie stark ist der (lineare) Zusammenhang $r$ von Größe und Gewicht?
+- Wie stark ist der (lineare) Zusammenhang $b$ von Lernzeit und Note?
+- Bevorzugen unsere Kunden Webshop A oder B?
+
+### Prädiktiv (prognostisch, vorhersagend)
+
+- Wie schwer ist ein deutscher Mann der Größe 1,80m im Schnitt?
+- Welche Note kann man erwarten, wenn man nichts für die Klausur lernt?
+- Wieviel wird ein Kunde ausgeben, wenn er sich in dieser Variante des Webshops aufhält?
+
+### Präskriptiv (erklärend, kausal)
+
+- Ist Größe eine Ursache von Gewicht (bei deutschen Männern)?
+- Wenn ich 100 Stunden lerne, welche Note schreibe ich dann?
+- Hat die Art des Webshops einen Einfluss auf unseren Umsatz?
+
+---
+

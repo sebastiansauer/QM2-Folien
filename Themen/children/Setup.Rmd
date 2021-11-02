@@ -52,12 +52,22 @@ options("knitr.graphics.auto_pdf" = FALSE)
 ```
 
 
-```{r xaringan-themer, include=FALSE, warning=FALSE, eval = FALSE}
+
+
+```{r xaringan-themer, include = FALSE}
 library(xaringanthemer)
-style_mono_dark(base_color = "#99a300")
+
+style_mono_light(
+  base_color = "#23395b",
+  header_font_google = xaringanthemer::google_font("Yanone Kaffeesatz"),
+  link_color = "rgb(249, 38, 114)",
+  text_font_size = "1rem",
+  header_h1_font_size = "2.75rem",
+  header_h2_font_size = "2.25rem",
+  header_h3_font_size = "1.75rem"
+)
 
 ```
-
 
 
 
@@ -74,6 +84,8 @@ library(RefManageR)
 library(tidybayes)
 library(xaringanExtra)
 library(scales)
+library(rstanarm)
+#library(xaringanthemer)
 ```
 
 ```{r source-funs}
@@ -85,8 +97,9 @@ source("R-Code/img.R")
 
 ```{r bib}
 BibOptions(check.entries = FALSE, 
-           bib.style = "authoryear", 
+           bib.style = "numeric", 
            style = "markdown",
+           max.names = 5,
            dashed = TRUE)
 bib_file <- "bib.bib"
 bib <- ReadBib(bib_file)
@@ -95,13 +108,15 @@ bib <- ReadBib(bib_file)
 
 
 ```{r ggplottheme}
-theme_set(theme_minimal())
+theme_set(theme_xaringan(text_font_size = 8))
 ```
 
 
 
 ```{r xaringan-extra, echo=FALSE}
 use_xaringan_extra(c("tile_view", "tachyons"))
+#use_xaringan_extra(c("tachyons"))
+
 #xaringanExtra::use_animate_all("slide_left")
 ```
 
@@ -111,3 +126,9 @@ use_xaringan_extra(c("tile_view", "tachyons"))
 xaringanExtra::use_scribble()
 ```
 
+
+
+```{r rstan-options}
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```

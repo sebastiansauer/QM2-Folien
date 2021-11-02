@@ -1,0 +1,97 @@
+```{r}
+library(rstatix)
+library(ggridges)
+```
+
+
+name: teil3
+class: middle, center
+
+# Eine nominale UV mit mehreren Stufen
+
+---
+
+
+## Forschungsfrage
+
+
+> Unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart? (Datensatz `diamonds`)
+
+Formal: $\mu_1 = \mu_2 = \ldots = \mu_k$ mit $k$ verschiedenen Gruppen von Schliffart.
+
+Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Daher ist die bessere Forschungsfrage:
+
+> *Wie sehr* unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart?
+
+Oder wir prüfen die Hypothese, ob die Mittelwerte "praktisch" gleich sind, also sich "kaum" unterscheiden. Der Grenzwert für "praktisch gleich" bzw. "kaum unterschiedlich" ist subjektiv.
+
+---
+
+## Erster Blick in den Datensatz 
+
+
+
+```{r echo = TRUE, results = "hide"}
+data("diamonds")
+
+get_summary_stats(diamonds)
+```
+
+Ein Überblick über die metrischen Variablen:
+
+```{r}
+get_summary_stats(diamonds) %>% 
+  gt() %>% 
+  fmt_number(3:last_col(), decimals = 1)
+```
+
+---
+
+## EDA
+
+
+.pull-left[
+
+```{r}
+diamonds %>% 
+  drop_na(cut, price) %>% 
+  group_by(cut) %>% 
+  summarise(price_md =
+              median(price),
+            price_iqr = 
+              IQR(price)) %>%
+  gt() %>% 
+  fmt_number(columns = 2:3,
+             decimals = 0)
+```
+
+
+]
+
+.pull-right[
+```{r}
+diamonds %>% 
+  ggplot(aes(x=cut, y=price)) +
+  geom_boxplot()
+```
+
+]
+```{r fig.asp = .4}
+ggplot(diamonds) +
+  aes(x = price, y = cut) +
+  geom_density_ridges()
+```
+
+
+
+---
+
+## Mittlere Preisunterschiede in der Population
+
+
+
+```{r m106, echo = TRUE}
+m10.6 <-
+  stan_glm(price ~ cut, data = diamonds, refresh = 0)
+```
+

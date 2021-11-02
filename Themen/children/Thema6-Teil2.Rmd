@@ -1,0 +1,335 @@
+
+
+name: teil2
+class: middle, inverse
+
+
+# Metrische plus nominale UV 
+
+
+---
+
+## Forschungsfrage
+
+
+>    Wie stark ist der Zusammenhang von jeweils Schulabschluss der Mutter (`mom_hs`) und  IQ der Mutter (`mom_iq`)  auf den IQ des Kindes (`kid_score`) ?
+
+
+```{r echo = TRUE, results="hide"}
+library(rstatix)
+get_summary_stats(kidiq)
+```
+
+
+```{r}
+get_summary_stats(kidiq) %>% 
+  gt() %>% 
+  fmt_number(3:last_col(), decimals=2)
+```
+
+
+
+[Datenquelle](https://raw.githubusercontent.com/avehtari/ROS-Examples/master/KidIQ/data/child_iq.csv)
+
+
+---
+
+## Ein metrischer Prädiktor
+
+
+```{r results = "hide"}
+m10.2 <-
+  stan_glm(kid_score ~ mom_iq, data = kidiq)
+```
+
+`kid_score = 26 + 0.6 * mom_iq + error`
+
+.pull-left[
+```{r fig.asp = 1}
+kidiq %>% 
+  ggplot(aes(x = mom_iq, y = kid_score)) +
+  geom_point(alpha = .7) +
+  geom_abline(slope = coef(m10.2)[2],
+              intercept = coef(m10.2)[1],
+              color = "blue")
+```
+
+]
+
+.pull-right[
+- Die Linie zeigt die vorhergesagten IQ-Werte der Kinder für verschiedene IQ-Werte der Mütter.
+- Vergleicht man Teilpopulationen von Müttern mit mittleren Unterschied von einem IQ-Punkt, so findet man 0.6 IQ-Punkte Unterschied bei ihren Kindern *im Durchschnitt*.
+- Der Achsenabschnitt hilft uns nicht weiter, da es keine Menschen mit einem IQ von 0 gibt.
+]
+
+---
+
+
+## Beide Prädiktoren, `m10.3`
+
+
+`m10.3: kid_score = 26 + mom_hs + 0.6*mom_iq + error`
+
+.pull-left[
+```{r m10-3, echo = TRUE}
+m10.3 <- 
+  stan_glm(
+    kid_score ~ mom_hs + mom_iq, 
+    refresh = 0,
+    data = kidiq)
+coef(m10.3)
+```
+
+]
+
+.pull-right[
+```{r fig.asp = 0.62}
+kidiq %>% 
+  mutate(mom_hs = factor(mom_hs)) %>%  
+  ggplot(aes(x = mom_iq, y = kid_score, color = mom_hs)) +
+  geom_point(alpha = .7) +
+  geom_abline(slope = coef(m10.3)[3],
+              intercept = 26,
+              size = 1,
+              color = "blue") +
+  geom_abline(slope = coef(m10.3)[3],
+              intercept = 32,
+              color = "red",
+              size = 2) +
+  scale_color_manual(values = c("blue", "red")) +
+  theme(legend.position = "bottom")
+```
+
+]
+
+- *Achsenabschnitt*: Hat das Kind eine Mutter mit einem IQ von 0 und ohne Schulabschluss, dann schätzt das Modell den IQ-Wert des Kindes auf 26.
+- *Koeffizient zum mütterlichen Schulabschluss*: Vergleicht man Kinder von Müttern gleicher Intelligenz, aber mit Unterschied im Schulabschluss, so sagt das Modell einen Unterschied von 6 Punkten im IQ voraus.
+- *Koeffizient zur müttlichen IQ*: Vergleicht man Kinder von Müttern mit gleichem Wert im Schulabschluss, aber mit 1 IQ-Punkt Unterschied, so sagt das Modell einen Unterschied von 0.6 IQ-Punkten bei den Kindern voraus.
+
+
+
+---
+
+## Interaktion
+
+- In `m10.3` hat das Modell die Regressionsgeraden gezwungen, parallel zu sein. 
+- Betrachtet man das Streudiagramm, so sieht man, das nicht-parallele Geraden besser passen.
+- Sind die Regressionsgeraden nicht parallel, so spricht man von einer Interaktion (synonym: Interaktionseffekt, Moderation).
+- Liegt eine Interaktion vor, so unterscheidet sich also die Steigung in den Gruppen.
+
+
+```{r m10-4, echo = TRUE}
+m10.4 <- stan_glm(kid_score ~ mom_hs + mom_iq + mom_hs:mom_iq, data = kidiq, refresh = 0)
+```
+
+
+```{r fig.asp = .3, fig.width=8}
+kidiq %>% 
+  mutate(mom_hs = factor(mom_hs)) %>%  
+  ggplot(aes(x = mom_iq, y = kid_score, color = mom_hs)) +
+  geom_point(alpha = .7) +
+  geom_abline(slope = coef(m10.4)[3],
+              intercept = coef(m10.4)[1],
+              size = 1,
+              color = "blue") +
+  geom_abline(slope = coef(m10.4)[3]+coef(m10.4)[3]*coef(m10.4)[4],
+              intercept = coef(m10.4)[1] + coef(m10.4)[2],
+              size = 2,
+              color = "red") +
+  scale_color_manual(values = c("blue", "red")) +
+  theme(legend.position = "bottom",
+        axis.title = element_text(size = 8),
+        legend.title = element_text(size = 6))
+```
+
+
+---
+
+## Interpretation von `m10.4`
+
+- *Achsenabschnitt:* IQ-Schätzwerte für Kinder mit Mütter ohne Abschluss und mit einem IQ von 0. Kaum zu interpretieren.
+- `mom_hs`: Unterschied der IQ-Schätzwerte zwischen Kindern mit Mutter ohne bzw. mit Schulabschluss und jeweils mit einem IQ von 0. Puh.
+- `mom_iq`: Unterschied der IQ-Schätzwerte zwischen Kindern mit Müttern, die sich um einen IQ-Punkt unterscheiden aber jeweils ohne Schulabschluss.
+- *Interaktion*: Der Unterschied in den Steigungen der Regressiongeraden, also der Unterschied des Koeffizienten für `mom_iq` zwischen Mütter mit bzw. ohne Schulabschluss.
+
+`mom_hs=0: kid_score = -11 + 51*0 + 1.1* mom_iq + 0.5*0*mom_iq`
+
+`                    = -11 + 1.1*mom_iq`
+
+</br>
+
+`mom_hs=1: kid_score = -11 + 51*1 + 1.1* mom_iq + 0.5*1*mom_iq`
+
+`                    = 40 + 0.6*mom_iq`
+
+
+---
+
+
+## Nach der Interpretation von 20 unzentrierten Koeffizienten
+
+.center[
+<iframe src="https://giphy.com/embed/Zaej3GIZTzCI8" width="480" height="306" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/muppets-rachel-maddow-kermit-Zaej3GIZTzCI8">via GIPHY</a></p>
+]
+
+
+
+---
+
+## Zentrieren von Prädiktoren
+
+- Unter *Zentrieren* (to center) versteht man das Bilden der Differenz eines Messwerts zu seinem Mittelwert.
+- Zentrierte Werte geben also an, wie weit ein Messwert vom mittleren (typischen) Messwert entfernt ist.
+- Mit zentrierten Werten ist eine Regression einfacher zu interpretieren.
+
+```{r echo = TRUE}
+kidiq <-
+  kidiq %>% 
+  mutate(mom_iq_c = mom_iq - mean(mom_iq),
+         mom_hs_c = mom_hs - mean(mom_hs))
+```
+
+
+
+```{r m10-5, echo = TRUE}
+m10.5 <- stan_glm(kid_score ~ mom_hs + mom_iq_c + mom_hs:mom_iq_c, 
+                  data = kidiq, 
+                  refresh = 0)
+coef(m10.5)
+```
+
+
+---
+
+## Interpretation von `m10.5`
+
+- Der *Achsenabschnitt* (`Intercep`) gibt den geschätzten IQ des Kindes an, wenn man eine Mutter mittlerer Intelligenz und ohne Schulabschluss betrachtet.
+- `mom_hs` gibt den Unterschied im geschätzten IQ des Kindes an, wenn man Mütter mittlerer Intelligenz aber mit bzw. ohne Schlusabschluss vergleicht.
+- `mom_iq_c` gibt den Unterschied im geschätzten IQ des Kindes an, wenn man Mütter ohne Schlusabschluss aber mit einem IQ-Punkt Unterschied vergleicht.
+- `mom_hs:mom_iq_c` gibt den Unterschied in den Koeffizienten für `mom_iq_c` an zwischen den beiden Grupen von `mom_hs`.
+
+
+
+```{r plot-m10-5, fig.asp = .4, fig.width=8}
+kidiq %>% 
+  mutate(mom_hs = factor(mom_hs)) %>%  
+  ggplot(aes(x = mom_iq_c, y = kid_score, color = mom_hs)) +
+  geom_point(alpha = .7) +
+  geom_abline(slope = coef(m10.5)[3],
+              intercept = coef(m10.5)[1],
+              size = 1,
+              color = "blue") +
+  geom_abline(slope = coef(m10.5)[3]+coef(m10.5)[3]*coef(m10.5)[4],
+              intercept = coef(m10.5)[1] + coef(m10.5)[2],
+              size = 2,
+              color = "red") +
+  scale_color_manual(values = c("blue", "red")) +
+  theme(legend.position = "bottom",
+        axis.title = element_text(size = 8),
+        legend.title = element_text(size = 6))
+```
+
+
+---
+
+## Zentrieren ändert nichts an den Vorhersagen
+
+`m10.4`: 
+
+```{r echo = TRUE}
+new <- tibble(mom_hs = 0, mom_iq = mean(kidiq$mom_iq))
+pred_new <- posterior_predict(m10.4, newdata = new)
+mean(pred_new)
+```
+
+`m10.5`: 
+
+```{r echo = TRUE}
+new <- tibble(mom_hs = 0, mom_iq_c = 0)
+pred_new <- posterior_predict(m10.5, newdata = new)
+mean(pred_new)
+```
+
+Auch die Streuungen der vorhergesagten Werte unterscheiden sich nicht (wirklich): $\sigma_{m10.4}= `r round(sigma(m10.4))`$; $\sigma_{m10.5}= `r round(sigma(m10.5))`$.
+
+
+Das Zentrieren ändert auch nicht die Regressionskoeffizienten, da die Streuungen der Prädiktoren nicht verändert wurden.
+
+
+---
+
+
+## Perzentilintervalle aus der Posterori-Verteilung, de luxe
+
+Mit dem Paket `bayestestR` kann man sich komfortabel die 95%-Perzentilintervalle ausgeben lassen (hier als *Equal Tail Intervals* ETI, bezeichnet):
+```{r echo = TRUE}
+library(bayestestR)
+ci(m10.5)
+```
+
+Alternativ kann man mit `quantile()` das Gleiche erreichen.
+
+Highest Density (Posterior) Intervalle (HDI oder HDPI) kann man sich ebenso komfortabel ausgeben lassen mit `hdi(m10.5)`. 
+
+```{r eval = FALSE}
+hdi(m10.5)
+```
+
+Im Falle symmetrischer Posteriori-Verteilungen (wie hier) kommen beide Arten von Intervallen zu gleichen Ergebnissen.
+
+---
+
+## Beantworten der Forschungsfrage
+
+>   Das Model zeigt keine Belege, dass sich die mittlere Intelligenz von Kindern bei Müttern mit bzw. ohne Schlusabluss unterscheidet (95%PI: [-2.0, 7.8]). Hingegen fand sich ein Effekt der mütterlichen Intelligenz; pro Punkt Unterschied in müttlerlichem IQ fand sich ein Unterschied von 0.7 bis 1.3 IQ-Punkte (95%PI). Außerdem fand sich ein Beleg, dass der Zusammenhang des IQ zwischen Mutter und Kind durch den Schulabschluss moderiert wird: Bei Mütter mit Schulabschluss war der Zusammenhang zwischen Mutter-IQ und Kind-IQ geringer (95%PI: [-0.80, -0.17]).
+
+</br>
+</br>
+
+`r icons::icon_style(icons::fontawesome("bomb", style = "solid"), scale = 2, fill = "red")` Das Modell macht *keine* kausalen Aussagen. Es werden lediglich Unterschiede bzw. Zusammenhänge beschrieben.
+
+
+---
+
+## Relevanz von Prädiktoren
+
+.pull-left[
+
+<a href="https://imgflip.com/i/5sps62"><img src="https://i.imgflip.com/5sps62.jpg" title="made at imgflip.com"/></a><div><a href="https://imgflip.com/memegenerator">from Imgflip Meme Generator</a></div>
+
+]
+
+
+.pull-right[
+Betrachten wir `m10.3` noch einmal.
+
+Welcher Prädiktor, `mom_hs` oder `mom_hs` ist wichtiger im Sinne von stärker mit AV `kid_score` verbunden?
+
+```
+Equal-Tailed Interval
+
+Parameter   |        95% ETI |
+-------------------------------
+(Intercept) | [14.04, 37.31] |  
+mom_hs      | [ 1.58, 10.34] | 
+mom_iq      | [ 0.44,  0.69] | 
+```
+
+]
+
+
+- Das Problem ist, dass die Prädiktoren auf verschiedenen Skalen gemessen wurden, so dass sie nicht direkt vergleichbar sind.
+- Man könnte 
+    - die Skalierungen der Prädiktoren angleichen
+    - Vorhersagegüte verschiedener Modelle vergleichen (Modell mit einem vs. Modell mit beiden Prädiktoren)
+    - ...
+- Dazu später mehr 🤓
+
+
+---
+
+
+
+---
+
+

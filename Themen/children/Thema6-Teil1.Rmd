@@ -1,0 +1,173 @@
+
+
+name: teil1
+class: center, middle
+
+
+# binäre UV
+
+---
+
+
+## IQ von Kindern, binärer Prädiktor
+
+*Forschungsfrage:* Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt?
+
+.pull-left[
+```{r echo = TRUE, results = "hide"}
+library(rstanarm)
+data("kidiq")
+m10.1 <- stan_glm(kid_score ~ mom_hs, data = kidiq)
+```
+
+Alternativ können Sie die Daten [hier](https://raw.githubusercontent.com/avehtari/ROS-Examples/master/KidIQ/data/child_iq.csv) herunterladen.
+
+```{r echo = TRUE}
+coef(m10.1)
+sigma(m10.1)
+```
+
+]
+
+
+
+.pull-right[
+
+```{r fig.asp=1}
+ggplot(kidiq) +
+  aes(x = mom_hs, y = kid_score) +
+  geom_jitter(width = 0.1) +
+  geom_abline(slope = coef(m10.1)[2],
+              intercept = coef(m10.1)[1]) +
+  theme_xaringan()
+```
+
+]
+
+---
+
+## Interpretation von `m10.1`
+
+`m10.1: kid_score = 78 + 12*mom_hs + error`
+
+- Der *Achsensabschnitt* (intercept, $\alpha$) ist der mittlere (bzw. vorhergesagte) IQ-Wert von Kindern, deren Mütter über keinen Schulabschluss verfügen:
+
+`kid_score = 78 + 0*12 + error`
+
+- Das *Regressionsgewicht* (slope, $\beta$) ist der Unterschied im IQ-Wert von Kindern mit Mütter mit Schlulabschluss (im Vergleich zum IQ-Wert von Kindern mit Mütter ohne Schlusabschluss). Dieser Unterschied entspricht der Steigung der Regressionsgerade.
+
+`kid_score = 78 + 1*12 + error = 90 + error`
+
+- Die *Streuung* (sigma) der IQ-Wert um ihren Mittelwert zeigt, wie genau die Schätzung (Vorhersage) ist bzw. wie stark Prädiktor (UV) und Kriterium (AV) zusammenhängen.
+
+---
+
+## `m10.1` als Mittelwertsdifferenz 
+
+
+- UV: binär (zweistufig nominal/kategorial)
+- AV: metrisch (quantitativ)
+
+.pull-left[
+```{r echo = TRUE}
+kidiq %>% 
+  group_by(mom_hs) %>% 
+  summarise(kid_score_avg = mean(kid_score))
+  # avg wie "average"
+
+89.4-77.6
+```
+
+]
+
+
+.pull-right[
+- In der klassischen Statistik untersucht man diese Datensituation mit einem *t-Test*.
+- Der t-Test ist ein inferenzstatistisches Verfahren, dass prüft, ob die Mittelwertsdifferenz (in der Population) $\mu_d$ Null ist: $\mu_d = 0$.
+- In der Bayes-Statistik betrachtet man dazu meist ein PI (z.B. mit 95%) der Posteriori-Verteilung.
+]
+
+
+---
+
+## Antwort auf die Forschungsfrage, `m10.1`
+
+
+.pull-left[
+```{r echo = TRUE}
+m10.1_post <-
+  m10.1 %>% 
+  as_tibble() 
+
+dim(m10.1_post)
+```
+
+
+```{r}
+m10.1_post %>% 
+  slice_sample(n=5) %>% 
+  gt() %>% 
+  fmt_number(1:3, decimals = 1) %>% 
+  tab_header("Stichprobe aus der Post-Verteilung")
+```
+
+
+]
+
+
+.pull-right[
+
+```{r echo = TRUE}
+pi_mom_hs <-
+  m10.1_post %>% 
+  summarise(
+    pi_95 = quantile(
+      mom_hs, 
+      c(.025, .975)))
+```
+
+
+
+
+Mit 95% Wahrscheinlichkeit liegt der Unterschied im mittleren IQ-Wert zwischen Kindern von Müttern mit bzw. ohne Schulabschluss im Bereich von 7 bis 14 IQ-Punkten, laut unserem Modell: $95\%PI: [7,14]$.
+
+Die Hypothese, dass es keinen  Unterschied oder einen Unterschied in die andere Richtung geben sollte, ist vor diesem Hintergrund als unwahrscheinlich abzulehnen.
+
+]
+
+
+---
+
+## Visualisierung der Mittelwertsdifferenz
+
+
+.pull-left[
+
+
+
+```{r echo = TRUE}
+library(bayesplot)
+plot(m10.1, 
+     pars = "mom_hs")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = TRUE}
+plot(m10.1, 
+     pars = "mom_hs",
+     plotfun = "mcmc_hist") +
+  geom_vline(
+    xintercept = pi_mom_hs$pi_95) +
+  labs(
+    title = "95%-PI zum Mittelwertsunterschied"
+  )
+```
+
+]
+
+
+---
