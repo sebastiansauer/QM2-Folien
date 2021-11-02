@@ -17,9 +17,11 @@ class: middle, center
 
 > Unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart? (Datensatz `diamonds`)
 
-Formal: $\mu_1 = \mu_2 = \ldots = \mu_k$ mit $k$ verschiedenen Gruppen von Schliffart.
+- Formal: $\mu_1 = \mu_2 = \ldots = \mu_k$ mit $k$ verschiedenen Gruppen von Schliffart.
 
-Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Daher ist die bessere Forschungsfrage:
+- Hypothesen, die keinen (Null) Unterschied zwischen Gruppen oder keinen Zusammenhang zwischen Variablen postulieren, kann man als *Nullhypothesen* bezeichnen.
+
+- Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Wer glaubt sowas? Daher ist die bessere Forschungsfrage:
 
 > *Wie sehr* unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart?
 
@@ -29,18 +31,45 @@ Oder wir prüfen die Hypothese, ob die Mittelwerte "praktisch" gleich sind, also
 
 ## Erster Blick in den Datensatz 
 
+[Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2/diamonds.csv), [Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/ggplot2/diamonds.html)
 
-
-```{r echo = TRUE, results = "hide"}
-data("diamonds")
-
-get_summary_stats(diamonds)
+```{r echo = TRUE}
+diamonds_url <- "https://tinyurl.com/up84jp5c"
 ```
 
-Ein Überblick über die metrischen Variablen:
+```{r echo = TRUE, results = "hide"}
+set.seed(42)  # Zufallszahlen für `sample()` festlegen
+diamonds <- 
+  read_csv(diamonds_url) %>% 
+  sample_n(1000) %>%  # um etwas Rechenzeit zu sparen
+  select(-1) # 1. Spalte nur laufende Nummer
+```
 
-```{r}
-get_summary_stats(diamonds) %>% 
+```{r echo = TRUE, eval = FALSE}
+diamonds %>% 
+  select(price, cut) %>% 
+  group_by(cut) %>% 
+  # nehmen wir die robusten Statistiken, da Preis sehr schief ist:
+  get_summary_stats(type = "robust")
+```
+
+
+
+
+---
+
+## Ein Überblick über die metrischen Variablen
+
+
+
+... aufgeteilt in die Stufen von `cut`:
+
+```{r echo = FALSE, eval = TRUE}
+diamonds %>% 
+  select(price, cut) %>% 
+  group_by(cut) %>% 
+  # nehmen wir die robusten Statistiken, da Preis sehr schief ist:
+  get_summary_stats(type = "robust") %>% 
   gt() %>% 
   fmt_number(3:last_col(), decimals = 1)
 ```
@@ -76,7 +105,7 @@ diamonds %>%
 ```
 
 ]
-```{r fig.asp = .4}
+```{r fig.asp = .3, fig.width=7}
 ggplot(diamonds) +
   aes(x = price, y = cut) +
   geom_density_ridges()
@@ -91,7 +120,208 @@ ggplot(diamonds) +
 
 
 ```{r m106, echo = TRUE}
-m10.6 <-
-  stan_glm(price ~ cut, data = diamonds, refresh = 0)
+options(mc.cores = parallel::detectCores())  # Turbo einschalten
+
+m10.6 <- stan_glm(price ~ cut, data = diamonds, refresh = 0)
+# refresh=0 unterdrückt Ausgabe der Posteriori-Stichproben
 ```
 
+
+
+```{r}
+m10.6
+```
+
+---
+
+
+## Interpretation von `m10.6`
+
+- `cut` hat fünf verschiedene Werte (Stufen, Faktorstufen, Ausprägungen), aber es werden nur vier angezeigt. 
+- Die fünfte (`Fair`, nicht ausgegeben) ist die *Vergleichs- oder Referenzkategorie* (baseline) und ist im Achsenabschnitt ausgedrückt.
+- Die Koeffizienten für `cut` geben jeweils den Unterschied zur Vergleichskategorie wieder.
+- Diamanten der Schliffart `Fair` haben laut Modell einen mittleren Preis von ca. 4300$.
+- Diamanten der Schliffart `Good` sind laut Modell im Mittel gut 400$ billiger als Diamanten der Schliffart `Fair`, etc.
+
+
+```{r fig.asp = .33}
+plot(m10.6, regex_pars = "^cut")
+```
+
+---
+
+## Glauben wir jetzt an Preisunterschiede?
+
+... zwischen den Preis-Mittelwerten in der Population?
+
+- Ja, denn die Schätzintervalle für die Unterschiede waren im Modell `m10.6` alle weit von der Null entfernt.
+
+- Auf Basis unseres Modells schließen wir also (mit hoher Sicherheit) aus, dass die Preise im Mittelwert *exakt* identisch sind.
+
+- Ehrlicherweise hätte sowieso niemand geglaubt, dass die *Nullhypothese* $\mu_1 = \mu_2 = \ldots = \mu_k$ bis in die letzte Dezimale gilt. Anders gesagt: Die Wahrscheinlichkeit eines bestimten Wertes einer stetigen Zufallsvariable ist praktisch Null.
+
+- Aber: Viele Forscheris prüfen gerne die Nullhypothese, daher taucht der Begriff hier auf.
+
+- Das Verfahren der Frequentistischen Statistik, um die Nullhypothese $\mu_1 = \mu_2 = \ldots = \mu_k$ zu testen, nennt man *Varianzanalyse* (analysis of variance, kurz *ANOVA*).
+
+
+
+---
+
+## Modellkoeffizienten von `m10.6`
+
+Die Regressionsoeffizienten pro Stufen von `cut`entsprechen den Mittelwerten $\hat{y_i}$ aus der Posteriori-Verteilung. Mit `coef(m10.6)` kann man sie sich bequem ausgeben lassen.
+
+```{r echo = TRUE}
+coef(m10.6)
+```
+
+
+- $\hat{y}_{Fair} = `r round(coef(m10.6)[1])`$
+- $\hat{y}_{Good} = `r round(coef(m10.6)[2])`$
+- etc.
+
+
+---
+
+## Wechsel der Referenzkategorie
+
+- `cut` ist eine nominale Variable, da passt in R der Typ `factor` (Faktor) am besten. Aktuell ist der Typ noch `character` (Text):
+
+```{r echo = TRUE}
+diamonds <- diamonds %>% 
+  mutate(cut = factor(cut))
+```
+
+
+- Im Standard sortiert R die Faktorstufen alphabetisch, aber man kann die Reihenfolge ändern. 
+
+```{r echo = TRUE}
+levels(diamonds$cut)
+```
+
+Setzen wir `Ideal` als Referenzkategorie und lassen die restliche Reihenfolge, wie sie ist:
+
+```{r echo = TRUE}
+library(forcats)
+diamonds <- diamonds %>% 
+  mutate(cut = factor(cut),
+    cut = fct_relevel(cut, "Ideal"))
+```
+
+```{r}
+levels(diamonds$cut)
+```
+
+
+
+
+
+
+
+---
+
+## Wechsel der Referenzkategorie ändert nichts Wesentliches am Modell
+
+```{r echo = TRUE}
+m10.6a <- stan_glm(price ~ cut, data = diamonds, refresh = 0)
+m10.6a
+```
+
+
+
+---
+
+## Modellgüte mit $R^2$ bestimmen
+
+
+.pull-left[
+- $R^2$ gibt den Anteil der Gesamtvarianz (der AV) an, den das Modell erklärt.
+- Höhere Wert von $R^2$ bedeuten, dass das Modell die Daten besser erklärt.
+- $R^2$ wird normalerweise auf Basis eines Punktschätzers definiert.
+- Solch eine Definition lässt aber viel Information - über die Ungewissheit der Schätzung - außen vor.
+- Daher ist es wünschenswert, diese Information in $R^2$ einfließen zu lassen: *Bayes-R-Quadrat*.
+- mit `bayes_r2()` kann man sich die Verteilung berechnen lassen.
+]
+
+<!-- R^2_{Bayes} = \frac{\text{erklärte Varianz}}{\text{erkärte Varianz + Residualvarianz}} = \frac{var_{fit}}{var_{fit}+var_{res}} -->
+
+<!-- - $var_{fit}$ ist die Varianz der vorhergesagten Schätzwerte $\hat{y}_i$. -->
+
+
+.pull-right[
+```{r echo = TRUE}
+m10.6_r2 <- bayes_R2(m10.6)
+median(m10.6_r2)
+IQR(m10.6_r2)
+```
+
+```{r}
+m10.6_r2 %>% 
+  as_tibble() %>% 
+  ggplot(aes(x=value)) +
+  geom_histogram()
+```
+
+]
+
+---
+
+## Priori-Werte
+
+- Unser Modell hat schwach informierte (weakly informative) Priors.
+- Für Achsenabschnitt und die Regressionskoeffizienten werden Normalverteilungen angenommen mit Mittelwert entsprechend den Stichprobendaten und Streuung, die der 2.5-fachen der Streuung in der Stichprobe entspricht.
+- Mehr Infos kann man sich so ausgeben lassen: `prior_summary(m10.6)`.
+- Wo man man über mehr inhaltliches Wissen verfügt, so wird man die Priors anpassen wollen, z.B.:
+
+```{r echo = TRUE}
+m10.6b <- stan_glm(price ~ cut, data = diamonds, refresh = 0,
+                   prior = normal(location = c(100, 100, 100, 100),
+                                  scale = c(100, 100, 100, 100)),
+                   prior_intercept = normal(300, 500)
+                   )
+coef(m10.6b)
+sigma(m10.6b)
+```
+
+
+
+
+---
+
+
+## "Praktisch" kein Unterschied
+
+
+.pull-left[
+- Sagen wir, wenn sich zwei Preismittelwerte um höchstens 100$ unterscheiden, gilt dieser Unterschied für uns als "praktisch gleich", "praktisch kein Unterschied" bzw. vernachlässigbar.
+- Diesen Bereich bezeichnen wir den *Bereich eines vernachlässigbaren Unterschieds* oder *Region of practical equivalence* (Rope). 
+- Jetzt prüfen wir, welcher Teil der Posteriori-Stichproben im Rope liegt:
+    - 
+]
+
+```{r}
+plot(m10.6,plotfun = "mcmc_areas",
+     regex_pars = "^cut") +
+  annotate("rect",
+           xmin = -100,
+            xmax = 100,
+            ymin = 0,
+            ymax = Inf,
+            fill = "red",
+            alpha = .5)
+```
+
+
+
+
+---
+
+
+## 
+
+
+```{r}
+library(bayestestR)
+rope(m10.6, range = c(-100, 100))
+```

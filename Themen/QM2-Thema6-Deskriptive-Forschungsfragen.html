@@ -87,6 +87,9 @@ class: center, middle, inverse, title-slide
 
 
 
+
+
+
 ## Gliederung
 
 
@@ -134,28 +137,64 @@ class: middle, center
 ## Forschungsfrage
 
 
-&gt; Unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart?
+&gt; Unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart? (Datensatz `diamonds`)
 
-Moment. Dass sich die Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Daher ist die bessere Forschungsfrage:
+- Formal: `\(\mu_1 = \mu_2 = \ldots = \mu_k\)` mit `\(k\)` verschiedenen Gruppen von Schliffart.
+
+- Hypothesen, die keinen (Null) Unterschied zwischen Gruppen oder keinen Zusammenhang zwischen Variablen postulieren, kann man als *Nullhypothesen* bezeichnen.
+
+- Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Wer glaubt sowas? Daher ist die bessere Forschungsfrage:
 
 &gt; *Wie sehr* unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart?
 
+Oder wir prüfen die Hypothese, ob die Mittelwerte "praktisch" gleich sind, also sich "kaum" unterscheiden. Der Grenzwert für "praktisch gleich" bzw. "kaum unterschiedlich" ist subjektiv.
+
+---
+
+## Erster Blick in den Datensatz 
+
+[Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2/diamonds.csv), [Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/ggplot2/diamonds.html)
 
 
 ```r
-data("diamonds")
-
-get_summary_stats(diamonds)
+diamonds_url &lt;- "https://tinyurl.com/up84jp5c"
 ```
 
-Ein Überblick über die metrischen Variablen:
 
-<div id="rebnxsczot" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+```r
+set.seed(42)  # Zufallszahlen für `sample()` festlegen
+diamonds &lt;- 
+  read_csv(diamonds_url) %&gt;% 
+  sample_n(1000) %&gt;%  # um etwas Rechenzeit zu sparen
+  select(-1) # 1. Spalte nur laufende Nummer
+```
+
+
+```r
+diamonds %&gt;% 
+  select(price, cut) %&gt;% 
+  group_by(cut) %&gt;% 
+  # nehmen wir die robusten Statistiken, da Preis sehr schief ist:
+  get_summary_stats(type = "robust")
+```
+
+
+
+
+---
+
+## Ein Überblick über die metrischen Variablen
+
+
+
+... aufgeteilt in die Stufen von `cut`:
+
+<div id="iukyokvzul" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rebnxsczot .gt_table {
+#iukyokvzul .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -180,7 +219,7 @@ Ein Überblick über die metrischen Variablen:
   border-left-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_heading {
+#iukyokvzul .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -192,7 +231,7 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_title {
+#iukyokvzul .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -202,7 +241,7 @@ Ein Überblick über die metrischen Variablen:
   border-bottom-width: 0;
 }
 
-#rebnxsczot .gt_subtitle {
+#iukyokvzul .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -212,13 +251,13 @@ Ein Überblick über die metrischen Variablen:
   border-top-width: 0;
 }
 
-#rebnxsczot .gt_bottom_border {
+#iukyokvzul .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_col_headings {
+#iukyokvzul .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -233,7 +272,7 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_col_heading {
+#iukyokvzul .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -253,7 +292,7 @@ Ein Überblick über die metrischen Variablen:
   overflow-x: hidden;
 }
 
-#rebnxsczot .gt_column_spanner_outer {
+#iukyokvzul .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -265,15 +304,15 @@ Ein Überblick über die metrischen Variablen:
   padding-right: 4px;
 }
 
-#rebnxsczot .gt_column_spanner_outer:first-child {
+#iukyokvzul .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rebnxsczot .gt_column_spanner_outer:last-child {
+#iukyokvzul .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rebnxsczot .gt_column_spanner {
+#iukyokvzul .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -285,7 +324,7 @@ Ein Überblick über die metrischen Variablen:
   width: 100%;
 }
 
-#rebnxsczot .gt_group_heading {
+#iukyokvzul .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -307,7 +346,7 @@ Ein Überblick über die metrischen Variablen:
   vertical-align: middle;
 }
 
-#rebnxsczot .gt_empty_group_heading {
+#iukyokvzul .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -322,15 +361,15 @@ Ein Überblick über die metrischen Variablen:
   vertical-align: middle;
 }
 
-#rebnxsczot .gt_from_md > :first-child {
+#iukyokvzul .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rebnxsczot .gt_from_md > :last-child {
+#iukyokvzul .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rebnxsczot .gt_row {
+#iukyokvzul .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -349,7 +388,7 @@ Ein Überblick über die metrischen Variablen:
   overflow-x: hidden;
 }
 
-#rebnxsczot .gt_stub {
+#iukyokvzul .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -361,7 +400,7 @@ Ein Überblick über die metrischen Variablen:
   padding-left: 12px;
 }
 
-#rebnxsczot .gt_summary_row {
+#iukyokvzul .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -371,7 +410,7 @@ Ein Überblick über die metrischen Variablen:
   padding-right: 5px;
 }
 
-#rebnxsczot .gt_first_summary_row {
+#iukyokvzul .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -381,7 +420,7 @@ Ein Überblick über die metrischen Variablen:
   border-top-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_grand_summary_row {
+#iukyokvzul .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -391,7 +430,7 @@ Ein Überblick über die metrischen Variablen:
   padding-right: 5px;
 }
 
-#rebnxsczot .gt_first_grand_summary_row {
+#iukyokvzul .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -401,11 +440,11 @@ Ein Überblick über die metrischen Variablen:
   border-top-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_striped {
+#iukyokvzul .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rebnxsczot .gt_table_body {
+#iukyokvzul .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -414,7 +453,7 @@ Ein Überblick über die metrischen Variablen:
   border-bottom-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_footnotes {
+#iukyokvzul .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -428,13 +467,13 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_footnote {
+#iukyokvzul .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#rebnxsczot .gt_sourcenotes {
+#iukyokvzul .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -448,41 +487,41 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#rebnxsczot .gt_sourcenote {
+#iukyokvzul .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#rebnxsczot .gt_left {
+#iukyokvzul .gt_left {
   text-align: left;
 }
 
-#rebnxsczot .gt_center {
+#iukyokvzul .gt_center {
   text-align: center;
 }
 
-#rebnxsczot .gt_right {
+#iukyokvzul .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rebnxsczot .gt_font_normal {
+#iukyokvzul .gt_font_normal {
   font-weight: normal;
 }
 
-#rebnxsczot .gt_font_bold {
+#iukyokvzul .gt_font_bold {
   font-weight: bold;
 }
 
-#rebnxsczot .gt_font_italic {
+#iukyokvzul .gt_font_italic {
   font-style: italic;
 }
 
-#rebnxsczot .gt_super {
+#iukyokvzul .gt_super {
   font-size: 65%;
 }
 
-#rebnxsczot .gt_footnote_marks {
+#iukyokvzul .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -492,113 +531,39 @@ Ein Überblick über die metrischen Variablen:
   
   <thead class="gt_col_headings">
     <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">cut</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">variable</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">n</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">min</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">max</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">median</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q3</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">iqr</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mad</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mean</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">sd</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">se</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">ci</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_left">carat</td>
-<td class="gt_row gt_right">53940</td>
-<td class="gt_row gt_right">0.2</td>
-<td class="gt_row gt_right">5.0</td>
-<td class="gt_row gt_right">0.7</td>
-<td class="gt_row gt_right">0.4</td>
-<td class="gt_row gt_right">1.0</td>
-<td class="gt_row gt_right">0.6</td>
-<td class="gt_row gt_right">0.5</td>
-<td class="gt_row gt_right">0.8</td>
-<td class="gt_row gt_right">0.5</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">0.0</td></tr>
-    <tr><td class="gt_row gt_left">depth</td>
-<td class="gt_row gt_right">53940</td>
-<td class="gt_row gt_right">43.0</td>
-<td class="gt_row gt_right">79.0</td>
-<td class="gt_row gt_right">61.8</td>
-<td class="gt_row gt_right">61.0</td>
-<td class="gt_row gt_right">62.5</td>
-<td class="gt_row gt_right">1.5</td>
-<td class="gt_row gt_right">1.0</td>
-<td class="gt_row gt_right">61.7</td>
-<td class="gt_row gt_right">1.4</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">0.0</td></tr>
-    <tr><td class="gt_row gt_left">price</td>
-<td class="gt_row gt_right">53940</td>
-<td class="gt_row gt_right">326.0</td>
-<td class="gt_row gt_right">18,823.0</td>
-<td class="gt_row gt_right">2,401.0</td>
-<td class="gt_row gt_right">950.0</td>
-<td class="gt_row gt_right">5,324.2</td>
-<td class="gt_row gt_right">4,374.2</td>
-<td class="gt_row gt_right">2,475.9</td>
-<td class="gt_row gt_right">3,932.8</td>
-<td class="gt_row gt_right">3,989.4</td>
-<td class="gt_row gt_right">17.2</td>
-<td class="gt_row gt_right">33.7</td></tr>
-    <tr><td class="gt_row gt_left">table</td>
-<td class="gt_row gt_right">53940</td>
-<td class="gt_row gt_right">43.0</td>
-<td class="gt_row gt_right">95.0</td>
-<td class="gt_row gt_right">57.0</td>
-<td class="gt_row gt_right">56.0</td>
-<td class="gt_row gt_right">59.0</td>
-<td class="gt_row gt_right">3.0</td>
-<td class="gt_row gt_right">1.5</td>
-<td class="gt_row gt_right">57.5</td>
-<td class="gt_row gt_right">2.2</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">0.0</td></tr>
-    <tr><td class="gt_row gt_left">x</td>
-<td class="gt_row gt_right">53940</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">10.7</td>
-<td class="gt_row gt_right">5.7</td>
-<td class="gt_row gt_right">4.7</td>
-<td class="gt_row gt_right">6.5</td>
-<td class="gt_row gt_right">1.8</td>
-<td class="gt_row gt_right">1.4</td>
-<td class="gt_row gt_right">5.7</td>
-<td class="gt_row gt_right">1.1</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">0.0</td></tr>
-    <tr><td class="gt_row gt_left">y</td>
-<td class="gt_row gt_right">53940</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">58.9</td>
-<td class="gt_row gt_right">5.7</td>
-<td class="gt_row gt_right">4.7</td>
-<td class="gt_row gt_right">6.5</td>
-<td class="gt_row gt_right">1.8</td>
-<td class="gt_row gt_right">1.4</td>
-<td class="gt_row gt_right">5.7</td>
-<td class="gt_row gt_right">1.1</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">0.0</td></tr>
-    <tr><td class="gt_row gt_left">z</td>
-<td class="gt_row gt_right">53940</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">31.8</td>
-<td class="gt_row gt_right">3.5</td>
-<td class="gt_row gt_right">2.9</td>
-<td class="gt_row gt_right">4.0</td>
-<td class="gt_row gt_right">1.1</td>
-<td class="gt_row gt_right">0.8</td>
-<td class="gt_row gt_right">3.5</td>
-<td class="gt_row gt_right">0.7</td>
-<td class="gt_row gt_right">0.0</td>
-<td class="gt_row gt_right">0.0</td></tr>
+    <tr><td class="gt_row gt_left">Fair</td>
+<td class="gt_row gt_left">price</td>
+<td class="gt_row gt_right">33.0</td>
+<td class="gt_row gt_right">3,640.0</td>
+<td class="gt_row gt_right">1,976.0</td></tr>
+    <tr><td class="gt_row gt_left">Good</td>
+<td class="gt_row gt_left">price</td>
+<td class="gt_row gt_right">102.0</td>
+<td class="gt_row gt_right">3,089.5</td>
+<td class="gt_row gt_right">3,744.8</td></tr>
+    <tr><td class="gt_row gt_left">Ideal</td>
+<td class="gt_row gt_left">price</td>
+<td class="gt_row gt_right">407.0</td>
+<td class="gt_row gt_right">1,759.0</td>
+<td class="gt_row gt_right">3,849.5</td></tr>
+    <tr><td class="gt_row gt_left">Premium</td>
+<td class="gt_row gt_left">price</td>
+<td class="gt_row gt_right">230.0</td>
+<td class="gt_row gt_right">4,057.5</td>
+<td class="gt_row gt_right">5,295.2</td></tr>
+    <tr><td class="gt_row gt_left">Very Good</td>
+<td class="gt_row gt_left">price</td>
+<td class="gt_row gt_right">228.0</td>
+<td class="gt_row gt_right">2,759.5</td>
+<td class="gt_row gt_right">3,902.5</td></tr>
   </tbody>
   
   
@@ -612,12 +577,12 @@ Ein Überblick über die metrischen Variablen:
 
 .pull-left[
 
-<div id="iqrsauyudo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="nuizkahzkl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#iqrsauyudo .gt_table {
+#nuizkahzkl .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -642,7 +607,7 @@ Ein Überblick über die metrischen Variablen:
   border-left-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_heading {
+#nuizkahzkl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -654,7 +619,7 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_title {
+#nuizkahzkl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -664,7 +629,7 @@ Ein Überblick über die metrischen Variablen:
   border-bottom-width: 0;
 }
 
-#iqrsauyudo .gt_subtitle {
+#nuizkahzkl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -674,13 +639,13 @@ Ein Überblick über die metrischen Variablen:
   border-top-width: 0;
 }
 
-#iqrsauyudo .gt_bottom_border {
+#nuizkahzkl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_col_headings {
+#nuizkahzkl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -695,7 +660,7 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_col_heading {
+#nuizkahzkl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -715,7 +680,7 @@ Ein Überblick über die metrischen Variablen:
   overflow-x: hidden;
 }
 
-#iqrsauyudo .gt_column_spanner_outer {
+#nuizkahzkl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -727,15 +692,15 @@ Ein Überblick über die metrischen Variablen:
   padding-right: 4px;
 }
 
-#iqrsauyudo .gt_column_spanner_outer:first-child {
+#nuizkahzkl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iqrsauyudo .gt_column_spanner_outer:last-child {
+#nuizkahzkl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iqrsauyudo .gt_column_spanner {
+#nuizkahzkl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -747,7 +712,7 @@ Ein Überblick über die metrischen Variablen:
   width: 100%;
 }
 
-#iqrsauyudo .gt_group_heading {
+#nuizkahzkl .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -769,7 +734,7 @@ Ein Überblick über die metrischen Variablen:
   vertical-align: middle;
 }
 
-#iqrsauyudo .gt_empty_group_heading {
+#nuizkahzkl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -784,15 +749,15 @@ Ein Überblick über die metrischen Variablen:
   vertical-align: middle;
 }
 
-#iqrsauyudo .gt_from_md > :first-child {
+#nuizkahzkl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iqrsauyudo .gt_from_md > :last-child {
+#nuizkahzkl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iqrsauyudo .gt_row {
+#nuizkahzkl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -811,7 +776,7 @@ Ein Überblick über die metrischen Variablen:
   overflow-x: hidden;
 }
 
-#iqrsauyudo .gt_stub {
+#nuizkahzkl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -823,7 +788,7 @@ Ein Überblick über die metrischen Variablen:
   padding-left: 12px;
 }
 
-#iqrsauyudo .gt_summary_row {
+#nuizkahzkl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -833,7 +798,7 @@ Ein Überblick über die metrischen Variablen:
   padding-right: 5px;
 }
 
-#iqrsauyudo .gt_first_summary_row {
+#nuizkahzkl .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -843,7 +808,7 @@ Ein Überblick über die metrischen Variablen:
   border-top-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_grand_summary_row {
+#nuizkahzkl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -853,7 +818,7 @@ Ein Überblick über die metrischen Variablen:
   padding-right: 5px;
 }
 
-#iqrsauyudo .gt_first_grand_summary_row {
+#nuizkahzkl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -863,11 +828,11 @@ Ein Überblick über die metrischen Variablen:
   border-top-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_striped {
+#nuizkahzkl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iqrsauyudo .gt_table_body {
+#nuizkahzkl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -876,7 +841,7 @@ Ein Überblick über die metrischen Variablen:
   border-bottom-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_footnotes {
+#nuizkahzkl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -890,13 +855,13 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_footnote {
+#nuizkahzkl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#iqrsauyudo .gt_sourcenotes {
+#nuizkahzkl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -910,41 +875,41 @@ Ein Überblick über die metrischen Variablen:
   border-right-color: #D3D3D3;
 }
 
-#iqrsauyudo .gt_sourcenote {
+#nuizkahzkl .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#iqrsauyudo .gt_left {
+#nuizkahzkl .gt_left {
   text-align: left;
 }
 
-#iqrsauyudo .gt_center {
+#nuizkahzkl .gt_center {
   text-align: center;
 }
 
-#iqrsauyudo .gt_right {
+#nuizkahzkl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iqrsauyudo .gt_font_normal {
+#nuizkahzkl .gt_font_normal {
   font-weight: normal;
 }
 
-#iqrsauyudo .gt_font_bold {
+#nuizkahzkl .gt_font_bold {
   font-weight: bold;
 }
 
-#iqrsauyudo .gt_font_italic {
+#nuizkahzkl .gt_font_italic {
   font-style: italic;
 }
 
-#iqrsauyudo .gt_super {
+#nuizkahzkl .gt_super {
   font-size: 65%;
 }
 
-#iqrsauyudo .gt_footnote_marks {
+#nuizkahzkl .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -954,27 +919,27 @@ Ein Überblick über die metrischen Variablen:
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">cut</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">cut</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">price_md</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">price_iqr</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_center">Fair</td>
-<td class="gt_row gt_right">3,282</td>
-<td class="gt_row gt_right">3,155</td></tr>
-    <tr><td class="gt_row gt_center">Good</td>
-<td class="gt_row gt_right">3,050</td>
-<td class="gt_row gt_right">3,883</td></tr>
-    <tr><td class="gt_row gt_center">Very Good</td>
-<td class="gt_row gt_right">2,648</td>
-<td class="gt_row gt_right">4,461</td></tr>
-    <tr><td class="gt_row gt_center">Premium</td>
-<td class="gt_row gt_right">3,185</td>
-<td class="gt_row gt_right">5,250</td></tr>
-    <tr><td class="gt_row gt_center">Ideal</td>
-<td class="gt_row gt_right">1,810</td>
-<td class="gt_row gt_right">3,800</td></tr>
+    <tr><td class="gt_row gt_left">Fair</td>
+<td class="gt_row gt_right">3,640</td>
+<td class="gt_row gt_right">1,976</td></tr>
+    <tr><td class="gt_row gt_left">Good</td>
+<td class="gt_row gt_right">3,090</td>
+<td class="gt_row gt_right">3,745</td></tr>
+    <tr><td class="gt_row gt_left">Ideal</td>
+<td class="gt_row gt_right">1,759</td>
+<td class="gt_row gt_right">3,850</td></tr>
+    <tr><td class="gt_row gt_left">Premium</td>
+<td class="gt_row gt_right">4,058</td>
+<td class="gt_row gt_right">5,295</td></tr>
+    <tr><td class="gt_row gt_left">Very Good</td>
+<td class="gt_row gt_right">2,760</td>
+<td class="gt_row gt_right">3,902</td></tr>
   </tbody>
   
   
@@ -985,11 +950,277 @@ Ein Überblick über die metrischen Variablen:
 ]
 
 .pull-right[
-&lt;img src="chunk-img/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+&lt;img src="chunk-img/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+## Mittlere Preisunterschiede in der Population
+
+
+
+
+```r
+options(mc.cores = parallel::detectCores())  # Turbo einschalten
+
+m10.6 &lt;- stan_glm(price ~ cut, data = diamonds, refresh = 0)
+# refresh=0 unterdrückt Ausgabe der Posteriori-Stichproben
+```
+
+
+
+
+```
+## stan_glm
+##  family:       gaussian [identity]
+##  formula:      price ~ cut
+##  observations: 1000
+##  predictors:   5
+## ------
+##              Median  MAD_SD 
+## (Intercept)   4571.7   675.1
+## cutGood       -570.2   777.2
+## cutIdeal     -1288.3   688.1
+## cutPremium     362.5   709.8
+## cutVery Good  -807.4   706.3
+## 
+## Auxiliary parameter(s):
+##       Median MAD_SD
+## sigma 3795.0   82.4
+## 
+## ------
+## * For help interpreting the printed output see ?print.stanreg
+## * For info on the priors used see ?prior_summary.stanreg
+```
+
+---
+
+
+## Interpretation von `m10.6`
+
+- `cut` hat fünf verschiedene Werte (Stufen, Faktorstufen, Ausprägungen), aber es werden nur vier angezeigt. 
+- Die fünfte (`Fair`, nicht ausgegeben) ist die *Vergleichs- oder Referenzkategorie* (baseline) und ist im Achsenabschnitt ausgedrückt.
+- Die Koeffizienten für `cut` geben jeweils den Unterschied zur Vergleichskategorie wieder.
+- Diamanten der Schliffart `Fair` haben laut Modell einen mittleren Preis von ca. 4300$.
+- Diamanten der Schliffart `Good` sind laut Modell im Mittel gut 400$ billiger als Diamanten der Schliffart `Fair`, etc.
+
+
+&lt;img src="chunk-img/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Glauben wir jetzt an Preisunterschiede?
+
+... zwischen den Preis-Mittelwerten in der Population?
+
+- Ja, denn die Schätzintervalle für die Unterschiede waren im Modell `m10.6` alle weit von der Null entfernt.
+
+- Auf Basis unseres Modells schließen wir also (mit hoher Sicherheit) aus, dass die Preise im Mittelwert *exakt* identisch sind.
+
+- Ehrlicherweise hätte sowieso niemand geglaubt, dass die *Nullhypothese* `\(\mu_1 = \mu_2 = \ldots = \mu_k\)` bis in die letzte Dezimale gilt. Anders gesagt: Die Wahrscheinlichkeit eines bestimten Wertes einer stetigen Zufallsvariable ist praktisch Null.
+
+- Aber: Viele Forscheris prüfen gerne die Nullhypothese, daher taucht der Begriff hier auf.
+
+- Das Verfahren der Frequentistischen Statistik, um die Nullhypothese `\(\mu_1 = \mu_2 = \ldots = \mu_k\)` zu testen, nennt man *Varianzanalyse* (analysis of variance, kurz *ANOVA*).
+
+
+
+---
+
+## Modellkoeffizienten von `m10.6`
+
+Die Regressionsoeffizienten pro Stufen von `cut`entsprechen den Mittelwerten `\(\hat{y_i}\)` aus der Posteriori-Verteilung. Mit `coef(m10.6)` kann man sie sich bequem ausgeben lassen.
+
+
+```r
+coef(m10.6)
+```
+
+```
+##  (Intercept)      cutGood     cutIdeal   cutPremium cutVery Good 
+##    4571.7415    -570.2364   -1288.3183     362.4788    -807.3535
+```
+
+
+- `\(\hat{y}_{Fair} = 4572\)`
+- `\(\hat{y}_{Good} = -570\)`
+- etc.
+
+
+---
+
+## Wechsel der Referenzkategorie
+
+- `cut` ist eine nominale Variable, da passt in R der Typ `factor` (Faktor) am besten. Aktuell ist der Typ noch `character` (Text):
+
+
+```r
+diamonds &lt;- diamonds %&gt;% 
+  mutate(cut = factor(cut))
+```
+
+
+- Im Standard sortiert R die Faktorstufen alphabetisch, aber man kann die Reihenfolge ändern. 
+
+
+```r
+levels(diamonds$cut)
+```
+
+```
+## [1] "Fair"      "Good"      "Ideal"     "Premium"   "Very Good"
+```
+
+Setzen wir `Ideal` als Referenzkategorie und lassen die restliche Reihenfolge, wie sie ist:
+
+
+```r
+library(forcats)
+diamonds &lt;- diamonds %&gt;% 
+  mutate(cut = factor(cut),
+    cut = fct_relevel(cut, "Ideal"))
+```
+
+
+```
+## [1] "Ideal"     "Fair"      "Good"      "Premium"   "Very Good"
+```
+
+
+
+
+
+
+
+---
+
+## Wechsel der Referenzkategorie ändert nichts Wesentliches am Modell
+
+
+```r
+m10.6a &lt;- stan_glm(price ~ cut, data = diamonds, refresh = 0)
+m10.6a
+```
+
+```
+## stan_glm
+##  family:       gaussian [identity]
+##  formula:      price ~ cut
+##  observations: 1000
+##  predictors:   5
+## ------
+##              Median MAD_SD
+## (Intercept)  3280.3  187.5
+## cutFair      1268.9  671.4
+## cutGood       725.4  404.6
+## cutPremium   1645.8  305.9
+## cutVery Good  485.8  309.8
+## 
+## Auxiliary parameter(s):
+##       Median MAD_SD
+## sigma 3798.3   86.9
+## 
+## ------
+## * For help interpreting the printed output see ?print.stanreg
+## * For info on the priors used see ?prior_summary.stanreg
+```
+
+
+
+---
+
+## Modellgüte mit `\(R^2\)` bestimmen
+
+
+.pull-left[
+- `\(R^2\)` gibt den Anteil der Gesamtvarianz (der AV) an, den das Modell erklärt.
+- Höhere Wert von `\(R^2\)` bedeuten, dass das Modell die Daten besser erklärt.
+- `\(R^2\)` wird normalerweise auf Basis eines Punktschätzers definiert.
+- Solch eine Definition lässt aber viel Information - über die Ungewissheit der Schätzung - außen vor.
+- Daher ist es wünschenswert, diese Information in `\(R^2\)` einfließen zu lassen: *Bayes-R-Quadrat*.
+- mit `bayes_r2()` kann man sich die Verteilung berechnen lassen.
+]
+
+&lt;!-- R^2_{Bayes} = \frac{\text{erklärte Varianz}}{\text{erkärte Varianz + Residualvarianz}} = \frac{var_{fit}}{var_{fit}+var_{res}} --&gt;
+
+&lt;!-- - `\(var_{fit}\)` ist die Varianz der vorhergesagten Schätzwerte `\(\hat{y}_i\)`. --&gt;
+
+
+.pull-right[
+
+```r
+m10.6_r2 &lt;- bayes_R2(m10.6)
+median(m10.6_r2)
+```
+
+```
+## [1] 0.0308118
+```
+
+```r
+IQR(m10.6_r2)
+```
+
+```
+## [1] 0.01445986
+```
+
+&lt;img src="chunk-img/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ---
+
+## Priori-Werte
+
+- Unser Modell hat schwach informierte (weakly informative) Priors.
+- Für Achsenabschnitt und die Regressionskoeffizienten werden Normalverteilungen angenommen mit Mittelwert entsprechend den Stichprobendaten und Streuung, die der 2.5-fachen der Streuung in der Stichprobe entspricht.
+
+Mehr Infos kann man sich so ausgeben lassen: `prior_summary(m10.6)`.
+
+Wo man man über mehr inhaltliches Wissen verfügt, so wird man die Priors anpassen wollen, z.B.:
+
+
+```r
+m10.6b &lt;- stan_glm(price ~ cut, data = diamonds, refresh = 0,
+                   prior = normal(location = c(100, 100, 100, 100),
+                                  scale = c(100, 100, 100, 100)),
+                   prior_intercept = normal(300, 500)
+                   )
+```
+
+
+
+```r
+coef(m10.6b)
+```
+
+```
+##  (Intercept)      cutFair      cutGood   cutPremium cutVery Good 
+##   3595.53453    118.97219    107.34587    237.46326     84.05426
+```
+
+```r
+sigma(m10.6b)
+```
+
+```
+## [1] 3839.269
+```
+
+
+
+
+---
+
+
+## "Praktisch" kein Unterschied
+
+
 
 
 

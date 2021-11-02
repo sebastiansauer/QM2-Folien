@@ -27,7 +27,7 @@ output:
 
 ```{r}
 book <- "Gelman et al."
-rethink_chap <- "10"
+book_chap <- "10, 11"
 ```
 
 
