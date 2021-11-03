@@ -17,7 +17,10 @@ Eine Psychologin, die im öffentlichen Dienst arbeitet, versucht herauszufinden,
 
 
 
->    *Forschungsfrage:* Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt?
+*Forschungsfrage:* 
+
+
+>    Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt?
 
 
 ---
@@ -48,7 +51,7 @@ coef(m10.1)
 ```{r}
 ggplot(kidiq) +
   aes(x = mom_hs, y = kid_score) +
-  geom_jitter(width = 0.1, alpha = .7) +
+  geom_jitter(width = 0.1, alpha = .5) +
   geom_abline(slope = coef(m10.1)[2],
               intercept = coef(m10.1)[1]) 
 ```
@@ -163,6 +166,7 @@ plot(m10.1,
      pars = "mom_hs")
 ```
 
+[Im Standard](https://mc-stan.org/bayesplot/reference/MCMC-intervals.html) werden 50%- und 90%-PI gezeigt.
 ]
 
 

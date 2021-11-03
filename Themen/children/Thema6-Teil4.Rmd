@@ -621,6 +621,59 @@ m10.10_r2_md <- median(m10.10_r2) %>% round(2)
 
 ---
 
+## Ausblick: Binäre AV
+
+
+>    *Forschungsfrage:* Kann man anhand des Spritverbrauchs vorhersagen, ob ein Auto eine Automatik- bzw. ein manuelle Schaltung hat? Anders gesagt: Hängen Spritverbrauch und Getriebeart? (Datensatz `mtcars`)
+
+
+.pull-left[
+
+```{r echo = TRUE}
+data(mtcars)
+mtcars <-
+  mtcars %>% 
+  mutate(mpg_z = scale(mpg))
+```
+
+```{r echo = TRUE, results = "show"}
+m11 <-
+  stan_glm(am ~ mpg_z, 
+           data = mtcars, 
+           refresh = 0)
+coef(m11)
+```
+
+Ab  `mpg_z = `r round(coef(m11),2)`` sagt das Modell `am=1` (manuell) vorher. Ganz ok.
+
+]
+
+.pull-right[
+```{r}
+mtcars %>% 
+  ggplot(aes(x = mpg_z, y = am)) +
+  geom_hline(yintercept = 0.5, color = "white", size = 2) +
+  geom_point() +
+  geom_abline(intercept = coef(m11)[1],
+              slope = coef(m11)[2],
+              color = "blue") 
+```
+
+
+```{r}
+neg_am <- predict(m11, newdata = data.frame(mpg_z = -1.3))
+```
+
+
+Für kleine Werte von `mpg_z` (<1.3) sagt unser Modell *negative* Werte für `am` voraus. Das macht keinen Sinn. Müssen wir mal bei Gelegenheit besser machen.
+
+]
+
+
+---
+
+
+
 ## Wir waren fleißig
 
 

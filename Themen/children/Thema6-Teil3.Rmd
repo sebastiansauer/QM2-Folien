@@ -199,10 +199,13 @@ Variablennamen, die nach R-Rechtschreiberegeln verboten sind, wie `cutVery Good`
 ## Schätzbereiche (PI) ausgeben lassen, komfortabel
 
 Einfacher bekommt man die gleiche Ausgabe z.B. so:
-```{r echo = TRUE, eval = FALSE}
-posterior_interval(m10.6)
+```{r echo = TRUE, eval = TRUE}
+posterior_interval(m10.6,
+                   prob = .89)
 ```
 
+
+.footnote[[Hilfeseite für diese Funktion](http://mc-stan.org/rstanarm/reference/posterior_interval.stanreg.html)]
 ---
 
 ## 95%-HDI für die Regressionskoeffizienten
