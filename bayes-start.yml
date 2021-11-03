@@ -1,0 +1,16 @@
+themen:
+  thema1: "Was ist Inferenz?"
+  thema2: "Wissen updaten"
+  thema3: "Die Posteriori-Verteilung"
+  thema4: "Gauss-Modelle"
+  thema5: "Lineare Regression"
+  thema6: "Deskriptive Forschungsfragen"
+  thema7: "Kausalinferenz"
+  thema8: "Binäre AV"
+literatur:
+  thema1: "ROS, Kap. 1"
+  thema2: "ReThink, Kap. 2"
+  thema3: "ReThink, Kap. 3"
+  thema4: "ReThink, Kap. 4.1-4.3"
+  thema5: "Rethink, Kap. 4.4, ROS, Kap. 9.2"
+  thema6: "ROS, 10.1-10.4, 11.1-11.4, 11.6"

@@ -31,7 +31,7 @@ csquotes: TRUE
 
 
 ```{r}
-rethink_chap <- "4.4"
+book <- "Rethink, Kap. 4.4, ROS, Kap. 9.2"
 ```
 
 

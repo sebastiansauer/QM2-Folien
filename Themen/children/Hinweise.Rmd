@@ -10,24 +10,22 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-  - `r book`, Kapitel `r book_chap`.
+  - `r book`
 
 
-
-- Dieses Skript wurde erstellt am `r Sys.time()` (WiSe 21).
+- Dieses Skript wurde erstellt am `r Sys.time()` 
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
 - Autor ist Sebastian Sauer.
 
-- Um diese HTMLM-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
-
-- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+- Um diese HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
 
 - Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
 
 - Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. Wenn Sie mit `.Rmd` ersetzen, den Quellcode.
 
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
 
 ---
 
@@ -36,7 +34,9 @@ name: literatur
 ## Literatur
 
 
-```{r Hinweise-1, results='asis', echo=FALSE}
+```{r Hinweise-1, results='asis', echo=FALSE, cache=FALSE}
 PrintBibliography(bib)
+
+
 ```
 

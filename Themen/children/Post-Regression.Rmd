@@ -196,7 +196,7 @@ d2 %>%
 
 ```{r m42-read-from-disk, echo = FALSE}
 
-m42 <- read_rds("objects/m42.rds")
+m42 <- read_rds(paste0(here::here(),"/objects/m42.rds"))
 
 m42_post <- as_tibble(m42)
 names(m42_post) <- c("mu", "sigma")
@@ -552,7 +552,7 @@ d %>%
 .pull-right[
 ### Oh yes
 
-Wir bräuchten eher so eine Verteilung:
+Wir bräuchten eher so eine Verteilung, mit mehr Masse auf der positiven Seite (x>0):
 
 ```{r Post-Regression-17, fig.asp=.5}
 d <-
@@ -619,7 +619,7 @@ m43a_prior_pred_draws %>%
 ]
 
 
-Das Argument `prior_PD = TRUE` sorgt dafür, dass keine Posteriori-Verteilung, sondern eine Prior-Prädiktiv-Verteilung berechnet wird.
+.footnote[Das Argument `prior_PD = TRUE` sorgt dafür, dass keine Posteriori-Verteilung, sondern eine Prior-Prädiktiv-Verteilung berechnet wird.]
 
 ---
 
@@ -630,7 +630,7 @@ Das Argument `prior_PD = TRUE` sorgt dafür, dass keine Posteriori-Verteilung, s
 Unsere Priori-Werte scheinen einigermaßen vernünftige Vorhersagen zu tätigen. Allerdings erwartet unser Golem einige Riesen.
 
 
-```{r, eval = TRUE}
+```{r, eval = TRUE, fig.asp=.5}
 d2 %>% 
   ggplot(aes(x = weight_c, y = height)) +
   geom_point() +

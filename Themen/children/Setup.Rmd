@@ -96,12 +96,15 @@ source("R-Code/img.R")
 
 
 
-```{r bib}
+```{r bib, cache=FALSE}
 BibOptions(check.entries = FALSE, 
-           bib.style = "numeric", 
+           bib.style = "authoryear", 
            style = "markdown",
            max.names = 5,
-           dashed = TRUE)
+           dashed = TRUE,
+           no.print.fields = 
+             c("url", "page","isbn", "location", "urldate", "note", "urldate", "issn")
+           )
 bib_file <- "bib.bib"
 bib <- ReadBib(bib_file)
 ```

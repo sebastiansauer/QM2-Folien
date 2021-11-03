@@ -78,7 +78,6 @@ post_m43a_summary %>%
 ]
 
 .pull-right[
-
 ```{r Post-Regression-befragen-6, echo = TRUE, eval = FALSE}
 d2 %>% 
   ggplot() +
