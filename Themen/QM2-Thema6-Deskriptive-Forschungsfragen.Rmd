@@ -10,9 +10,9 @@ output:
     keep_md: false
     css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
     lib_dir: libs
-#    seal: true
+    seal: true
     nature:
-#      titleSlideClass: ["right", "bottom", "test"]
+      titleSlideClass: ["right", "bottom", "test"]
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
