@@ -1,4 +1,7 @@
 ```{r}
+library(tidyverse)
+library(gt)
+library(rstanarm)
 library(rstatix)
 library(ggridges)
 ```
@@ -7,21 +10,34 @@ library(ggridges)
 name: teil3
 class: middle, center
 
-# Eine nominale UV mit mehreren Stufen
+# Teil 3: Eine nominale UV mit mehreren Stufen
 
 ---
 
 
 ## Forschungsfrage
 
+*Hintergrund*:
+
+Nach Ihrem Studium haben Sie bei einem aufstrebenden Online-Händler angeheuert. Sie sind für alles zuständig, was nach Wissenschaft oder Analyse aussieht oder sonst den Anschein erweckt, kompliziert zu sein. Aus irgendwelchen Gründen liegt Ihre Chefin Diamante️n, so dass Ihre erste Aufgabe darin besteht, Diamantenpreise zu analysieren. Das Ziel Ihrer Chefin liegt darin, zu erkennen, was ein Preis ist, für den ein Diamant gut verkauft werden kann. Kennt man diesen Preis, kann man sich auf die Suche machen, ob man den Diamant irgendwo günstiger find. Wenn ja, macht man Gewinn. Gutes Geschäftsmodell, meint Ihre Chefin.
+
+</br>
+
 
 > Unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart? (Datensatz `diamonds`)
+
+
+
+
+---
+
+## Alle Mittelwerte sind gleich (?)
 
 - Formal: $\mu_1 = \mu_2 = \ldots = \mu_k$ mit $k$ verschiedenen Gruppen von Schliffart.
 
 - Hypothesen, die keinen (Null) Unterschied zwischen Gruppen oder keinen Zusammenhang zwischen Variablen postulieren, kann man als *Nullhypothesen* bezeichnen.
 
-- Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Wer glaubt sowas? Daher ist die bessere Forschungsfrage:
+- Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Wer glaubt sowas? 🤔 Daher ist die bessere Forschungsfrage:
 
 > *Wie sehr* unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart?
 
@@ -29,7 +45,7 @@ Oder wir prüfen die Hypothese, ob die Mittelwerte "praktisch" gleich sind, also
 
 ---
 
-## Erster Blick in den Datensatz 
+## Erster Blick in den Datensatz `diamonds`
 
 [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2/diamonds.csv), [Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/ggplot2/diamonds.html)
 
@@ -74,9 +90,12 @@ diamonds %>%
   fmt_number(3:last_col(), decimals = 1)
 ```
 
+
+Was fällt Ihnen auf?
+
 ---
 
-## EDA
+## Visualisierung (EDA)
 
 
 .pull-left[
@@ -150,19 +169,71 @@ plot(m10.6, regex_pars = "^cut")
 
 ---
 
+
+## Schätzbereiche (PI) für die Modellparameter
+
+```{r echo = TRUE}
+m10.6_post <-
+  m10.6 %>% 
+  as_tibble()
+
+grenzen <- c(0.025, 0.975)
+
+m10.6_post %>% 
+  summarise(pi_intercept = quantile(`(Intercept)`, probs = grenzen),
+            cutGood = quantile(cutGood, probs = grenzen),
+            cutIdeal = quantile(cutIdeal, probs = grenzen),
+            cutPremium = quantile(cutPremium, probs = grenzen),
+            `cutVery Good` = quantile(`cutVery Good`, probs = grenzen))
+```
+
+Variablennamen, die nach R-Rechtschreiberegeln verboten sind, wie `cutVery Good` oder `(Intercept`), müssen mit Backticks angeführt werden:
+
+````
+`(Intercept)`
+`cutVery Good`
+````
+
+---
+
+## Schätzbereiche (PI) ausgeben lassen, komfortabel
+
+Einfacher bekommt man die gleiche Ausgabe z.B. so:
+```{r echo = TRUE, eval = FALSE}
+posterior_interval(m10.6)
+```
+
+---
+
+## 95%-HDI für die Regressionskoeffizienten
+
+Da die Forschungsfrage nur auf die Regressionskoeffizienten, nicht auf $\sigma$ abzielt, brauchen wir uns $\sigma$ auch nicht en Detail anschauen.
+
+Das HDI kann man komfortabel z.B. so bekommen:
+
+```{r echo = TRUE}
+bayestestR::hdi(m10.6)
+```
+
+Wie man sieht, sind die Intervallgrenzen des HDI ähnlich zu denen des PI.
+
+---
+
 ## Glauben wir jetzt an Preisunterschiede?
 
 ... zwischen den Preis-Mittelwerten in der Population?
 
-- Ja, denn die Schätzintervalle für die Unterschiede waren im Modell `m10.6` alle weit von der Null entfernt.
+- Teilweise, denn einige Schätzintervalle (für die Preisunterschiede) waren im Modell `m10.6` weit von der Null entfernt, andere nicht.
 
-- Auf Basis unseres Modells schließen wir also (mit hoher Sicherheit) aus, dass die Preise im Mittelwert *exakt* identisch sind.
+- Auf Basis unseres Modells schließen wir also (mit hoher Sicherheit) aus, dass *alle* Preise im Mittelwert *exakt* identisch sind.
 
-- Ehrlicherweise hätte sowieso niemand geglaubt, dass die *Nullhypothese* $\mu_1 = \mu_2 = \ldots = \mu_k$ bis in die letzte Dezimale gilt. Anders gesagt: Die Wahrscheinlichkeit eines bestimten Wertes einer stetigen Zufallsvariable ist praktisch Null.
+- Ehrlicherweise hätte sowieso niemand geglaubt, dass die *exakte Nullhypothese* $\mu_1 = \mu_2 = \ldots = \mu_k$ bis in die letzte Dezimale gilt. Anders gesagt: Die Wahrscheinlichkeit eines bestimmten Wertes einer stetigen Zufallsvariable ist praktisch Null.
 
 - Aber: Viele Forscheris prüfen gerne die Nullhypothese, daher taucht der Begriff hier auf.
 
 - Das Verfahren der Frequentistischen Statistik, um die Nullhypothese $\mu_1 = \mu_2 = \ldots = \mu_k$ zu testen, nennt man *Varianzanalyse* (analysis of variance, kurz *ANOVA*).
+
+- In der Bayes-Statistik nutzt man - wie immer - primär die Post-Verteilung, um Fragen der Inferenz (z.B. Gruppenunterschiede dieser Art) zu inferenzstatistisch zu beurteilen.
 
 
 
@@ -293,14 +364,42 @@ sigma(m10.6b)
 ## "Praktisch" kein Unterschied
 
 
-.pull-left[
-- Sagen wir, wenn sich zwei Preismittelwerte um höchstens 100$ unterscheiden, gilt dieser Unterschied für uns als "praktisch gleich", "praktisch kein Unterschied" bzw. vernachlässigbar.
-- Diesen Bereich bezeichnen wir den *Bereich eines vernachlässigbaren Unterschieds* oder *Region of practical equivalence* (Rope). 
-- Jetzt prüfen wir, welcher Teil der Posteriori-Stichproben im Rope liegt:
-    - 
-]
 
-```{r}
+- Sagen wir, wenn sich zwei Preismittelwerte um höchstens $d=100$€ unterscheiden, gilt dieser Unterschied für uns als "praktisch gleich", "praktisch kein Unterschied" bzw. vernachlässigbar.
+- Nimmt man (praktisch) keinen Unterschied/Zusammenhang/Effekt an, spricht man von einer *Nullhypothese*: $H_0$.
+- Die Wahl von $d$ ist *subjektiv* in dem Sinne als sie von inhaltlichen Überlegungen geleitet sein sollte.
+- Diesen Bereich bezeichnen wir den *Indifferenzbereich* (Äquivalenzone, Bereich eines vernachlässigbaren Unterschieds oder *Region of practical equivalence*, Rope). 
+- Jetzt prüfen wir, ob ein "Großteil" der Posteriori-Stichproben im Rope liegt.
+- Unter "Großteil" wird häufig das *95%-HDI* verstanden.
+
+*Entscheidungsregel*:
+
+- Großteil liegt *innerhalb* von Rope  ➡️ *Annahme* der Nullhypothese "praktisch kein Effekt", $H_0$
+- Großteil liegt *außerhalb* von Rope  ➡️ *Ablehnung* der Nullhypothese "praktisch kein Effekt", $H_0$
+- Ansonsten  ➡️  keine Entscheidung 
+
+`r RefManageR::Citep(bib, "kruschke_rejecting_2018")`
+
+
+---
+
+## HDI-Rope-Entscheidungsregel visualisiert
+
+```{r out.width="70%"}
+knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/Kruschke-2018-Fig1.png")
+```
+
+`r RefManageR::Citep(bib, "kruschke_rejecting_2018")`, Abbildung 1, S. 272
+
+
+---
+
+## Visualisierung unserer Rope-Werte, m10.6
+
+- Ein Großteil der Posteriori-Masse von `m10.6` liegt  *nicht* innerhalb des Rope. 
+- Aber können wir umgekehrt sagen, dass ein Großteil außerhalb liegt? Das erkennt man optischt so gut.
+
+```{r fig.asp = .5}
 plot(m10.6,plotfun = "mcmc_areas",
      regex_pars = "^cut") +
   annotate("rect",
@@ -318,10 +417,53 @@ plot(m10.6,plotfun = "mcmc_areas",
 ---
 
 
-## 
+## Genaue Rope-Werte
 
 
-```{r}
+```{r echo = TRUE, results="hide"}
 library(bayestestR)
 rope(m10.6, range = c(-100, 100))
 ```
+
+</br>
+
+
+Parameter    | Anteil im ROPE  | Entscheidung 
+:----------- |:--------------- |:------------- 
+(Intercept)  |      0.00 %     | Nullhypothese verwerfen 
+cutGood      |      8.73 %     | keine Entscheidung möglich 
+cutIdeal     |      1.47 %     | Nullhypothese verwerfen 
+cutPremium   |     10.08 %     | keine Entscheidung möglich 
+cutVery Good |      6.42 %     | keine Entscheidung möglich 
+
+
+Im Standard werden 95%-HDI berichtet, das kann man so ändern, wenn man möchte:
+
+```{r echo=TRUE, eval = FALSE}
+rope(m10.6, range, c(-100,100), ci = .89, ci_method = "ETI")
+```
+
+`ETI` (equal tails interval) steht für ein PI.
+
+---
+
+## R-Befehl zur bequemen Visualisierung von Rope
+
+Das Paket `bayestestR` bietet eine komfortable Visualisierungsfunktion:
+
+```{r echo = TRUE, out.width="70%"}
+plot(rope(m10.6, range = c(-100, 100)))
+```
+
+---
+
+
+## Beantwortung der Forschungsfrage
+
+>    Nur das 95%-HDI für Schliffart "Ieal" schloss den Indifferenzbereich von ±100€ aus, die übrigen Mittelwertsdifferenzen nicht. Für die übrigen Differenzen ist keine klare inferenzstatistische Aussage hinsichtlich eines Indifferenzbereichs möglich: Es ist plauibel, laut dem Modell, dass es einen praktisch bedeutsamen Unterschied gibt, aber es ist auch plausibel, dass es keinen praktisch bedeutsamen Unterschied gibt.
+
+>   Die 95%HDI für die Mittelwertsdifferenzen waren wie folgt: cutGood: [-2040, 953], cutIdeal: [-2645, -4], cutPremium: [-965, 1732], cutVeryGood: [-2102, 627]. Das Modell erklärte im Median ca. 3% der Varianz, also nur einen kleinen Teil.
+
+---
+
+

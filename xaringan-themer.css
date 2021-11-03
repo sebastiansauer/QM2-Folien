@@ -46,13 +46,13 @@
   --text-color: #18273F;
   --header-color: #23395b;
   --background-color: #E9EBEE;
-  --link-color: rgb(249, 38, 114);
+  --link-color: #F92672;
   --text-bold-color: #23395b;
   --code-highlight-color: rgba(255,255,0,0.5);
   --inverse-text-color: #E9EBEE;
   --inverse-background-color: #23395b;
   --inverse-header-color: #E9EBEE;
-  --inverse-link-color: rgb(249, 38, 114);
+  --inverse-link-color: #F92672;
   --title-slide-background-color: #23395b;
   --title-slide-text-color: #E9EBEE;
   --header-background-color: #23395b;
@@ -103,7 +103,7 @@ h1, h2, h3 {
   color: #23395b;
 }
 .remark-slide-number {
-  color: #23395b;
+  color: #727A86;
   opacity: 1;
   font-size: 0.9em;
 }

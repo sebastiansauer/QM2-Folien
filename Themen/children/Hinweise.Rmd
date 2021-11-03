@@ -10,9 +10,8 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-  - *Statistical Rethinking* (2. Auflage), Kapitel `r rethink_chap`, `r RefManageR::Citet(bib, "mcelreath_statistical_2020")`
+  - `r book`, Kapitel `r book_chap`.
 
-  - Der R-Code stammt aus `r RefManageR::Citet(bib,"kurz_statistical_2021")`.
 
 
 - Dieses Skript wurde erstellt am `r Sys.time()` (WiSe 21).

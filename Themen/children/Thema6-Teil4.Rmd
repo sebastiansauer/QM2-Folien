@@ -1,0 +1,637 @@
+```{r}
+library(tidyverse)
+library(gt)
+library(rstanarm)
+library(rstatix)
+library(ggridges)
+```
+
+
+name: teil4
+class: middle, center
+
+# Teil 4:Mehrere metrische UV
+
+---
+
+
+## Forschungsfrage
+
+>   Stehen sowohl der IQ der Mutter als auch, unabhängig davon, das Alter der Mutter im Zusammenhang mit dem IQ des Kindes?
+
+
+- Das ist wieder eine *deskriptive* Forschungsfrage. *Keine* Kausalwirkung (etwa "IQ der Mutter ist die Ursache zum IQ des Kindes") wird impliziert. 
+- Es geht rein darum, Zusammenhänge in den Daten - bzw. in der Population - aufzuzeigen.
+- Viele Forschungsfagen gehen allerdings weiter und haben explizit Kausalwirkungen im Fokus. Für solche Fragen ist eine deskriptive Untersuchung nicht geeignet, sondern eine Kausalanalyse ist nötig.
+
+
+[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/kidiq.csv) als CSV-Datei oder alternativ:
+
+```{r echo = TRUE}
+library(rstanarm)
+data("kidiq")
+```
+
+---
+
+## Was heißt, X hängt mit Y zusammen?
+
+
+- Der Begriff "Zusammenhang" ist nicht exakt.
+- Häufig wird er (für metrische Variablen) verstanden als
+    - lineare Korrelation $\rho$ bzw. $r$ 
+    - lineare Regression $\beta$, bzw. $b$ 
+
+
+- Der Regressionskoeffizient 
+    - misst die *Steigung* der Regressionsgerade
+    - zeigt, wie groß der vorhergesagte Unterschied in Y, wenn man zwei Personen (Beobachtungseinheiten) vergleicht, die sich um eine Einheit in X unterscheiden
+    - wird manchmal mit dem "Effekt von X auf Y" übersetzt. Vorsicht: "Effekt" klingt nach Kausalzusammenhang. Eine Regression ist keine hinreichende Begründung für einen Kausalzusammenhang. 
+    
+- Der Korrelationskoeffizient
+    - misst eine Art der Stärke des linearen Zusammenhangs
+    - zeigt, wie klein die Vorhersagefehler der zugehörigen Regrssion im Schnitt sind.
+    - [Korrelation ist nicht (automatisch) Kausation.](https://xkcd.com/552/)
+    
+
+
+---
+
+## Korrelationen zur Forschungsfrage
+
+.pull-left[
+```{r echo = TRUE, eval = FALSE}
+library(rstatix)
+kidiq %>% 
+  cor_mat()
+```
+
+```{r}
+library(rstatix)
+kidiq %>% 
+  cor_mat() %>% 
+  gt() %>% 
+  fmt_number(where(is.numeric), decimals = 1)
+```
+
+]
+
+
+
+
+.pull-right[
+```{r echo = TRUE}
+kidiq %>% 
+  cor_mat() %>% 
+  cor_plot()
+```
+
+]
+
+
+---
+
+
+## Univariate Regressionen
+
+```{r echo = TRUE}
+m10.7 <- stan_glm(kid_score ~ mom_iq, data = kidiq, refresh = 0)
+m10.8 <- stan_glm(kid_score ~ mom_age, data = kidiq, refresh = 0)
+```
+
+.pull-left[
+```{r echo = TRUE}
+coef(m10.7)
+```
+
+]
+
+.pull-right[
+```{r echo = TRUE}
+coef(m10.8)
+```
+
+]
+
+---
+
+## Visualisierung der univariaten Regressionen
+
+
+.pull-left[
+`m10.7`
+
+Steigung: `r round(coef(m10.7)[2], 1)`
+```{r}
+kidiq %>% 
+  ggplot(aes(x = mom_iq, y = kid_score)) +
+  geom_point() +
+  geom_abline(intercept = coef(m10.7)[1],
+              slope = coef(m10.7)[2],
+              color = "blue")
+```
+
+]
+
+
+.pull-left[
+`m10.8`
+
+Steigung: `r round(coef(m10.8)[2], 1)`
+```{r}
+kidiq %>% 
+  ggplot(aes(x = mom_age, y = kid_score)) +
+  geom_point() +
+  geom_abline(intercept = coef(m10.8)[1],
+              slope = coef(m10.8)[2],
+              color = "blue")
+```
+]
+
+---
+
+
+
+## Multiples Modell (beide Prädiktoren)
+
+```{r}
+m10.9 <- stan_glm(kid_score ~ mom_iq + mom_age, data = kidiq, refresh = 0)
+coef(m10.9)
+```
+
+💡 Die Regressionsgewichte unterscheiden sich zu den von den jeweiligen univariaten Regressionen.
+
+- Bei einer multiplen Regression ist ein Regressionsgewicht jeweils *bereinigt* vom Zusammenhang mit dem (oder den) anderen Regressionsgewicht.
+- Das bedeutet, man betrachtet den den Zusammenhang eines Prädiktors mit der AV, wobei man gleichzeitig den anderen Prädiktor konstant hält.
+
+---
+
+## 3D-Visualisierung eines Modells mit zwei Prädiktoren 1
+
+
+```{r out.width = "100%", fig.align="center"}
+lm1_coef <- coef(m10.9)
+x1_seq <- seq(min(kidiq$mom_iq), max(kidiq$mom_iq), length.out = 25)
+x2_seq <- seq(min(kidiq$mom_age), max(kidiq$mom_age), length.out = 25)
+
+z <- t(outer(x1_seq, x2_seq, 
+              function(x,y) lm1_coef[1]+lm1_coef[2]*x+lm1_coef[3]*y))
+
+library(plotly)
+plot_ly(width = 800, height = 500,
+  x=~x1_seq, y=~x2_seq, z=~z,type="surface") %>%
+  add_trace(data=kidiq, 
+            x=~mom_iq, y=~mom_age, z=~kid_score, 
+            mode="markers", 
+            type="scatter3d",
+            marker = list(color="#00998a", 
+                          opacity=0.7, 
+                          size = 1,
+                          symbol=105)) %>% 
+  layout(scene = list(
+    aspectmode = "manual", 
+    aspectratio = list(x=1, y=1, z=1),
+    xaxis = list(title = "mom_iq"),
+    yaxis = list(title = "mom_age"),
+    zaxis = list(title = "kid_score")))
+```
+
+
+---
+
+
+## Visualisierung mit Farbe statt 3. Dimension
+
+```{r fig.asp = .5}
+kidiq <-
+  kidiq %>%
+  mutate(pred_m10.9 = predict(m10.9))
+
+grid1 <- expand_grid(mom_iq = x1_seq, mom_age =  x2_seq) %>% 
+  mutate(pred_m10.9 = predict(m10.9, newdata = data.frame(mom_iq,
+                                                              mom_age)))
+
+ggplot(aes(x = mom_iq, y = mom_age), data = grid1) +
+  geom_raster(aes(fill = pred_m10.9)) +
+ # geom_point(aes(color = kid_score_pred)) +
+  scale_fill_viridis_c() +
+  scale_color_viridis_c() +
+  geom_point(data = kidiq,  alpha = .3, size = .7)
+```
+
+
+Auf der Achse von mom_iq erkennt man deutlich (anhand der Farbänderung) die Veränderung für die AV (kid_score). Auf der Achse für `mom_age` sieht man, dass sich die AV kaum ändert, wenn sich `mom_age` ändert.
+
+
+---
+
+## Visualisierung in 10 Dimensionen
+
+
+```{r out.width="50%"}
+ggplot(data.frame(x=NA, y=NA)) +
+  theme(panel.background = element_rect(fill = 'lightblue'))
+```
+
+Leider macht mein Hirn hier nicht mit. Unsere Schwächen, eine große Zahl an Dimensionen zu visualisieren, ist der Grund, warum wir mathematische Modelle brauchen.
+
+Daher kann man ein Modell verstehen als eine einfache Zusammenfassung eines (ggf. hochdimensionalen) Variablenraumes.
+
+
+
+
+---
+
+
+## Relevanz der Prädiktoren
+
+- Welcher Prädiktor ist nun "wichtiger" oder "stärker" in Bezug auf den Zusammenhang mit der AV, `mom_iq` oder `mom_age`?
+
+- `mom_iq` hat den größeren Koeffizienten.
+- `mom_age` hat weniger Streuung.
+
+
+- Um die Relevanz der Prädiktoren vergleichen zu können, müsste man vielleicht die Veränderung von `kid_score` betrachten, wenn man von kleinsten zum größten Prädiktorwert geht.
+- Allerdings sind Extremwerte meist instabil (da sie von einer einzigen Beobachtung bestimmt werden).
+- Sinnvoller ist es daher, die Veränderung in der AV zu betrachten, wenn man den Prädiktor von "unterdurchschittlich" auf "überdurchschnittlich" ändert.
+- Das kann man mit *z-Standardisierung* erreichen.
+
+
+---
+
+
+
+
+## z-Standardisierung
+
+
+
+
+- *z-Standardisierung* bedeutet, eine Variable so zu transformieren, dass sie über einen Mittelwert von 0 und eine SD von 1 verfügt:
+
+$$z = \frac{x - \bar{x}}{sd(x)}$$
+
+```{r echo = TRUE}
+kidiq <- kidiq %>% 
+  mutate(kid_score_z = ((kid_score - mean(kid_score)) / sd(kid_score)))
+```
+
+
+.pull-left[
+Rohwerte
+```{r }
+kidiq %>% 
+  ggplot(aes(x = kid_score)) +
+  geom_density()
+
+```
+
+]
+
+.pull-right[
+Z-Werte
+```{r}
+kidiq %>% 
+  ggplot(aes(x = kid_score_z)) +
+  geom_density()
+```
+
+]
+
+
+
+---
+
+
+
+## Statistiken zu den z-transformierten Variablen
+
+```{r}
+get_summary_stats(kidiq, type = "mean_sd") %>% 
+  gt() 
+```
+
+</br>
+So kann man auch die z-Transformation ("Skalierung") durchführen:
+
+
+```{r echo = TRUE}
+kidiq <- kidiq %>% 
+  mutate(mom_iq_z = scale(mom_iq),
+         mom_age_z = scale(mom_age))
+```
+
+---
+
+## Modell mit standardisierten Prädiktoren, `m10.10`
+
+
+
+```{r echo = TRUE}
+m10.10 <- stan_glm(kid_score_z ~ mom_iq_z + mom_age_z, data = kidiq, refresh = 0)
+coef(m10.10)
+```
+
+
+- Der *Achsenabschnitt* gibt den Mittelwert der AV (`kid_score`) an, da `kid_score_z = 0` identisch ist zum Mittelwert von  `kid_score`.
+- Der Koeffizient für `mom_iq_z` gibt an, um wie viele SD-Einheiten sich `kid_score` (die AV) ändert, wenn sich `mom_iq` um eine SD-Einheit ändert. Dabei werden Mütter mittleren Alters betrachtet.
+- Der Koeffizient für `mom_age_z` gibt an, um wie viele SD-Einheiten sich `kid_score` (die AV) ändert, wenn sich `mom_age` um eine SD-Einheit ändert.
+
+Jetzt sind die Prädiktoren in ihrer Relevanz (Zusammenhang mit der AV) vergleichbar. 
+
+Man sieht, dass die Intelligenz der Mutter *deutlich* wichtiger ist das Alter der Mutter (im Hinblick auf die Vorhersage bzw. den Zusammenhang mit mit der AV).
+
+---
+
+
+## Verwandtheit von Korrelation und Regression
+
+
+- Sind X und Y *z-standardisiert*, so sind Korrelation und Regression identisch.
+
+
+$$b = r \frac{sd_x}{sd_y}$$
+
+```{r echo = TRUE}
+m10.11 <- 
+  stan_glm(kid_score_z ~ mom_iq_z , data = kidiq, refresh = 0)
+coef(m10.11)
+```
+
+
+```{r}
+kidiq %>% 
+  select(kid_score, mom_iq, kid_score_z, mom_iq_z) %>% 
+  cor_mat() %>% 
+  gt()
+```
+
+
+
+---
+
+
+
+
+
+## Priori-Verteilung für `m10.10`
+
+```{r}
+prior_summary(m10.10)
+```
+
+
+
+$$\begin{align}
+\text{kid_score} &\sim \mathcal{N}(0,2.5)\\
+\mu_i &= \alpha + \beta_1\text{mom_iq}_i + \beta_2\text{mom_age}_i \\
+\alpha &\sim \mathcal{N}(0,2.5)\\
+\beta_1 &\sim \mathcal{N}(0,2.5)\\
+\beta_2 &\sim \mathcal{N}(0,2.5)\\
+\sigma &\sim \mathcal{E}(1)
+\end{align}$$
+
+
+---
+
+
+## Linearitätsannahme
+
+
+Zentrale Annahme: Die AV ist eine *lineare* Funktion der einzelnen Prädiktoren: 
+
+$$y= \alpha + \beta_1x_1 + \beta_2 x_2 + \cdots .$$ 
+
+- Hingegen ist es nicht erforderlich, dass die AV (y) normalverteilt ist.
+- Zwar nimmt die Regression häufig normalverteilte Residuen an, aber diese Annahme ist nicht wichtig, wenn es nur darum geht, die Regressionskoeffizienten zu schätzen.
+
+`r RefManageR::Citep(bib, "gelman_regression_2021")`
+
+
+---
+
+
+## 95%-PI
+
+
+.pull-left[
+```{r echo = TRUE}
+posterior_interval(m10.10) %>% 
+  round(2)
+```
+
+]
+
+.pull-right[
+```{r echo = TRUE}
+#plot(m10.10)
+library(bayesplot)
+mcmc_areas(m10.10)
+```
+
+```{r}
+
+```
+
+
+]
+
+</br>
+
+Mit `hdi(m10.10)` (Paket `bayestestR`) bekommt man die HDI. Mit `plot(hdi(m10.10))` eine entsprechende Visualisierung. Allerdings ähneln sich PI und HDI im Falle von symmetrischer Posteriori-Verteilungen, so wie hier.
+
+---
+## Prüfen der Linearitätsannahme
+
+
+- Ist die Linearitätsannahme erfüllt, so sollte der Residualplot nur zufällige Streuung um $y=0$ herum zeigen.
+
+```{r}
+kidiq <-
+  kidiq %>% 
+  mutate(m10.10_pred = predict(m10.10),
+         m10.10_resid = resid(m10.10))
+```
+
+
+
+```{r fig.asp = .5}
+kidiq %>% 
+  ggplot(aes(x = m10.10_pred, y = m10.10_resid)) +
+  geom_hline(color="white", yintercept = 0, size = 2) +
+  geom_hline(color = "grey40", 
+             yintercept = c(-1,1), 
+             size = 1, 
+             linetype = "dashed") +
+  geom_point(alpha = .7) +
+  geom_smooth()
+```
+
+Hier erkennt man keine größeren Auffälligkeiten.
+
+
+---
+
+## Modellprüfung mit der PPV
+
+
+```{r echo = TRUE, fig.asp = .5}
+pp_check(m10.10)
+```
+
+Unser Modell - bzw. die Stichproben unserer Posteriori-Verteilung, $y_{rep}$ verfehlt den Mittelwert von $y$ recht häufig.
+
+
+---
+
+
+## Visualisierung der bereinigten Regressionskoeffizienten
+
+
+```{r}
+m10.10a <- stan_glm(mom_age_z ~ mom_iq_z, data = kidiq, refresh = 0)
+m10.10b <- stan_glm(mom_iq_z ~ mom_age_z, data = kidiq, refresh = 0)
+
+kidiq <-
+  kidiq %>% 
+  mutate(mom_age_resid = resid(m10.10a)) %>% 
+  mutate(mom_iq_resid = resid(m10.10b))
+
+
+m10.10c <- stan_glm(kid_score_z ~ mom_age_resid, data = kidiq, refresh = 0)
+m10.10d <- stan_glm(kid_score_z ~ mom_iq_resid, data = kidiq, refresh = 0)
+
+
+kidiq <-
+  kidiq %>% 
+  mutate(m10.10c_resid = resid(m10.10c)) %>% 
+  mutate(m10.10d_resid = resid(m10.10d))
+```
+
+
+```{r comp-resid-lm-plot}
+m10.10a_plot <-
+  kidiq %>% 
+  slice_head(n = 20) %>% 
+  ggplot() +
+  aes(x = mom_iq_z, y = mom_age_z) +
+  geom_point(alpha = .5) +
+  geom_abline(slope = coef(m10.10a)[2],
+              intercept = coef(m10.10a)[1],
+              color = "blue") +
+  geom_segment(aes(y = predict(m10.10a)[1:20],
+                   x = mom_iq_z,
+                   xend = mom_iq_z,
+                   yend = mom_age_z),
+               color = "skyblue3")
+
+
+m10.10b_plot <-
+  kidiq %>% 
+  slice_head(n = 20) %>% 
+  ggplot() +
+  aes(y = mom_iq_z, x = mom_age_z) +
+  geom_point(alpha = .5) +
+  geom_abline(slope = coef(m10.10b)[2],
+              intercept = coef(m10.10b)[1],
+              color = "blue") +
+  geom_segment(aes(y = predict(m10.10b)[1:20],
+                   x = mom_age_z,
+                   xend = mom_age_z,
+                   yend = mom_iq_z),
+               color = "skyblue3")
+
+
+```
+
+
+```{r}
+m10.10c_plot <-
+  kidiq %>%
+  slice_head(n = 20) %>% 
+  ggplot() +
+  aes(x = mom_iq_resid, y = kid_score_z) +
+  geom_point(alpha = .5) +
+  geom_abline(slope = coef(m10.10c)[2],
+              intercept = coef(m10.10c)[1],
+              color = "blue")  
+
+
+
+m10.10d_plot <-
+  kidiq %>% 
+  slice_head(n = 20) %>% 
+  ggplot() +
+  aes(x = mom_age_resid, y = kid_score_z) +
+  geom_point(alpha = .5) +
+  geom_abline(slope = coef(m10.10d)[2],
+              intercept = coef(m10.10d)[1],
+              color = "blue")  
+```
+
+
+```{r resid-lm-plot, fig.asp = .619}
+library(patchwork)
+
+(m10.10a_plot + m10.10b_plot) / (m10.10c_plot + m10.10d_plot)
+```
+
+
+---
+
+## Bereinigte Regressionskoeffizienten
+
+
+.pull-left[
+
+```{r fig.asp = 1}
+(m10.10a_plot + m10.10b_plot) / (m10.10c_plot + m10.10d_plot)
+```
+
+Die vertikalen Balken zeigen die Residuen.
+
+Zur Einfachheit nur $n=20$.
+]
+
+
+.pull-right[
+- Obere Reihe: Regression eines Prädiktors auf den anderen anderen. 
+- Untere Reihe: Regression der Residuen der oberen Reihe auf die AV, `kid-score_z`. 
+- Unten links: Die Residuen von `mom_iq_c` sind kaum mit der AV assoziiert. Das heißt, nutzt man den Teil von `mom_age_z`, der nicht mit `mom_iq_z` zusammenhängt, um `kid_score` vorherzusagen, findet man nur einen kleinen Zusammenhang.
+- Unten rechts. Die Residuen von `mom_age_c` sind stark mit der AV assoziiert. Das heißt, nutzt man den Teil von `mom_iq_z`, der nicht mit `mom_age_z` zusammenhängt, um `kid_score` vorherzusagen, findet man einen starken Zusammenhang.
+
+]
+
+---
+
+
+## Beantwortung der Forschungsfrage
+
+```{r}
+m10.10_r2 <- bayes_R2(m10.10)
+m10.10_r2_md <- median(m10.10_r2) %>% round(2)
+```
+
+
+>   Das Modell spricht sich klar für einen statistischen, linearen Effekt von Intelligenz der Mutter auf die Intelligenz des Kindes aus, wenn das Alter der Mutter statistisch kontrolliert wird (95%PI: [0.38, 0.51]). Hingegen zeigt das Modell, dass das Alter der Mutter statistisch eher keine Rolle spielt (95%PI: [-0.02, 0.12]). Alle Variablen wurden z-transformiert. Insgesamt erkärt das Modell im Median einen Anteil von `r m10.10_r2_md` an der Varianz der Kinderintelligenz.
+
+
+.footnote[Hier wird von einem "statistischen Effekt" gesprochen, um klar zu machen, dass es sich lediglich um assoziative Zusammenhänge, und nicht um kausale Zusammenhänge, handelt.]
+
+
+---
+
+## Wir waren fleißig
+
+
+```{r}
+knitr::include_graphics("https://media.giphy.com/media/XIqCQx02E1U9W/giphy.gif")
+```
+
+[Quelle](https://giphy.com/gifs/XIqCQx02E1U9W)
+
+
+Genug für heute 👍 
+
+
+---

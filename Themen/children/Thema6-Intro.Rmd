@@ -7,7 +7,7 @@ name: teil1
 class: middle, center
 
 
-# Wissenschaft als Gerechtigkeitsprojekt
+# Einführung: Wissenschaft als Gerechtigkeitsprojekt
 
 
 ---
@@ -93,13 +93,13 @@ Da Fakten universell sind (sein können), ist Wissenschaft potenziell ein Weg zu
 
 ## Was heißt "ist effektiv"?
 
-`r RefManageR::Citep(bib, "nasreen_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))` definieren *effectivity* $e$ so:
+`r RefManageR::Citet(bib, "nasreen_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))` definieren *effectivity*, $e$, so:
 
 
 
 $$e = 1 - C; C= \frac{n_{vacc|pos}}{n_{vacc|neg}}$$
 
-- $C$ nennt man das *Chancenverhältnis* (*odds ratio*)
+- $C$ nennt man das *Chancenverhältnis* (*odds ratio*), es beschreibt einen Bruchterm: $\frac{x}{y}$.
 - $n_{vacc|pos}$: Anzahl der geimpften Personen unter allen Personen mit positiver Corona-Diagnose
 - $n_{vacc|neg}$: Anzahl der geimpften Personen unter allen Personen mit negativer Corona-Diagnose
 
@@ -137,3 +137,11 @@ In diesem Beispiel liegt die Effektvitität $e$ bei knapp 90%.
 
 ---
 
+## Metrische AV
+
+- Wir konzentrieren uns im Folgenden auf Regressionsmodelle mit *metrischer* AV.
+- Für die UV(s) sind nominale und metrische Skalenniveaus erlaubt. 
+- Modelle mit mehreren UV (und mehreren Stufen an UV) sind erlaubt.
+
+
+---

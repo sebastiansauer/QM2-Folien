@@ -4,27 +4,39 @@ name: teil1
 class: center, middle
 
 
-# binäre UV
+# Teil 1: Eine binäre UV
 
 ---
 
+## Forschungsfrage
+
+*Hintergrund:*
+
+Eine Psychologin, die im öffentlichen Dienst arbeitet, versucht herauszufinden, warum einige Kinder intelligenter sind als andere. Dazu wurdn in einer aufwändigen Studie die Intelligenz vieler Kinder gemessen. Zusätzliche wurden verschiedene Korrelate erhoben, in der Hoffnung, "Risikofaktoren" für geringere Intelligenz zu entdecken.
+
+
+
+
+>    *Forschungsfrage:* Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt?
+
+
+---
 
 ## IQ von Kindern, binärer Prädiktor
-
-*Forschungsfrage:* Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt?
 
 .pull-left[
 ```{r echo = TRUE, results = "hide"}
 library(rstanarm)
-data("kidiq")
-m10.1 <- stan_glm(kid_score ~ mom_hs, data = kidiq)
+data("kidiq")  # Paket rstanarm
+m10.1 <- stan_glm(
+  kid_score ~ mom_hs, 
+  data = kidiq)
 ```
 
 Alternativ können Sie die Daten [hier](https://raw.githubusercontent.com/avehtari/ROS-Examples/master/KidIQ/data/child_iq.csv) herunterladen.
 
 ```{r echo = TRUE}
 coef(m10.1)
-sigma(m10.1)
 ```
 
 ]
@@ -33,13 +45,12 @@ sigma(m10.1)
 
 .pull-right[
 
-```{r fig.asp=1}
+```{r}
 ggplot(kidiq) +
   aes(x = mom_hs, y = kid_score) +
-  geom_jitter(width = 0.1) +
+  geom_jitter(width = 0.1, alpha = .7) +
   geom_abline(slope = coef(m10.1)[2],
-              intercept = coef(m10.1)[1]) +
-  theme_xaringan()
+              intercept = coef(m10.1)[1]) 
 ```
 
 ]
@@ -84,9 +95,10 @@ kidiq %>%
 .pull-right[
 - In der klassischen Statistik untersucht man diese Datensituation mit einem *t-Test*.
 - Der t-Test ist ein inferenzstatistisches Verfahren, dass prüft, ob die Mittelwertsdifferenz (in der Population) $\mu_d$ Null ist: $\mu_d = 0$.
-- In der Bayes-Statistik betrachtet man dazu meist ein PI (z.B. mit 95%) der Posteriori-Verteilung.
+- In der Bayes-Statistik betrachtet man dazu die Posteriori-Verteilung (z.B. mit 95%PI).
 ]
 
+Der mittlere IQ-Wert unterscheidet sich um ca. 12 Punkte, zugunsten der Kinder von Müttern mit Abschluss. Allerdings gibt es viel Streuung um die Mittelwerte herum.
 
 ---
 
@@ -161,9 +173,10 @@ plot(m10.1,
      pars = "mom_hs",
      plotfun = "mcmc_hist") +
   geom_vline(
-    xintercept = pi_mom_hs$pi_95) +
+    xintercept = 
+      pi_mom_hs$pi_95) +
   labs(
-    title = "95%-PI zum Mittelwertsunterschied"
+    title = "95%-PI"
   )
 ```
 

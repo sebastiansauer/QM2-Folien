@@ -4,7 +4,7 @@ subtitle: QM2, Thema 6
 #date: WiSe 21
 lang: de-DE
 #bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
-institute: AWM, HS Ansbach
+#institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
     keep_md: false
@@ -26,8 +26,8 @@ output:
 
 
 ```{r}
-book <- "Gelman et al."
-book_chap <- "10, 11"
+book <- "Regression and other stories"
+book_chap <- "10, 11 (jeweils in Auszügen)"
 ```
 
 
@@ -36,33 +36,40 @@ book_chap <- "10, 11"
 ## Gliederung
 
 
+</br>
+</br>
 
 
+.xlarge[
+1. [Einführung: Wissenschaft als Gerechtigkeitsprojekt](#intro)
 
-.center2[.xlarge[
-1. [Teil 1: Wissenschaft als Gerechtigkeitsprojekt](#intro)
-2. [Teil 2: binär, AV: metrisch](#teil1)
-3. [Teil 3: Metrische plus nominale UV](#teil2)
+2. [Teil 1: Eine binäre UV](#teil1)
+
+3. [Teil 2: Eine metrische plus eine nominale UV](#teil2)
+
+4. [Teil 3: Eine nominale UV mit mehreren Stufen](#teil3)
+
+4. [Teil 4: Mehrere metrische UV](#teil4)
+
 3. [Hinweise](#hinweise)
-4. [Literatur](#literatur)
 ]
-]
+
 ---
 
 
 
 
-```{r QM2-Thema6-Intro, eval = FALSE, child="children/Thema6-Intro.Rmd"}
+```{r QM2-Thema6-Intro, eval = TRUE, child="children/Thema6-Intro.Rmd"}
 ```
 
 
 
-```{r QM2-Thema6-Intro, eval = FALSE, child="children/Thema6-Teil1.Rmd"}
+```{r QM2-Thema6-Intro, eval = TRUE, child="children/Thema6-Teil1.Rmd"}
 ```
 
 
 
-```{r QM2-Thema6-Intro, eval = FALSE, child="children/Thema6-Teil2.Rmd"}
+```{r QM2-Thema6-Intro, eval = TRUE, child="children/Thema6-Teil2.Rmd"}
 ```
 
 
@@ -72,6 +79,10 @@ book_chap <- "10, 11"
 ```
 
 
+```{r QM2-Thema6-Intro, eval = TRUE, child="children/Thema6-Teil4.Rmd"}
+```
 
-```{r QM2-Thema4-Gaussmodelle-3, eval = FALSE, child="children/Hinweise.Rmd"}
+
+
+```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Hinweise.Rmd"}
 ```

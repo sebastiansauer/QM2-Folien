@@ -4,7 +4,7 @@ name: teil2
 class: middle, inverse
 
 
-# Metrische plus nominale UV 
+# Teil 2: Eine metrische plus eine nominale UV 
 
 
 ---
@@ -17,6 +17,7 @@ class: middle, inverse
 
 ```{r echo = TRUE, results="hide"}
 library(rstatix)
+data("kidiq")  # Paket rstanarm, alternativ über CSV einlesen
 get_summary_stats(kidiq)
 ```
 
@@ -29,7 +30,7 @@ get_summary_stats(kidiq) %>%
 
 
 
-[Datenquelle](https://raw.githubusercontent.com/avehtari/ROS-Examples/master/KidIQ/data/child_iq.csv)
+.footnote[[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/kidiq.csv)]
 
 
 ---
@@ -119,7 +120,9 @@ kidiq %>%
 
 
 ```{r m10-4, echo = TRUE}
-m10.4 <- stan_glm(kid_score ~ mom_hs + mom_iq + mom_hs:mom_iq, data = kidiq, refresh = 0)
+m10.4 <- 
+  stan_glm(kid_score ~ mom_hs + mom_iq + mom_hs:mom_iq, 
+                  data = kidiq, refresh = 0)
 ```
 
 
@@ -152,15 +155,18 @@ kidiq %>%
 - `mom_iq`: Unterschied der IQ-Schätzwerte zwischen Kindern mit Müttern, die sich um einen IQ-Punkt unterscheiden aber jeweils ohne Schulabschluss.
 - *Interaktion*: Der Unterschied in den Steigungen der Regressiongeraden, also der Unterschied des Koeffizienten für `mom_iq` zwischen Mütter mit bzw. ohne Schulabschluss.
 
-`mom_hs=0: kid_score = -11 + 51*0 + 1.1* mom_iq + 0.5*0*mom_iq`
+```
+mom_hs=0:
+kid_score = -11 + 51*0 + 1.1* mom_iq + 0.5*0*mom_iq
 
-`                    = -11 + 1.1*mom_iq`
+          = -11 + 1.1*mom_iq`
 
-</br>
 
-`mom_hs=1: kid_score = -11 + 51*1 + 1.1* mom_iq + 0.5*1*mom_iq`
+mom_hs=1: 
+kid_score = -11 + 51*1 + 1.1* mom_iq + 0.5*1*mom_iq
 
-`                    = 40 + 0.6*mom_iq`
+          = 40 + 0.6*mom_iq
+```
 
 
 ---
@@ -203,7 +209,7 @@ coef(m10.5)
 
 ## Interpretation von `m10.5`
 
-- Der *Achsenabschnitt* (`Intercep`) gibt den geschätzten IQ des Kindes an, wenn man eine Mutter mittlerer Intelligenz und ohne Schulabschluss betrachtet.
+- Der *Achsenabschnitt* (`Intercept`) gibt den geschätzten IQ des Kindes an, wenn man eine Mutter *mittlerer* Intelligenz und *ohne* Schulabschluss betrachtet.
 - `mom_hs` gibt den Unterschied im geschätzten IQ des Kindes an, wenn man Mütter mittlerer Intelligenz aber mit bzw. ohne Schlusabschluss vergleicht.
 - `mom_iq_c` gibt den Unterschied im geschätzten IQ des Kindes an, wenn man Mütter ohne Schlusabschluss aber mit einem IQ-Punkt Unterschied vergleicht.
 - `mom_hs:mom_iq_c` gibt den Unterschied in den Koeffizienten für `mom_iq_c` an zwischen den beiden Grupen von `mom_hs`.
@@ -259,19 +265,16 @@ Das Zentrieren ändert auch nicht die Regressionskoeffizienten, da die Streuunge
 ---
 
 
-## Perzentilintervalle aus der Posterori-Verteilung, de luxe
+## Perzentilintervalle aus der Posterori-Verteilung
 
-Mit dem Paket `bayestestR` kann man sich komfortabel die 95%-Perzentilintervalle ausgeben lassen (hier als *Equal Tail Intervals* ETI, bezeichnet):
+
 ```{r echo = TRUE}
-library(bayestestR)
-ci(m10.5)
+posterior_interval(m10.5)
 ```
 
-Alternativ kann man mit `quantile()` das Gleiche erreichen.
+Highest Density (Posterior) Intervalle (HDI oder HDPI) kann man sich  komfortabel ausgeben lassen mit `hdi(m10.5)` aus dem Paket `bayestestR`. 
 
-Highest Density (Posterior) Intervalle (HDI oder HDPI) kann man sich ebenso komfortabel ausgeben lassen mit `hdi(m10.5)`. 
-
-```{r eval = FALSE}
+```{r echo = TRUE, eval = FALSE}
 hdi(m10.5)
 ```
 
@@ -306,9 +309,8 @@ Betrachten wir `m10.3` noch einmal.
 Welcher Prädiktor, `mom_hs` oder `mom_hs` ist wichtiger im Sinne von stärker mit AV `kid_score` verbunden?
 
 ```
-Equal-Tailed Interval
 
-Parameter   |        95% ETI |
+Parameter   |        95% PI |
 -------------------------------
 (Intercept) | [14.04, 37.31] |  
 mom_hs      | [ 1.58, 10.34] | 
@@ -329,7 +331,5 @@ mom_iq      | [ 0.44,  0.69] |
 ---
 
 
-
----
 
 

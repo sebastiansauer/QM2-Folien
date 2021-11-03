@@ -9,16 +9,23 @@
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding/plotly.js"></script>
+    <script src="libs/typedarray/typedarray.min.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="my-css.css" type="text/css" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
-class: center, middle, inverse, title-slide
+class: right, bottom, test, title-slide
 
 # Deskriptive Forschungsfragen
 ## QM2, Thema 6
-### AWM, HS Ansbach
 
 ---
 
@@ -89,21 +96,27 @@ class: center, middle, inverse, title-slide
 
 
 
-
 ## Gliederung
 
 
+&lt;/br&gt;
+&lt;/br&gt;
 
 
+.xlarge[
+1. [Einführung: Wissenschaft als Gerechtigkeitsprojekt](#intro)
 
-.center2[.xlarge[
-1. [Teil 1: Wissenschaft als Gerechtigkeitsprojekt](#intro)
-2. [Teil 2: binär, AV: metrisch](#teil1)
-3. [Teil 3: Metrische plus nominale UV](#teil2)
+2. [Teil 1: Eine binäre UV](#teil1)
+
+3. [Teil 2: Eine metrische plus eine nominale UV](#teil2)
+
+4. [Teil 4: Eine nominale UV mit mehreren Stufen](#teil3)
+
+4. [Teil 4: Mehrere metrische UV](#teil4)
+
 3. [Hinweise](#hinweise)
-4. [Literatur](#literatur)
 ]
-]
+
 ---
 
 
@@ -113,7 +126,1438 @@ class: center, middle, inverse, title-slide
 
 
 
+name: teil1
+class: middle, center
 
+
+# Einführung: Wissenschaft als Gerechtigkeitsprojekt
+
+
+---
+
+
+
+
+## Meinungen als Grundlage der Konfliktlösung 
+
+
+.pull-left[
+
+- "Ich find Masken doof!"
+- "Impfen ist schädlich!"
+- "Corona gibt's gar nicht!"
+
+.center[
+&lt;svg viewBox="0 0 496 512" style="position:relative;display:inline-block;top:.1em;fill:red;height:5em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zM136 240c0-9.3 4.1-17.5 10.5-23.4l-31-9.3c-8.5-2.5-13.3-11.5-10.7-19.9 2.5-8.5 11.4-13.2 19.9-10.7l80 24c8.5 2.5 13.3 11.5 10.7 19.9-2.1 6.9-8.4 11.4-15.3 11.4-.5 0-1.1-.2-1.7-.2.7 2.7 1.7 5.3 1.7 8.2 0 17.7-14.3 32-32 32S136 257.7 136 240zm168 154.2c-27.8-33.4-84.2-33.4-112.1 0-13.5 16.3-38.2-4.2-24.6-20.5 20-24 49.4-37.8 80.6-37.8s60.6 13.8 80.6 37.8c13.8 16.5-11.1 36.6-24.5 20.5zm76.6-186.9l-31 9.3c6.3 5.8 10.5 14.1 10.5 23.4 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-2.9.9-5.6 1.7-8.2-.6.1-1.1.2-1.7.2-6.9 0-13.2-4.5-15.3-11.4-2.5-8.5 2.3-17.4 10.7-19.9l80-24c8.4-2.5 17.4 2.3 19.9 10.7 2.5 8.5-2.3 17.4-10.8 19.9z"&gt;&lt;/path&gt;&lt;/svg&gt;
+]
+]
+
+.pull-right[
+
+- "Ich find Masken gut!"
+- "Impfen ist nützlich!"
+- "Corona ist gefährlich!"
+
+.center[
+&lt;svg viewBox="0 0 496 512" style="position:relative;display:inline-block;top:.1em;fill:red;height:5em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm33.8 189.7l80-48c11.6-6.9 24 7.7 15.4 18L343.6 208l33.6 40.3c8.7 10.4-3.9 24.8-15.4 18l-80-48c-7.7-4.7-7.7-15.9 0-20.6zm-163-30c-8.6-10.3 3.8-24.9 15.4-18l80 48c7.8 4.7 7.8 15.9 0 20.6l-80 48c-11.5 6.8-24-7.6-15.4-18l33.6-40.3-33.6-40.3zM248 288c51.9 0 115.3 43.8 123.2 106.7 1.7 13.6-8 24.6-17.7 20.4-25.9-11.1-64.4-17.4-105.5-17.4s-79.6 6.3-105.5 17.4c-9.8 4.2-19.4-7-17.7-20.4C132.7 331.8 196.1 288 248 288z"&gt;&lt;/path&gt;&lt;/svg&gt;
+]
+]
+
+&lt;/br&gt;
+&lt;/br&gt;
+
+.center[.content-box[Meinungen kennen kein richtig und kein falsch. Konflikte können auf Basis von Meinungen nur schwer gelöst werden.]]
+
+
+
+---
+
+
+## Fakten als Grundlage der Konfliktlösung
+
+.center[.content-box-blue[Wissenschaft produziert Fakten.]]
+
+&lt;/br&gt;
+
+Da Fakten universell sind (sein können), ist Wissenschaft potenziell ein Weg zur Konfliktlösung.
+
+### Warum helfen Fakten bei Konflikten?
+
+- Fakten sind neutral gegenüber Personen.
+- Fakten bieten daher eine Chance zur fairen Einigung.
+
+
+### Wann ist ein Fakt ein Fakt?
+
+
+- Fakten müssen vor allem nachprüfbar sein (Daten, Analyse und Bericht müssen offen zugänglich sein).
+
+
+---
+
+## Was nützt die Covid-19-Impfung?
+
+
+
+
+&gt;    The effectiveness of full messenger RNA (mRNA) vaccination (≥14 days after the second dose) was 89% (95% confidence interval [CI], 87 to 91) against laboratory-confirmed SARS-CoV-2 infection leading to hospitalization, 90% (95% CI, 86 to 93) against infection leading to an ICU admission, and 91% (95% CI, 89 to 93) against infection leading to an emergency department or urgent care clinic visit.
+
+&lt;a name=cite-thompson_effectiveness_2021&gt;&lt;/a&gt;[Thompson, Stenehjem, Grannis, et al. (2021)](https://doi.org/10.1056/NEJMoa2110362); vgl. auch &lt;a name=cite-nasreen_effectiveness_2021&gt;&lt;/a&gt;[Nasreen, Chung, He, et al. (2021)](https://www.medrxiv.org/content/10.1101/2021.06.28.21259420v3)
+
+### Die aktuelle Faktenlage spricht klar zugunsten der Schutzwirkung der Corona-Impfung 
+
+---
+
+## Was heißt "ist effektiv"?
+
+[Nasreen, Chung, He, et al. (2021)](https://www.medrxiv.org/content/10.1101/2021.06.28.21259420v3) definieren *effectivity*, `\(e\)`, so:
+
+
+
+`$$e = 1 - C; C= \frac{n_{vacc|pos}}{n_{vacc|neg}}$$`
+
+- `\(C\)` nennt man das *Chancenverhältnis* (*odds ratio*), es beschreibt einen Bruchterm: `\(\frac{x}{y}\)`.
+- `\(n_{vacc|pos}\)`: Anzahl der geimpften Personen unter allen Personen mit positiver Corona-Diagnose
+- `\(n_{vacc|neg}\)`: Anzahl der geimpften Personen unter allen Personen mit negativer Corona-Diagnose
+
+
+*Beispiel*: Von den 100 Personen mit *positiver* Corona-Diagnose sind 10 geimpft, `\(n_{vacc|pos}=10\)`. Von den 100 Personen mit *negativer* Corona-Diagnose sind 90 geimpft, `\(n_{vacc|neg}=90\)`
+
+`$$C= \frac{10}{90} = \frac{1}{9}; e = 1 - \frac{1}{9} = \frac{8}{9} \approx 0.88$$`
+
+
+In diesem Beispiel liegt die Effektvitität `\(e\)` bei knapp 90%.
+
+
+---
+
+## Arten von Forschungsfragen
+
+
+### Deskriptiv (beschreibend)
+
+- Wie stark ist der (lineare) Zusammenhang `\(r\)` von Größe und Gewicht?
+- Wie stark ist der (lineare) Zusammenhang `\(b\)` von Lernzeit und Note?
+- Bevorzugen unsere Kunden Webshop A oder B?
+
+### Prädiktiv (prognostisch, vorhersagend)
+
+- Wie schwer ist ein deutscher Mann der Größe 1,80m im Schnitt?
+- Welche Note kann man erwarten, wenn man nichts für die Klausur lernt?
+- Wieviel wird ein Kunde ausgeben, wenn er sich in dieser Variante des Webshops aufhält?
+
+### Präskriptiv (erklärend, kausal)
+
+- Ist Größe eine Ursache von Gewicht (bei deutschen Männern)?
+- Wenn ich 100 Stunden lerne, welche Note schreibe ich dann?
+- Hat die Art des Webshops einen Einfluss auf unseren Umsatz?
+
+---
+
+## Metrische AV
+
+- Wir konzentrieren uns im Folgenden auf Regressionsmodelle mit *metrischer* AV.
+- Für die UV(s) sind nominale und metrische Skalenniveaus erlaubt. 
+- Modelle mit mehreren UV (und mehreren Stufen an UV) sind erlaubt.
+
+
+---
+
+
+
+
+
+
+name: teil1
+class: center, middle
+
+
+# Teil 1: Eine binäre UV
+
+---
+
+
+## IQ von Kindern, binärer Prädiktor
+
+&gt;    *Forschungsfrage:* Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt?
+
+.pull-left[
+
+```r
+library(rstanarm)
+data("kidiq")  # Paket rstanarm
+m10.1 &lt;- stan_glm(
+  kid_score ~ mom_hs, 
+  data = kidiq)
+```
+
+Alternativ können Sie die Daten [hier](https://raw.githubusercontent.com/avehtari/ROS-Examples/master/KidIQ/data/child_iq.csv) herunterladen.
+
+
+```r
+coef(m10.1)
+```
+
+```
+## (Intercept)      mom_hs 
+##    77.55404    11.75494
+```
+
+]
+
+
+
+.pull-right[
+
+&lt;img src="chunk-img/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+## Interpretation von `m10.1`
+
+`m10.1: kid_score = 78 + 12*mom_hs + error`
+
+- Der *Achsensabschnitt* (intercept, `\(\alpha\)`) ist der mittlere (bzw. vorhergesagte) IQ-Wert von Kindern, deren Mütter über keinen Schulabschluss verfügen:
+
+`kid_score = 78 + 0*12 + error`
+
+- Das *Regressionsgewicht* (slope, `\(\beta\)`) ist der Unterschied im IQ-Wert von Kindern mit Mütter mit Schlulabschluss (im Vergleich zum IQ-Wert von Kindern mit Mütter ohne Schlusabschluss). Dieser Unterschied entspricht der Steigung der Regressionsgerade.
+
+`kid_score = 78 + 1*12 + error = 90 + error`
+
+- Die *Streuung* (sigma) der IQ-Wert um ihren Mittelwert zeigt, wie genau die Schätzung (Vorhersage) ist bzw. wie stark Prädiktor (UV) und Kriterium (AV) zusammenhängen.
+
+---
+
+## `m10.1` als Mittelwertsdifferenz 
+
+
+- UV: binär (zweistufig nominal/kategorial)
+- AV: metrisch (quantitativ)
+
+.pull-left[
+
+```r
+kidiq %&gt;% 
+  group_by(mom_hs) %&gt;% 
+  summarise(kid_score_avg = mean(kid_score))
+```
+
+```
+## # A tibble: 2 × 2
+##   mom_hs kid_score_avg
+##    &lt;int&gt;         &lt;dbl&gt;
+## 1      0          77.5
+## 2      1          89.3
+```
+
+```r
+  # avg wie "average"
+
+89.4-77.6
+```
+
+```
+## [1] 11.8
+```
+
+]
+
+
+.pull-right[
+- In der klassischen Statistik untersucht man diese Datensituation mit einem *t-Test*.
+- Der t-Test ist ein inferenzstatistisches Verfahren, dass prüft, ob die Mittelwertsdifferenz (in der Population) `\(\mu_d\)` Null ist: `\(\mu_d = 0\)`.
+- In der Bayes-Statistik betrachtet man dazu die Posteriori-Verteilung (z.B. mit 95%PI).
+]
+
+Der mittlere IQ-Wert unterscheidet sich um ca. 12 Punkte, zugunsten der Kinder von Müttern mit Abschluss. Allerdings gibt es viel Streuung um die Mittelwerte herum.
+
+---
+
+## Antwort auf die Forschungsfrage, `m10.1`
+
+
+.pull-left[
+
+```r
+m10.1_post &lt;-
+  m10.1 %&gt;% 
+  as_tibble() 
+
+dim(m10.1_post)
+```
+
+```
+## [1] 4000    3
+```
+
+
+<div id="wasifunwib" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#wasifunwib .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wasifunwib .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wasifunwib .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wasifunwib .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wasifunwib .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wasifunwib .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wasifunwib .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wasifunwib .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wasifunwib .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wasifunwib .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wasifunwib .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wasifunwib .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wasifunwib .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wasifunwib .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wasifunwib .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wasifunwib .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wasifunwib .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#wasifunwib .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wasifunwib .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#wasifunwib .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wasifunwib .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wasifunwib .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wasifunwib .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wasifunwib .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wasifunwib .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wasifunwib .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wasifunwib .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wasifunwib .gt_left {
+  text-align: left;
+}
+
+#wasifunwib .gt_center {
+  text-align: center;
+}
+
+#wasifunwib .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wasifunwib .gt_font_normal {
+  font-weight: normal;
+}
+
+#wasifunwib .gt_font_bold {
+  font-weight: bold;
+}
+
+#wasifunwib .gt_font_italic {
+  font-style: italic;
+}
+
+#wasifunwib .gt_super {
+  font-size: 65%;
+}
+
+#wasifunwib .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Stichprobe aus der Post-Verteilung</th>
+    </tr>
+    
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">(Intercept)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mom_hs</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">sigma</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">76.2</td>
+<td class="gt_row gt_right">12.6</td>
+<td class="gt_row gt_right">20.0</td></tr>
+    <tr><td class="gt_row gt_right">78.6</td>
+<td class="gt_row gt_right">9.6</td>
+<td class="gt_row gt_right">20.7</td></tr>
+    <tr><td class="gt_row gt_right">75.6</td>
+<td class="gt_row gt_right">13.7</td>
+<td class="gt_row gt_right">19.2</td></tr>
+    <tr><td class="gt_row gt_right">79.7</td>
+<td class="gt_row gt_right">10.6</td>
+<td class="gt_row gt_right">20.2</td></tr>
+    <tr><td class="gt_row gt_right">77.4</td>
+<td class="gt_row gt_right">9.6</td>
+<td class="gt_row gt_right">19.6</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+]
+
+
+.pull-right[
+
+
+```r
+pi_mom_hs &lt;-
+  m10.1_post %&gt;% 
+  summarise(
+    pi_95 = quantile(
+      mom_hs, 
+      c(.025, .975)))
+```
+
+
+
+
+Mit 95% Wahrscheinlichkeit liegt der Unterschied im mittleren IQ-Wert zwischen Kindern von Müttern mit bzw. ohne Schulabschluss im Bereich von 7 bis 14 IQ-Punkten, laut unserem Modell: `\(95\%PI: [7,14]\)`.
+
+Die Hypothese, dass es keinen  Unterschied oder einen Unterschied in die andere Richtung geben sollte, ist vor diesem Hintergrund als unwahrscheinlich abzulehnen.
+
+]
+
+
+---
+
+## Visualisierung der Mittelwertsdifferenz
+
+
+.pull-left[
+
+
+
+
+```r
+library(bayesplot)
+plot(m10.1, 
+     pars = "mom_hs")
+```
+
+&lt;img src="chunk-img/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+.pull-right[
+
+
+```r
+plot(m10.1, 
+     pars = "mom_hs",
+     plotfun = "mcmc_hist") +
+  geom_vline(
+    xintercept = 
+      pi_mom_hs$pi_95) +
+  labs(
+    title = "95%-PI"
+  )
+```
+
+&lt;img src="chunk-img/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+
+
+
+
+
+name: teil2
+class: middle, inverse
+
+
+# Teil 2: Eine metrische plus eine nominale UV 
+
+
+---
+
+## Forschungsfrage
+
+
+&gt;    Wie stark ist der Zusammenhang von jeweils Schulabschluss der Mutter (`mom_hs`) und  IQ der Mutter (`mom_iq`)  auf den IQ des Kindes (`kid_score`) ?
+
+
+
+```r
+library(rstatix)
+data("kidiq")  # Paket rstanarm, alternativ über CSV einlesen
+get_summary_stats(kidiq)
+```
+
+
+<div id="ibzawdzavd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ibzawdzavd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ibzawdzavd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ibzawdzavd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ibzawdzavd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ibzawdzavd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ibzawdzavd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ibzawdzavd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ibzawdzavd .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ibzawdzavd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ibzawdzavd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ibzawdzavd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ibzawdzavd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ibzawdzavd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ibzawdzavd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ibzawdzavd .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ibzawdzavd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ibzawdzavd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ibzawdzavd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ibzawdzavd .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ibzawdzavd .gt_left {
+  text-align: left;
+}
+
+#ibzawdzavd .gt_center {
+  text-align: center;
+}
+
+#ibzawdzavd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ibzawdzavd .gt_font_normal {
+  font-weight: normal;
+}
+
+#ibzawdzavd .gt_font_bold {
+  font-weight: bold;
+}
+
+#ibzawdzavd .gt_font_italic {
+  font-style: italic;
+}
+
+#ibzawdzavd .gt_super {
+  font-size: 65%;
+}
+
+#ibzawdzavd .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">variable</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">min</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">max</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">median</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">iqr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mad</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mean</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">sd</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">se</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">ci</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">kid_score</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">20.00</td>
+<td class="gt_row gt_right">144.00</td>
+<td class="gt_row gt_right">90.00</td>
+<td class="gt_row gt_right">74.00</td>
+<td class="gt_row gt_right">102.00</td>
+<td class="gt_row gt_right">28.00</td>
+<td class="gt_row gt_right">19.27</td>
+<td class="gt_row gt_right">86.80</td>
+<td class="gt_row gt_right">20.41</td>
+<td class="gt_row gt_right">0.98</td>
+<td class="gt_row gt_right">1.93</td></tr>
+    <tr><td class="gt_row gt_left">mom_age</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">17.00</td>
+<td class="gt_row gt_right">29.00</td>
+<td class="gt_row gt_right">23.00</td>
+<td class="gt_row gt_right">21.00</td>
+<td class="gt_row gt_right">25.00</td>
+<td class="gt_row gt_right">4.00</td>
+<td class="gt_row gt_right">2.96</td>
+<td class="gt_row gt_right">22.79</td>
+<td class="gt_row gt_right">2.70</td>
+<td class="gt_row gt_right">0.13</td>
+<td class="gt_row gt_right">0.26</td></tr>
+    <tr><td class="gt_row gt_left">mom_hs</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">0.79</td>
+<td class="gt_row gt_right">0.41</td>
+<td class="gt_row gt_right">0.02</td>
+<td class="gt_row gt_right">0.04</td></tr>
+    <tr><td class="gt_row gt_left">mom_iq</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">71.04</td>
+<td class="gt_row gt_right">138.89</td>
+<td class="gt_row gt_right">97.92</td>
+<td class="gt_row gt_right">88.66</td>
+<td class="gt_row gt_right">110.27</td>
+<td class="gt_row gt_right">21.61</td>
+<td class="gt_row gt_right">15.89</td>
+<td class="gt_row gt_right">100.00</td>
+<td class="gt_row gt_right">15.00</td>
+<td class="gt_row gt_right">0.72</td>
+<td class="gt_row gt_right">1.42</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+
+.footnote[[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/kidiq.csv)]
+
+
+---
+
+## Ein metrischer Prädiktor
+
+
+
+
+`kid_score = 26 + 0.6 * mom_iq + error`
+
+.pull-left[
+&lt;img src="chunk-img/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+- Die Linie zeigt die vorhergesagten IQ-Werte der Kinder für verschiedene IQ-Werte der Mütter.
+- Vergleicht man Teilpopulationen von Müttern mit mittleren Unterschied von einem IQ-Punkt, so findet man 0.6 IQ-Punkte Unterschied bei ihren Kindern *im Durchschnitt*.
+- Der Achsenabschnitt hilft uns nicht weiter, da es keine Menschen mit einem IQ von 0 gibt.
+]
+
+---
+
+
+## Beide Prädiktoren, `m10.3`
+
+
+`m10.3: kid_score = 26 + mom_hs + 0.6*mom_iq + error`
+
+.pull-left[
+
+```r
+m10.3 &lt;- 
+  stan_glm(
+    kid_score ~ mom_hs + mom_iq, 
+    refresh = 0,
+    data = kidiq)
+coef(m10.3)
+```
+
+```
+## (Intercept)      mom_hs      mom_iq 
+##  25.7268374   5.9712894   0.5625827
+```
+
+]
+
+.pull-right[
+&lt;img src="chunk-img/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+- *Achsenabschnitt*: Hat das Kind eine Mutter mit einem IQ von 0 und ohne Schulabschluss, dann schätzt das Modell den IQ-Wert des Kindes auf 26.
+- *Koeffizient zum mütterlichen Schulabschluss*: Vergleicht man Kinder von Müttern gleicher Intelligenz, aber mit Unterschied im Schulabschluss, so sagt das Modell einen Unterschied von 6 Punkten im IQ voraus.
+- *Koeffizient zur müttlichen IQ*: Vergleicht man Kinder von Müttern mit gleichem Wert im Schulabschluss, aber mit 1 IQ-Punkt Unterschied, so sagt das Modell einen Unterschied von 0.6 IQ-Punkten bei den Kindern voraus.
+
+
+
+---
+
+## Interaktion
+
+- In `m10.3` hat das Modell die Regressionsgeraden gezwungen, parallel zu sein. 
+- Betrachtet man das Streudiagramm, so sieht man, das nicht-parallele Geraden besser passen.
+- Sind die Regressionsgeraden nicht parallel, so spricht man von einer Interaktion (synonym: Interaktionseffekt, Moderation).
+- Liegt eine Interaktion vor, so unterscheidet sich also die Steigung in den Gruppen.
+
+
+
+```r
+m10.4 &lt;- 
+  stan_glm(kid_score ~ mom_hs + mom_iq + mom_hs:mom_iq, 
+                  data = kidiq, refresh = 0)
+```
+
+
+&lt;img src="chunk-img/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Interpretation von `m10.4`
+
+- *Achsenabschnitt:* IQ-Schätzwerte für Kinder mit Mütter ohne Abschluss und mit einem IQ von 0. Kaum zu interpretieren.
+- `mom_hs`: Unterschied der IQ-Schätzwerte zwischen Kindern mit Mutter ohne bzw. mit Schulabschluss und jeweils mit einem IQ von 0. Puh.
+- `mom_iq`: Unterschied der IQ-Schätzwerte zwischen Kindern mit Müttern, die sich um einen IQ-Punkt unterscheiden aber jeweils ohne Schulabschluss.
+- *Interaktion*: Der Unterschied in den Steigungen der Regressiongeraden, also der Unterschied des Koeffizienten für `mom_iq` zwischen Mütter mit bzw. ohne Schulabschluss.
+
+```
+mom_hs=0:
+kid_score = -11 + 51*0 + 1.1* mom_iq + 0.5*0*mom_iq
+
+          = -11 + 1.1*mom_iq`
+
+
+mom_hs=1: 
+kid_score = -11 + 51*1 + 1.1* mom_iq + 0.5*1*mom_iq
+
+          = 40 + 0.6*mom_iq
+```
+
+
+---
+
+
+## Nach der Interpretation von 20 unzentrierten Koeffizienten
+
+.center[
+&lt;iframe src="https://giphy.com/embed/Zaej3GIZTzCI8" width="480" height="306" frameBorder="0" class="giphy-embed" allowFullScreen&gt;&lt;/iframe&gt;&lt;p&gt;&lt;a href="https://giphy.com/gifs/muppets-rachel-maddow-kermit-Zaej3GIZTzCI8"&gt;via GIPHY&lt;/a&gt;&lt;/p&gt;
+]
+
+
+
+---
+
+## Zentrieren von Prädiktoren
+
+- Unter *Zentrieren* (to center) versteht man das Bilden der Differenz eines Messwerts zu seinem Mittelwert.
+- Zentrierte Werte geben also an, wie weit ein Messwert vom mittleren (typischen) Messwert entfernt ist.
+- Mit zentrierten Werten ist eine Regression einfacher zu interpretieren.
+
+
+```r
+kidiq &lt;-
+  kidiq %&gt;% 
+  mutate(mom_iq_c = mom_iq - mean(mom_iq),
+         mom_hs_c = mom_hs - mean(mom_hs))
+```
+
+
+
+
+```r
+m10.5 &lt;- stan_glm(kid_score ~ mom_hs + mom_iq_c + mom_hs:mom_iq_c, 
+                  data = kidiq, 
+                  refresh = 0)
+coef(m10.5)
+```
+
+```
+##     (Intercept)          mom_hs        mom_iq_c mom_hs:mom_iq_c 
+##      85.3759062       2.8364232       0.9612959      -0.4758721
+```
+
+
+---
+
+## Interpretation von `m10.5`
+
+- Der *Achsenabschnitt* (`Intercept`) gibt den geschätzten IQ des Kindes an, wenn man eine Mutter *mittlerer* Intelligenz und *ohne* Schulabschluss betrachtet.
+- `mom_hs` gibt den Unterschied im geschätzten IQ des Kindes an, wenn man Mütter mittlerer Intelligenz aber mit bzw. ohne Schlusabschluss vergleicht.
+- `mom_iq_c` gibt den Unterschied im geschätzten IQ des Kindes an, wenn man Mütter ohne Schlusabschluss aber mit einem IQ-Punkt Unterschied vergleicht.
+- `mom_hs:mom_iq_c` gibt den Unterschied in den Koeffizienten für `mom_iq_c` an zwischen den beiden Grupen von `mom_hs`.
+
+
+
+&lt;img src="chunk-img/plot-m10-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Zentrieren ändert nichts an den Vorhersagen
+
+`m10.4`: 
+
+
+```r
+new &lt;- tibble(mom_hs = 0, mom_iq = mean(kidiq$mom_iq))
+pred_new &lt;- posterior_predict(m10.4, newdata = new)
+mean(pred_new)
+```
+
+```
+## [1] 85.62897
+```
+
+`m10.5`: 
+
+
+```r
+new &lt;- tibble(mom_hs = 0, mom_iq_c = 0)
+pred_new &lt;- posterior_predict(m10.5, newdata = new)
+mean(pred_new)
+```
+
+```
+## [1] 85.38615
+```
+
+Auch die Streuungen der vorhergesagten Werte unterscheiden sich nicht (wirklich): `\(\sigma_{m10.4}= 18\)`; `\(\sigma_{m10.5}= 18\)`.
+
+
+Das Zentrieren ändert auch nicht die Regressionskoeffizienten, da die Streuungen der Prädiktoren nicht verändert wurden.
+
+
+---
+
+
+## Perzentilintervalle aus der Posterori-Verteilung
+
+
+
+```r
+posterior_interval(m10.5)
+```
+
+```
+##                         5%        95%
+## (Intercept)     81.6909716 89.0029323
+## mom_hs          -1.0824017  6.9207908
+## mom_iq_c         0.7234816  1.2142164
+## mom_hs:mom_iq_c -0.7573134 -0.2151988
+## sigma           17.0632157 18.9931111
+```
+
+Highest Density (Posterior) Intervalle (HDI oder HDPI) kann man sich  komfortabel ausgeben lassen mit `hdi(m10.5)` aus dem Paket `bayestestR`. 
+
+
+```r
+hdi(m10.5)
+```
+
+Im Falle symmetrischer Posteriori-Verteilungen (wie hier) kommen beide Arten von Intervallen zu gleichen Ergebnissen.
+
+---
+
+## Beantworten der Forschungsfrage
+
+&gt;   Das Model zeigt keine Belege, dass sich die mittlere Intelligenz von Kindern bei Müttern mit bzw. ohne Schlusabluss unterscheidet (95%PI: [-2.0, 7.8]). Hingegen fand sich ein Effekt der mütterlichen Intelligenz; pro Punkt Unterschied in müttlerlichem IQ fand sich ein Unterschied von 0.7 bis 1.3 IQ-Punkte (95%PI). Außerdem fand sich ein Beleg, dass der Zusammenhang des IQ zwischen Mutter und Kind durch den Schulabschluss moderiert wird: Bei Mütter mit Schulabschluss war der Zusammenhang zwischen Mutter-IQ und Kind-IQ geringer (95%PI: [-0.80, -0.17]).
+
+&lt;/br&gt;
+&lt;/br&gt;
+
+&lt;svg viewBox="0 0 512 512" style="position:relative;display:inline-block;top:.1em;fill:red;height:2em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M440.5 88.5l-52 52L415 167c9.4 9.4 9.4 24.6 0 33.9l-17.4 17.4c11.8 26.1 18.4 55.1 18.4 85.6 0 114.9-93.1 208-208 208S0 418.9 0 304 93.1 96 208 96c30.5 0 59.5 6.6 85.6 18.4L311 97c9.4-9.4 24.6-9.4 33.9 0l26.5 26.5 52-52 17.1 17zM500 60h-24c-6.6 0-12 5.4-12 12s5.4 12 12 12h24c6.6 0 12-5.4 12-12s-5.4-12-12-12zM440 0c-6.6 0-12 5.4-12 12v24c0 6.6 5.4 12 12 12s12-5.4 12-12V12c0-6.6-5.4-12-12-12zm33.9 55l17-17c4.7-4.7 4.7-12.3 0-17-4.7-4.7-12.3-4.7-17 0l-17 17c-4.7 4.7-4.7 12.3 0 17 4.8 4.7 12.4 4.7 17 0zm-67.8 0c4.7 4.7 12.3 4.7 17 0 4.7-4.7 4.7-12.3 0-17l-17-17c-4.7-4.7-12.3-4.7-17 0-4.7 4.7-4.7 12.3 0 17l17 17zm67.8 34c-4.7-4.7-12.3-4.7-17 0-4.7 4.7-4.7 12.3 0 17l17 17c4.7 4.7 12.3 4.7 17 0 4.7-4.7 4.7-12.3 0-17l-17-17zM112 272c0-35.3 28.7-64 64-64 8.8 0 16-7.2 16-16s-7.2-16-16-16c-52.9 0-96 43.1-96 96 0 8.8 7.2 16 16 16s16-7.2 16-16z"&gt;&lt;/path&gt;&lt;/svg&gt; Das Modell macht *keine* kausalen Aussagen. Es werden lediglich Unterschiede bzw. Zusammenhänge beschrieben.
+
+
+---
+
+## Relevanz von Prädiktoren
+
+.pull-left[
+
+&lt;a href="https://imgflip.com/i/5sps62"&gt;&lt;img src="https://i.imgflip.com/5sps62.jpg" title="made at imgflip.com"/&gt;&lt;/a&gt;&lt;div&gt;&lt;a href="https://imgflip.com/memegenerator"&gt;from Imgflip Meme Generator&lt;/a&gt;&lt;/div&gt;
+
+]
+
+
+.pull-right[
+Betrachten wir `m10.3` noch einmal.
+
+Welcher Prädiktor, `mom_hs` oder `mom_hs` ist wichtiger im Sinne von stärker mit AV `kid_score` verbunden?
+
+```
+
+Parameter   |        95% PI |
+-------------------------------
+(Intercept) | [14.04, 37.31] |  
+mom_hs      | [ 1.58, 10.34] | 
+mom_iq      | [ 0.44,  0.69] | 
+```
+
+]
+
+
+- Das Problem ist, dass die Prädiktoren auf verschiedenen Skalen gemessen wurden, so dass sie nicht direkt vergleichbar sind.
+- Man könnte 
+    - die Skalierungen der Prädiktoren angleichen
+    - Vorhersagegüte verschiedener Modelle vergleichen (Modell mit einem vs. Modell mit beiden Prädiktoren)
+    - ...
+- Dazu später mehr 🤓
+
+
+---
 
 
 
@@ -129,7 +1573,7 @@ class: center, middle, inverse, title-slide
 name: teil3
 class: middle, center
 
-# Eine nominale UV mit mehreren Stufen
+# Teil 3: Eine nominale UV mit mehreren Stufen
 
 ---
 
@@ -143,7 +1587,7 @@ class: middle, center
 
 - Hypothesen, die keinen (Null) Unterschied zwischen Gruppen oder keinen Zusammenhang zwischen Variablen postulieren, kann man als *Nullhypothesen* bezeichnen.
 
-- Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Wer glaubt sowas? Daher ist die bessere Forschungsfrage:
+- Moment. Dass sich *alle* Mittelwerte um 0,00000000 unterscheiden, ist wohl nicht zu vermuten. Wer glaubt sowas? 🤔 Daher ist die bessere Forschungsfrage:
 
 &gt; *Wie sehr* unterscheiden sich mittlere Diamantenpreise in Abhängigkeit von ihrer Schliffart?
 
@@ -151,7 +1595,7 @@ Oder wir prüfen die Hypothese, ob die Mittelwerte "praktisch" gleich sind, also
 
 ---
 
-## Erster Blick in den Datensatz 
+## Erster Blick in den Datensatz `diamonds`
 
 [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2/diamonds.csv), [Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/ggplot2/diamonds.html)
 
@@ -570,9 +2014,12 @@ diamonds %&gt;%
 </table>
 </div>
 
+
+Was fällt Ihnen auf?
+
 ---
 
-## EDA
+## Visualisierung (EDA)
 
 
 .pull-left[
@@ -950,10 +2397,10 @@ diamonds %&gt;%
 ]
 
 .pull-right[
-&lt;img src="chunk-img/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
-&lt;img src="chunk-img/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1009,7 +2456,80 @@ m10.6 &lt;- stan_glm(price ~ cut, data = diamonds, refresh = 0)
 - Diamanten der Schliffart `Good` sind laut Modell im Mittel gut 400$ billiger als Diamanten der Schliffart `Fair`, etc.
 
 
-&lt;img src="chunk-img/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+## Schätzbereiche (PI) für die Modellparameter
+
+
+```r
+m10.6_post &lt;-
+  m10.6 %&gt;% 
+  as_tibble()
+
+grenzen &lt;- c(0.025, 0.975)
+
+m10.6_post %&gt;% 
+  summarise(pi_intercept = quantile(`(Intercept)`, probs = grenzen),
+            cutGood = quantile(cutGood, probs = grenzen),
+            cutIdeal = quantile(cutIdeal, probs = grenzen),
+            cutPremium = quantile(cutPremium, probs = grenzen),
+            `cutVery Good` = quantile(`cutVery Good`, probs = grenzen))
+```
+
+```
+## # A tibble: 2 × 5
+##   pi_intercept cutGood cutIdeal cutPremium `cutVery Good`
+##          &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;
+## 1        3314.  -2040.  -2630.      -1018.         -2190.
+## 2        5837.    949.     18.0      1699.           578.
+```
+
+Variablennamen, die nach R-Rechtschreiberegeln verboten sind, wie `cutVery Good` oder `(Intercept`), müssen mit Backticks angeführt werden:
+
+````
+`(Intercept)`
+`cutVery Good`
+````
+
+---
+
+## Schätzbereiche (PI) ausgeben lassen, komfortabel
+
+Einfacher bekommt man die gleiche Ausgabe z.B. so:
+
+```r
+posterior_interval(m10.6)
+```
+
+---
+
+## 95%-HDI für die Regressionskoeffizienten
+
+Da die Forschungsfrage nur auf die Regressionskoeffizienten, nicht auf `\(\sigma\)` abzielt, brauchen wir uns `\(\sigma\)` auch nicht en Detail anschauen.
+
+Das HDI kann man komfortabel z.B. so bekommen:
+
+
+```r
+bayestestR::hdi(m10.6)
+```
+
+```
+## Highest Density Interval
+## 
+## Parameter    |             95% HDI
+## ----------------------------------
+## (Intercept)  | [ 3299.64, 5816.35]
+## cutGood      | [-2040.26,  952.51]
+## cutIdeal     | [-2645.03,   -3.72]
+## cutPremium   | [ -965.18, 1732.27]
+## cutVery Good | [-2102.22,  626.49]
+```
+
+Wie man sieht, sind die Intervallgrenzen des HDI ähnlich zu denen des PI.
 
 ---
 
@@ -1017,15 +2537,17 @@ m10.6 &lt;- stan_glm(price ~ cut, data = diamonds, refresh = 0)
 
 ... zwischen den Preis-Mittelwerten in der Population?
 
-- Ja, denn die Schätzintervalle für die Unterschiede waren im Modell `m10.6` alle weit von der Null entfernt.
+- Teilweise, denn einige Schätzintervalle (für die Preisunterschiede) waren im Modell `m10.6` weit von der Null entfernt, andere nicht.
 
-- Auf Basis unseres Modells schließen wir also (mit hoher Sicherheit) aus, dass die Preise im Mittelwert *exakt* identisch sind.
+- Auf Basis unseres Modells schließen wir also (mit hoher Sicherheit) aus, dass *alle* Preise im Mittelwert *exakt* identisch sind.
 
-- Ehrlicherweise hätte sowieso niemand geglaubt, dass die *Nullhypothese* `\(\mu_1 = \mu_2 = \ldots = \mu_k\)` bis in die letzte Dezimale gilt. Anders gesagt: Die Wahrscheinlichkeit eines bestimten Wertes einer stetigen Zufallsvariable ist praktisch Null.
+- Ehrlicherweise hätte sowieso niemand geglaubt, dass die *exakte Nullhypothese* `\(\mu_1 = \mu_2 = \ldots = \mu_k\)` bis in die letzte Dezimale gilt. Anders gesagt: Die Wahrscheinlichkeit eines bestimmten Wertes einer stetigen Zufallsvariable ist praktisch Null.
 
 - Aber: Viele Forscheris prüfen gerne die Nullhypothese, daher taucht der Begriff hier auf.
 
 - Das Verfahren der Frequentistischen Statistik, um die Nullhypothese `\(\mu_1 = \mu_2 = \ldots = \mu_k\)` zu testen, nennt man *Varianzanalyse* (analysis of variance, kurz *ANOVA*).
+
+- In der Bayes-Statistik nutzt man - wie immer - primär die Post-Verteilung, um Fragen der Inferenz (z.B. Gruppenunterschiede dieser Art) zu inferenzstatistisch zu beurteilen.
 
 
 
@@ -1169,7 +2691,7 @@ IQR(m10.6_r2)
 ## [1] 0.01445986
 ```
 
-&lt;img src="chunk-img/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1179,10 +2701,8 @@ IQR(m10.6_r2)
 
 - Unser Modell hat schwach informierte (weakly informative) Priors.
 - Für Achsenabschnitt und die Regressionskoeffizienten werden Normalverteilungen angenommen mit Mittelwert entsprechend den Stichprobendaten und Streuung, die der 2.5-fachen der Streuung in der Stichprobe entspricht.
-
-Mehr Infos kann man sich so ausgeben lassen: `prior_summary(m10.6)`.
-
-Wo man man über mehr inhaltliches Wissen verfügt, so wird man die Priors anpassen wollen, z.B.:
+- Mehr Infos kann man sich so ausgeben lassen: `prior_summary(m10.6)`.
+- Wo man man über mehr inhaltliches Wissen verfügt, so wird man die Priors anpassen wollen, z.B.:
 
 
 ```r
@@ -1191,11 +2711,6 @@ m10.6b &lt;- stan_glm(price ~ cut, data = diamonds, refresh = 0,
                                   scale = c(100, 100, 100, 100)),
                    prior_intercept = normal(300, 500)
                    )
-```
-
-
-
-```r
 coef(m10.6b)
 ```
 
@@ -1222,8 +2737,1822 @@ sigma(m10.6b)
 
 
 
+- Sagen wir, wenn sich zwei Preismittelwerte um höchstens `\(d=100\)`€ unterscheiden, gilt dieser Unterschied für uns als "praktisch gleich", "praktisch kein Unterschied" bzw. vernachlässigbar.
+- Nimmt man (praktisch) keinen Unterschied/Zusammenhang/Effekt an, spricht man von einer *Nullhypothese*: `\(H_0\)`.
+- Die Wahl von `\(d\)` ist *subjektiv* in dem Sinne als sie von inhaltlichen Überlegungen geleitet sein sollte.
+- Diesen Bereich bezeichnen wir den *Indifferenzbereich* (Äquivalenzone, Bereich eines vernachlässigbaren Unterschieds oder *Region of practical equivalence*, Rope). 
+- Jetzt prüfen wir, ob ein "Großteil" der Posteriori-Stichproben im Rope liegt.
+- Unter "Großteil" wird häufig das *95%-HDI* verstanden.
+
+*Entscheidungsregel*:
+
+- Großteil liegt *innerhalb* von Rope  ➡️ *Annahme* der Nullhypothese "praktisch kein Effekt", `\(H_0\)`
+- Großteil liegt *außerhalb* von Rope  ➡️ *Ablehnung* der Nullhypothese "praktisch kein Effekt", `\(H_0\)`
+- Ansonsten  ➡️  keine Entscheidung 
+
+&lt;a name=cite-kruschke_rejecting_2018&gt;&lt;/a&gt;([Kruschke, 2018](https://doi.org/10.1177/2515245918771304))
 
 
+---
+
+## HDI-Rope-Entscheidungsregel visualisiert
+
+&lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/Kruschke-2018-Fig1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+([Kruschke, 2018](https://doi.org/10.1177/2515245918771304)), Abbildung 1, S. 272
+
+
+---
+
+## Visualisierung unserer Rope-Werte, m10.6
+
+- Ein Großteil der Posteriori-Masse von `m10.6` liegt  *nicht* innerhalb des Rope. 
+- Aber können wir umgekehrt sagen, dass ein Großteil außerhalb liegt? Das erkennt man optischt so gut.
+
+&lt;img src="chunk-img/unnamed-chunk-48-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+---
+
+
+## Genaue Rope-Werte
+
+
+
+```r
+library(bayestestR)
+rope(m10.6, range = c(-100, 100))
+```
+
+&lt;/br&gt;
+
+
+Parameter    | Anteil im ROPE  | Entscheidung 
+:----------- |:--------------- |:------------- 
+(Intercept)  |      0.00 %     | Nullhypothese verwerfen 
+cutGood      |      8.73 %     | keine Entscheidung möglich 
+cutIdeal     |      1.47 %     | Nullhypothese verwerfen 
+cutPremium   |     10.08 %     | keine Entscheidung möglich 
+cutVery Good |      6.42 %     | keine Entscheidung möglich 
+
+
+Im Standard werden 95%-HDI berichtet, das kann man so ändern, wenn man möchte:
+
+
+```r
+rope(m10.6, range, c(-100,100), ci = .89, ci_method = "ETI")
+```
+
+`ETI` (equal tails interval) steht für ein PI.
+
+---
+
+## R-Befehl zur bequemen Visualisierung von Rope
+
+Das Paket `bayestestR` bietet eine komfortable Visualisierungsfunktion:
+
+
+```r
+plot(rope(m10.6, range = c(-100, 100)))
+```
+
+&lt;img src="chunk-img/unnamed-chunk-51-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+## Beantwortung der Forschungsfrage
+
+&gt;    Nur das 95%-HDI für Schliffart "Ieal" schloss den Indifferenzbereich von ±100€ aus, die übrigen Mittelwertsdifferenzen nicht. Für die übrigen Differenzen ist keine klare inferenzstatistische Aussage hinsichtlich eines Indifferenzbereichs möglich: Es ist plauibel, laut dem Modell, dass es einen praktisch bedeutsamen Unterschied gibt, aber es ist auch plausibel, dass es keinen praktisch bedeutsamen Unterschied gibt.
+
+&gt;   Die 95%HDI für die Mittelwertsdifferenzen waren wie folgt: cutGood: [-2040, 953], cutIdeal: [-2645, -4], cutPremium: [-965, 1732], cutVeryGood: [-2102, 627]. Das Modell erklärte im Median ca. 3% der Varianz, also nur einen kleinen Teil.
+
+---
+
+
+
+
+
+
+
+
+name: teil4
+class: middle, center
+
+# Teil 4:Mehrere metrische UV
+
+---
+
+
+## Forschungsfrage
+
+&gt;   Stehen sowohl der IQ der Mutter als auch, unabhängig davon, das Alter der Mutter im Zusammenhang mit dem IQ des Kindes?
+
+
+- Das ist wieder eine *deskriptive* Forschungsfrage. *Keine* Kausalwirkung (etwa "IQ der Mutter ist die Ursache zum IQ des Kindes") wird impliziert. 
+- Es geht rein darum, Zusammenhänge in den Daten - bzw. in der Population - aufzuzeigen.
+- Viele Forschungsfagen gehen allerdings weiter und haben explizit Kausalwirkungen im Fokus. Für solche Fragen ist eine deskriptive Untersuchung nicht geeignet, sondern eine Kausalanalyse ist nötig.
+
+
+[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/kidiq.csv) als CSV-Datei oder alternativ:
+
+
+```r
+library(rstanarm)
+data("kidiq")
+```
+
+---
+
+## Was heißt, X hängt mit Y zusammen?
+
+
+- Der Begriff "Zusammenhang" ist nicht exakt.
+- Häufig wird er (für metrische Variablen) verstanden als
+    - lineare Korrelation `\(\rho\)` bzw. `\(r\)` 
+    - lineare Regression `\(\beta\)`, bzw. `\(b\)` 
+
+
+- Der Regressionskoeffizient 
+    - misst die *Steigung* der Regressionsgerade
+    - zeigt, wie groß der vorhergesagte Unterschied in Y, wenn man zwei Personen (Beobachtungseinheiten) vergleicht, die sich um eine Einheit in X unterscheiden
+    - wird manchmal mit dem "Effekt von X auf Y" übersetzt. Vorsicht: "Effekt" klingt nach Kausalzusammenhang. Eine Regression ist keine hinreichende Begründung für einen Kausalzusammenhang. 
+    
+- Der Korrelationskoeffizient
+    - misst eine Art der Stärke des linearen Zusammenhangs
+    - zeigt, wie klein die Vorhersagefehler der zugehörigen Regrssion im Schnitt sind.
+    - [Korrelation ist nicht (automatisch) Kausation.](https://xkcd.com/552/)
+    
+
+
+---
+
+## Korrelationen zur Forschungsfrage
+
+.pull-left[
+
+```r
+library(rstatix)
+kidiq %&gt;% 
+  cor_mat()
+```
+
+<div id="ociitbfzye" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ociitbfzye .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ociitbfzye .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ociitbfzye .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ociitbfzye .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ociitbfzye .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ociitbfzye .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ociitbfzye .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ociitbfzye .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ociitbfzye .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ociitbfzye .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ociitbfzye .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ociitbfzye .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ociitbfzye .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ociitbfzye .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ociitbfzye .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ociitbfzye .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ociitbfzye .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ociitbfzye .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ociitbfzye .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ociitbfzye .gt_left {
+  text-align: left;
+}
+
+#ociitbfzye .gt_center {
+  text-align: center;
+}
+
+#ociitbfzye .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ociitbfzye .gt_font_normal {
+  font-weight: normal;
+}
+
+#ociitbfzye .gt_font_bold {
+  font-weight: bold;
+}
+
+#ociitbfzye .gt_font_italic {
+  font-style: italic;
+}
+
+#ociitbfzye .gt_super {
+  font-size: 65%;
+}
+
+#ociitbfzye .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">kid_score</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mom_hs</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mom_iq</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mom_age</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left gt_stub">kid_score</td>
+<td class="gt_row gt_right">1.0</td>
+<td class="gt_row gt_right">0.2</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">0.1</td></tr>
+    <tr><td class="gt_row gt_left gt_stub">mom_hs</td>
+<td class="gt_row gt_right">0.2</td>
+<td class="gt_row gt_right">1.0</td>
+<td class="gt_row gt_right">0.3</td>
+<td class="gt_row gt_right">0.2</td></tr>
+    <tr><td class="gt_row gt_left gt_stub">mom_iq</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">0.3</td>
+<td class="gt_row gt_right">1.0</td>
+<td class="gt_row gt_right">0.1</td></tr>
+    <tr><td class="gt_row gt_left gt_stub">mom_age</td>
+<td class="gt_row gt_right">0.1</td>
+<td class="gt_row gt_right">0.2</td>
+<td class="gt_row gt_right">0.1</td>
+<td class="gt_row gt_right">1.0</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+]
+
+
+
+
+.pull-right[
+
+```r
+kidiq %&gt;% 
+  cor_mat() %&gt;% 
+  cor_plot()
+```
+
+&lt;img src="chunk-img/unnamed-chunk-56-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+
+## Univariate Regressionen
+
+
+```r
+m10.7 &lt;- stan_glm(kid_score ~ mom_iq, data = kidiq, refresh = 0)
+m10.8 &lt;- stan_glm(kid_score ~ mom_age, data = kidiq, refresh = 0)
+```
+
+.pull-left[
+
+```r
+coef(m10.7)
+```
+
+```
+## (Intercept)      mom_iq 
+##  25.7278500   0.6105014
+```
+
+]
+
+.pull-right[
+
+```r
+coef(m10.8)
+```
+
+```
+## (Intercept)     mom_age 
+##  70.9402143   0.6997103
+```
+
+]
+
+---
+
+## Visualisierung der univariaten Regressionen
+
+
+.pull-left[
+`m10.7`
+
+Steigung: 0.6
+&lt;img src="chunk-img/unnamed-chunk-60-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+.pull-left[
+`m10.8`
+
+Steigung: 0.7
+&lt;img src="chunk-img/unnamed-chunk-61-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+
+
+## Multiples Modell (beide Prädiktoren)
+
+
+```
+## (Intercept)      mom_iq     mom_age 
+##  17.5636666   0.6036358   0.3795824
+```
+
+💡 Die Regressionsgewichte unterscheiden sich zu den von den jeweiligen univariaten Regressionen.
+
+- Bei einer multiplen Regression ist ein Regressionsgewicht jeweils *bereinigt* vom Zusammenhang mit dem (oder den) anderen Regressionsgewicht.
+- Das bedeutet, man betrachtet den den Zusammenhang eines Prädiktors mit der AV, wobei man gleichzeitig den anderen Prädiktor konstant hält.
+
+---
+
+## 3D-Visualisierung eines Modells mit zwei Prädiktoren 1
+
+
+<div id="htmlwidget-880a3e5c3642fd1ff408" style="width:800px;height:500px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-880a3e5c3642fd1ff408">{"x":{"visdat":{"43033e86d2e5":["function () ","plotlyVisDat"],"430357fd875":["function () ","data"]},"cur_data":"430357fd875","attrs":{"43033e86d2e5":{"x":{},"y":{},"z":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"surface"},"430357fd875":{"x":{},"y":{},"z":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d","mode":"markers","marker":{"color":"#00998a","opacity":0.7,"size":1,"symbol":105},"inherit":true}},"layout":{"width":800,"height":500,"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"aspectmode":"manual","aspectratio":{"x":1,"y":1,"z":1},"xaxis":{"title":"mom_iq"},"yaxis":{"title":"mom_age"},"zaxis":{"title":"kid_score"}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"showSendToCloud":false},"data":[{"colorbar":{"title":"z<br />kid_score","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666668","rgba(70,19,97,1)"],["0.0833333333333332","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"x":[71.037405135663,73.8647260079754,76.6920468802879,79.5193677526004,82.3466886249128,85.1740094972253,88.0013303695378,90.8286512418502,93.6559721141627,96.4832929864751,99.3106138587876,102.1379347311,104.965255603413,107.792576475725,110.619897348037,113.44721822035,116.274539092662,119.101859964975,121.929180837287,124.7565017096,127.583822581912,130.411143454225,133.238464326537,136.06578519885,138.893106071162],"y":[17,17.5,18,18.5,19,19.5,20,20.5,21,21.5,22,22.5,23,23.5,24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29],"z":[[66.8972901684708,68.6039623645909,70.3106345607111,72.0173067568312,73.7239789529514,75.4306511490716,77.1373233451917,78.8439955413119,80.550667737432,82.2573399335522,83.9640121296723,85.6706843257925,87.3773565219126,89.0840287180328,90.7907009141529,92.4973731102731,94.2040453063933,95.9107175025134,97.6173896986336,99.3240618947537,101.030734090874,102.737406286994,104.444078483114,106.150750679234,107.857422875354],[67.0870813505158,68.793753546636,70.5004257427561,72.2070979388763,73.9137701349964,75.6204423311166,77.3271145272367,79.0337867233569,80.740458919477,82.4471311155972,84.1538033117174,85.8604755078375,87.5671477039577,89.2738199000778,90.980492096198,92.6871642923181,94.3938364884383,96.1005086845584,97.8071808806786,99.5138530767987,101.220525272919,102.927197469039,104.633869665159,106.340541861279,108.0472140574],[67.2768725325608,68.983544728681,70.6902169248011,72.3968891209213,74.1035613170415,75.8102335131616,77.5169057092818,79.2235779054019,80.9302501015221,82.6369222976422,84.3435944937624,86.0502666898825,87.7569388860027,89.4636110821228,91.170283278243,92.8769554743631,94.5836276704833,96.2902998666034,97.9969720627236,99.7036442588438,101.410316454964,103.116988651084,104.823660847204,106.530333043324,108.237005239445],[67.4666637146059,69.173335910726,70.8800081068462,72.5866803029663,74.2933524990865,76.0000246952066,77.7066968913268,79.4133690874469,81.1200412835671,82.8267134796872,84.5333856758074,86.2400578719276,87.9467300680477,89.6534022641679,91.360074460288,93.0667466564082,94.7734188525283,96.4800910486485,98.1867632447686,99.8934354408888,101.600107637009,103.306779833129,105.013452029249,106.720124225369,108.42679642149],[67.6564548966509,69.363127092771,71.0697992888912,72.7764714850113,74.4831436811315,76.1898158772516,77.8964880733718,79.603160269492,81.3098324656121,83.0165046617323,84.7231768578524,86.4298490539726,88.1365212500927,89.8431934462129,91.549865642333,93.2565378384532,94.9632100345734,96.6698822306935,98.3765544268137,100.083226622934,101.789898819054,103.496571015174,105.203243211294,106.909915407414,108.616587603535],[67.8462460786959,69.5529182748161,71.2595904709362,72.9662626670564,74.6729348631765,76.3796070592967,78.0862792554168,79.792951451537,81.4996236476571,83.2062958437773,84.9129680398974,86.6196402360176,88.3263124321377,90.0329846282579,91.7396568243781,93.4463290204982,95.1530012166184,96.8596734127385,98.5663456088587,100.273017804979,101.979690001099,103.686362197219,105.393034393339,107.099706589459,108.80637878558],[68.0360372607409,69.7427094568611,71.4493816529812,73.1560538491014,74.8627260452215,76.5693982413417,78.2760704374619,79.982742633582,81.6894148297022,83.3960870258223,85.1027592219425,86.8094314180626,88.5161036141828,90.2227758103029,91.9294480064231,93.6361202025432,95.3427923986634,97.0494645947835,98.7561367909037,100.462808987024,102.169481183144,103.876153379264,105.582825575384,107.289497771504,108.996169967625],[68.2258284427859,69.9325006389061,71.6391728350262,73.3458450311464,75.0525172272666,76.7591894233867,78.4658616195069,80.172533815627,81.8792060117472,83.5858782078673,85.2925504039875,86.9992226001076,88.7058947962278,90.4125669923479,92.1192391884681,93.8259113845883,95.5325835807084,97.2392557768286,98.9459279729487,100.652600169069,102.359272365189,104.065944561309,105.772616757429,107.479288953549,109.18596114967],[68.415619624831,70.1222918209511,71.8289640170713,73.5356362131914,75.2423084093116,76.9489806054317,78.6556528015519,80.362324997672,82.0689971937922,83.7756693899124,85.4823415860325,87.1890137821527,88.8956859782728,90.602358174393,92.3090303705131,94.0157025666333,95.7223747627534,97.4290469588736,99.1357191549937,100.842391351114,102.549063547234,104.255735743354,105.962407939474,107.669080135594,109.375752331715],[68.605410806876,70.3120830029961,72.0187551991163,73.7254273952364,75.4320995913566,77.1387717874767,78.8454439835969,80.5521161797171,82.2587883758372,83.9654605719574,85.6721327680775,87.3788049641977,89.0854771603178,90.792149356438,92.4988215525582,94.2054937486783,95.9121659447985,97.6188381409186,99.3255103370388,101.032182533159,102.738854729279,104.445526925399,106.152199121519,107.85887131764,109.56554351376],[68.795201988921,70.5018741850412,72.2085463811613,73.9152185772815,75.6218907734016,77.3285629695218,79.0352351656419,80.7419073617621,82.4485795578822,84.1552517540024,85.8619239501225,87.5685961462427,89.2752683423628,90.981940538483,92.6886127346032,94.3952849307233,96.1019571268435,97.8086293229636,99.5153015190838,101.221973715204,102.928645911324,104.635318107444,106.341990303564,108.048662499685,109.755334695805],[68.984993170966,70.6916653670862,72.3983375632063,74.1050097593265,75.8116819554467,77.5183541515668,79.225026347687,80.9316985438071,82.6383707399273,84.3450429360474,86.0517151321676,87.7583873282877,89.4650595244079,91.171731720528,92.8784039166482,94.5850761127683,96.2917483088885,97.9984205050087,99.7050927011288,101.411764897249,103.118437093369,104.825109289489,106.531781485609,108.23845368173,109.94512587785],[69.174784353011,70.8814565491312,72.5881287452514,74.2948009413715,76.0014731374917,77.7081453336118,79.414817529732,81.1214897258521,82.8281619219723,84.5348341180924,86.2415063142126,87.9481785103328,89.6548507064529,91.361522902573,93.0681950986932,94.7748672948134,96.4815394909335,98.1882116870537,99.8948838831738,101.601556079294,103.308228275414,105.014900471534,106.721572667654,108.428244863775,110.134917059895],[69.3645755350561,71.0712477311762,72.7779199272964,74.4845921234165,76.1912643195367,77.8979365156568,79.604608711777,81.3112809078972,83.0179531040173,84.7246253001375,86.4312974962576,88.1379696923778,89.8446418884979,91.5513140846181,93.2579862807382,94.9646584768584,96.6713306729785,98.3780028690987,100.084675065219,101.791347261339,103.498019457459,105.204691653579,106.911363849699,108.61803604582,110.32470824194],[69.5543667171011,71.2610389132212,72.9677111093414,74.6743833054615,76.3810555015817,78.0877276977019,79.794399893822,81.5010720899422,83.2077442860623,84.9144164821825,86.6210886783026,88.3277608744228,90.0344330705429,91.7411052666631,93.4477774627833,95.1544496589034,96.8611218550236,98.5677940511437,100.274466247264,101.981138443384,103.687810639504,105.394482835624,107.101155031744,108.807827227865,110.514499423985],[69.7441578991461,71.4508300952663,73.1575022913864,74.8641744875066,76.5708466836267,78.2775188797469,79.984191075867,81.6908632719872,83.3975354681073,85.1042076642275,86.8108798603477,88.5175520564678,90.224224252588,91.9308964487081,93.6375686448283,95.3442408409484,97.0509130370686,98.7575852331887,100.464257429309,102.170929625429,103.877601821549,105.584274017669,107.29094621379,108.99761840991,110.70429060603],[69.9339490811911,71.6406212773113,73.3472934734314,75.0539656695516,76.7606378656718,78.4673100617919,80.1739822579121,81.8806544540322,83.5873266501524,85.2939988462725,87.0006710423927,88.7073432385128,90.414015434633,92.1206876307531,93.8273598268733,95.5340320229934,97.2407042191136,98.9473764152337,100.654048611354,102.360720807474,104.067393003594,105.774065199714,107.480737395835,109.187409591955,110.894081788075],[70.1237402632362,71.8304124593563,73.5370846554765,75.2437568515966,76.9504290477168,78.6571012438369,80.3637734399571,82.0704456360772,83.7771178321974,85.4837900283175,87.1904622244377,88.8971344205579,90.603806616678,92.3104788127982,94.0171510089183,95.7238232050385,97.4304954011586,99.1371675972788,100.843839793399,102.550511989519,104.257184185639,105.963856381759,107.67052857788,109.377200774,111.08387297012],[70.3135314452812,72.0202036414013,73.7268758375215,75.4335480336416,77.1402202297618,78.8468924258819,80.5535646220021,82.2602368181223,83.9669090142424,85.6735812103626,87.3802534064827,89.0869256026029,90.793597798723,92.5002699948432,94.2069421909633,95.9136143870835,97.6202865832037,99.3269587793238,101.033630975444,102.740303171564,104.446975367684,106.153647563804,107.860319759925,109.566991956045,111.273664152165],[70.5033226273262,72.2099948234464,73.9166670195665,75.6233392156867,77.3300114118068,79.036683607927,80.7433558040471,82.4500280001673,84.1567001962874,85.8633723924076,87.5700445885277,89.2767167846479,90.983388980768,92.6900611768882,94.3967333730084,96.1034055691285,97.8100777652487,99.5167499613688,101.223422157489,102.930094353609,104.636766549729,106.343438745849,108.05011094197,109.75678313809,111.46345533421],[70.6931138093712,72.3997860054914,74.1064582016115,75.8131303977317,77.5198025938518,79.226474789972,80.9331469860922,82.6398191822123,84.3464913783325,86.0531635744526,87.7598357705728,89.4665079666929,91.1731801628131,92.8798523589332,94.5865245550534,96.2931967511735,97.9998689472937,99.7065411434138,101.413213339534,103.119885535654,104.826557731774,106.533229927894,108.239902124015,109.946574320135,111.653246516255],[70.8829049914162,72.5895771875364,74.2962493836565,76.0029215797767,77.7095937758969,79.416265972017,81.1229381681372,82.8296103642573,84.5362825603775,86.2429547564976,87.9496269526178,89.6562991487379,91.3629713448581,93.0696435409782,94.7763157370984,96.4829879332186,98.1896601293387,99.8963323254589,101.603004521579,103.309676717699,105.016348913819,106.723021109939,108.42969330606,110.13636550218,111.8430376983],[71.0726961734613,72.7793683695814,74.4860405657016,76.1927127618217,77.8993849579419,79.606057154062,81.3127293501822,83.0194015463023,84.7260737424225,86.4327459385427,88.1394181346628,89.846090330783,91.5527625269031,93.2594347230233,94.9661069191434,96.6727791152636,98.3794513113837,100.086123507504,101.792795703624,103.499467899744,105.206140095864,106.912812291984,108.619484488105,110.326156684225,112.032828880345],[71.2624873555063,72.9691595516264,74.6758317477466,76.3825039438667,78.0891761399869,79.795848336107,81.5025205322272,83.2091927283474,84.9158649244675,86.6225371205877,88.3292093167078,90.035881512828,91.7425537089481,93.4492259050683,95.1558981011885,96.8625702973086,98.5692424934288,100.275914689549,101.982586885669,103.689259081789,105.395931277909,107.10260347403,108.80927567015,110.51594786627,112.22262006239],[71.4522785375513,73.1589507336715,74.8656229297916,76.5722951259118,78.2789673220319,79.9856395181521,81.6923117142722,83.3989839103924,85.1056561065125,86.8123283026327,88.5190004987528,90.225672694873,91.9323448909931,93.6390170871133,95.3456892832335,97.0523614793536,98.7590336754738,100.465705871594,102.172378067714,103.879050263834,105.585722459954,107.292394656075,108.999066852195,110.705739048315,112.412411244435]],"type":"surface","frame":null},{"x":[121.117528602603,89.3618817100663,115.443164881725,99.4496394360723,92.7457099982118,107.901837758501,138.893106071162,125.145119475328,81.6195261789843,95.0730686206496,88.5769977185567,94.8597081943671,88.9628008509596,114.114297012333,100.534071915245,120.419145591086,114.426876891447,111.592357580831,133.849227208159,97.2648010634673,110.09680614075,126.72399416984,97.9115903092628,99.9257251603133,97.5950080521511,121.748013460479,98.7480786989934,97.9152543291671,80.3585564632336,114.307860633927,109.138316302971,101.817179733939,117.965104313227,108.633496913048,96.528619145464,92.8713754661642,95.8981342875886,107.015457730577,87.1970117452858,89.3618817100663,102.530987846246,130.166860235388,83.4141025980336,125.75346623026,85.8103765615827,126.520072628695,79.203048104857,113.165907175696,110.33138786508,99.4092237400546,102.425526488872,124.900437749856,94.8597081943671,92.3685645501674,101.817179733939,79.8335329627323,96.226139267492,82.3554723942338,76.5756473159814,110.013482886319,111.592357580831,113.657407368227,101.164556773121,101.341094009698,101.698163476419,98.8191545781969,93.4981963041352,87.2938898998626,87.316028002806,86.2094574206895,89.8379674343074,121.870014908527,127.544378629405,109.991344783376,90.4463141892395,88.8949026973177,113.046890918176,78.0131542683097,95.3896508777613,83.6164421099846,86.2462806103944,95.3896508777613,111.252314499127,127.014435946011,89.951950871924,99.2731021994947,81.1655785576865,110.52128746677,136.493846917085,123.862011656634,134.602392343459,91.0989371500582,103.269371773029,126.287072933559,127.544378629405,92.4738903034255,84.7940885713045,100.534071915245,108.003012055173,78.8071449713118,121.117528602603,103.056011346747,100.437193760669,88.5548596156134,85.3055571716597,119.448617651507,90.5517755466136,96.3340383364003,127.644920803886,119.856558886853,112.018920897562,92.5143059994432,96.023799755541,91.4168421288192,103.07814944969,100.243630139074,89.8158293313641,115.057361749322,96.650620593512,105.577950778248,97.7216907075729,131.835771186485,101.817179733939,93.4981963041352,104.026539286327,103.708634307566,107.368863177393,92.5511291891481,94.4425837627742,93.1447908573186,83.4141025980336,71.037405135663,127.66705890683,115.687846607198,90.9762568726337,132.865336903467,72.5022963925581,100.710609151823,132.688799666889,98.5457391870425,115.665708504254,117.062799760565,136.493846917085,106.548478717828,134.126306619218,104.657024144202,99.3785635568688,100.437193760669,89.5253875551931,120.92294779354,113.143769072753,126.414746875437,122.737163481443,115.375266728083,91.6067417305091,88.6603209729875,107.178963575703,104.969604023316,103.8630334412,110.09680614075,88.4543174411322,117.032139577379,125.656588075683,122.601041940883,121.049630448962,93.1447908573186,99.3785635568688,123.892807443936,113.043226898272,115.771169861628,114.938345491802,93.6208765815597,121.748013460479,90.3494360346627,83.4104385781293,99.4864626257772,113.910375471188,97.5950080521511,89.8158293313641,119.584739192066,97.3816476258686,84.8774118257353,102.328648334295,99.2731021994947,99.0750497482455,96.9277000045708,108.313250636032,100.534071915245,99.4864626257772,113.987614356911,92.7702011694918,88.0298361151122,106.111557481547,103.232548583324,99.295240302438,106.742042339422,99.1725600250135,102.447664591815,92.8677114462598,116.826136045524,85.4245734291798,115.565166329773,113.174564860055,106.861058596942,95.8302361339468,77.1092540192799,89.2908058308629,112.412742040396,110.643967744195,109.537397162078,107.901837758501,104.969604023316,107.682765778157,109.466321282875,133.532644951047,128.80901236506,101.270018130495,87.316028002806,118.090769781179,120.255639745959,90.3457720147583,79.9046088419358,136.577170171515,102.425526488872,132.688799666889,96.2972151466954,118.209786038699,118.090769781179,101.504599854825,94.3346846938659,84.67140829388,86.7688663993614,129.245933601341,127.781042344446,106.861058596942,105.754488014826,117.032139577379,119.35173949693,102.765569570576,108.205351567124,126.414746875437,101.90050298837,99.1562556370934,91.8127452623644,84.1414656104858,84.3548260367683,79.1197248504261,91.4168421288192,90.4463141892395,79.0007085929061,109.263981770924,76.7521845525589,97.5950080521511,128.80901236506,113.657407368227,114.206686337254,112.513284214877,75.3368157031739,81.5226480244075,102.638886915154,101.186694876064,112.222842438706,123.408064035336,86.5665268874105,100.116947483653,102.328648334295,87.9465128606813,80.2580142887524,80.2580142887524,91.0767990471149,85.5789725628141,113.165907175696,112.05933659358,101.270018130495,81.8328866052668,81.0945026784831,81.3290844028133,120.609045192776,102.447664591815,90.9762568726337,103.708634307566,102.328648334295,121.870014908527,88.6603209729875,90.0291897576466,83.5331188555537,91.9206443312728,87.1933477253815,80.4640178206077,84.3180028470634,77.7397388771553,82.272149139803,77.3826694104343,89.715287156883,79.9046088419358,82.1531328822829,80.2616783086568,77.3826694104343,82.7836177401583,89.2074825764321,89.088466318912,88.9872920222396,118.923594151005,83.8510238343148,84.044587455909,105.052927277747,107.999348035269,97.3816476258686,103.791957561996,97.5950080521511,88.6603209729875,107.246861729345,89.8379674343074,108.906912304203,100.63953327262,118.840270896574,95.5123311551858,84.7719504683612,100.747432341528,87.0034481236916,77.8587551346754,85.3018931517554,92.7702011694918,74.8607299789328,115.248584072661,107.372527197298,102.202982866342,97.9115903092628,96.8566241253673,111.465674925409,109.466321282875,82.2500110368597,92.7702011694918,115.568830349677,84.044587455909,116.199315207553,99.295240302438,87.1933477253815,76.7117688565413,80.6985995449379,82.4633714631422,85.1798917037074,93.0737149781151,88.5769977185567,103.056011346747,86.8767654682698,97.9152543291671,120.92294779354,91.7294220079335,87.5072503261452,90.4463141892395,84.1636037134291,96.6542846134164,95.703553478525,88.7682200418959,92.1397163116164,108.003012055173,80.3893522505354,99.8030448828889,90.0291897576466,93.9387815603207,103.708634307566,77.1092540192799,117.55716307788,79.8335329627323,83.6164421099846,88.731396852191,82.7836177401583,86.8767654682698,88.731396852191,92.2408906082888,90.5517755466136,84.1414656104858,93.0737149781151,85.8348677328627,98.8559777679018,95.5123311551858,101.067678618544,85.9323780096308,82.7836177401583,98.6647554445626,82.1494688623785,85.6157957525191,79.4376298291872,75.3368157031739,80.8921631665322,115.771169861628,97.1591040033394,80.8921631665322,79.505527982829,98.0121324837439,108.866496608185,80.6985995449379,100.747432341528,91.0989371500582,82.9859572521092,89.715287156883,131.010705519546,124.514634617453,91.6104057504134,92.9903917236843,91.8838211415678,88.6909811561733,126.093509311965,84.9853108946437,82.9859572521092,101.795041630996,100.243630139074,110.013482886319,88.5769977185567,106.742042339422,95.2921406009932,108.313250636032,110.33138786508,116.829800065428,86.6855431449306,96.8566241253673,90.2482617379903,89.2908058308629,74.2302451210575,91.8838211415678,96.4607209918222,97.4037857288119,131.533291308512,78.2445582670783,127.675716591188,124.514634617453,80.4640178206077,74.8607299789328,84.8774118257353,92.9903917236843,94.8597081943671,96.8566241253673,91.2533362836924],"y":[27,25,27,25,27,18,20,23,24,19,23,24,27,26,24,26,23,26,20,17,21,26,20,23,19,27,21,22,24,22,27,23,27,22,27,22,27,25,22,25,21,24,22,24,27,28,21,23,26,28,24,27,24,29,23,21,21,21,24,23,26,17,24,25,22,25,20,24,23,25,23,20,20,24,24,26,22,25,20,21,19,20,24,24,28,24,25,20,23,24,23,23,19,22,20,28,23,24,22,26,27,24,22,24,22,24,21,19,24,27,28,25,22,26,23,26,24,23,20,24,26,27,23,20,26,23,20,19,19,25,22,28,23,23,20,25,26,25,24,22,24,28,23,26,25,26,21,22,26,19,24,29,28,26,20,21,26,23,25,21,20,21,22,24,26,25,21,29,20,21,22,23,27,22,20,19,28,19,24,28,24,21,22,24,18,25,19,24,19,19,18,21,22,25,23,22,20,23,20,20,23,20,29,23,26,22,21,20,23,25,18,23,19,21,19,22,21,23,22,25,20,25,21,24,24,25,23,22,26,21,20,21,26,28,23,25,21,22,26,21,29,21,17,21,24,19,23,26,24,22,22,25,19,22,17,18,24,23,22,19,23,26,25,22,19,22,23,20,20,24,25,23,25,21,19,21,26,20,23,20,23,22,20,21,19,23,19,20,21,25,22,23,25,20,25,22,22,25,22,23,22,18,21,26,22,21,20,24,21,19,21,27,23,25,21,23,23,24,19,26,23,20,18,25,19,22,27,20,21,19,21,24,18,22,22,22,23,20,28,26,19,27,21,23,24,19,22,19,23,19,24,23,22,19,19,18,22,29,20,19,26,23,22,24,21,21,25,22,19,25,22,21,24,21,18,19,23,22,20,22,23,20,19,26,23,22,21,27,22,27,24,28,26,19,23,21,20,19,23,22,23,25,28,26,19,21,24,26,23,23,22,18,19,26,22,23,21,18,21,25,25,26,23,21,27,29,23,21,25,21,23,24,21,25],"z":[65,98,85,83,115,98,69,106,102,95,91,58,84,78,102,110,102,99,105,101,102,115,100,87,99,96,72,78,77,98,69,130,109,106,92,100,107,86,90,110,107,113,65,102,103,111,42,100,67,92,100,110,56,107,97,56,95,78,76,86,79,81,79,79,56,52,63,80,87,88,92,100,94,117,102,107,99,73,56,78,94,110,109,86,92,91,123,102,105,114,96,66,104,108,84,83,83,92,109,95,93,114,106,87,65,95,61,73,112,113,49,105,122,96,97,94,117,136,85,116,106,99,94,89,119,112,104,92,86,69,45,57,94,104,89,144,52,102,106,98,97,94,111,100,105,90,98,121,106,121,102,64,99,81,69,84,104,104,107,88,67,103,94,109,94,98,102,104,114,87,102,77,109,94,93,86,97,97,88,103,87,87,90,65,111,109,87,58,87,113,64,78,97,95,75,91,99,108,95,100,85,97,108,90,100,82,94,95,119,98,100,112,136,122,126,116,98,94,93,90,70,110,104,83,99,81,104,109,113,95,74,81,89,93,102,95,85,97,92,78,104,120,83,105,68,104,80,120,94,81,101,61,68,110,89,98,113,50,57,86,83,106,106,104,78,99,91,40,42,69,84,58,42,72,80,58,52,101,63,73,68,60,69,73,75,20,56,49,71,46,54,54,44,74,58,46,76,43,60,58,89,43,94,88,79,87,46,95,92,42,62,52,101,97,85,98,94,90,72,92,75,83,64,101,82,77,101,50,90,103,96,50,47,73,62,77,64,52,61,86,41,83,64,83,116,100,42,74,76,92,98,96,67,84,111,41,68,107,82,89,83,73,74,94,58,76,61,38,100,84,99,86,94,90,50,112,58,87,76,68,110,88,87,54,49,56,79,82,80,60,102,87,42,119,84,86,113,72,104,94,78,80,67,104,96,65,64,95,56,75,91,106,76,90,108,86,85,104,87,41,106,76,100,89,42,102,104,59,93,94,76,50,88,70],"type":"scatter3d","mode":"markers","marker":{"color":"#00998a","opacity":0.7,"size":1,"symbol":105,"line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+
+---
+
+
+## Visualisierung mit Farbe statt 3. Dimension
+
+&lt;img src="chunk-img/unnamed-chunk-64-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+Auf der Achse von mom_iq erkennt man deutlich (anhand der Farbänderung) die Veränderung für die AV (kid_score). Auf der Achse für `mom_age` sieht man, dass sich die AV kaum ändert, wenn sich `mom_age` ändert.
+
+
+---
+
+## Visualisierung in 10 Dimensionen
+
+
+&lt;img src="chunk-img/unnamed-chunk-65-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+Leider macht mein Hirn hier nicht mit. Unsere Schwächen, eine große Zahl an Dimensionen zu visualisieren, ist der Grund, warum wir mathematische Modelle brauchen.
+
+Daher kann man ein Modell verstehen als eine einfache Zusammenfassung eines (ggf. hochdimensionalen) Variablenraumes.
+
+
+
+
+---
+
+
+## Relevanz der Prädiktoren
+
+- Welcher Prädiktor ist nun "wichtiger" oder "stärker" in Bezug auf den Zusammenhang mit der AV, `mom_iq` oder `mom_age`?
+
+- `mom_iq` hat den größeren Koeffizienten.
+- `mom_age` hat weniger Streuung.
+
+
+- Um die Relevanz der Prädiktoren vergleichen zu können, müsste man vielleicht die Veränderung von `kid_score` betrachten, wenn man von kleinsten zum größten Prädiktorwert geht.
+- Allerdings sind Extremwerte meist instabil (da sie von einer einzigen Beobachtung bestimmt werden).
+- Sinnvoller ist es daher, die Veränderung in der AV zu betrachten, wenn man den Prädiktor von "unterdurchschittlich" auf "überdurchschnittlich" ändert.
+- Das kann man mit *z-Standardisierung* erreichen.
+
+
+---
+
+
+
+
+## z-Standardisierung
+
+
+
+
+- *z-Standardisierung* bedeutet, eine Variable so zu transformieren, dass sie über einen Mittelwert von 0 und eine SD von 1 verfügt:
+
+`$$z = \frac{x - \bar{x}}{sd(x)}$$`
+
+
+```r
+kidiq &lt;- kidiq %&gt;% 
+  mutate(kid_score_z = ((kid_score - mean(kid_score)) / sd(kid_score)))
+```
+
+
+.pull-left[
+Rohwerte
+&lt;img src="chunk-img/unnamed-chunk-67-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+Z-Werte
+&lt;img src="chunk-img/unnamed-chunk-68-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+---
+
+
+
+## Statistiken zu den z-transformierten Variablen
+
+<div id="ikwcuiikbw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ikwcuiikbw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ikwcuiikbw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ikwcuiikbw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ikwcuiikbw .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ikwcuiikbw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ikwcuiikbw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ikwcuiikbw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ikwcuiikbw .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ikwcuiikbw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ikwcuiikbw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ikwcuiikbw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ikwcuiikbw .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ikwcuiikbw .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ikwcuiikbw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ikwcuiikbw .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ikwcuiikbw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ikwcuiikbw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ikwcuiikbw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ikwcuiikbw .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ikwcuiikbw .gt_left {
+  text-align: left;
+}
+
+#ikwcuiikbw .gt_center {
+  text-align: center;
+}
+
+#ikwcuiikbw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ikwcuiikbw .gt_font_normal {
+  font-weight: normal;
+}
+
+#ikwcuiikbw .gt_font_bold {
+  font-weight: bold;
+}
+
+#ikwcuiikbw .gt_font_italic {
+  font-style: italic;
+}
+
+#ikwcuiikbw .gt_super {
+  font-size: 65%;
+}
+
+#ikwcuiikbw .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">variable</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mean</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">sd</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">kid_score</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">86.797</td>
+<td class="gt_row gt_right">20.411</td></tr>
+    <tr><td class="gt_row gt_left">kid_score_z</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">1.000</td></tr>
+    <tr><td class="gt_row gt_left">mom_age</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">22.786</td>
+<td class="gt_row gt_right">2.701</td></tr>
+    <tr><td class="gt_row gt_left">mom_hs</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">0.786</td>
+<td class="gt_row gt_right">0.411</td></tr>
+    <tr><td class="gt_row gt_left">mom_iq</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">100.000</td>
+<td class="gt_row gt_right">15.000</td></tr>
+    <tr><td class="gt_row gt_left">pred_m10.9</td>
+<td class="gt_row gt_right">434</td>
+<td class="gt_row gt_right">86.576</td>
+<td class="gt_row gt_right">9.205</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+&lt;/br&gt;
+So kann man auch die z-Transformation ("Skalierung") durchführen:
+
+
+
+```r
+kidiq &lt;- kidiq %&gt;% 
+  mutate(mom_iq_z = scale(mom_iq),
+         mom_age_z = scale(mom_age))
+```
+
+---
+
+## Modell mit standardisierten Prädiktoren, `m10.10`
+
+
+
+
+```r
+m10.10 &lt;- stan_glm(kid_score_z ~ mom_iq_z + mom_age_z, data = kidiq, refresh = 0)
+coef(m10.10)
+```
+
+```
+##  (Intercept)     mom_iq_z    mom_age_z 
+## -0.001246503  0.441916951  0.052042225
+```
+
+
+- Der *Achsenabschnitt* gibt den Mittelwert der AV (`kid_score`) an, da `kid_score_z = 0` identisch ist zum Mittelwert von  `kid_score`.
+- Der Koeffizient für `mom_iq_z` gibt an, um wie viele SD-Einheiten sich `kid_score` (die AV) ändert, wenn sich `mom_iq` um eine SD-Einheit ändert. Dabei werden Mütter mittleren Alters betrachtet.
+- Der Koeffizient für `mom_age_z` gibt an, um wie viele SD-Einheiten sich `kid_score` (die AV) ändert, wenn sich `mom_age` um eine SD-Einheit ändert.
+
+Jetzt sind die Prädiktoren in ihrer Relevanz (Zusammenhang mit der AV) vergleichbar. 
+
+Man sieht, dass die Intelligenz der Mutter *deutlich* wichtiger ist das Alter der Mutter (im Hinblick auf die Vorhersage bzw. den Zusammenhang mit mit der AV).
+
+---
+
+
+## Verwandtheit von Korrelation und Regression
+
+
+- Sind X und Y *z-standardisiert*, so sind Korrelation und Regression identisch.
+
+
+`$$b = r \frac{sd_x}{sd_y}$$`
+
+
+```r
+m10.11 &lt;- 
+  stan_glm(kid_score_z ~ mom_iq_z , data = kidiq, refresh = 0)
+coef(m10.11)
+```
+
+```
+##   (Intercept)      mom_iq_z 
+## -0.0008372507  0.4495398966
+```
+
+
+<div id="opacmloufq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#opacmloufq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#opacmloufq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#opacmloufq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#opacmloufq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#opacmloufq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#opacmloufq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#opacmloufq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#opacmloufq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#opacmloufq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#opacmloufq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#opacmloufq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#opacmloufq .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#opacmloufq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#opacmloufq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#opacmloufq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#opacmloufq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#opacmloufq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#opacmloufq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#opacmloufq .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#opacmloufq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#opacmloufq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#opacmloufq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#opacmloufq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#opacmloufq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#opacmloufq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#opacmloufq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#opacmloufq .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#opacmloufq .gt_left {
+  text-align: left;
+}
+
+#opacmloufq .gt_center {
+  text-align: center;
+}
+
+#opacmloufq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#opacmloufq .gt_font_normal {
+  font-weight: normal;
+}
+
+#opacmloufq .gt_font_bold {
+  font-weight: bold;
+}
+
+#opacmloufq .gt_font_italic {
+  font-style: italic;
+}
+
+#opacmloufq .gt_super {
+  font-size: 65%;
+}
+
+#opacmloufq .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">kid_score</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mom_iq</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">kid_score_z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mom_iq_z</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left gt_stub">kid_score</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.45</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.45</td></tr>
+    <tr><td class="gt_row gt_left gt_stub">mom_iq</td>
+<td class="gt_row gt_right">0.45</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.45</td>
+<td class="gt_row gt_right">1.00</td></tr>
+    <tr><td class="gt_row gt_left gt_stub">kid_score_z</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.45</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.45</td></tr>
+    <tr><td class="gt_row gt_left gt_stub">mom_iq_z</td>
+<td class="gt_row gt_right">0.45</td>
+<td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.45</td>
+<td class="gt_row gt_right">1.00</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+
+---
+
+
+
+
+
+## Priori-Verteilung für `m10.10`
+
+
+```
+## Priors for model 'm10.10' 
+## ------
+## Intercept (after predictors centered)
+##  ~ normal(location = -2.8e-16, scale = 2.5)
+## 
+## Coefficients
+##   Specified prior:
+##     ~ normal(location = [0,0], scale = [2.5,2.5])
+##   Adjusted prior:
+##     ~ normal(location = [0,0], scale = [2.50,2.50])
+## 
+## Auxiliary (sigma)
+##  ~ exponential(rate = 1)
+## ------
+## See help('prior_summary.stanreg') for more details
+```
+
+
+
+`$$\begin{align}
+\text{kid_score} &amp;\sim \mathcal{N}(0,2.5)\\
+\mu_i &amp;= \alpha + \beta_1\text{mom_iq}_i + \beta_2\text{mom_age}_i \\
+\alpha &amp;\sim \mathcal{N}(0,2.5)\\
+\beta_1 &amp;\sim \mathcal{N}(0,2.5)\\
+\beta_2 &amp;\sim \mathcal{N}(0,2.5)\\
+\sigma &amp;\sim \mathcal{E}(1)
+\end{align}$$`
+
+
+---
+
+
+## Linearitätsannahme
+
+
+Zentrale Annahme: Die AV ist eine *lineare* Funktion der einzelnen Prädiktoren: 
+
+`$$y= \alpha + \beta_1x_1 + \beta_2 x_2 + \cdots .$$` 
+
+- Hingegen ist es nicht erforderlich, dass die AV (y) normalverteilt ist.
+- Zwar nimmt die Regression häufig normalverteilte Residuen an, aber diese Annahme ist nicht wichtig, wenn es nur darum geht, die Regressionskoeffizienten zu schätzen.
+
+&lt;a name=cite-gelman_regression_2021&gt;&lt;/a&gt;([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021))
+
+
+---
+
+
+## 95%-PI
+
+
+.pull-left[
+
+```r
+posterior_interval(m10.10) %&gt;% 
+  round(2)
+```
+
+```
+##                5%  95%
+## (Intercept) -0.07 0.07
+## mom_iq_z     0.37 0.51
+## mom_age_z   -0.02 0.12
+## sigma        0.85 0.95
+```
+
+]
+
+.pull-right[
+
+```r
+#plot(m10.10)
+library(bayesplot)
+mcmc_areas(m10.10)
+```
+
+&lt;img src="chunk-img/unnamed-chunk-76-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+]
+
+&lt;/br&gt;
+
+Mit `hdi(m10.10)` (Paket `bayestestR`) bekommt man die HDI. Mit `plot(hdi(m10.10))` eine entsprechende Visualisierung. Allerdings ähneln sich PI und HDI im Falle von symmetrischer Posteriori-Verteilungen, so wie hier.
+
+---
+## Prüfen der Linearitätsannahme
+
+
+- Ist die Linearitätsannahme erfüllt, so sollte der Residualplot nur zufällige Streuung um `\(y=0\)` herum zeigen.
+
+
+
+
+
+&lt;img src="chunk-img/unnamed-chunk-79-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Hier erkennt man keine größeren Auffälligkeiten.
+
+
+---
+
+## Modellprüfung mit der PPV
+
+
+
+```r
+pp_check(m10.10)
+```
+
+&lt;img src="chunk-img/unnamed-chunk-80-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Unser Modell - bzw. die Stichproben unserer Posteriori-Verteilung, `\(y_{rep}\)` verfehlt den Mittelwert von `\(y\)` recht häufig.
+
+
+---
+
+
+## Visualisierung der bereinigten Regressionskoeffizienten
+
+
+
+
+
+
+
+
+
+
+
+&lt;img src="chunk-img/resid-lm-plot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Bereinigte Regressionskoeffizienten
+
+
+.pull-left[
+
+&lt;img src="chunk-img/unnamed-chunk-83-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Die vertikalen Balken zeigen die Residuen.
+
+Zur Einfachheit nur `\(n=20\)`.
+]
+
+
+.pull-right[
+- Obere Reihe: Regression eines Prädiktors auf den anderen anderen. 
+- Untere Reihe: Regression der Residuen der oberen Reihe auf die AV, `kid-score_z`. 
+- Unten links: Die Residuen von `mom_iq_c` sind kaum mit der AV assoziiert. Das heißt, nutzt man den Teil von `mom_age_z`, der nicht mit `mom_iq_z` zusammenhängt, um `kid_score` vorherzusagen, findet man nur einen kleinen Zusammenhang.
+- Unten rechts. Die Residuen von `mom_age_c` sind stark mit der AV assoziiert. Das heißt, nutzt man den Teil von `mom_iq_z`, der nicht mit `mom_age_z` zusammenhängt, um `kid_score` vorherzusagen, findet man einen starken Zusammenhang.
+
+]
+
+---
+
+
+## Beantwortung der Forschungsfrage
+
+
+
+
+&gt;   Das Modell spricht sich klar für einen statistischen, linearen Effekt von Intelligenz der Mutter auf die Intelligenz des Kindes aus, wenn das Alter der Mutter statistisch kontrolliert wird (95%PI: [0.38, 0.51]). Hingegen zeigt das Modell, dass das Alter der Mutter statistisch eher keine Rolle spielt (95%PI: [-0.02, 0.12]). Alle Variablen wurden z-transformiert. Insgesamt erkärt das Modell im Median einen Anteil von 0.2 an der Varianz der Kinderintelligenz.
+
+
+.footnote[Hier wird von einem "statistischen Effekt" gesprochen, um klar zu machen, dass es sich lediglich um assoziative Zusammenhänge, und nicht um kausale Zusammenhänge, handelt.]
+
+
+---
+
+## Wir waren fleißig
+
+
+&lt;img src="https://media.giphy.com/media/XIqCQx02E1U9W/giphy.gif" width="100%" style="display: block; margin: auto;" /&gt;
+
+[Quelle](https://giphy.com/gifs/XIqCQx02E1U9W)
+
+
+Genug für heute 👍 
+
+
+---
+
+
+
+
+
+name: hinweise
+class: center, middle, inverse
+
+
+# Hinweise 
+
+---
+
+## Zu diesem Skript
+
+- Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+  - Regression and other stories, Kapitel 10, 11 (jeweils in Auszügen).
+
+
+
+- Dieses Skript wurde erstellt am 2021-11-03 16:13:57 (WiSe 21).
+
+- Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+
+- Autor ist Sebastian Sauer.
+
+- Um diese HTMLM-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
+
+- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. Wenn Sie mit `.Rmd` ersetzen, den Quellcode.
+
+
+---
+
+name: literatur
+
+## Literatur
+
+
+&lt;a
+name=bib-gelman_regression_2021&gt;&lt;/a&gt;[[1]](#cite-gelman_regression_2021)
+A. Gelman, J. Hill, and A. Vehtari. _Regression and other stories_.
+Analytical methods for social research. Cambridge: Cambridge University
+Press, 2021. 534 pp. ISBN: 978-1-107-67651-0 978-1-107-02398-7.
+
+&lt;a
+name=bib-kruschke_rejecting_2018&gt;&lt;/a&gt;[[2]](#cite-kruschke_rejecting_2018)
+J. K. Kruschke. "Rejecting or Accepting Parameter Values in Bayesian
+Estimation". In: _Advances in Methods and Practices in Psychological
+Science_ 1.2 (Jun. 01, 2018). Publisher: SAGE Publications Inc, pp.
+270-280. ISSN: 2515-2459. DOI:
+[10.1177/2515245918771304](https://doi.org/10.1177%2F2515245918771304).
+URL:
+[https://doi.org/10.1177/2515245918771304](https://doi.org/10.1177/2515245918771304)
+(visited on 11/03/2021).
+
+&lt;a
+name=bib-nasreen_effectiveness_2021&gt;&lt;/a&gt;[[3]](#cite-nasreen_effectiveness_2021)
+S. Nasreen, H. Chung, S. He, K. A. Brown, J. B. Gubbay, et al.
+_Effectiveness of mRNA and ChAdOx1 COVID-19 vaccines against
+symptomatic SARS-CoV-2 infection and severe outcomes with variants of
+concern in Ontario_. Sep. 30, 2021, p. 2021.06.28.21259420. DOI:
+[10.1101/2021.06.28.21259420](https://doi.org/10.1101%2F2021.06.28.21259420).
+URL:
+[https://www.medrxiv.org/content/10.1101/2021.06.28.21259420v3](https://www.medrxiv.org/content/10.1101/2021.06.28.21259420v3)
+(visited on 11/02/2021).
+
+&lt;a
+name=bib-thompson_effectiveness_2021&gt;&lt;/a&gt;[[4]](#cite-thompson_effectiveness_2021)
+M. G. Thompson, E. Stenehjem, S. Grannis, S. W. Ball, A. L. Naleway, et
+al. "Effectiveness of Covid-19 Vaccines in Ambulatory and Inpatient
+Care Settings". In: _New England Journal of Medicine_ 385.15 (Oct. 07,
+2021), pp. 1355-1371. ISSN: 0028-4793. DOI:
+[10.1056/NEJMoa2110362](https://doi.org/10.1056%2FNEJMoa2110362). URL:
+[https://doi.org/10.1056/NEJMoa2110362](https://doi.org/10.1056/NEJMoa2110362)
+(visited on 11/02/2021).
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
