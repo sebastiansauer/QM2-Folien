@@ -7,10 +7,12 @@ library(ggridges)
 ```
 
 
-name: teil3
+name: teil-3
 class: middle, center
 
-# Teil 3: Eine nominale UV mit mehreren Stufen
+# Teil 3
+
+## Eine nominale UV mit mehreren Stufen
 
 ---
 

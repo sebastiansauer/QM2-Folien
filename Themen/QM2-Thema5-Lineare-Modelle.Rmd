@@ -41,11 +41,10 @@ book <- "Rethink, Kap. 4.4, ROS, Kap. 9.2"
 
 
 .center2[.Large[
-1. [Teil 1: Die Post-Verteilung der Regression berechnen](#teil1)
-2. [Teil 2: Die Post-Verteilung befragen](#teil2)
-3. [Teil 3: Die PPV befragen](#teil3)
-3. [Hinweise](#hinweise)
-4. [Literatur](#literatur)
+1. [Teil 1: Die Post-Verteilung der Regression berechnen](#teil-1)
+2. [Teil 2: Die Post-Verteilung befragen](#teil-2)
+3. [Teil 3: Die PPV befragen](#teil-3)
+4. [Hinweise](#hinweise)
 ]]
 
 ---
@@ -59,6 +58,9 @@ book <- "Rethink, Kap. 4.4, ROS, Kap. 9.2"
 ```
 
 
+```{r QM2-Thema4-Gaussmodelle-4, eval = TRUE, child="children/QM2-Thema5-Teil3.Rmd"}
+```
 
-```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Hinweise.Rmd"}
+
+```{r QM2-Thema4-Gaussmodelle-5, eval = TRUE, child="children/Hinweise.Rmd"}
 ```

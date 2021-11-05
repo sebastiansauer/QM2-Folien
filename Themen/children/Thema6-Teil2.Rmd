@@ -1,10 +1,12 @@
 
 
-name: teil2
-class: middle, inverse
+name: teil-2
+class: middle, center 
 
 
-# Teil 2: Eine metrische plus eine nominale UV 
+# Teil 2
+
+## Eine metrische plus eine nominale UV 
 
 
 ---

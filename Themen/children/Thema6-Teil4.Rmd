@@ -7,10 +7,12 @@ library(ggridges)
 ```
 
 
-name: teil4
+name: teil-4
 class: middle, center
 
-# Teil 4:Mehrere metrische UV
+# Teil 4
+
+## Mehrere metrische UV
 
 ---
 

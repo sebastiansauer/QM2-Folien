@@ -1,7 +1,12 @@
 
-name: teil3
+name: teil-3
+class: center, middle, inverse
 
-# Die PPV befragen
+# Teil 3
+
+## Die PPV befragen
+
+---
 
 ## Perzentil-Intervalle für verschiedenen Prädiktor-Werte
 
@@ -12,7 +17,6 @@ Wir erstellen uns eine Sequenz an Prädiktorwerten, die uns interessieren:
 weight_df <-
   tibble(
     weight_c = seq(-20,20, by = 5))
-
 ```
 
 
@@ -20,7 +24,6 @@ Für diese Werte lassen wir uns dann die Perzentil-Intervalle ausgeben:
 
 .pull-left[
 ```{r Post-Regression-befragen-21, echo = TRUE}
-
 mus <- 
   predictive_interval(
     m43a, 
@@ -108,7 +111,7 @@ d2 %>%
 
 ---
 
-PPV visualisiert
+## Die PPV visualisiert
 
 .pull-left[
 Vergleichen wir die echten Werte für `height`, $h$, mit den von der PPV simulierten Werten für `height`, $h_{sim}$.
@@ -153,7 +156,7 @@ ppv_m43a <- posterior_predict(
   draws = 100) %>% 
   as_tibble() %>% 
   pivot_longer(
-    columns = everything(),
+    cols = everything(),
     names_to = "weight_condition",
     values_to = "height")
 ```

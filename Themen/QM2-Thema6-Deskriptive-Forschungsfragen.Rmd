@@ -41,15 +41,15 @@ book_chap <- "10, 11 (jeweils in Auszügen)"
 
 
 .xlarge[
-1. [Einführung: Wissenschaft als Gerechtigkeitsprojekt](#intro)
+1. [Einleitung: Wissenschaft als Gerechtigkeitsprojekt](#einleitung)
 
-2. [Teil 1: Eine binäre UV](#teil1)
+2. [Teil 1: Eine binäre UV](#teil-1)
 
-3. [Teil 2: Eine metrische plus eine nominale UV](#teil2)
+3. [Teil 2: Eine metrische plus eine nominale UV](#teil-2)
 
-4. [Teil 3: Eine nominale UV mit mehreren Stufen](#teil3)
+4. [Teil 3: Eine nominale UV mit mehreren Stufen](#teil-3)
 
-4. [Teil 4: Mehrere metrische UV](#teil4)
+4. [Teil 4: Mehrere metrische UV](#teil-4)
 
 3. [Hinweise](#hinweise)
 ]

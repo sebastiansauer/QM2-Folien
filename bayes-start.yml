@@ -1,4 +1,4 @@
-themen:
+titel:
   thema1: "Was ist Inferenz?"
   thema2: "Wissen updaten"
   thema3: "Die Posteriori-Verteilung"
@@ -14,3 +14,41 @@ literatur:
   thema4: "ReThink, Kap. 4.1-4.3"
   thema5: "Rethink, Kap. 4.4, ROS, Kap. 9.2"
   thema6: "ROS, 10.1-10.4, 11.1-11.4, 11.6"
+lernziele:
+  thema1:
+    - die Definition von Inferenzstatistik sowie Beispiele für inferenzstatistische Fragestellungen nennen
+    - zentrale Begriffe nennen und in Grundzügen erklären
+    - den Nutzen von Inferenzstatistik nennen
+    - erläutern, in welchem Zusammenhang Ungewissheit zur Inferenzstatistik steht
+    - auch anhand von Beispielen erklären, was ein statistisches Modell ist
+    - die Grundkonzepte der Regression angeben
+    - Unterschiede zwischen klassischer und Bayes-Inferenz benennen
+    - Vor- und Nachteile der klassischen vs. Bayes-Inferenz diskutieren
+    - Die grundlegende Herangehensweise zur Berechnung des p-Werts informell erklären können
+    - Wahrscheinlichkeit definieren und relevante Begriffe anführen und in Grundzügen erklären
+    - einfache Fragen aus der Wahrscheinlichkeitstheorie berechnen
+  thema2:
+    - die Unterschiede zwischen einem Modell und der Realität erkären und anhand eines Beispiels verdeutlichen
+    - das rechnerische Prinzip des Wissen updaten an einem konkreten Beispiel erläutern und nachrechnen
+    - die Posteriori-Wahrscheinlichkeit eines einfaches Bayes-Modells berechnen, in R programmieren und die wesentlichen Schritte erläutern
+  thema3:
+    - erläutern und mit R berechnen, wie man eine Posteriori-Verteilung erstellt
+    - erläutern und mit R berechnen, wie man Stichproben aus der Posteriori-Verteilung zieht
+    - wesentliche Forschungsfragen, wie nach Intervallen und Punktschätzwerten, anhand der Stichproben aus der Posteriori-Verteilung beantworten
+    - erläutern, was eine Posteriori-Prädiktiv-Verteilung ist, und inwiefern Sie vor Übergewissheit schützt
+    - eine Modellprüfung für das Beispiel aus dem Unterricht anhand der Posteriori-Prädiktiv-Verteilung durchführen
+  thema4:
+    - erklären, was eine Verteilung ist und welche Varianten es gibt
+    - den ontologischen Bedingungszusammenhang einer Normalverteilung aufzeigen
+    - erklären, wie eine Normalverteilung entsteht
+    - ein Gaussmodell spezifizieren und in R berechnen
+    - an Beispielen verdeutlichen, wie sich eine vage bzw. eine informationsreiche Priori-Verteilung auf die Posteriori-Verteilung auswirkt
+  thema5:
+    - die Post-Verteilung für einfache lineare Modelle in R berechnen
+    - zentrale Informationen zu Modellparametern - wie Lage- oder Streuungsmaße und auch Schätzintervalle - aus der Post-Verteilung herauslesen
+    - künftige, laut Modell zu erwartende Beobachtungen mit der PPV simulieren.
+  thema6:
+    - Typische, deskriptive Forschungsfragen spezifizieren als Regression
+    - Forschungsfragen in Regressionsterme übersetzen
+    - typische Forschungsfragen auswerten
+

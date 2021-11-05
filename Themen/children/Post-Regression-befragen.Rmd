@@ -1,9 +1,9 @@
 
-name: teil2
+name: teil-2
 class: center, middle, inverse
 
 
-```{r Post-Regression-befragen-1}
+```{r Post-Regression-befragen-1, message = FALSE}
 library("latex2exp")
 library("patchwork")
 library("gt")
@@ -11,8 +11,9 @@ library("rethinking")
 library(rstanarm)
 #library("tidyverse")
 ```
+# Teil 2
 
-# Die Post-Verteilung befragen
+## Die Post-Verteilung befragen
 
 ---
 

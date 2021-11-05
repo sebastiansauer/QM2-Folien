@@ -3,11 +3,13 @@ library(icons)
 ```
 
 
-name: teil1
+name: einleitung
 class: middle, center
 
 
-# Einführung: Wissenschaft als Gerechtigkeitsprojekt
+# Einleitung
+
+## Wissenschaft als Gerechtigkeitsprojekt
 
 
 ---

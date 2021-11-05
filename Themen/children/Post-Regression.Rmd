@@ -1,6 +1,6 @@
 
 
-name: teil1
+name: teil-1
 class: center, middle, inverse
 
 
@@ -12,9 +12,9 @@ library("rstanarm")
 library("tidyverse")
 ```
 
+# Teil 1
 
-
-# Post-Verteilung der Regression
+## Post-Verteilung der Regression
 
 ---
 
@@ -146,6 +146,12 @@ d2 %>%
 - Wenn man den Prädiktor (`weight`) zentriert hat, ist der Achsenabschnitt, $\alpha$, einfacher zu verstehen.
 - In einem Modell mit zentriertem Prädiktor (`weight`) gibt der Achsenabschnitt die Größe einer Person mit durchschnittlichem Gewicht an. 
 - Würde man `weight` nicht zentrieren, gibt der Achsenabschnitt die Größe einer Person mit `weight=0` an, was nicht wirklich sinnvoll zu interpretieren ist.
+
+
+
+`r RefManageR::Citep(bib, "gelman_regression_2021")`
+
+
 
 ---
 

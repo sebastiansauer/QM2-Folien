@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="de-DE" xml:lang="de-DE">
   <head>
-    <title>Gauss-Modelle</title>
+    <title>Gauss-Modelle: Schätzen einer metrischen Variablen</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-css.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
-class: center, middle, inverse, title-slide
+class: right, bottom, test, title-slide
 
-# Gauss-Modelle
-## QM2, Thema 4
-### AWM, HS Ansbach
+# Gauss-Modelle: Schätzen einer metrischen Variablen
+## Thema4
 
 ---
-
 
 
 
@@ -87,15 +86,24 @@ class: center, middle, inverse, title-slide
 
 
 
+
+
+
 ## Gliederung
 
 
 
-.center2[.Large[
-1. [Teil 1: Verteilungen](#teil1)
-2. [Teil 2: Wie groß sind die !Kung San?](#teil2)
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+
+.xxlarge[
+1. [Teil 1: Verteilungen](#verteilungen)
+
+2. [Teil 2: Gauss-Modelle: Wie groß sind die !Kung San?](#gaussmodelle)
+
 3. [Hinweise](#hinweise)
-]]
+]
 
 ---
 
@@ -119,7 +127,7 @@ Für `rstan` wird [weitere Software](https://github.com/stan-dev/rstan/wiki/RSta
 
 
 
-name: teil1
+name: verteilungen 
 class: center, middle, inverse
 
 
@@ -2001,7 +2009,7 @@ Solche Fragen kann man mit dieser Verteilung darstellen:
 
 
 - Eine *Exp*onentialverteilung ist nur für positive Werte, `\(x&gt;0\)`, definiert.
-- Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
+- Steigt X um eine Einheit, so ändert sich Y um einen konstanten Faktor.
 - Sie hat nur einen Parameter, genannt *Rate* oder `\(\lambda\)` ("lambda").
 - `\(\frac{1}{\lambda}\)`  gibt gleichzeitig Mittelwert und Streuung ("Gestrecktheit") der Verteilung an.
 - Je größer die Rate `\(\lambda\)`, desto *kleiner* die Streuung und der Mittelwert der Verteilung.
@@ -2115,11 +2123,13 @@ d %&gt;% ggplot(aes(x = apfel)) + geom_histogram()
 
 
 
-name: teil2
+name: gaussmodelle
 class: center, middle, inverse
 
 
-# Wie groß sind die !Kung San?
+# Gaussmodelle
+
+## Wie groß sind die !Kung San?
 
 ---
 
@@ -2987,7 +2997,7 @@ print(m41)
 ##  predictors:   1
 ## ------
 ##             Median MAD_SD
-## (Intercept) 154.7    0.4 
+## (Intercept) 154.6    0.4 
 ## 
 ## Auxiliary parameter(s):
 ##       Median MAD_SD
@@ -3043,12 +3053,12 @@ print(post_m41)
 .pull-left[
 Hier die ersten paar Zeilen von `post_m41`:
 
-<div id="ssabkjqcit" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jtfyegelcu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ssabkjqcit .gt_table {
+#jtfyegelcu .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3073,7 +3083,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-left-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_heading {
+#jtfyegelcu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3085,7 +3095,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_title {
+#jtfyegelcu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3095,7 +3105,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-bottom-width: 0;
 }
 
-#ssabkjqcit .gt_subtitle {
+#jtfyegelcu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3105,13 +3115,13 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-top-width: 0;
 }
 
-#ssabkjqcit .gt_bottom_border {
+#jtfyegelcu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_col_headings {
+#jtfyegelcu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3126,7 +3136,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_col_heading {
+#jtfyegelcu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3146,7 +3156,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   overflow-x: hidden;
 }
 
-#ssabkjqcit .gt_column_spanner_outer {
+#jtfyegelcu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3158,15 +3168,15 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-right: 4px;
 }
 
-#ssabkjqcit .gt_column_spanner_outer:first-child {
+#jtfyegelcu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ssabkjqcit .gt_column_spanner_outer:last-child {
+#jtfyegelcu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ssabkjqcit .gt_column_spanner {
+#jtfyegelcu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3178,7 +3188,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   width: 100%;
 }
 
-#ssabkjqcit .gt_group_heading {
+#jtfyegelcu .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3200,7 +3210,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   vertical-align: middle;
 }
 
-#ssabkjqcit .gt_empty_group_heading {
+#jtfyegelcu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3215,15 +3225,15 @@ Hier die ersten paar Zeilen von `post_m41`:
   vertical-align: middle;
 }
 
-#ssabkjqcit .gt_from_md > :first-child {
+#jtfyegelcu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ssabkjqcit .gt_from_md > :last-child {
+#jtfyegelcu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ssabkjqcit .gt_row {
+#jtfyegelcu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3242,7 +3252,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   overflow-x: hidden;
 }
 
-#ssabkjqcit .gt_stub {
+#jtfyegelcu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3254,7 +3264,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-left: 12px;
 }
 
-#ssabkjqcit .gt_summary_row {
+#jtfyegelcu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3264,7 +3274,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-right: 5px;
 }
 
-#ssabkjqcit .gt_first_summary_row {
+#jtfyegelcu .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3274,7 +3284,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-top-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_grand_summary_row {
+#jtfyegelcu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3284,7 +3294,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   padding-right: 5px;
 }
 
-#ssabkjqcit .gt_first_grand_summary_row {
+#jtfyegelcu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3294,11 +3304,11 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-top-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_striped {
+#jtfyegelcu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ssabkjqcit .gt_table_body {
+#jtfyegelcu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3307,7 +3317,7 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-bottom-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_footnotes {
+#jtfyegelcu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3321,13 +3331,13 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_footnote {
+#jtfyegelcu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ssabkjqcit .gt_sourcenotes {
+#jtfyegelcu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3341,41 +3351,41 @@ Hier die ersten paar Zeilen von `post_m41`:
   border-right-color: #D3D3D3;
 }
 
-#ssabkjqcit .gt_sourcenote {
+#jtfyegelcu .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ssabkjqcit .gt_left {
+#jtfyegelcu .gt_left {
   text-align: left;
 }
 
-#ssabkjqcit .gt_center {
+#jtfyegelcu .gt_center {
   text-align: center;
 }
 
-#ssabkjqcit .gt_right {
+#jtfyegelcu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ssabkjqcit .gt_font_normal {
+#jtfyegelcu .gt_font_normal {
   font-weight: normal;
 }
 
-#ssabkjqcit .gt_font_bold {
+#jtfyegelcu .gt_font_bold {
   font-weight: bold;
 }
 
-#ssabkjqcit .gt_font_italic {
+#jtfyegelcu .gt_font_italic {
   font-style: italic;
 }
 
-#ssabkjqcit .gt_super {
+#jtfyegelcu .gt_super {
   font-size: 65%;
 }
 
-#ssabkjqcit .gt_footnote_marks {
+#jtfyegelcu .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -3390,18 +3400,18 @@ Hier die ersten paar Zeilen von `post_m41`:
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">154.6241</td>
-<td class="gt_row gt_right">7.310959</td></tr>
-    <tr><td class="gt_row gt_right">154.4806</td>
-<td class="gt_row gt_right">7.753929</td></tr>
-    <tr><td class="gt_row gt_right">154.8889</td>
-<td class="gt_row gt_right">7.792394</td></tr>
-    <tr><td class="gt_row gt_right">154.3325</td>
-<td class="gt_row gt_right">7.856994</td></tr>
-    <tr><td class="gt_row gt_right">154.4843</td>
-<td class="gt_row gt_right">8.071828</td></tr>
-    <tr><td class="gt_row gt_right">155.2583</td>
-<td class="gt_row gt_right">7.726643</td></tr>
+    <tr><td class="gt_row gt_right">154.9014</td>
+<td class="gt_row gt_right">7.951013</td></tr>
+    <tr><td class="gt_row gt_right">154.9072</td>
+<td class="gt_row gt_right">8.072041</td></tr>
+    <tr><td class="gt_row gt_right">155.0016</td>
+<td class="gt_row gt_right">7.523712</td></tr>
+    <tr><td class="gt_row gt_right">154.1477</td>
+<td class="gt_row gt_right">7.599040</td></tr>
+    <tr><td class="gt_row gt_right">154.3553</td>
+<td class="gt_row gt_right">7.690318</td></tr>
+    <tr><td class="gt_row gt_right">154.7677</td>
+<td class="gt_row gt_right">7.683235</td></tr>
   </tbody>
   
   
@@ -3428,8 +3438,8 @@ post_m41 %&gt;%
 ## # A tibble: 2 × 3
 ##   `mu &gt; 155`     n  prop
 ##   &lt;lgl&gt;      &lt;int&gt; &lt;dbl&gt;
-## 1 FALSE       3209 0.802
-## 2 TRUE         791 0.198
+## 1 FALSE       3224 0.806
+## 2 TRUE         776 0.194
 ```
 
 ]
@@ -3642,25 +3652,22 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-  - *Statistical Rethinking* (2. Auflage), Kapitel 4.1 - 4.3, [McElreath (2020)](#bib-mcelreath_statistical_2020)
-
-  - Der R-Code stammt aus &lt;a name=cite-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz (2021)](https://bookdown.org/content/4857/).
+  - Statistical Rethinking, Kapitel 4.1 - 4.3
 
 
-- Dieses Skript wurde erstellt am 2021-10-29 16:53:14 (WiSe 21).
+- Dieses Skript wurde erstellt am 2021-11-05 12:01:22 
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
 - Autor ist Sebastian Sauer.
 
-- Um diese HTMLM-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
-
-- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+- Um diese HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
 
 - Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
 
 - Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. Wenn Sie mit `.Rmd` ersetzen, den Quellcode.
 
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
 
 ---
 
@@ -3669,69 +3676,27 @@ name: literatur
 ## Literatur
 
 
-&lt;a
-name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
-M.](#cite-freeman_visual_2006)
-(2006). "A visual comparison
-of normal and paranormal
-distributions". In: _Journal
-of Epidemiology and Community
-Health_ 60.1, p. 6. ISSN:
-0143-005X. URL:
-[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/)
-(visited on Sep. 09, 2021).
+&lt;a name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
+M.](#cite-freeman_visual_2006) (2006). "A visual comparison of normal
+and paranormal distributions". In: _Journal of Epidemiology and
+Community Health_ 60.1, p. 6.
 
-&lt;a
-name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
-A., J. Hill, and A.
-Vehtari](#cite-gelman_regression_2021)
-(2021). _Regression and other
-stories_. Analytical methods
-for social research.
-Cambridge: Cambridge
-University Press. 534 pp.
-ISBN: 978-1-107-67651-0
-978-1-107-02398-7.
+&lt;a name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman, A., J. Hill, and A.
+Vehtari](#cite-gelman_regression_2021) (2021). _Regression and other
+stories_. Analytical methods for social research. Cambridge University
+Press.
 
-&lt;a
-name=bib-kurz_statistical_2021&gt;&lt;/a&gt;[Kurz,
-A.
-S.](#cite-kurz_statistical_2021)
-(2021). _Statistical
-rethinking with brms,
-ggplot2, and the tidyverse:
-Second edition_. URL:
-[https://bookdown.org/content/4857/](https://bookdown.org/content/4857/)
-(visited on Sep. 08, 2021).
+&lt;a name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
+a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
+statistical science. Taylor and Francis, CRC Press.
 
-&lt;a
-name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
-R.](#cite-mcelreath_statistical_2020)
-(2020). _Statistical
-rethinking: a Bayesian course
-with examples in R and Stan_.
-2nd ed. CRC texts in
-statistical science. Boca
-Raton: Taylor and Francis,
-CRC Press. ISBN:
-978-0-367-13991-9.
+&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb, N.
+N.](#cite-taleb2019technical) (2019). _The statistical consequences of
+fat tails, papers and commentaries_.
 
-&lt;a
-name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb,
-N.
-N.](#cite-taleb2019technical)
-(2019). _The statistical
-consequences of fat tails,
-papers and commentaries_.
-Publisher: Monograph. URL:
-[https://nassimtaleb.org/2020/01/final-version-fat-tails/](https://nassimtaleb.org/2020/01/final-version-fat-tails/).
-
-&lt;a name=bib-stan&gt;&lt;/a&gt;[Team,
-S. D.](#cite-stan) (2021).
-_Stan Modeling Language Users
-Guide and Reference Manual
-Version 2.28_. URL:
-[https://mc-stan.org](https://mc-stan.org).
+&lt;a name=bib-stan&gt;&lt;/a&gt;[Team, S. D.](#cite-stan) (2021). _Stan Modeling
+Language Users Guide and Reference Manual Version 2.28_.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

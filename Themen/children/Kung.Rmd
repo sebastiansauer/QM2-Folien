@@ -6,11 +6,13 @@ library(rstanarm)
 rstan::rstan_options(auto_write = TRUE)
 ```
 
-name: teil2
+name: gaussmodelle
 class: center, middle, inverse
 
 
-# Wie groß sind die !Kung San?
+# Gaussmodelle
+
+## Wie groß sind die !Kung San?
 
 ---
 
