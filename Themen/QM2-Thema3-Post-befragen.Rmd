@@ -2,18 +2,21 @@
 title: Stichproben aus der Posteriori-Verteilung ziehen
 subtitle: QM2, Thema 3
 #date: WiSe 21
-lang: de-DE
-bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
-institute: AWM, HS Ansbach
+#lang: de-DE
+#bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+#institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
-    css: [default, default-fonts, hygge ]
+    keep_md: false
+    css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
     lib_dir: libs
+    seal: true
     nature:
+      titleSlideClass: ["right", "bottom", "test"]
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-
+    
 ---
 
 
@@ -26,7 +29,7 @@ output:
 
 
 ```{r}
-rethink_chap <- "3"
+book <- "*Statistical Rethinking*, Kap. 3"
 ```
 
 
@@ -35,12 +38,13 @@ rethink_chap <- "3"
 
 
 
-.center2[.large[
-1. [Mit Stichproben die Post-Verteilung zusammenfassen](#teil1)
-2. [Mit Stichproben neue Beobachtungen simulieren](#teil2)
+.xlarge[
+1. [Mit Stichproben die Post-Verteilung zusammenfassen](#teil-1)
+
+2. [Mit Stichproben neue Beobachtungen simulieren](#teil-2)
+
 3. [Hinweise](#hinweise)
-4. [Literatur](#literatur)
-]]
+]
 
 ---
 

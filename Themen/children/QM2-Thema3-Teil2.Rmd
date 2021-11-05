@@ -1,9 +1,11 @@
 
-name: teil2
+name: teil-2
 class: center, middle 
 
 
-# Mit Stichproben neue Beobachtungen simulieren
+# Teil 2
+
+## Mit Stichproben neue Beobachtungen simulieren
 
 ---
 

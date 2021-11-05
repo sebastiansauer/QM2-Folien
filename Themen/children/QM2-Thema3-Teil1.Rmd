@@ -1,11 +1,22 @@
+```{r}
+library(tidyverse)
+library(rstanarm)
+library(bayesplot)
+library(gt)
+library(patchwork)
+library(tidybayes)
+library(bayestestR)
+```
 
 
 
-name: teil1
+name: teil-1
 class: center, middle, inverse
 
 
-# Mit Stichproben die Post-Verteilung zusammenfassen
+# Teil 1
+
+## Mit Stichproben die Post-Verteilung zusammenfassen
 
 
 ---
@@ -316,8 +327,10 @@ Welcher Parameterwert wird mit 80% Wahrscheinlichkeit nicht überschritten, laut
 
 ```{r QM2-Thema3-Post-befragen-11, echo = TRUE}
 samples %>% 
-  summarise(quantil80 = 
-              quantile(p_grid, p = .8))
+  summarise(
+    quantil80 = 
+      quantile(
+        p_grid, p = .8))
 ```
 
 ]
@@ -328,8 +341,10 @@ Was ist das *mittlere* Intervall, das mit 80% Wahrscheinlichkeit den Parameterwe
 ```{r QM2-Thema3-Post-befragen-12, echo = TRUE}
 samples %>% 
   summarise(
-    quant_10 = quantile(p_grid, 0.1),
-    quant_90 = quantile(p_grid, 0.9))
+    quant_10 = 
+      quantile(p_grid, 0.1),
+    quant_90 = 
+      quantile(p_grid, 0.9))
 ```
 
 ]
@@ -506,15 +521,25 @@ Der wahrscheinlichste Parameterwert (1) ist *nicht* im Intervall enthalten!
 .pull-right[
 ### 50%-Intervall höchster Dichte
 
+
+```{r}
+hdi_50_low <- bayestestR::hdi(samples_33$p_grid, 
+                                  ci = .5)$CI_low
+hdi_50_up <- bayestestR::hdi(samples_33$p_grid, 
+                                  ci = .5)$CI_high
+
+```
+
+
 ```{r QM2-Thema3-Post-befragen-16}
+
+
 p2 <-
   d_33 %>% 
   ggplot(aes(x = p_grid, y = post_33)) +
   geom_area(data = . %>% 
-              filter(p_grid > hdi(samples_33$p_grid, 
-                                  width = .5)[1] & 
-                     p_grid < hdi(samples_33$p_grid, 
-                                  .width = .5)[2]),
+              filter(p_grid > hdi_50_low & 
+                     p_grid < hdi_50_up),
             fill = "grey75") +
   geom_line()
 
@@ -522,7 +547,7 @@ p2
 ```
 
 
-Der wahrscheinlichste Paramterwert (1) *ist* im Intervall enthalten!
+Der wahrscheinlichste Paramterwert (1) *ist* im Intervall enthalten! Es ist das schmälste Intervall, das 50% enthält.
 ]
 
 
