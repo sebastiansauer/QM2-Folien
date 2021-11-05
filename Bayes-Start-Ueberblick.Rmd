@@ -1,0 +1,104 @@
+---
+title: "Bayes-Start -- Überblick"
+author: "ses"
+date: "11/3/2021"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(yaml)
+
+d <- read_yaml("bayes-start.yml")
+```
+
+
+# lernziele der einzelnen Themen
+
+## Thema1
+
+`r d$titel[[1]]`
+
+## Thema2
+
+`r d$titel[[2]]`
+
+## Thema3
+
+`r d$titel[[3]]`
+
+## Thema4
+
+`r d$titel[[4]]`
+
+## Thema5
+
+`r d$titel[[5]]`
+
+## Thema6
+
+`r d$titel[[6]]`
+
+
+
+# Literatur zu den einzelnen Themen
+
+
+## Thema1
+
+`r d$literatur[[1]]`
+
+## Thema2
+
+`r d$literatur[[2]]`
+
+## Thema3
+
+`r d$literatur[[3]]`
+
+## Thema4
+
+`r d$literatur[[4]]`
+
+## Thema5
+
+`r d$literatur[[5]]`
+
+## Thema6
+
+`r d$literatur[[6]]`
+
+
+
+# Lernziele
+
+
+## Thema1
+
+
+
+
+
+## Thema2
+
+
+
+## Thema3
+
+
+
+## Thema4
+
+
+
+## Thema5
+
+
+
+## Thema6
+
+

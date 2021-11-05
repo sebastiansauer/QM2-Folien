@@ -1,6 +1,6 @@
 
 
-name: teil1
+name: verteilungen 
 class: center, middle, inverse
 
 
@@ -585,7 +585,7 @@ d %>%
              aes(x = q, 
                  label = prob,
                  y = prob)) +
-  labs(title = "x ~ Exp(1)",
+  labs(
        caption = "Vertikale Striche zeigen die Quantile für 5%, 25%, 50%, 75%, 95%",
        y = "Dichte")
 ```
@@ -596,7 +596,7 @@ $$X \sim \operatorname{Exp}(1)$$
 
 
 - Eine *Exp*onentialverteilung ist nur für positive Werte, $x>0$, definiert.
-- Steigt X um eine Einheit, so verändert sich Y um einen konstanten Faktor.
+- Steigt X um eine Einheit, so ändert sich Y um einen konstanten Faktor.
 - Sie hat nur einen Parameter, genannt *Rate* oder $\lambda$ ("lambda").
 - $\frac{1}{\lambda}$  gibt gleichzeitig Mittelwert und Streuung ("Gestrecktheit") der Verteilung an.
 - Je größer die Rate $\lambda$, desto *kleiner* die Streuung und der Mittelwert der Verteilung.
