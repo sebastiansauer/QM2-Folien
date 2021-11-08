@@ -246,7 +246,8 @@ post1_prior_pred_draws <-
 
 
 ```{r prior-post1-plot, echo = TRUE, eval = FALSE}
-d2 %>% ggplot() +
+movies2 %>% 
+  ggplot() +
   geom_point(aes(x = weight_c, y = height)) + 
   geom_abline(data = m43_prior_pred_draws,
 aes(intercept = a, slope = b), color = "skyblue", size = 0.2) +
@@ -257,10 +258,6 @@ aes(intercept = a, slope = b), color = "skyblue", size = 0.2) +
 
 
 
-
-```{r}
-sim_post1
-```
 
 
 
