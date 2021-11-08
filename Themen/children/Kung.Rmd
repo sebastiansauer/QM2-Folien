@@ -1,5 +1,6 @@
 ```{r}
 library(rstanarm)
+library(ggExtra)
 ```
 
 ```{r}
@@ -387,13 +388,14 @@ text <-
 p4 <-
   sim2 %>% 
   ggplot(aes(x = height)) +
-  geom_density(fill = "black", size = 0) +
+  geom_density(fill = "black") +
   geom_vline(xintercept = 0, color = "grey92") +
   geom_vline(xintercept = 272, color = "grey92", linetype = 3) +
   geom_text(data = text,
             aes(y = y, label = label, angle = angle),
             color = "grey92") +
-  scale_x_continuous(breaks = breaks) +
+  scale_x_continuous(breaks = breaks, 
+                     limits = c(-400, 700)) +
   scale_y_continuous(NULL, breaks = NULL) +
   labs(title = "height ~ dnorm(mu, sigma)\nmu ~ dnorm(178, 100)\nsigma ~ E(0.1)",
        x = "Größe",
@@ -460,18 +462,25 @@ m41_post <- as_tibble(m41)
 names(m41_post) <- c("mu", "sigma")
 ```
 
-</br>
-</br>
-</br>
+
 
 ```{r post-m41-plot}
 m41_post %>% 
   ggplot() +
   aes(x = mu, y = sigma) %>% 
   geom_hex() +
-  scale_fill_viridis_c()
+  scale_fill_viridis_c() 
 ```
 
+```{r}
+p_m41_post <- 
+  m41_post %>% 
+  ggplot() +
+  aes(x = mu, y = sigma) +
+  geom_point(alpha = .1) 
+
+ggMarginal(p_m41_post, type = "density")
+```
 
 
 
@@ -791,6 +800,7 @@ Im Standard werden Mediane und 50%- sowie 90%-Perzentilintervalle gezeigt, [s. D
 .pull-right[
 
 .center[.content-box-blue[🧡 Bleiben Sie dran!]]
+</br>
 
 ```{r Kung-33, echo = FALSE }
 knitr::include_graphics("https://github.com/sebastiansauer/QM2-Folien/raw/main/img/chicken_standard_deviation.jpg")

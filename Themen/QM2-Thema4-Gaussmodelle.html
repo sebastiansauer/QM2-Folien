@@ -127,6 +127,7 @@ Für `rstan` wird [weitere Software](https://github.com/stan-dev/rstan/wiki/RSta
 
 
 
+
 name: verteilungen 
 class: center, middle, inverse
 
@@ -223,6 +224,11 @@ Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds
 
 
 &lt;img src="chunk-img/Normalverteilung-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[&lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;([McElreath, 2020](#bib-mcelreath_statistical_2020))]
+
+
+
 
 
 ---
@@ -1127,10 +1133,47 @@ Anstelle von `iq &lt; 100` kann man `iq &lt; 115` einsetzen, etc.
  
 
 
-Die *Wahrscheinlichkeitsmasse* `\(p\)` zum Quantil `\(q=100\)` ist 50%, etc. 
+Die *Verteilungsfunktion* (der Anteil der Wahrscheinlichkeitsmasse), `p`, für IQ-Werte nicht größer als 100, d.h. zum Quantil `\(q=100\)`, ist 50%, etc. 
 ]
 
 
+
+---
+
+## Quantile der Normalverteilung visualisiert
+
+`\(IQ \sim \mathcal{100, 15}\)`
+
+
+```r
+qnorm(.50, mean = 100, sd = 15)  # 50%-Quantil
+pnorm(100, mean = 100, sd= 15)  # Verteilungsfunktion für IQ=100
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;img src="chunk-img/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1156,7 +1199,7 @@ Die *Wahrscheinlichkeitsmasse* `\(p\)` zum Quantil `\(q=100\)` ist 50%, etc.
 
 ### Ontologische Begründung
 
-- Wirken viele, gleichstarke Einflüsse additiv zusammen, entsteht eine Normalverteilung  &lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;([McElreath, 2020](#bib-mcelreath_statistical_2020)), Kap. 4.1.4.
+- Wirken viele, gleichstarke Einflüsse additiv zusammen, entsteht eine Normalverteilung  ([McElreath, 2020](#bib-mcelreath_statistical_2020)), Kap. 4.1.4.
 
 ### Epistemologische Begründung
 
@@ -1983,12 +2026,13 @@ d2 %&gt;%
 
 .pull-right[
 Solche Fragen kann man mit dieser Verteilung darstellen:
-&lt;img src="chunk-img/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
 ]
 
+&lt;/br&gt;
 
 .content-box-blue[Voilà: Die Exponentialverteilung]
 
@@ -2037,7 +2081,9 @@ d %&gt;%
   ggplot(aes(x)) +
   geom_line(aes(y=y)) +
   geom_line(aes(y=y2), 
-            color ="blue")
+            color ="blue") +
+  labs(title = "blau: e hoch x, 
+       scharz: 2 hoch x")
 ```
 
 ]
@@ -2110,7 +2156,7 @@ d %&gt;% ggplot(aes(x = apfel)) + geom_histogram()
 ```
 
 
-&lt;img src="chunk-img/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2851,7 +2897,7 @@ sim %&gt;%
 
 Die Streuung der Größen ist weit:
 
-&lt;img src="chunk-img/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2881,12 +2927,11 @@ Die Streuung der Größen ist weit:
 
 
 
-&lt;/br&gt;
-&lt;/br&gt;
-&lt;/br&gt;
+
 
 &lt;img src="chunk-img/post-m41-plot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
+&lt;img src="chunk-img/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -3612,7 +3657,7 @@ Im Standard werden Mediane und 50%- sowie 90%-Perzentilintervalle gezeigt, [s. D
 ]
 
 .pull-right[
-&lt;img src="chunk-img/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="chunk-img/unnamed-chunk-20-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="chunk-img/unnamed-chunk-30-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -3630,6 +3675,7 @@ Im Standard werden Mediane und 50%- sowie 90%-Perzentilintervalle gezeigt, [s. D
 .pull-right[
 
 .center[.content-box-blue[🧡 Bleiben Sie dran!]]
+&lt;/br&gt;
 
 &lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/chicken_standard_deviation.jpg" width="100%" style="display: block; margin: auto;" /&gt;
 
@@ -3655,7 +3701,7 @@ class: center, middle, inverse
   - Statistical Rethinking, Kapitel 4.1 - 4.3
 
 
-- Dieses Skript wurde erstellt am 2021-11-05 12:01:22 
+- Dieses Skript wurde erstellt am 2021-11-08 11:21:49 
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
@@ -3676,27 +3722,39 @@ name: literatur
 ## Literatur
 
 
-&lt;a name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
-M.](#cite-freeman_visual_2006) (2006). "A visual comparison of normal
-and paranormal distributions". In: _Journal of Epidemiology and
-Community Health_ 60.1, p. 6.
+&lt;a
+name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
+M.](#cite-freeman_visual_2006) (2006). "A
+visual comparison of normal and paranormal
+distributions". In: _Journal of
+Epidemiology and Community Health_ 60.1,
+p. 6.
 
-&lt;a name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman, A., J. Hill, and A.
-Vehtari](#cite-gelman_regression_2021) (2021). _Regression and other
-stories_. Analytical methods for social research. Cambridge University
-Press.
+&lt;a
+name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
+A., J. Hill, and A.
+Vehtari](#cite-gelman_regression_2021)
+(2021). _Regression and other stories_.
+Analytical methods for social research.
+Cambridge University Press.
 
-&lt;a name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
-R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
-a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
-statistical science. Taylor and Francis, CRC Press.
+&lt;a
+name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020)
+(2020). _Statistical rethinking: a
+Bayesian course with examples in R and
+Stan_. 2nd ed. CRC texts in statistical
+science. Taylor and Francis, CRC Press.
 
-&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb, N.
-N.](#cite-taleb2019technical) (2019). _The statistical consequences of
-fat tails, papers and commentaries_.
+&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb,
+N. N.](#cite-taleb2019technical) (2019).
+_The statistical consequences of fat
+tails, papers and commentaries_.
 
-&lt;a name=bib-stan&gt;&lt;/a&gt;[Team, S. D.](#cite-stan) (2021). _Stan Modeling
-Language Users Guide and Reference Manual Version 2.28_.
+&lt;a name=bib-stan&gt;&lt;/a&gt;[Team, S.
+D.](#cite-stan) (2021). _Stan Modeling
+Language Users Guide and Reference Manual
+Version 2.28_.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

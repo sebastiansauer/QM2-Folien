@@ -1,3 +1,6 @@
+```{r}
+library(patchwork)
+```
 
 
 name: verteilungen 
@@ -117,10 +120,14 @@ source(paste0(here::here(),"/R-Code/img15.R"))
 Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds (eng). Auf Kommando werfen alle jeweils eine Münze; bei Kopf geht man einen Schritt nach links, bei Zahl nach rechts. Das wird 16 Mal wiederholt. Wie wird die Verteilung der Positionen wohl aussehen?
 
 
-```{r Normalverteilung-6, fig.asp = .5, fig.width=7}
+```{r Normalverteilung-6, fig.asp = .45, fig.width=7}
 source(paste0(here::here(),"/R-Code/img13.R"))
-
 ```
+
+.footnote[`r RefManageR::Citep(bib, "mcelreath_statistical_2020")`]
+
+
+
 
 
 ---
@@ -339,10 +346,114 @@ d %>%
   distinct(iq, .keep_all = TRUE)
 ```
 
-Die *Wahrscheinlichkeitsmasse* $p$ zum Quantil $q=100$ ist 50%, etc. 
+Die *Verteilungsfunktion* (der Anteil der Wahrscheinlichkeitsmasse), `p`, für IQ-Werte nicht größer als 100, d.h. zum Quantil $q=100$, ist 50%, etc. 
 ]
 
 
+
+---
+
+## Quantile der Normalverteilung visualisiert
+
+$IQ \sim \mathcal{100, 15}$
+
+```{r echo = TRUE, eval = FALSE}
+qnorm(.50, mean = 100, sd = 15)  # 50%-Quantil
+pnorm(100, mean = 100, sd= 15)  # Verteilungsfunktion für IQ=100
+```
+
+
+```{r}
+q_p50 <-
+  ggplot(NULL, aes(c(60,145))) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, 100)) +
+  geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
+  labs(x = "IQ", y = "Dichte",
+       title = "50%-Quantil: 100")
+```
+
+
+```{r}
+q_inv <- .25
+q_p <- qnorm(q_inv, mean = 100, sd= 15)
+p_q <- pnorm(q_p, mean = 100, sd= 15)
+
+q_p25 <-
+  ggplot(NULL, aes(c(60,145))) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, q_p)) +
+  geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
+  labs(x = "IQ", y = "Dichte",
+       title = paste0(q_inv,"-Quantil: ",round(q_p)),
+       caption = "MW-0.68sd")
+```
+
+
+```{r}
+q_inv <- .95
+q_p <- qnorm(q_inv, mean = 100, sd= 15)
+
+q_p95 <-
+  ggplot(NULL, aes(c(60,145))) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, q_p)) +
+  geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
+  labs(x = "IQ", y = "Dichte",
+       title = paste0(q_inv,"-Quantil: ",round(q_p)),
+       caption = "MW+1.64sd")
+```
+
+
+
+```{r}
+q_inv <- .975
+q_p <- qnorm(q_inv, mean = 100, sd= 15)
+#pnorm(115, mean= 100, sd = 15)
+
+q_p975 <-
+  ggplot(NULL, aes(c(60,145))) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, q_p)) +
+  geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
+  labs(x = "IQ", y = "Dichte",
+       title = paste0(q_inv,"-Quantil: ",round(q_p)),
+       caption = "MW+2SD")
+```
+
+
+
+
+
+```{r}
+q_inv <- .84
+q_p <- qnorm(q_inv, mean = 100, sd= 15)
+#pnorm(115, mean= 100, sd = 15)
+
+q_p84 <-
+  ggplot(NULL, aes(c(60,145))) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, q_p)) +
+  geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
+  labs(x = "IQ", y = "Dichte",
+       title = paste0(q_inv,"-Quantil: ",round(q_p)),
+       caption = "MW+1sd")
+```
+
+```{r}
+q_inv <- .69
+q_p <- qnorm(q_inv, mean = 100, sd= 15)  # halbe SD
+#pnorm(107.5, mean= 100, sd = 15)
+
+q_p69 <-
+  ggplot(NULL, aes(c(60,145))) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, q_p)) +
+  geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
+  labs(x = "IQ", y = "Dichte",
+       title = paste0(q_inv,"-Quantil: ",round(q_p)),
+       caption = "MW+0.5sd")
+```
+
+
+
+```{r fig.asp = .5}
+(q_p50 + q_p25 + q_p69) / (q_p95 + q_p975 + q_p84)
+```
 
 
 
@@ -543,12 +654,14 @@ d <-
 d %>% 
   ggplot(aes(x,y)) +
   geom_line() 
+
 ```
 
 
 
 ]
 
+</br>
 
 .content-box-blue[Voilà: Die Exponentialverteilung]
 
@@ -623,7 +736,9 @@ d %>%
   ggplot(aes(x)) +
   geom_line(aes(y=y)) +
   geom_line(aes(y=y2), 
-            color ="blue")
+            color ="blue") +
+  labs(title = "blau: e hoch x, 
+       scharz: 2 hoch x")
 ```
 
 ]
@@ -718,12 +833,14 @@ d %>%
   geom_histogram() +
   geom_vline(data = d_sum,
              aes(xintercept = value)) +
-  geom_text(data = d_sum,
+  geom_label(data = d_sum,
             aes(x = value + max(value)*.05,
+                y = 00 + value*700,
                 label = name),
             angle = 90,
-            nudge_y = 0,
-            y = 500)
+            nudge_y = 0
+            #, y = 500
+            )
 ```
 
 
