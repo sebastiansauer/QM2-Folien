@@ -12,19 +12,16 @@ header-includes:
   - \usepackage{xspace}
   - \usepackage[ngerman]{babel}
 output:
-  beamer_presentation:
-    toc: true
-    theme: "Berkeley"
-    #colortheme: "dolphin"
-    # fonttheme: "structurebold"
-    keep_tex: false 
-    includes:
-      in_header: ../libs/preamble.tex    
-editor_options: 
-  chunk_output_type: console
-  
-#numbersections: yes
-csquotes: TRUE     
+xaringan::moon_reader:
+    keep_md: false
+    css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
+    lib_dir: libs
+    seal: true
+    nature:
+      titleSlideClass: ["right", "bottom", "test"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false    
 ---
 
 
@@ -80,10 +77,10 @@ source("R-Code/img.R")
 ```{r QM2-Thema1-WasistInferenz-4}
 theme_set(theme_minimal())
 ```
-
+---
 # Was ist Inferenzstatistik?
 
-
+---
 
 ## Deskriptiv- vs. Inferenzstatistik
 
@@ -103,7 +100,7 @@ knitr::include_graphics("/Users/sebastiansaueruser/Google Drive/research/Publika
 
 \includegraphics[width=1em]{../img/weight.pdf} Schließen Sie die Augen und zeichnen Sie obiges Diagramm!
 
-
+---
 ## Wozu ist die Inferenstatistik gut?
 
 \begin{alertblock}{Inferenz}
@@ -127,7 +124,7 @@ Inferenzstatistik ist ein Verfahren, das mathematische Modelle (oft aus der Stoc
 
 <!-- 3. Vom beobachteten Messwert auf das zugrundeliegende Konstrukt zu schließen -->
 
-
+---
 ## Deskriptiv- und Inferenzstatistik gehen Hand in Hand
 
 
@@ -155,7 +152,7 @@ Für Statistiken (Stichprobe) verwendet man lateinische Buchstaben; für Paramet
 
 \includegraphics[width=1em]{../img/weight.pdf} Geben Sie die griechischen Buchstaben für typische Statistiken an!
 
-
+---
 ## Schätzen von Parametern einer Grundgesamtheit
 
 
@@ -181,7 +178,7 @@ kable(x, format = "latex", escape = FALSE, booktabs = FALSE) %>%
   kable_styling(position = "center")
 ```
 
-
+---
 
 ## Beispiel für eine inferenzstatistische Fragestellung
 
@@ -199,6 +196,7 @@ Sie testen zwei Varianten Ihres Webshops (V1 und V2), die sich im Farbschema unt
 
 
 \includegraphics[width=1em]{../img/weight.pdf} *Predictive Maintenance* ist ein Anwendungsfeld inferenzstatistischer Modellierung. Lesen Sie dazu S. 3 [dieses Berichts](https://www.rolandberger.com/publications/publication_pdf/roland_berger_vdma_predictive_maintenance_d_1.pdf)!
+---
 
 ## Was heißt "zufällig"?
 
@@ -209,11 +207,11 @@ Unter einem zufälligen Ereignis (random) verstehen wir ein Ereignis, das nicht 
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Welche physikalischen Randbedingungen wirken wohl auf einen Münzwurf ein?
-
+---
 
 # Regression und Inferenz
 
-
+---
 ## Für jede Fragestellung einen anderen Test
 
 
@@ -224,7 +222,7 @@ img("entscheidungsbaum.pdf")
 
 [Quelle](https://md.psych.bio.uni-goettingen.de/mv/entscheidungsbaum.pdf)
 
-
+---
 ## Oder man nimmt einfach immer die Regression
 
 
@@ -236,7 +234,7 @@ img("linear_tests_cheat_sheet.png")
 
 [Quelle](https://lindeloev.github.io/tests-as-linear/)
 
-
+---
 
 ## Gängige statistische Tests sind Spezialfälle der Regression
 
@@ -254,7 +252,7 @@ img("regression-specialcases.png")
 
 Diese (und mehr) Fragestellungen können mit der Regression beantwortet werden.
 
-
+---
 ## To rule 'em all
 
 
@@ -269,7 +267,7 @@ img("einring.jpg")
 
 [Quelle](https://imgflip.com/i/5m9qrp)
 
-
+---
 ## Was war noch mal die Regression?
 
 - Mit der Regression kann man Zielvariablen in Abhängigkeit von Prädiktorvariablen vorherzusagen. 
@@ -287,7 +285,7 @@ img("fig1-1b.png")
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Erläutern Sie die Grundidee der Regression!
-
+---
 ## Beispiele zur Quantifizierung von Ungewissheit
 
 
@@ -313,7 +311,7 @@ img("fig1-1b.png")
 
 
 
-
+---
 ## Die Regressionsgleichung
 
 In voller Pracht:
@@ -330,7 +328,7 @@ $$y = \beta_0 + \beta_1x + \epsilon$$
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Geben Sie ein Beispiel an, das die Teile der Regressionsgleichung aufgreift.
-
+---
 ## Datenbeispiel
 
 
@@ -355,7 +353,7 @@ Auxiliary parameter(s):
 sigma 3.9    0.5   
 ```
 
-
+---
 
 ## Visualisierung zum Datenbeispiel
 
@@ -400,7 +398,7 @@ plot1
 Rot markiert: Die Punktschätzugn von `mpg` für `hp=200`.
 
 \includegraphics[width=1em]{../img/weight.pdf} Geben Sie ein vergleichbares Beispiel an!
-
+---
 
 ## Der Punktschätzer berücksichtigt nicht die Ungewissheit des Models
 
@@ -411,6 +409,7 @@ Mindestens zwei Arten von Ungewissheit müssen wir in unseren Vorhersagen berüc
 
 :::::: {.columns}
 ::: {.column width="50%"}
+
 ### Ungewissheit in $\beta_0, \beta1$
 ```{r plt-uncert-beta0beta1}
 plot2 <- 
@@ -428,6 +427,7 @@ plot2
 
 ::: 
 ::: {.column width="50%"}
+
 ### Ungewissheit durch $\epsilon$ ($\sigma$)
 
 ```{r plot-uncertainty-eps}
@@ -454,7 +454,7 @@ ggplot(mtcars) +
 :::
 ::::::
 
-
+---
 
 ## Vorhersage-Intervall: berücksichtigt Ungewissheit in $\beta_0, \beta_1, \epsilon$
 
@@ -491,7 +491,7 @@ ggplot(mtcars) +
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Interpretieren Sie den Ungewissheitskorridor!
-
+---
 ## Wozu man die Regression benutzt
 
 \pretolerance=-1
@@ -510,7 +510,7 @@ ggplot(mtcars) +
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Geben Sie weitere Beispiele an!
-
+---
 
 ## In Experimenten kann man die Ergebnisse kausal interpretieren
 
@@ -527,7 +527,7 @@ In einem gut gemachten Experiment geben die Koeffizienten der Regression den kau
 
 \includegraphics[width=1em]{../img/weight.pdf} Begründen Sie obige Aussage!
 
-
+---
 ## Kausalmodell eines einfachen Experiments
 
 
@@ -543,7 +543,7 @@ dagify(y ~ x,
 ```
 
 Statistiken in (gut gemachten) Experimenten können kausal interpretiert werden: Der statistische Zusammenhang von *Impfung* auf *Symptome* entspricht dem kausalen Effekt.
-
+---
 
 ## Beobachtungsstudien können nicht ohne Weiteres kausal interpretiert werden
 
@@ -568,7 +568,7 @@ Laut diesem Modell gibt es keinen kausalen Zusammenhang von *Glatze* zu *Corona*
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Finden Sie ein weiteres Beispiel für einen Scheinzusammenhang!
-
+---
 ## Die lineare Regression ist erstaunlich flexibel
 
 Z.B. 
@@ -583,7 +583,7 @@ include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/Interactio
 ```
 
 \includegraphics[width=1em]{../img/weight.pdf} Nennen Sie je ein Beispiel!
-
+---
 ## Beispiel für nichtlineare Modelle: Die Log-Y-Regression
 
 Die Log-Y-Regression ist geeignet, um exponenzielles Wachstum darzustellen.
@@ -597,7 +597,7 @@ Exponentiert man beide Seite, so erhält man:
 $$y = e^{\tilde{x}}=e^{\beta_0 + \beta_1 \cdot x}$$
 
 $e$ ist die Eulersche Zahl: 2.71...
-
+---
 
 ## Beispiele für exponentielle Zusammenhänge
 
@@ -618,7 +618,7 @@ $e$ ist die Eulersche Zahl: 2.71...
 
 Generell bieten sich es an, zur Modellierung von Wachstumsprozessen auf exponenzielles Zusammenhänge - und damit auf Log-Y-Regression - zurückzugreifen.
 
-
+---
 ## So sieht exponenzielles Wachstum aus
 
 
@@ -649,7 +649,7 @@ ggplot(d2) +
 - Exponenzielles Wachstum wächst am Anfang (scheinbar) langsam, später sehr schnell. Die Geschwindigkeit wird leicht unterschätzt.
 
 
-
+---
 
 ## Häufig sind Gruppen nicht direkt vergleichbar
 
@@ -660,7 +660,7 @@ ggplot(d2) +
 ```{r QM2-Thema1-WasistInferenz-17, out.width = "40%"}
 include_graphics("/Users/sebastiansaueruser/github-repos/ROS-Examples/SimpleCausal/figs/overview_3.pdf")
 ```
-
+---
 
 ## Keine vorschnelle Kausalinterpretation
 
@@ -677,7 +677,7 @@ Allerdings ist es möglich, Art und Stärke von Zusammenhängen zu schätzen.
 
 
 
-
+---
 
 ## Was ist ein (statistisches) Modell?
 
@@ -693,7 +693,7 @@ img("Modell-crop.pdf")
 ```
 
 
-
+---
 ## Beispiel für ein statistisches Modell
 
 
@@ -701,7 +701,7 @@ $$E = \beta_0 + \beta_1\cdot L + \epsilon,$$
 
 wobei $E$ für *Erfolg in der Klausur* steht, $L$ für die *Lernzeit* und $\epsilon$ für den "Fehler" des Modells, sprich sonstige Einflussgrößen, die im Modell nicht berücksichtigt werden.
 
-
+---
 ## Vorsicht bei Extrapolation von Trends
 
 ```{r QM2-Thema1-WasistInferenz-19}
@@ -709,7 +709,7 @@ img("extrapolating.png")
 ```
 
 [Quelle](https://imgs.xkcd.com/comics/extrapolating.png)
-
+---
 ## Der Golem von Prag
 
 
@@ -732,7 +732,7 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 :::
 ::::::
 
-
+---
 ## Wissenschaftliche Modelle sind wie Golems
 
 :::::: {.columns}
@@ -763,14 +763,14 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 
 
 
-
+---
 
 
 
 
 # Klassische vs. Bayes-Inferenz
 
-
+---
 ## Klassische Inferenz: Frequentismus
 
 
@@ -780,7 +780,7 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 - Es ist nicht möglich, die Wahrscheinlichkeit einer Hypothese anzugeben. 
 - Stattdessen wird angegeben, wie häufig eine vergleichbare Datenlage zu erwarten ist, wenn die Hypothese gilt und der Versuch sehr häufig wiederholt ist.
 - Ein Großteil der Forschung (in den Sozialwissenschaften) verwendet diesen Ansatz.
-
+---
 
 ## Bayesianische Inferenz
 
@@ -790,7 +790,7 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 - In der Bayes-Inferenz sind Wahrscheinlichkeitsaussagen für Hypothesen möglich.
 - Die Bayes-Inferenz erfordert mitunter viel Rechenzeit und ist daher erst in den letzten Jahren (für gängige Computer) komfortabel geworden.
 
-
+---
 ## Vergleich von Wahrscheinlichkeitsaussagen
 
 \pretolerance=-1
@@ -820,7 +820,7 @@ Bei unüberlegter Verwendung wird er jedoch großen Schaden anrichten.
 :::
 
 \includegraphics[width=1em]{../img/weight.pdf} Recherchieren Sie eine Definition des p-Werts und lesen Sie sie genau.
-
+---
 ## Frequentist und Bayesianer
 
 
@@ -831,7 +831,7 @@ img("frequentists-vs-bayesians-2x.png")
 
 [Quelle](https://xkcd.com/1132/)
 
-
+---
 ## Beispiel zum Nutzen von Apriori-Wissen 1
 
 
@@ -848,7 +848,7 @@ img("frequentists-vs-bayesians-2x.png")
 
 - Unser Vorwissen lässt uns allerdings trotzdem an der Hellsichtigkeit des Betrunkenen zweifeln, so dass die meisten von uns  die Hypothese von der Zufälligkeit des Ergebnisses wohl nicht verwerfen.
 
-
+---
 
 ## Beispiel zum Nutzen von Apriori-Wissen 2
 
@@ -867,7 +867,7 @@ img("frequentists-vs-bayesians-2x.png")
 
 - Allerdings lässt uns unser Vorwissen vermuten, dass so ein Treatment das Einkommen nach 20 Jahren kaum verdoppeln lässt. Wir würden den Effekt lieber in einem konservativeren Intervall schätzen (enger um Null).
 
-
+---
 ## Regression in R, der schnelle Weg zum Glück
 
 
@@ -997,10 +997,10 @@ lm1 <- lm(y ~ x, data = meine_daten)
 <!-- - $\text{log}_c(b^a) = a \cdot \text{log}_c(b)$ -->
 
 
-
+---
 
 # Ungewissheit quantifizieren
-
+---
 ## Was ist Wahrscheinlichkeit?
 
 \pretolerance=-1
@@ -1021,7 +1021,7 @@ Die Wahrscheinlichkeit $p$ quantifiziert *Ungewissheit* im Hinblick auf eine Aus
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Weitere Beispiele?
-
+---
 ## Zufallsexperiment
 
 \pretolerance=-1
@@ -1041,7 +1041,7 @@ Die Wahrscheinlichkeit $p$ quantifiziert *Ungewissheit* im Hinblick auf eine Aus
 
 \includegraphics[width=1em]{../img/weight.pdf} Beschreiben Sie ein weiteres Zufallsexperiment!
 
-
+---
 ## Additionsregel
 
 
@@ -1055,7 +1055,7 @@ $Pr(X=1 \cup X=2) = Pr(X=1) + Pr(X=2) = 1/6 + 1/6 = 1/3$
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Was ist $Pr(X < 4)$, $Pr(1 \le X \le 6)$?
-
+---
 ## Unabhängigkeit zweier Ereignisse
 
 Zwei Ereignisse sind *(stochastisch) unabhängig*, wenn Kenntnis des einen uns keine Information gibt, ob das andere der Fall ist. Ansonsten nennt man die beiden Ereignisse (stochastisch) *abhängig* oder *zusammenhängend.*
@@ -1065,7 +1065,7 @@ Angenommen wir werfen zwei faire Münzen. Wir wissen, die erste Münze zeigt *Ko
 Auf der anderen Seite sind Aktienkurs häufig voneinander abhängig. Weiß man, dass eine Aktie gestiegen ist, so ist es (häufig) wahrscheinlich, dass die andere auch gestiegen ist.
 
 *Achtung:* Stochastische (Un)abhängigkeit impliziert nicht kausale (Un)abhängigkeit.
-
+---
 
 ## Beispiele für abhängige und unabhängige Ereignisse $A$ und $B$
 
@@ -1090,7 +1090,7 @@ Auf der anderen Seite sind Aktienkurs häufig voneinander abhängig. Weiß man, 
 ::::::
 
 
-
+---
 
 ## Multiplikationsregel für unabhängige Ereignisse
 
@@ -1103,7 +1103,7 @@ Wirft man zwei faire Münzen^[Im Folgenden immer als fair angenommen], so ist di
 
 \includegraphics[width=1em]{../img/weight.pdf} Was ist $Pr(ZZ)$? Ist $Pr(ZK) = Pr(KZ)$?
 
-
+---
 ## Beispiele für die Multiplikationsregel unabhängiger Ereignisse
 
 - Zwei Mal hintereinander eine 6 werfen (fairer Würfel): $Pr(6, 6) = Pr(6) \cdot Pr(6) = 1/6 \cdot 1/6 = 1/36$.
@@ -1117,7 +1117,7 @@ Wirft man zwei faire Münzen^[Im Folgenden immer als fair angenommen], so ist di
 - Ei Forscheri führt 10 statistische Tests durch, jeweils mit 10% Gefahr, dass ein falsch-positives Ergebnis zustande kommt. Wie hoch ist die Wahrscheinlichkeit für mindestens 1 falsch-positives Ergebnis? $Pr(\neg 0 FP) = 1 - 0.9^{10} \approx `r round(1 - 0.9^10, 2)`$
 
 
-
+---
 
 
 
@@ -1154,7 +1154,7 @@ tibble::tribble(
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Zeichnen Sie den Baum und berechnen Sie die Wahrscheinlichkeiten für eine gezinkte Münze mit $P(K) = 2/3$.
-
+---
 ## Münzen werfen als Baum: Anzahl *Kopf* nach 3 Würfen
 
 
@@ -1177,7 +1177,7 @@ tibble::tribble(
   kbl()
   
 ```
-
+---
 
 
 
@@ -1197,7 +1197,7 @@ tibble::tribble(
 
 
 
-
+---
 
 ## Hintergrundwissen ist subjektiv
 
@@ -1212,7 +1212,7 @@ Bezogen auf *mein* Hintergrundwissen gilt: $Pr(\text{A="Stift links"|H="Der Stif
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Geben Sie ein weiteres Beispiel für die Subjektivität von Hintergrundwissen an! Formalisieren Sie es wie oben gezeigt.
-
+---
 ## Bedingte Wahrscheinlichkeit
 
 Wie groß ist die Wahrscheinlichkeit:
@@ -1227,7 +1227,7 @@ $Pr(A|H)$ ist die Wahrscheinlichkeit, dass $A$ eintritt, *gegeben* bzw. *unter d
 Formel der bedingten Wahrscheinlichkeit:
 
 $$Pr(B|l) = \frac{Pr(B \cap l)}{Pr(l)}$$
-
+---
 ## Kontingenztabelle zur Berechnung von Wahrscheinlichkeiten
 
 
@@ -1258,7 +1258,7 @@ Gemeinsame Wahrscheinlichkeit: $Pr(B \cap l) = Pr(l \cap B) = Pr(Bl) = Pr(lB) = 
 
 
 
-
+---
 
 ## Visualierung von gemeinsamer und bedingter Wahrscheinlichkeit
 
@@ -1277,7 +1277,7 @@ $Pr(A|B) = Pr(A,B) / Pr(B) = 25\% / 50\% = 50\%$
 ```{r child_verteilungen, eval = FALSE, child = "children/Verteilungen.Rmd"}
 
 ```
-
+---
 
 ## Visualierung von (un)abhängigen Ereignissen
 
@@ -1317,7 +1317,7 @@ plottitanic3
 
 
 
-
+---
 ## Beispiel zur Visualisierung zweier abhängiger Ereignisse
 
 Sind die Ereignisse *Tod durch Covid*  bzw. *Impfquote* ($A$) und *Land*^[hier mit den zwei Ausprägungen *DEU* und *USA*] ($B$) voneinander abhängig?
@@ -1352,10 +1352,10 @@ Daten von [Our World in Data](https://ourworldindata.org/covid-deaths)
 @owidcoronavirus
 
 
-
+---
 # Hinweise 
 
-
+---
 ## Lehrbuch und Homepage des Lehrbuchs
 
 Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
@@ -1369,7 +1369,7 @@ Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur):
 
 Dieses Skript wurde erstellt am `r Sys.time()`.
 
-
+---
 
 ## Literatur {#literatur}
 
