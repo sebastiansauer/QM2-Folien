@@ -112,8 +112,8 @@ bib <- ReadBib(bib_file)
 
 
 ```{r ggplottheme}
-theme_set(theme_xaringan(text_font_size = 8,
-                         title_font_size = 10))
+theme_set(theme_xaringan(text_font_size = 10,
+                         title_font_size = 12))
 
  # +
  #  theme(  axis.title = element_text(size = 8),

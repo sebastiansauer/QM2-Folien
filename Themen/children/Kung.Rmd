@@ -235,23 +235,22 @@ $$\color{green}{\sigma \sim \mathcal{E}(0.1)}$$
 ```{r prior-pred, echo = TRUE}
 n <- 1e4
 
-sim <-
-  tibble(
-    sample_mu    = 
+sim <- tibble(sample_mu  = 
       rnorm(n, 
             mean = 178, 
-            sd  = 20),
+            sd   = 20),
     sample_sigma = 
       rexp(n, 
-            rate = 0.11)) %>% 
-  mutate(
-    height = 
+            rate = 0.1)) %>% 
+  mutate(height  = 
       rnorm(n, 
             mean = sample_mu, 
-            sd = sample_sigma))
+            sd   = sample_sigma))
 
-height_sim_sd <- sd(sim$height) %>% round()
-height_sim_mean <- mean(sim$height) %>% round()
+height_sim_sd <- 
+  sd(sim$height) %>% round()
+height_sim_mean <- 
+  mean(sim$height) %>% round()
 
 ```
 ]
@@ -291,7 +290,7 @@ p3
 $h_i \sim \mathcal{N}(\mu, \sigma),$
 $\mu \sim \mathcal{N}(178, 20),$
 $\sigma \sim \mathcal{E}(0.1)$
-- Priori-Prädiktiv-Verteilungen sind praktisch, um zu prüfen, ob die Priori-Werte vernünftig sind
+- So können wir prüfen, ob die Priori-Werte vernünftig sind.
 
 .pull-left[
 
@@ -312,13 +311,15 @@ p3
 Anteil $h_i > 200$:
 
 ```{r Kung-14, echo = TRUE}
+anteil_großer_kung <- 
 sim %>% 
-  count(height > 200) %>% 
-  mutate(prop = n()/n)
+  count( height > 200) %>% 
+  mutate(prop = n/sum(n))
+anteil_großer_kung
 ```
 
 
-🤔 Sehr große Buschleute?
+🤔 Sehr große Buschleute? `r round(anteil_großer_kung$prop[2], 2)*100` Prozent sind größer als 2 Meter. Das ist diskutabel, muss aber kein schlechter Prior sein.
 ]
 
 
@@ -397,7 +398,7 @@ p4 <-
   scale_x_continuous(breaks = breaks, 
                      limits = c(-400, 700)) +
   scale_y_continuous(NULL, breaks = NULL) +
-  labs(title = "height ~ dnorm(mu, sigma)\nmu ~ dnorm(178, 100)\nsigma ~ E(0.1)",
+  labs(title = "height ~ dnorm(mu, sigma)\nmu ~ dnorm(178, 100)\nsigma ~ E(0.01)",
        x = "Größe",
        caption = "X-Achse zeigt MW±3SD") +
   theme(panel.grid = element_blank()) 
@@ -702,7 +703,7 @@ post_m41 %>%
 
 ---
 
-## Standard-Prioriwerte bei `stan_glm()` 1/2
+## Standard-Prioriwerte bei `stan_glm()` 1/3
 
 ```{r echo = TRUE}
 prior_summary(m41)
@@ -711,7 +712,7 @@ prior_summary(m41)
 
 ---
 
-## Standard-Prioriwerte bei `stan_glm()` 1/2
+## Standard-Prioriwerte bei `stan_glm()` 2/3
 
 - `stan_glm()` verwendet (in der Voreinstellung) *schwach informative* Priori-Werte, die nur wenig Vorabwissen in das Modell geben.
 - Es werden dafür die Stichproben-Daten als Priori-Daten verwendet.
@@ -729,8 +730,56 @@ prior_summary(m41)
     
     
     
+---
+
+## Visualisierung verschiedener Exponentialverteilungen
 
 
+```{r}
+r <- 2
+p_r2 <- 
+ggplot(NULL, aes(c(0,50))) +
+  geom_area(stat = "function", fun = dexp, fill = "grey", args = list(rate = r))  +
+  labs(title = paste0("Exp(",r,")"),
+       x = "sigma")
+```
+
+
+
+```{r}
+r <- 1
+p_r1 <- 
+ggplot(NULL, aes(c(0,50))) +
+  geom_area(stat = "function", fun = dexp, fill = "grey", args = list(rate = r))  +
+  labs(title = paste0("Exp(",r,")"),
+       x = "sigma")
+```
+
+
+
+```{r}
+r <- 1/8
+p_r1_8 <- 
+ggplot(NULL, aes(c(0,50))) +
+  geom_area(stat = "function", fun = dexp, fill = "grey", args = list(rate = r))  +
+  labs(title = paste0("Exp(",r,")"),
+       x = "sigma")
+```
+
+
+```{r}
+r <- 1/25
+p_r1_25 <- 
+ggplot(NULL, aes(c(0,50))) +
+  geom_area(stat = "function", fun = dexp, fill = "grey", args = list(rate = r))  +
+  labs(title = paste0("Exp(",r,")"),
+       x = "sigma")
+```
+
+
+```{r}
+(p_r1_25 + p_r1_8) / (p_r1 + p_r2)
+```
 
 
 ---

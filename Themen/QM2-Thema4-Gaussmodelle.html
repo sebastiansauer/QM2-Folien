@@ -175,7 +175,7 @@ Ein *stetiges* Merkmal lässt sich durch Klassenbildung diskretisieren:
 
 
 Eine *diskrete* Wahrscheinlichkeitsverteilung des Merkmals `\(X\)` ordnet jeder der `\(k\)` Ausprägungen `\(X=x\)` eine Wahrscheinlichkeit `\(p\)` zu. So hat die Variable *Geschlecht eines Babies* die beiden Ausprägungen *Mädchen* und *Junge* mit den Wahrscheinlichkeiten `\(p_M = 51.2\%\)` bzw. `\(p_J = 48.8\%\)` 
-&lt;a name=cite-gelman_regression_2021&gt;&lt;/a&gt;([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021)).
+([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021)).
 
 Bei *stetigen* Merkmalen `\(X\)` geht man von unendlich vielen Ausprägungen aus; die Wahrscheinlichkeit einer bestimmten Ausprägung ist (praktisch) Null: `\(p(X=x_j)=0, \quad j=1,...,k\)`. Daher gibt man stattdessen die *Dichte* der Wahrscheinlichkeit an: Das ist die Wahrscheinlichkeit(smasse) pro eine Einheit von `\(X\)`.
 
@@ -204,11 +204,30 @@ Bei `\(X=0\)` hat eine Einheit von `\(X\)` die Wahrscheinlichkeitsmasse von 50% 
 
 ---
 
+
+## Quantile und Verteilungsfunktion
+
+
+- *Quantile* teilen eine Verteilung so ein, dass ein Anteil `\(p\)` kleiner und der andere Teil `\(1-p\)` größer oder gleich dem Quantil `\(q\)` ist.
+    - *Beispiel*: "50%-Quantil = 100" meint, dass 50% der Werte der Verteilung einen Wert kleiner als 100 haben.
+    
+- Die *Verteilungsfunktion F* für ein Quantil `\(q\)` gibt den Anteil der Verteilung an, der nur  Werte höchstens so groß wie `\(q\)` beinhaltet. Sie zeigt also die kumulierte Wahrscheinlichkeit `\([-\infty, q)\)`.
+    - *Beispiel*: "F(100) = 50%" meint, dass der Anteil der Verteilung für Werte nicht größer als 100 50% beträgt.
+
+
+
+
+&lt;img src="chunk-img/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
 ## Gesetz der großen Zahl
 
 
 Zieht man (zufällig) immer mehr Werte aus einer Verteilung (mit endlichem Mittelwert), nähert sich der Mittelwert der Stichprobe immer mehr mit dem Mittelwert (oft als Erwartungswert bezeichnet) der Verteilung an 
-&lt;a name=cite-taleb2019technical&gt;&lt;/a&gt;([Taleb, 2019](https://nassimtaleb.org/2020/01/final-version-fat-tails/))
+([Taleb, 2019](https://nassimtaleb.org/2020/01/final-version-fat-tails/))
 
 
 
@@ -225,7 +244,7 @@ Sie und 1000 Ihrer besten Freunde stehen auf der Mittellinie eines Fußballfelds
 
 &lt;img src="chunk-img/Normalverteilung-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-.footnote[&lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;([McElreath, 2020](#bib-mcelreath_statistical_2020))]
+.footnote[([McElreath, 2020](#bib-mcelreath_statistical_2020))]
 
 
 
@@ -248,7 +267,7 @@ Die Summe vieler (gleich starker) Zufallswerte (aus der gleichen Verteilung) erz
 
 &lt;img src="https://github.com/sebastiansauer/QM2-Folien/raw/main/img/ch33910f1.jpg" width="30%" style="display: block; margin: auto;" /&gt;
 
-&lt;a name=cite-freeman_visual_2006&gt;&lt;/a&gt;([Freeman, 2006](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/))
+([Freeman, 2006](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/))
 
 
 ---
@@ -732,7 +751,7 @@ d_summary &lt;- d %&gt;%
 </table>
 </div>
 
-Das *Quantil* `\(q\)` zur Wahrscheinlichkeit `\(p=75\)` ist 110, etc. 
+Das *Quantil* `\(q\)` zur kumulierten Wahrscheinlichkeit `\(p=75\)` ist 110, etc. 
 ]
 
 
@@ -1134,6 +1153,7 @@ Anstelle von `iq &lt; 100` kann man `iq &lt; 115` einsetzen, etc.
 
 
 Die *Verteilungsfunktion* (der Anteil der Wahrscheinlichkeitsmasse), `p`, für IQ-Werte nicht größer als 100, d.h. zum Quantil `\(q=100\)`, ist 50%, etc. 
+
 ]
 
 
@@ -1142,12 +1162,12 @@ Die *Verteilungsfunktion* (der Anteil der Wahrscheinlichkeitsmasse), `p`, für I
 
 ## Quantile der Normalverteilung visualisiert
 
-`\(IQ \sim \mathcal{100, 15}\)`
+`\(IQ \sim \mathcal{N}(100, 15)\)`
 
 
 ```r
 qnorm(.50, mean = 100, sd = 15)  # 50%-Quantil
-pnorm(100, mean = 100, sd= 15)  # Verteilungsfunktion für IQ=100
+pnorm(100, mean = 100, sd = 15)  # Verteilungsfunktion für IQ=100
 ```
 
 
@@ -1173,7 +1193,7 @@ pnorm(100, mean = 100, sd= 15)  # Verteilungsfunktion für IQ=100
 
 
 
-&lt;img src="chunk-img/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2026,7 +2046,7 @@ d2 %&gt;%
 
 .pull-right[
 Solche Fragen kann man mit dieser Verteilung darstellen:
-&lt;img src="chunk-img/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2082,8 +2102,7 @@ d %&gt;%
   geom_line(aes(y=y)) +
   geom_line(aes(y=y2), 
             color ="blue") +
-  labs(title = "blau: e hoch x, 
-       scharz: 2 hoch x")
+  labs(title = paste0("blau: e hoch x,","schwarz: 2 hoch x"))
 ```
 
 ]
@@ -2156,7 +2175,7 @@ d %&gt;% ggplot(aes(x = apfel)) + geom_histogram()
 ```
 
 
-&lt;img src="chunk-img/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2780,23 +2799,22 @@ Die Streuung `\(\sigma\)` der Größen ist exponentialverteil mit `\(\lambda = 0
 ```r
 n &lt;- 1e4
 
-sim &lt;-
-  tibble(
-    sample_mu    = 
+sim &lt;- tibble(sample_mu  = 
       rnorm(n, 
             mean = 178, 
-            sd  = 20),
+            sd   = 20),
     sample_sigma = 
       rexp(n, 
-            rate = 0.11)) %&gt;% 
-  mutate(
-    height = 
+            rate = 0.1)) %&gt;% 
+  mutate(height  = 
       rnorm(n, 
             mean = sample_mu, 
-            sd = sample_sigma))
+            sd   = sample_sigma))
 
-height_sim_sd &lt;- sd(sim$height) %&gt;% round()
-height_sim_mean &lt;- mean(sim$height) %&gt;% round()
+height_sim_sd &lt;- 
+  sd(sim$height) %&gt;% round()
+height_sim_mean &lt;- 
+  mean(sim$height) %&gt;% round()
 ```
 ]
 
@@ -2822,7 +2840,7 @@ height_sim_mean &lt;- mean(sim$height) %&gt;% round()
 `\(h_i \sim \mathcal{N}(\mu, \sigma),\)`
 `\(\mu \sim \mathcal{N}(178, 20),\)`
 `\(\sigma \sim \mathcal{E}(0.1)\)`
-- Priori-Prädiktiv-Verteilungen sind praktisch, um zu prüfen, ob die Priori-Werte vernünftig sind
+- So können wir prüfen, ob die Priori-Werte vernünftig sind.
 
 .pull-left[
 
@@ -2842,21 +2860,23 @@ Anteil `\(h_i &gt; 200\)`:
 
 
 ```r
+anteil_großer_kung &lt;- 
 sim %&gt;% 
-  count(height &gt; 200) %&gt;% 
-  mutate(prop = n()/n)
+  count( height &gt; 200) %&gt;% 
+  mutate(prop = n/sum(n))
+anteil_großer_kung
 ```
 
 ```
 ## # A tibble: 2 × 3
-##   `height &gt; 200`     n     prop
-##   &lt;lgl&gt;          &lt;int&gt;    &lt;dbl&gt;
-## 1 FALSE           8373 0.000239
-## 2 TRUE            1627 0.00123
+##   `height &gt; 200`     n  prop
+##   &lt;lgl&gt;          &lt;int&gt; &lt;dbl&gt;
+## 1 FALSE           8328 0.833
+## 2 TRUE            1672 0.167
 ```
 
 
-🤔 Sehr große Buschleute?
+🤔 Sehr große Buschleute? 17 Prozent sind größer als 2 Meter. Das ist diskutabel, muss aber kein schlechter Prior sein.
 ]
 
 
@@ -2897,7 +2917,7 @@ sim %&gt;%
 
 Die Streuung der Größen ist weit:
 
-&lt;img src="chunk-img/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2931,7 +2951,7 @@ Die Streuung der Größen ist weit:
 
 &lt;img src="chunk-img/post-m41-plot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="chunk-img/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -3066,7 +3086,7 @@ print(m41)
 &lt;/br&gt;
 &lt;img src="https://mc-stan.org/rstanarm/reference/figures/stanlogo.png" width="100%" style="display: block; margin: auto;" /&gt;
 
-.tiny[[Quelle](https://mc-stan.org/), &lt;a name=cite-stan&gt;&lt;/a&gt;([Team, 2021](https://mc-stan.org))]
+.tiny[[Quelle](https://mc-stan.org/), ([Team, 2021](https://mc-stan.org))]
 
 ]
 
@@ -3545,7 +3565,7 @@ post_m41 %&gt;%
 
 ---
 
-## Standard-Prioriwerte bei `stan_glm()` 1/2
+## Standard-Prioriwerte bei `stan_glm()` 1/3
 
 
 ```r
@@ -3573,7 +3593,7 @@ prior_summary(m41)
 
 ---
 
-## Standard-Prioriwerte bei `stan_glm()` 1/2
+## Standard-Prioriwerte bei `stan_glm()` 2/3
 
 - `stan_glm()` verwendet (in der Voreinstellung) *schwach informative* Priori-Werte, die nur wenig Vorabwissen in das Modell geben.
 - Es werden dafür die Stichproben-Daten als Priori-Daten verwendet.
@@ -3591,8 +3611,26 @@ prior_summary(m41)
     
     
     
+---
+
+## Visualisierung verschiedener Exponentialverteilungen
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;img src="chunk-img/unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -3657,7 +3695,7 @@ Im Standard werden Mediane und 50%- sowie 90%-Perzentilintervalle gezeigt, [s. D
 ]
 
 .pull-right[
-&lt;img src="chunk-img/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="chunk-img/unnamed-chunk-30-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chunk-img/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="chunk-img/unnamed-chunk-36-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -3701,7 +3739,7 @@ class: center, middle, inverse
   - Statistical Rethinking, Kapitel 4.1 - 4.3
 
 
-- Dieses Skript wurde erstellt am 2021-11-08 11:21:49 
+- Dieses Skript wurde erstellt am 2021-11-08 13:24:29 
 
 - Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
 
@@ -3724,37 +3762,49 @@ name: literatur
 
 &lt;a
 name=bib-freeman_visual_2006&gt;&lt;/a&gt;[Freeman,
-M.](#cite-freeman_visual_2006) (2006). "A
-visual comparison of normal and paranormal
-distributions". In: _Journal of
-Epidemiology and Community Health_ 60.1,
-p. 6.
+M.](#cite-freeman_visual_2006)
+(2006). "A visual
+comparison of normal and
+paranormal distributions".
+In: _Journal of
+Epidemiology and Community
+Health_ 60.1, p. 6.
 
 &lt;a
 name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
 A., J. Hill, and A.
 Vehtari](#cite-gelman_regression_2021)
-(2021). _Regression and other stories_.
-Analytical methods for social research.
-Cambridge University Press.
+(2021). _Regression and
+other stories_. Analytical
+methods for social
+research. Cambridge
+University Press.
 
 &lt;a
 name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
 R.](#cite-mcelreath_statistical_2020)
-(2020). _Statistical rethinking: a
-Bayesian course with examples in R and
-Stan_. 2nd ed. CRC texts in statistical
-science. Taylor and Francis, CRC Press.
+(2020). _Statistical
+rethinking: a Bayesian
+course with examples in R
+and Stan_. 2nd ed. CRC
+texts in statistical
+science. Taylor and
+Francis, CRC Press.
 
-&lt;a name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb,
-N. N.](#cite-taleb2019technical) (2019).
-_The statistical consequences of fat
-tails, papers and commentaries_.
+&lt;a
+name=bib-taleb2019technical&gt;&lt;/a&gt;[Taleb,
+N.
+N.](#cite-taleb2019technical)
+(2019). _The statistical
+consequences of fat tails,
+papers and commentaries_.
 
-&lt;a name=bib-stan&gt;&lt;/a&gt;[Team, S.
-D.](#cite-stan) (2021). _Stan Modeling
-Language Users Guide and Reference Manual
-Version 2.28_.
+&lt;a
+name=bib-stan&gt;&lt;/a&gt;[Team,
+S. D.](#cite-stan) (2021).
+_Stan Modeling Language
+Users Guide and Reference
+Manual Version 2.28_.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

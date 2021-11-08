@@ -68,6 +68,9 @@ help(movies)
 
 Wie ist der Zusammenhang von logarithmierten Budget und Bewertung eines Films?
 
+Unser Kunde -- ein reicher Mäzen mit extrentischem Lebenswandel, der gerne ein paar Millionen invetieren möchte -- geht von einem positivem Zusammenhang, $\beta$ aus. Entsprechend sei unsere Hypothese $H_1: \beta > 0$.
+
+
 # Explorative Analyse
 
 
@@ -95,6 +98,12 @@ movies2 <-
 - 100000: 10^5 -> log10 = 5
 
 Wir nehmen also die Größenordnung heran, nicht den Betrag selber.
+
+Das gefällt unserem Auftraggeber erstmal nicht.
+
+Aber, sagt er, und das zu Recht, entscheidend ist ja nicht die Stichprobe, sondern die Population. Weswegen wir uns bitte schön sofort an die Inferenzstatistik bewegen sollten.
+
+Aha, unser Mäzen kennt sich also sogar mit Statistik aus.
 
 
 ## Deskriptive Statistiken
@@ -129,12 +138,14 @@ Es scheint  einen sehr schwachen, negativen Zusammenhang zu geben.
 
 ## Priors
 
+Wir gehen von folgenden Priori-Werten aus:
 
 - $\alpha \sim N(7,1)$: Rating-Mittelwert
-- $\beta \sim N(0,1)$: Zusammenhang log10-Budget und Rating - b=1 hieße: ändert sich das Log10-Budget um 1 Einheit (d.h eine Größenordnung, also Faktor 10), so ändert sich das Rating um 1 Einheit
+- $\beta \sim N(0,1)$: Zusammenhang log10-Budget und Rating `b=1` hieße: ändert sich das Log10-Budget um 1 Einheit (d.h eine Größenordnung, also Faktor 10), so ändert sich das Rating um 1 Einheit
 - $\sigma \sim Exp(1)$: Streuung um $\mu_i$
 
 
+Das sind keineswegs besonere
 
 
 ## Likelihood
@@ -274,10 +285,19 @@ mcmc_areas(post1) +
 ```
 
 
+Einfacher kann man sich so die Posteriori-Verteilung plotten lassen:
+
 ```{r}
-mcmc_areas(post1) 
+plot(post1) 
 ```
 
+
+Oder nur das Posteriori-Interval für den Regressionskoeffizienten:
+
+```{r}
+mcmc_areas(post1,
+           pars = "budget_log10")
+```
 
 
 ### Fazit
@@ -315,6 +335,14 @@ load(file = "post2.rda")
 ```{r}
 prior_summary(post2)
 ```
+
+
+
+
+Visualisieren wir die Priori-Werte:
+
+
+
 
 ### Posteriori-Verteilung
 

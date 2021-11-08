@@ -99,6 +99,33 @@ Bei $X=0$ hat eine Einheit von $X$ die Wahrscheinlichkeitsmasse von 50% bzw. 33%
 
 ---
 
+
+## Quantile und Verteilungsfunktion
+
+
+- *Quantile* teilen eine Verteilung so ein, dass ein Anteil $p$ kleiner und der andere Teil $1-p$ größer oder gleich dem Quantil $q$ ist.
+    - *Beispiel*: "50%-Quantil = 100" meint, dass 50% der Werte der Verteilung einen Wert kleiner als 100 haben.
+    
+- Die *Verteilungsfunktion F* für ein Quantil $q$ gibt den Anteil der Verteilung an, der nur  Werte höchstens so groß wie $q$ beinhaltet. Sie zeigt also die kumulierte Wahrscheinlichkeit $[-\infty, q)$.
+    - *Beispiel*: "F(100) = 50%" meint, dass der Anteil der Verteilung für Werte nicht größer als 100 50% beträgt.
+
+
+
+
+```{r fig.asp =.3}
+  ggplot(NULL, aes(c(60,145))) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, 100)) +
+  geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
+  labs(x = "X", y = "Dichte",
+       title = "50%-Quantil: 100;    Verteilungsfunktion von 100:50%") +
+  scale_y_continuous(breaks = NULL)
+
+```
+
+
+
+---
+
 ## Gesetz der großen Zahl
 
 
@@ -284,7 +311,7 @@ d_summary %>%
   fmt_number(q, decimals = 0)
 ```
 
-Das *Quantil* $q$ zur Wahrscheinlichkeit $p=75$ ist 110, etc. 
+Das *Quantil* $q$ zur kumulierten Wahrscheinlichkeit $p=75$ ist 110, etc. 
 ]
 
 
@@ -347,6 +374,7 @@ d %>%
 ```
 
 Die *Verteilungsfunktion* (der Anteil der Wahrscheinlichkeitsmasse), `p`, für IQ-Werte nicht größer als 100, d.h. zum Quantil $q=100$, ist 50%, etc. 
+
 ]
 
 
@@ -355,11 +383,11 @@ Die *Verteilungsfunktion* (der Anteil der Wahrscheinlichkeitsmasse), `p`, für I
 
 ## Quantile der Normalverteilung visualisiert
 
-$IQ \sim \mathcal{100, 15}$
+$IQ \sim \mathcal{N}(100, 15)$
 
 ```{r echo = TRUE, eval = FALSE}
 qnorm(.50, mean = 100, sd = 15)  # 50%-Quantil
-pnorm(100, mean = 100, sd= 15)  # Verteilungsfunktion für IQ=100
+pnorm(100, mean = 100, sd = 15)  # Verteilungsfunktion für IQ=100
 ```
 
 
@@ -369,7 +397,8 @@ q_p50 <-
   geom_area(stat = "function", fun = dnorm, fill = "grey", args = list(mean=100,sd = 15), xlim= c(60, 100)) +
   geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
   labs(x = "IQ", y = "Dichte",
-       title = "50%-Quantil: 100")
+       title = "50%-Quantil: 100") +
+  scale_y_continuous(breaks = NULL)
 ```
 
 
@@ -384,7 +413,8 @@ q_p25 <-
   geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
   labs(x = "IQ", y = "Dichte",
        title = paste0(q_inv,"-Quantil: ",round(q_p)),
-       caption = "MW-0.68sd")
+       caption = "MW-0.68sd") +
+  scale_y_continuous(breaks = NULL)
 ```
 
 
@@ -398,7 +428,8 @@ q_p95 <-
   geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
   labs(x = "IQ", y = "Dichte",
        title = paste0(q_inv,"-Quantil: ",round(q_p)),
-       caption = "MW+1.64sd")
+       caption = "MW+1.64sd") +
+  scale_y_continuous(breaks = NULL)
 ```
 
 
@@ -414,7 +445,8 @@ q_p975 <-
   geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
   labs(x = "IQ", y = "Dichte",
        title = paste0(q_inv,"-Quantil: ",round(q_p)),
-       caption = "MW+2SD")
+       caption = "MW+2SD") +
+  scale_y_continuous(breaks = NULL)
 ```
 
 
@@ -432,7 +464,8 @@ q_p84 <-
   geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
   labs(x = "IQ", y = "Dichte",
        title = paste0(q_inv,"-Quantil: ",round(q_p)),
-       caption = "MW+1sd")
+       caption = "MW+1sd") +
+  scale_y_continuous(breaks = NULL)
 ```
 
 ```{r}
@@ -446,7 +479,8 @@ q_p69 <-
   geom_line(stat = "function", fun = dnorm, args = list(mean=100,sd = 15)) +
   labs(x = "IQ", y = "Dichte",
        title = paste0(q_inv,"-Quantil: ",round(q_p)),
-       caption = "MW+0.5sd")
+       caption = "MW+0.5sd") +
+  scale_y_continuous(breaks = NULL)
 ```
 
 
@@ -547,7 +581,8 @@ d1 <-
 ggplot(d1) +
   aes(x, y) +
   geom_hex() +
-  scale_fill_viridis_c()
+  scale_fill_viridis_c() +
+  theme(legend.position = "bottom")
 
 ggplot(d1) +
   aes(x, y) +
@@ -615,7 +650,8 @@ d2 %>%
 ggplot(d2) +
   aes(X1, X2) +
   geom_hex() +
-  scale_fill_viridis_c()
+  scale_fill_viridis_c() +
+  theme(legend.position = "bottom")
 
 ggplot(d2) +
   aes(X1, X2) +
@@ -737,8 +773,7 @@ d %>%
   geom_line(aes(y=y)) +
   geom_line(aes(y=y2), 
             color ="blue") +
-  labs(title = "blau: e hoch x, 
-       scharz: 2 hoch x")
+  labs(title = paste0("blau: e hoch x,","schwarz: 2 hoch x"))
 ```
 
 ]
@@ -838,6 +873,7 @@ d %>%
                 y = 00 + value*700,
                 label = name),
             angle = 90,
+            size = 3,
             nudge_y = 0
             #, y = 500
             )
