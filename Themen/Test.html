@@ -1,23 +1,68 @@
 <!DOCTYPE html>
-<html lang="de-DE" xml:lang="de-DE">
+<html lang="" xml:lang="">
   <head>
     <title>TEST</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="my-css.css" type="text/css" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
-class: center, middle, inverse, title-slide
+class: right, bottom, test, title-slide
 
 # TEST
-### AWM, HS Ansbach
+## Kapitel 0
 
 ---
 
 
 
 
+layout: true
+  
+&lt;div class="my-header"&gt;&lt;/div&gt;
+
+&lt;!-- the following lines define the header and the footer line: --&gt;
+&lt;div class="my-header"&gt;&lt;/div&gt;
+
+&lt;!-- the following lines define the header and the footer line: --&gt;
+&lt;div class="my-footer"&gt;&lt;span&gt;[Gliederung](#gliederung)
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&lt;/span&gt;&lt;/div&gt; 
+
+&lt;div class="footer-line"&gt;&lt;/div&gt;
+
+
+
+
+
+&lt;style&gt;
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+  
 
 
 
@@ -29,19 +74,71 @@ class: center, middle, inverse, title-slide
 
 
 
-## Zur Erinnerung: Gitterwerte in R berechnen
 
-kkjl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
 
+name: gliederung
+class: center, middle
+
+## Gliederung
+
+
+
+.xxlarge[
+1. [Teil 1: Die Post-Verteilung der Regression berechnen](#teil-1)
+
+2. [Teil 2: Die Post-Verteilung befragen](#teil-2)
+
+3. [Teil 3: Die PPV befragen](#teil-3)
+
+4. [Hinweise](#hinweise)
+]
+
+---
+
+## jlk
+
+jkl
 
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>var slideshow = remark.create();
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
@@ -106,7 +203,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
       links[i].target = '_blank';
     }
   }
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {

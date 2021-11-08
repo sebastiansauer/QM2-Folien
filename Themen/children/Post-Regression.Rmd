@@ -1,7 +1,7 @@
 
 
 name: teil-1
-class: center, middle, inverse
+class: center, middle 
 
 
 ```{r Post-Regression-1}
@@ -61,7 +61,9 @@ d2 %>%
 
 ## Statistiken zum !Kung-Datensatz
 
-[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/Howell1a.csv)
+[Datenquelle](https://raw.githubusercontent.com/sebastiansauer/2021-wise/main/Data/Howell1a.csv), `r RefManageR::Citep(bib, "mcelreath_statistical_2020")`
+
+
 
 .tiny[
 ```{r Post-Regression-3, echo = TRUE, eval = FALSE}
@@ -490,7 +492,7 @@ m43_prior_pred_draws <-
   slice_sample(n = 50)
 ```
 
-]
+
 
 
 
@@ -516,7 +518,7 @@ aes(intercept = a, slope = b), color = "skyblue", size = 0.2) +
 🤯 Einige dieser Regressionsgeraden sind unsinnig!
 
 
-```{r ref.label = "prior-pv1", eval = TRUE, fig.asp = .5}
+```{r ref.label = "prior-pv1", eval = TRUE, fig.asp = .3}
 
 ```
 

@@ -1,26 +1,25 @@
 ---
-# knit: (function(inputFile, encoding) {
-#   rmarkdown::render(inputFile, encoding = encoding, output_dir = "output") })
-title: Lineare Modelle 
-subtitle: QM2, Thema 5
+params:
+  kapitel_name: "Lineare Modelle" 
+  kapitel_nr: 5
+
+title: "`r params$kapitel_name`"
+subtitle: "`r  paste0('Kapitel ', params$kapitel_nr)`"
 #date: WiSe 21
-lang: de-DE
-#bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
-institute: AWM, HS Ansbach
+
+#institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
-    keep_md: true
-#    css: ["xaringan-themer.css"]
-
-    css: ["default", "default-fonts", "hygge", "xaringan-themer.css"]
+    keep_md: false
+    css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
     lib_dir: libs
+    seal: true
     nature:
+      titleSlideClass: ["right", "bottom", "test"]
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 
-#numbersections: yes
-csquotes: TRUE     
 ---
 
 
@@ -36,16 +35,29 @@ book <- "Rethink, Kap. 4.4, ROS, Kap. 9.2"
 
 
 
+```{r}
+knitr::opts_chunk$set(
+   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
+   )
+```
+
+
+
+name: gliederung
+
 ## Gliederung
 
 
 
-.center2[.Large[
+.xxlarge[
 1. [Teil 1: Die Post-Verteilung der Regression berechnen](#teil-1)
+
 2. [Teil 2: Die Post-Verteilung befragen](#teil-2)
+
 3. [Teil 3: Die PPV befragen](#teil-3)
+
 4. [Hinweise](#hinweise)
-]]
+]
 
 ---
 

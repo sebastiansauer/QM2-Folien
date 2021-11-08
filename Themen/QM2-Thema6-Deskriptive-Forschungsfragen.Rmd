@@ -1,9 +1,12 @@
 ---
-title: Deskriptive Forschungsfragen 
-subtitle: QM2, Thema 6
+params:
+  kapitel_name: "Deskriptive Forschungsfragen mit metrischer AV" 
+  kapitel_nr: 6
+
+title: "`r params$kapitel_name`"
+subtitle: "`r  paste0('Kapitel ', params$kapitel_nr)`"
 #date: WiSe 21
-lang: de-DE
-#bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+
 #institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
@@ -16,8 +19,9 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-    
+
 ---
+
 
 
 
@@ -28,6 +32,13 @@ output:
 ```{r}
 book <- "Regression and other stories"
 book_chap <- "10, 11 (jeweils in Auszügen)"
+```
+
+
+```{r}
+knitr::opts_chunk$set(
+   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
+   )
 ```
 
 

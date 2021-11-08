@@ -1,73 +1,71 @@
 ---
-title: "TEST"
-#subtitle: "QM2, ReThink, Kap. 3"
-#author: Prof. Sauer
+params:
+  kapitel_name: "TEST" 
+  kapitel_nr: 0
+
+title: "`r params$kapitel_name`"
+subtitle: "`r  paste0('Kapitel ', params$kapitel_nr)`"
 #date: WiSe 21
-lang: de-DE
-institute: AWM, HS Ansbach
+
+#institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    keep_md: false
+    css: ["footer-header.css", "my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
     lib_dir: libs
-   
+    seal: true
+    nature:
+      titleSlideClass: ["right", "bottom", "test"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+
 ---
 
 
-
-```{r global-knitr-options, include=FALSE}
-knitr::opts_chunk$set(
-  fig.pos = 'H',
-  fig.asp = 0.618,
-  fig.align='center',
-  fig.width = 5,
-  out.width = "100%",
-  fig.cap = "", 
-  fig.path = "chunk-img/",
-  dpi = 300,
-  #tidy = TRUE,
-  echo = FALSE,
-  message = FALSE,
-  warning = FALSE,
-  cache = FALSE,
-  fig.show = "hold")
-
-knitr::opts_knit$set(
- #base.dir = paste0(here::here(),"/img"),
-  root.dir = rprojroot::find_rstudio_root_file()
-)
-
-knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
-
-options("knitr.graphics.auto_pdf" = FALSE)
+```{r child = "header-footer.Rmd"}
 ```
+
+
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd"}
+```
+
 
 ```{r}
-library(tidyverse)
-library(xaringanthemer)
+book <- "Rethink, Kap. 4.4, ROS, Kap. 9.2"
 ```
 
 
 
-```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd", eval = FALSE}
+```{r}
+knitr::opts_chunk$set(
+   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
+   )
 ```
-
-```{r xaringan-themer3, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_mono_accent(
-  base_color = "#1c5253",
-  header_font_google = google_font("Josefin Sans"),
-  text_font_google   = google_font("Montserrat", "300", "300i"),
-  code_font_google   = google_font("Fira Mono")
-)
-```
-
-
-## Zur Erinnerung: Gitterwerte in R berechnen
-
-kkjl
-
 
 ---
 
+name: gliederung
+class: center, middle
+
+## Gliederung
+
+
+
+.xxlarge[
+1. [Teil 1: Die Post-Verteilung der Regression berechnen](#teil-1)
+
+2. [Teil 2: Die Post-Verteilung befragen](#teil-2)
+
+3. [Teil 3: Die PPV befragen](#teil-3)
+
+4. [Hinweise](#hinweise)
+]
+
+---
+
+## jlk
+
+jkl
 
 

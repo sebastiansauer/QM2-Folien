@@ -1,6 +1,6 @@
 
 name: teil-3
-class: center, middle, inverse
+class: center, middle 
 
 # Teil 3
 

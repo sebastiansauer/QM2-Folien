@@ -1,6 +1,6 @@
 
 name: teil-2
-class: center, middle, inverse
+class: center, middle 
 
 
 ```{r Post-Regression-befragen-1, message = FALSE}

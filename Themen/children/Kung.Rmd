@@ -842,7 +842,7 @@ Im Standard werden Mediane und 50%- sowie 90%-Perzentilintervalle gezeigt, [s. D
 .pull-left[
 - Wir haben die Posteriori-Verteilung für ein Gauss-Modell  berechnet.
 - Dabei hatten wir ein einfaches Modell mit metrischer Zielvariablen, ohne Prädiktoren, betrachtet.
-- Die Zielvariablen, Körpergröße (`height`) haben wir als normalverteilt mit den Parametern $\mu$ und $\sigma$ angenommen.
+- Die Zielvariable, Körpergröße (`height`), haben wir als normalverteilt mit den Parametern $\mu$ und $\sigma$ angenommen.
 - Für $\mu$ und $\sigma$ haben wir jeweils keinen einzelnen (fixen) Wert angenommen, sondern eine Wahrscheinlichkeitsverteilung, der mit der Priori-Verteilung für $\mu$ bzw. $\sigma$ festgelegt ist.
 ]
 

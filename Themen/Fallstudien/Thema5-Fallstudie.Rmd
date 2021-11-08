@@ -145,7 +145,7 @@ Wir gehen von folgenden Priori-Werten aus:
 - $\sigma \sim Exp(1)$: Streuung um $\mu_i$
 
 
-Das sind keineswegs besonere
+Das sind keineswegs besonders schlaue Prioris. Könnten wir unseren Mäzen befragen, er scheint ja Experte zu sein, kämen wir vielleicht zu klügeren Prioris (allerdings ist der Mäzen gerade auf einer "Musen-Reise" und nicht zu sprechen).
 
 
 ## Likelihood
@@ -163,7 +163,7 @@ mit $r_i$: Rating für Film $i$
 
 # Modell in R
 
-## Modell 1: Standard-Priors
+## Modell 1: Standard-Priors (`post1`)
 
 ### Modellefinition in R (rstanarm)
 
@@ -218,6 +218,51 @@ posterior_interval(post1) %>%
 
 
 ### Visualisieren
+
+
+#### Priori-Werte
+
+
+
+```{r echo = TRUE, eval = FALSE}
+post1_prior_pred <-
+    stan_glm(height ~ weight_c, 
+             prior = normal(0, 10),
+             prior_intercept = normal(178, 20),  # mu
+             prior_aux = exponential(0.1),  # sigma
+             refresh = FALSE, 
+             prior_PD = TRUE,  # DIESER Schalter machts
+             data = d2)
+
+post1_prior_pred_draws <- 
+  post1_prior_pred %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`,
+         b = weight_c) %>% 
+  slice_sample(n = 50)
+```
+
+
+
+
+```{r prior-post1-plot, echo = TRUE, eval = FALSE}
+d2 %>% ggplot() +
+  geom_point(aes(x = weight_c, y = height)) + 
+  geom_abline(data = m43_prior_pred_draws,
+aes(intercept = a, slope = b), color = "skyblue", size = 0.2) +
+  scale_y_continuous(limits = c(0, 500)) +
+  geom_hline(yintercept = 272, size = .5) +
+  geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+
+
+
+```{r}
+sim_post1
+```
+
+
 
 
 #### Regressionsgerade 

@@ -1,8 +1,12 @@
 ---
-title: "Gauss-Modelle: Schätzen einer metrischen Variablen"
-subtitle: "Thema4"
-lang: de-DE
-#bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+params:
+  kapitel_name: "Gaussmodelle: Schätzen einer metrischen Variablen"
+  kapitel_nr: 4
+
+title: "`r params$kapitel_name`"
+subtitle: "`r paste0('Kapitel ', params$kapitel_nr)`"
+#date: WiSe 21
+
 #institute: AWM, HS Ansbach
 output:
   xaringan::moon_reader:
@@ -27,6 +31,11 @@ output:
 book <- "Statistical Rethinking, Kapitel 4.1 - 4.3"
 ```
 
+```{r set-fig-path-per-chapter}
+knitr::opts_chunk$set(
+   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
+   )
+```
 
 
 
