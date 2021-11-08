@@ -12,18 +12,16 @@ header-includes:
   - \usepackage{xspace}
   - \usepackage[ngerman]{babel}
 output:
-  beamer_presentation:
-    toc: true
-    number_sections: TRUE
-    theme: "Berkeley"
-    #colortheme: "dolphin"
-    # fonttheme: "structurebold"
-    keep_tex: true 
-    includes:
-      in_header: ../libs/preamble.tex   
-      
-#numbersections: yes
-csquotes: TRUE        
+   xaringan::moon_reader:
+    keep_md: false
+    css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
+    lib_dir: libs
+    seal: true
+    nature:
+      titleSlideClass: ["right", "bottom", "test"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false  
 ---
 
 
@@ -68,10 +66,10 @@ source("R-Code/img.R")
 
 
 
-
+---
 # Kleine Welt, große Welt
 
-
+---
 
 
 ## Behaims Globus, Kolumbus glücklicher Fehler
@@ -83,7 +81,7 @@ img("Behaim.jpg")
 [Quelle](https://de.wikipedia.org/wiki/Martin_Behaims_Erdapfel#/media/Datei:RavensteinBehaim.jpg)
 
 
-
+---
 ## Kleine Welt, große Welt
 
 
@@ -108,7 +106,7 @@ img("Behaim.jpg")
 - Modelle zeigen immer nur die kleine Welt: Vorsicht vor schnellen Schlüssen und vermeintlicher Gewissheit.
 
 \includegraphics[width=1em]{../img/weight.pdf} Nennen Sie ein Beispiel, in dem ein Modell nicht (exakt) der Wirklichkeit entspricht!
-
+---
 ## So denkt unser Bayes-Golem
 
 
@@ -119,10 +117,10 @@ img("bayesupdate2.png")
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Bayes-Inferenz ähnelt dem Lernen von Menschen. Geben Sie ein Beispiel von Lernen bei Menschen, das oben dargestelltem Prozess ähnelt!
-
+---
 # Bayes-Statistik als Zählen
 
-
+---
 ## Murmeln im Säckchen
 
 - Sie haben ein Säckchen mit vier Murmeln darin. 
@@ -143,7 +141,7 @@ source("R-Code/img2111.R")
 
 ```
 
-
+---
 
 
 ## Unsere Daten
@@ -164,7 +162,7 @@ source("R-Code/img2112.R")
 
 \includegraphics[width=1em]{../img/weight.pdf} Wie groß ist die Stichprobe ($N$)? Ist die Wahrscheinlichkeit für *B* in jedem Zug gleich?
 
-
+---
 ## Zugmöglichkeiten laut Hypothese [BWWW], 1. Zug
 
 Wenn Hypothese [BWWW] der Fall sein sollte, dann können wir im *ersten* Zug entweder die eine blaue Murmel erwischen oder eine der drei weißen.
@@ -179,7 +177,7 @@ Nachdem wir die Murmel gezogen haben (und die Farbe gemerkt haben), legen wir si
 
 \includegraphics[width=1em]{../img/weight.pdf} Wie viele Elementarereignisse hat dieses Zufallsexperiment? Sind alle gleich wahrscheinlich?
 
-
+---
 ## Zugmöglichkeiten laut Hypothese [BWWW], 1. und 2. Zug
 
 Wenn Hypothese [BWWW] der Fall sein sollte, dann haben wir im *zweiten* Zug natürlich die gleichen Möglichkeiten wie im ersten.
@@ -194,7 +192,7 @@ source("R-Code/img2114.R")
 
 \includegraphics[width=1em]{../img/weight.pdf} Ist jedes Elementarereignis (z.B. BB, BW,...) gleich wahrscheinlich?
 
-
+---
 
 
 ## Zugmöglichkeiten laut Hypothese [BWWW], 1.-3. Zug
@@ -210,7 +208,7 @@ source("R-Code/img2115.R")
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Wie wahrscheinlich ist ein bestimmtes dieser 64 Ereignisse (unter der Annahme gleicher Wahrscheinlichkeit)?
-
+---
 ## Welche Züge sind logisch möglich?
 
 
@@ -223,7 +221,7 @@ source("R-Code/img2117.R")
 ```
 
 Nur 3 der 64 "Pfade" (Kombinationen), die Hypothese [BWWW] vorgibt, sind mit unseren Daten logisch zu vereinbaren.
-
+---
 ## Kombinationen für Hypothesen 
 
 ```{r QM2-Thema2-kleineModelle-12, results='asis'}
@@ -234,13 +232,13 @@ source("R-Code/tab21.R")
 
 - Zusätzlich müssten wir noch beachten, ob bestimmte Hypothesen *per se* bzw. *a priori* wahrscheinlicher sind. So könnten blaue Murmeln selten sein. Gehen wir der Einfachheit halber zunächst davon aus, dass alle Hypothesen apriori gleich wahrscheinlich sind.
 
-
+---
 ## Pfadbaum für die Hypothesen [BWWW], [BBWW], [BBBW]
 
 ```{r QM2-Thema2-kleineModelle-13, echo = FALSE }
 img("img2118.png")
 ```
-
+---
 
 ## Wir ziehen einer vierte Murmel: B
 
@@ -248,7 +246,7 @@ img("img2118.png")
 - Wir ziehen  wieder eine Murmel. Sie ist blau (B)!
 - Jetzt könnten wir den Pfadbaum für vier (statt drei) Züge aufmalen.
 - Oder wir machen ein *Update*: Wir aktualisieren die bisherigen Kombinationshäufigkeiten um die neuen Daten. Die *alten* Daten dienen dabei als *Priori-Informationen* für die *neuen* Daten.
-
+---
 ## Priori-Information nutzen
 
 Mit den Daten BWBB ist die Hypothese [BBBW] am wahrscheinlichsten:
@@ -264,7 +262,7 @@ PB: Anzahl von Pfaden für B
 HA: alte (bisherige) Häufigkeiten
 
 HN: neue (geupdatete) Häufigkeiten
-
+---
 
 ## Murmelfabrik streikt: Blaue Murmeln jetzt sehr selten!
 
@@ -279,7 +277,7 @@ source("R-Code/tab23.R")
 HF: Häufigkeit des Säckchentyps laut Fabrik.
 
 
-
+---
 ## Zählen mit großen Zahlen nervt
 
 - Malen Sie mal den Pfadbaum für 10 Züge ...
@@ -296,7 +294,7 @@ $$\text{Priori-Plausibilität von [BWWW]}$$
 
 - $\propto$: proportional zu
 
-
+---
 ## Plausibilität berechnen
 
 - Sei $p$ der Anteil blauer Murmeln. Bei Hypothese [BWWW] gilt, dann ist $p=1/4 = 0.25$. Sei $D_{neu} =$ BWB, die Daten:
@@ -312,7 +310,7 @@ Für jeden Wert von $p$ beurteilen wir dessen Plausibilität als umso höher, je
 
 
 
-
+---
 ## Von Plausibilität zur Wahrscheinlichkeit
 
 - Teilen wir die Anzahl Pfade einer Hypothese durch die Anzahl aller Pfade (aller Hypothesen), so bekommen wir einen Anteil. Damit haben wir eine Wahrscheinlichkeit:
@@ -325,7 +323,7 @@ Pl: Plausibilität
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Was muss passieren, dass der Bruch gleich Null ist?
-
+---
 ## Plausibilität pro Hypothese
 
 ```{r QM2-Thema2-kleineModelle-16, results = "asis"}
@@ -343,7 +341,7 @@ AP <- c(0, 3, 8, 9, 0)
 Pl <- AP / sum(AP)
 Pl
 ```
-
+---
 
 ## Fachbegriffe
 
@@ -358,7 +356,7 @@ Pl
 
 \includegraphics[width=1em]{../img/weight.pdf} Erklären Sie die Begriffe dem nächsten Menschen, den Sie treffen!
 
-
+---
 ## Zusammenfassung
 
 
@@ -369,9 +367,9 @@ Pl
 2. Schritt: Mit den Likelihoods *updaten* wir unsere Priori-Verteilung. Die Wahrscheinlichkeit jeder Hypothese verändert sich entsprechend der Daten. Es resultiert die *Posteriori-Verteilung*.
 
 
-
+---
 # Ein erstes Modell
-
+---
 ## Welcher Anteil der Erdoberfläche ist mit Wasser bedeckt?
 
 :::::: {.columns}
@@ -394,7 +392,7 @@ $$W \quad L \quad W \quad W \quad W \quad L \quad W \quad L \quad W$$
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Besorgen Sie sich einen Globus (zur Not eine Münze) und stellen Sie den Versuch nach!
-
+---
 ## Der datengenierende Prozess: Wie entstanden die Daten?
 
 1. Der wahre Anteil von Wasser der Erdoberfläche ist $p$.
@@ -405,7 +403,7 @@ $$W \quad L \quad W \quad W \quad W \quad L \quad W \quad L \quad W$$
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Welche Annahmen würden Sie ändern? Welche könnte man wegnehmen? Welche hinzufügen? Was wären die Konsequenzen?
-
+---
 
 ## Wissen updaten: Wir füttern Daten in das Modell
 
@@ -419,7 +417,7 @@ source("R-Code/img221.R")
 <!-- Das Modell lernt. Ob das Modell nützlich ist (präzise Vorhersagen liefert), steht auf einem anderen Blatt. -->
 
 
-
+---
 ## Erinnern wir uns an das Urnen-Beispiel
 
 - Für jede Hypothese haben wir ein Vorab-Wissen, das die jeweilige Plausibilität der Hypothese angibt: *Priori-Verteilung*.
@@ -432,7 +430,7 @@ source("R-Code/img221.R")
 ```{r QM2-Thema2-kleineModelle-20}
 img("bayesupdate.png")
 ```
-
+---
 
 ## Die Binomialverteilung
 
@@ -445,7 +443,7 @@ Die Binomialverteilung zeigt die Verteilung der Häufigkeit (Wahrscheinlichkeit)
 
 $$Pr(W,L|p) = \frac{(W+L)!}{W!L!}p^W(1-p)^L$$
 
-
+---
 ## Binomialverteilung mit R
 
 
@@ -463,7 +461,7 @@ dbinom(x = 9, size = 9, prob = 1/2)
 ```
 
 
-
+---
 ## Beispiele zur Berechnung einer binomial verteilten Wahrscheinlichkeit 
 
 Ei Professori stellt einen Klausur mit 20 Richtig-Falsch-Fragen. Wie groß ist die Wahrscheinlichkeit, durch bloßes Münze werfen genau 15 Fragen richtig zu raten?^[Hey, endlich mal was für echte Leben!]
@@ -481,7 +479,7 @@ dbinom(3, 3, 1/2)
 ```
 
 
-
+---
 
 
 ## Unser Modell ist geboren
@@ -499,7 +497,7 @@ $$p \sim \text{Unif}(0,1).$$
 
 Lies: "$p$ ist gleich (uniform) verteilt mit der Untergrenze 0 und der Obergrenze 1".
 
-
+---
 ## So sehen die Verteilungen aus
 
 
@@ -550,7 +548,7 @@ $Min = 0, Max = 1$
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Was fällt Ihnen bei der Binomialverteilung auf? Ist sie symmetrisch? Verändert sich die Wahrscheinlichkeit linear? Was fällt Ihnen bei der Gleichverteilung auf?
-
+---
 
 ## Herleitung Bayes' Theorem 1/2: Gemeinsame Wahrscheinlichkeit
 
@@ -562,7 +560,7 @@ Genauso gilt: Die Wahrscheinlichkeit von *Regen* und *kalt* ist gleich der Wahrs
 
 $$Pr(W,L,p) = Pr(p|W,L) \cdot Pr(W, L)$$
 
-
+---
 ## Herleitung Bayes' Theorem 2/2: Posteriori-Wahrscheinlichkeit
 
 Wir setzen die letzten beiden Gleichungen gleich:
@@ -575,7 +573,7 @@ $$Pr(p|W,L) = \frac{Pr(W,L|p) Pr(p)}{Pr(W,L)}$$
 
 
 $Pr(W,L)$ nennt man die *mittlere Wahrscheinlichkeit der Daten* oder *Evidenz*. Die Evidenz berechnet sich als Mittelwert der Likelihoods über alle Werte von $p$. Die Aufgabe dieser Größe ist nur dafür zu sorgen, dass insgesamt Werte zwischen 0 und 1 herauskommen.
-
+---
 
 ## Bayes' Theorem
 
@@ -606,7 +604,7 @@ $$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
 
 
 
-
+---
 ## Posteriori als Produkt von Priori und Likelihood
 
 $$\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}$$
@@ -616,11 +614,11 @@ source("R-Code/img241.R")
 ```
 
 
-
+---
 
 # Bayes berechnen mit R
 
-
+---
 ## Die Methode *Gitter-Annäherung*^[Grid Approximation]
 
 1. Teile den Wertebereich des Parameter in ein "Gitter" auf, z.B. $0.1, 0.2, ..., 0.9, 1$ ("Gitterwerte").
@@ -628,7 +626,7 @@ source("R-Code/img241.R")
 3. Berechne den Likelihood für Gitterwert.
 4. Berechne den unstandardisierten Posteriori-Wert für jeden Gitterwert (Produkt von Priori und Likelihood).
 5. Standardisiere den Posteriori-Wert durch teilen anhand der Summe alle unstand. Posteriori-Werte.
-
+---
 
 ## Gitterwerte in R berechnen
 
@@ -650,7 +648,7 @@ d <-
 ```
 
 \normalsize
-
+---
 ## Unsere Gitter-Daten
 
 ```{r QM2-Thema2-kleineModelle-29}
@@ -661,7 +659,7 @@ d %>%
 
 \includegraphics[width=1em]{../img/weight.pdf} Was wohl mit *Post* passiert, wenn wir *Priori* ändern?
 
-
+---
 
 ## $Pr_{Post}$ zeigt, wie plausibel wir jeden Wert von $p$ halten
 
@@ -672,7 +670,7 @@ source("R-Code/img242.R")
 
 
 Mehr Gitterwerte glätten die Annäherung.
-
+---
 ## Quadratische Anpassung^[Quadratic Approximation]
 
 - Komfortabler noch ist die *quadratische Anpassung*, die bestimmte statistische Eigenschaften von linearen Modellen ausnutzt.
@@ -696,7 +694,7 @@ precis(globus_qa)  # Gibt uns die zentralen Ergebnisse
 ```
 
 \normalsize
-
+---
 
 ## Je größer die Stichprobe ($N$), desto zuverlässiger wird unsere Berechnung
 
@@ -706,7 +704,7 @@ source("R-Code/img243.R")
 
 Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 
-
+---
 ## Zusammenfassung
 
 - In unserem Modell haben wir Annahmen zu $Pr_{Priori}$ und $L$ getroffen.
@@ -719,10 +717,10 @@ Grau: Quadratische Anpassung; schwarz: wahre Verteilung
 
 
 \includegraphics[width=1em]{../img/weight.pdf} Wenn Sie auf einen Prozentwert für $W$ tippen müssten, welchen würden Sie nehmen, laut dem Modell (und gegeben der Daten)?
-
+---
 # Hinweise
 
-
+---
 ## Hinweise zum Skript
 
 Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
@@ -736,7 +734,7 @@ Dieses Skript wurde erstellt am `r Sys.time()`.
 
 
 
-
+---
 ## Literatur {#literatur}
 
 
