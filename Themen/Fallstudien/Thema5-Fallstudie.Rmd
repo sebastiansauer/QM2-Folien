@@ -121,11 +121,7 @@ Einige Filme haben ein Budget von 0. Das Logarithmus von 0 ist aber minus Unendl
 
 Wir nehmen also die Größenordnung heran, nicht den Betrag selber.
 
-Das gefällt unserem Auftraggeber erstmal nicht.
 
-Aber, sagt er, und das zu Recht, entscheidend ist ja nicht die Stichprobe, sondern die Population. Weswegen wir uns bitte schön sofort an die Inferenzstatistik bewegen sollten.
-
-Aha, unser Mäzen kennt sich also sogar mit Statistik aus.
 
 
 ## Deskriptive Statistiken
@@ -149,8 +145,13 @@ plot0 <- movies %>%
 plot0 +
   geom_smooth(method = "lm")
 ```
-Es scheint  einen sehr schwachen, negativen Zusammenhang zu geben.
+Es scheint  einen sehr schwachen, *negativen* Zusammenhang zu geben.
 
+Das gefällt unserem Auftraggeber nicht.
+
+Aber, sagt er, und das zu Recht, entscheidend ist ja nicht die Stichprobe, sondern die Population. Weswegen wir uns bitte schön sofort an die Inferenzstatistik bewegen sollten.
+
+Aha, unser Mäzen kennt sich also sogar mit Statistik aus.
 
 
 # Modellefinition
@@ -160,14 +161,9 @@ Es scheint  einen sehr schwachen, negativen Zusammenhang zu geben.
 
 ## Priors
 
-Wir gehen von folgenden Priori-Werten aus:
-
-- $\alpha \sim N(7,1)$: Rating-Mittelwert
-- $\beta \sim N(0,1)$: Zusammenhang log10-Budget und Rating `b=1` hieße: ändert sich das Log10-Budget um 1 Einheit (d.h eine Größenordnung, also Faktor 10), so ändert sich das Rating um 1 Einheit
-- $\sigma \sim Exp(1)$: Streuung um $\mu_i$
 
 
-Das sind keineswegs besonders schlaue Prioris. Könnten wir unseren Mäzen befragen, er scheint ja Experte zu sein, kämen wir vielleicht zu klügeren Prioris (allerdings ist der Mäzen gerade auf einer "Musen-Reise" und nicht zu sprechen).
+
 
 
 ## Likelihood
@@ -182,6 +178,11 @@ mit $r_i$: Rating für Film $i$
 - $\mu_i = \alpha + \beta_1 b$
 
 
+## Prioris
+
+Die Prioriwerte sind etwas weiter unten aufgeführt.
+
+
 
 # Modell in R
 
@@ -190,14 +191,19 @@ mit $r_i$: Rating für Film $i$
 ### Modellefinition in R (rstanarm)
 
 ```{r}
+tic()
 post1 <- stan_glm(rating ~ budget_log10,
-               data = movies2
-               #, refresh = 0
-               )  # Mit `refresh = 0` bekommt man nicht so viel Ausgabe
+               data = movies2,
+               refresh = 0   # Mit `refresh = 0` bekommt man nicht so viel Ausgabe
+               )  
+toc()
 ```
 
 
 Einige Infos zu den Priori-Werten bei `stan_glm()` findet sich [hier](https://cran.r-project.org/web/packages/rstanarm/vignettes/priors.html).
+
+
+`tic()` und `toc()` messen Anfang und Ende der dazwischen liegenden Zeit. Da die Modelle ein paar Sekunden brauchen, ist es ganz interessant zu wissen, wie lange wir warten mussten.
 
 
 ### Priors
@@ -210,6 +216,9 @@ prior_summary(post1)
 
 
 Mit `coefficients` ist das Regressionsgewicht $\beta$ gemeint.
+
+
+Das sind keineswegs besonders schlaue Prioris. Könnten wir unseren Mäzen befragen, er scheint ja Experte zu sein, kämen wir vielleicht zu klügeren Prioris (allerdings ist der Mäzen gerade auf einer "Musen-Reise" und nicht zu sprechen).
 
 
 ### Posteriori-Verteilung
@@ -287,7 +296,7 @@ post1_prior_pred_draws <-
 
 
 
-```{r prior-post1-plot, echo = TRUE, eval = FALSE}
+```{r prior-post1-plot, echo = TRUE, eval = TRUE}
 movies2 %>% 
   ggplot() +
   geom_point(aes(x = budget_log10, y = rating)) + 
@@ -488,11 +497,11 @@ post2_prior_pred_draws <-
 ```
 
 
-Und dann visualsieren
+Und dann visualisieren
 
 
 
-```{r prior-post2-plot, echo = TRUE, eval = FALSE}
+```{r prior-post2-plot, echo = TRUE, eval = TRUE}
 movies2 %>% 
   ggplot() +
   geom_point(aes(x = budget_log10, y = rating)) + 
