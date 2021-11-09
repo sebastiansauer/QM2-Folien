@@ -32,21 +32,24 @@ knitr::opts_chunk$set(fig.pos = 'H',
 
 ```{r message=FALSE}
 library(rstanarm)  # Bayes-Modelle
-library(tidyverse)
+library(tidyverse)  # Datenjudo
 library(bayesplot)  # Plotting
 library(gt)  # Tabellen
 library(parallel)  # Turbo
 library(rstatix)  # Deskriptive Statistiken
 library(bayestestR)  # Vernachlässigbare Unterschiede/Zusammenhänge
-library(see)  # Visualisierung
+#library(see)  # Visualisierung
+library(tictoc)  # Zeit messen, wie lange das Modell rechnet
 ```
+
 
 
 Turbo einschalten:
 
 ```{r}
-#options(mc.cores = parallel::detectCores())
+options(mc.cores = parallel::detectCores())
 ```
+
 
 
 ## Daten: Filmbeurteilung
@@ -64,9 +67,19 @@ help(movies)
 ```
 
 
-# Forschungsfrage
 
-Wie ist der Zusammenhang von logarithmierten Budget und Bewertung eines Films?
+# Hingergrund
+
+
+## Bezug zum Studiengang AWM
+
+Nach dem Studium haben Sie bei einem Online-Händler angeheuert und zwar in der Medien-Abteilung. Der Hinweis, dass Sie etwas mit Medien studiert haben genügte. Vielleicht war auch die Behauptung, dass Sie der absolute R-Checker seien nützlich, um den Job zu bekommen ... Jedenfalls müssen Sie den Behauptungen Taten folgen lassen, Schluck!
+
+
+
+## Forschungsfrage
+
+*Wie (stark) ist der Zusammenhang von logarithmierten Budget und Bewertung eines Films?*
 
 Unser Kunde -- ein reicher Mäzen mit extrentischem Lebenswandel, der gerne ein paar Millionen invetieren möchte -- geht von einem positivem Zusammenhang, $\beta$ aus. Entsprechend sei unsere Hypothese $H_1: \beta > 0$.
 
@@ -75,6 +88,12 @@ Unser Kunde -- ein reicher Mäzen mit extrentischem Lebenswandel, der gerne ein 
 
 
 ## Datensatz vorverarbeiten 
+
+Es macht für Analysen, die in Stan laufen immer Sinn
+
+- nur die relevanten Variablen in die Analyse aufzunehmen
+- fehlende Werte zu entfernen
+- vorab (vor dem Modellieren) etwaige Transformationen (wie Quadrieren, logarithmieren) vorzunehmen 
 
 ```{r}
 movies <-
@@ -89,13 +108,16 @@ movies2 <-
 ```
 
 
+Einige Filme haben ein Budget von 0. Das Logarithmus von 0 ist aber minus Unendlich. Mit dieser "Zahl" kann man nicht rechnen. Daher filtern wir alle Zeilen mit `-Inf` heraus.
+
+
 ## Logarithmus
 
 `budget_log10` fasst die Größenordnung des Budgets:
 
-- 1000: 10^3 -> log10 = 3
-- 10000: 10^4 -> log10 = 4
-- 100000: 10^5 -> log10 = 5
+- 1000: 10^3 -> log10(10^3) = 3
+- 10000: 10^4 -> log10(10^4) = 4
+- 100000: 10^5 -> log10(10^5) = 5
 
 Wir nehmen also die Größenordnung heran, nicht den Betrag selber.
 
@@ -169,13 +191,18 @@ mit $r_i$: Rating für Film $i$
 
 ```{r}
 post1 <- stan_glm(rating ~ budget_log10,
-               data = movies2,
-               refresh = 0)  # Nicht so viel Ausgabe
+               data = movies2
+               #, refresh = 0
+               )  # Mit `refresh = 0` bekommt man nicht so viel Ausgabe
 ```
 
 
+Einige Infos zu den Priori-Werten bei `stan_glm()` findet sich [hier](https://cran.r-project.org/web/packages/rstanarm/vignettes/priors.html).
+
 
 ### Priors
+
+Welche Priori-Werte wurden (per Standard) gewählt?
 
 ```{r}
 prior_summary(post1)
@@ -215,54 +242,67 @@ posterior_interval(post1) %>%
   round(2)
 ```
 
+Wir wissen jetzt also schon das Wesentliche: Mit einer Wahrscheinlichkeit von 90% liegt der Zusammenhang (das Beta-Gewicht) für Log-Budget zwischen -0.13 und -0.07. Es gibt also einen gewissen, negativen Zusammenhang zwischen Budget und Bewertung eines Films, laut unserem Golem zumindest.
 
 
 ### Visualisieren
 
 
-#### Priori-Werte
+#### Priori-Verteilung
 
 
 
-```{r echo = TRUE, eval = FALSE}
-post1_prior_pred <-
-    stan_glm(height ~ weight_c, 
-             prior = normal(0, 10),
-             prior_intercept = normal(178, 20),  # mu
-             prior_aux = exponential(0.1),  # sigma
-             refresh = FALSE, 
-             prior_PD = TRUE,  # DIESER Schalter machts
-             data = d2)
+```{r echo = TRUE, eval = TRUE}
+post1_prior_pred <- stan_glm(rating ~ budget_log10,
+               data = movies2,
+               prior_PD = TRUE  # DIESER Schalter gibt uns die Prior-Prädiktiv-Verteilung
+               #, refresh = 0
+               )  # Mit `refresh = 0` bekommt man nicht so viel Ausgabe
+```
 
+
+
+Aus der [Hilfeseite](https://www.rdocumentation.org/packages/rstanarm/versions/2.21.1/topics/stan_glm):
+
+`prior_PD    A logical scalar (defaulting to FALSE) indicating whether to draw from the prior predictive distribution instead of conditioning on the outcome.`
+
+```{r}
+post1_prior_pred
+```
+
+
+Die Koeffizienten aus `post1_prior_pred` sind also *rein* durch die Priori-Werte definiert; die Daten sind nicht eingeflossen.
+
+
+Wenn wir das Objekt mit `as_tibble()` in eine Tabelle umwandeln, bekommen wir eine Tabelle mit den Stichproben:
+
+```{r}
 post1_prior_pred_draws <- 
   post1_prior_pred %>% 
   as_tibble() %>% 
-  rename(a = `(Intercept)`,
-         b = weight_c) %>% 
-  slice_sample(n = 50)
+  rename(a = `(Intercept)`,  # schönere, einfachere Namen
+         b = budget_log10) %>% 
+  slice_sample(n = 100)
 ```
-
 
 
 
 ```{r prior-post1-plot, echo = TRUE, eval = FALSE}
 movies2 %>% 
   ggplot() +
-  geom_point(aes(x = weight_c, y = height)) + 
-  geom_abline(data = m43_prior_pred_draws,
-aes(intercept = a, slope = b), color = "skyblue", size = 0.2) +
-  scale_y_continuous(limits = c(0, 500)) +
-  geom_hline(yintercept = 272, size = .5) +
-  geom_hline(yintercept = 0, linetype = "dashed")
+  geom_point(aes(x = budget_log10, y = rating)) + 
+  geom_abline(data = post1_prior_pred_draws,
+aes(intercept = a, slope = b), color = "skyblue", size = 0.2)
+
 ```
 
 
+Puh, die Priori-Werte sind ... vogelwild🐦 .
 
 
 
 
-
-#### Regressionsgerade 
+#### Posteriori-Verteilung: Regressionsgerade 
 
 ```{r}
 plot1 <- plot0 +
@@ -282,6 +322,8 @@ draws_m1 <-
 names(draws_m1) <- col_names
 ```
 
+Ein Blick in die ersten paar Zeilen der Post-Stichproben:
+
 ```{r}
 draws_m1 %>% 
   slice_head(n=10) %>% 
@@ -289,6 +331,8 @@ draws_m1 %>%
   fmt_number(everything(), decimals = 1)
 ```
 
+
+Und hier die Posteriori-Verteilung für $\alpha$ und $\beta$ visualisiert:
 
 ```{r}
 plot0 +
@@ -309,6 +353,8 @@ plot0 +
 #### Verteilung von $\beta$
 
 
+Hier die Verteilung für die Steigung (Regressionsgewicht $\beta$):
+
 ```{r}
 draws_m1 %>% 
   ggplot(aes(x = b)) +
@@ -318,7 +364,17 @@ draws_m1 %>%
 
 #### Posterior-Intervalle
 
-S. [Hilfe hier](https://mc-stan.org/bayesplot/reference/MCMC-intervals.html)
+
+
+Die Posteriori-Intervalle kann man sich schnöde mit `plot()` ausgeben lassen, wobei man als Parameter den Namen des Modells übergibt.
+
+```{r}
+plot(post1)
+```
+
+
+Es gibt aber auch andere Darstellungsarten, z.B. als Dichtediagramme:
+
 
 ```{r}
 mcmc_areas(post1) +
@@ -326,12 +382,10 @@ mcmc_areas(post1) +
        caption = "Gezeigt werden Median und 50% bzw. 90% Perzentil-Intervalle")
 ```
 
+S. [Hilfe hier](https://mc-stan.org/bayesplot/reference/MCMC-intervals.html)
 
-Einfacher kann man sich so die Posteriori-Verteilung plotten lassen:
 
-```{r}
-plot(post1) 
-```
+Man kann sich auch angeben, welchen Parameter man visualisieren möchte, und zwar mit dem Argument `pars` (wie *paramters*).
 
 
 Oder nur das Posteriori-Interval für den Regressionskoeffizienten:
@@ -345,21 +399,43 @@ mcmc_areas(post1,
 ### Fazit
 
 
-Die Wahrscheinlichkeit, dass der Zusammenhang in Wirklichkeit *praktisch Null* beträgt, ist fast 100%.
+Die Wahrscheinlichkeit, dass der Zusammenhang in Wirklichkeit zwischen -0.15 und -0.05 ist, ist sehr hoch.
 
+Aber was bedeutet das, wie interpretiert man den Befund?
+
+Rufen wir uns dazu ins Gedächtnis, was log10 bedeutet: Es bedeutet, dass man das Budget mit 10 multipliziert, also verzehnfacht, sozusagen eine Null hintendran schreibt.
+
+Also: *Verzehnfacht man das Budget, so verringert sich mittlere Bewertung um etwa 0.15 bis 0.05 Punkte.*
+
+Ob das viel ist, muss ein Medienexperte beantworten. Vielleicht sind Sie ja einer!
 
 
 ## Modell 2: Informierte (?) Priors
 
+Kramen wir all unser Wissen über Filme und die Filmindustrie zusammen! Wie wichtig sind die Kohlen für die Güte eines Films? Haben die einen großen Einfluss? 
+
+(Wenn wir von "Einfluss" sprechen, denken wir sicher automatisch an *kausalen* Einfluss. Jedenfalls geht es mir so und ich glaube, es ist schwierig, nicht an kausalen Einfluss, sondern nur an blanke Assoization, zu denken).
+
 
 ### Modellefinition in R (rstanarm)
+
+
+Nach langem Beratschschlagen mit Film-Experten gehen wir davon aus, dass es im Prinzip - "normalerweise" keinen Zusammenhang gibt. Allerdings hat man in Filmen schon Pferde kotzen gesehen, deswegen wollen wir unseren Golem zu verstehen geben, dass er sich auch auf Überraschungen einstellen soll ...
+
+Kurz gesagt, auf Golem-Sprech:
+
+$$\beta = \mathcal{N}(0,0.2)$$
+
+Mit anderen Worten, verzehnfacht man das Budget, erwarten wir eine Veränderung von (in 95% der Fälle) nicht mehr als ±0.4 Rating-Punkte.
+
+Für die übrigen Priorwerte greifen wir auf wenig ambitionierte Standardwerte zurück.
 
 ```{r}
 post2 <- stan_glm(rating ~ budget_log10,
                data = movies2,
-               prior_intercept = normal(7, 2),  # alpha
+               prior_intercept = normal(6, 1),  # alpha
                prior_aux = exponential(1),  # sigma
-               prior = normal(0, 1),  # beta
+               prior = normal(0, .2),  # beta
                refresh = 0)  # Nicht so viel Ausgabe
 ```
 
@@ -380,10 +456,52 @@ prior_summary(post2)
 
 
 
+### Prior-Prädiktiv-Verteilung
 
-Visualisieren wir die Priori-Werte:
+#### Berechnen der Prior-Prädiktiv-Verteilung
+
+```{r}
+tic()
+post2_prior_pred <- stan_glm(rating ~ budget_log10,
+                             data = movies2,
+                             prior_intercept = normal(6, 1),  # alpha
+                             prior_aux = exponential(1),  # sigma
+                             prior_PD = TRUE,  # Prior-Prädiktiv-Verteilung
+                             prior = normal(0, .2),  # beta
+                             refresh = 0)  # Nicht so viel Ausgabe
+toc()
+```
 
 
+
+#### Visualisierung der Prior-Prädiktiv-Verteilung
+
+Dazu gehen wir vor wie für Modell 1, `post1`. Zuerst wandeln wir das Objekt `post2` in eine Tabele mit den Stichproben aus der Post-Verteilung um:
+
+```{r}
+post2_prior_pred_draws <- 
+  post2_prior_pred %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`,  # schönere, einfachere Namen
+         b = budget_log10) %>% 
+  slice_sample(n = 100)
+```
+
+
+Und dann visualsieren
+
+
+
+```{r prior-post2-plot, echo = TRUE, eval = FALSE}
+movies2 %>% 
+  ggplot() +
+  geom_point(aes(x = budget_log10, y = rating)) + 
+  geom_abline(data = post2_prior_pred_draws,
+aes(intercept = a, slope = b), color = "skyblue", size = 0.2)
+```
+
+
+Sieht doch schon viel besser aus. 🏆
 
 
 ### Posteriori-Verteilung
@@ -427,6 +545,8 @@ plot1_m2 <- plot0 +
 plot1_m2
 ```
 
+Erstellen wir eine Tabelle nur mit den Post-Samples:
+
 ```{r}
 col_names <- c("a", "b", "sigma")
 draws_m2 <-
@@ -436,13 +556,16 @@ draws_m2 <-
 names(draws_m2) <- col_names
 ```
 
-```{r}
+Die ersten paar Werte aus der Tabelle mit Post-Samples:
+
+```{r echo = FALSE}
 draws_m2 %>% 
   slice_head(n=10) %>% 
   gt() %>% 
   fmt_number(everything(), decimals = 1)
 ```
 
+Und hier die Regressionsgerade mit dem "Unsicherheitsbereich" für die Regressionskoeffizienten.
 
 ```{r}
 plot0 +
@@ -483,6 +606,7 @@ mcmc_intervals(post2,
 ```
 
 
+
 ```{r}
 mcmc_areas(post2,
            pars = "budget_log10") +
@@ -490,6 +614,7 @@ mcmc_areas(post2,
        caption = "Gezeigt werden Median und 50% bzw. 90% Perzentil-Intervalle")
 ```
 
+Das ist das Gleiche wie unser Dichte-Diagramme etwas weiter oben.
 
 ### Quantile
 
@@ -499,11 +624,15 @@ summary(post2)
 
 Laut dem Modell (`post2`) liegt der Regressionskoeffizient mit 90% Wahrscheinlichkeit eng um -0.1 herum.
 
-Genauer gesagt: $90\%PI_b: (-0.1, -0.07)$:
+Genauer gesagt: $90\%PI_b: (-0.13, -0.07)$:
 
 ```{r}
 draws_m2 %>% 
-  summarise(b_90pi = quantile(b, probs = c(0.5, .95)))
+  summarise(b_90pi = quantile(b, probs = c(0.05, .95)))
+```
+
+```{r}
+posterior_interval(post2)
 ```
 
 
@@ -521,38 +650,19 @@ draws_m2 %>%
 ```
 
 
-Die Wahrscheinlichkeit beträgt praktisch Null, dass der Zusammenhang positiv ist.
+Die Wahrscheinlichkeit ist praktisch Null, dass der Zusammenhang positiv ist.
 
-
-#### "Praktisch kein Zusammenhang"
-
-"Praktisch kein Zusammenhang" auf Englisch *region of practical equivalence (ROPE)*.
-
-Laut [einiger Autoren](https://easystats.github.io/bayestestR/articles/region_of_practical_equivalence.html) kann ein Effekt, der weniger als 10% der Streuung der Ausgabe-Variable ausmacht, als "vernachlässigbar" gelten.
-
-Das entspricht ca. 0.15 Bewertungseinheiten:
-
-```{r}
-sd(movies2$rating) * 0.1
-```
-
-
-Mit anderen Worten: Verze
-
-
-```{r}
-percentage_in_rope <- rope(post2)
-plot(percentage_in_rope)
-```
 
 
 ### $R^2$
 
 
 ```{r}
+tic()
 post2_r2 <- 
   bayes_R2(post2) %>% 
   as_tibble()
+toc()
 ```
 
 
@@ -570,7 +680,11 @@ post2_r2 %>%
 ```
 Der Anteil erklärter Varianz ist praktisch Null.
 
-`
+
+Der Golem blickt es nicht! Das Modell ist schlecht. 
+
+
+
 
 ### PPV
 
@@ -580,9 +694,22 @@ Simulieren wir den Erfolg neuer Filme; dabei betrachten wir das Budget von $10^3
 
 ```{r}
 neue_Filme <- tibble(
-  budget_log10 = c(1e3, 1e4, 1e5, 1e6, 1e7, 1e8))
+  budget_log10 = 3:8)
 ```
 
+
+Warum `3` bis `8`? Das sind genau die Werte für `budget_log10`, die wir in daten Daten haben.
+
+Wie viel delogarithmiertem, also "richtigem" Budget entspricht das?
+
+```{r}
+10^(3:8)
+```
+
+- $10^3 = 1,000$
+- $10^4 = 10,000$
+- ...
+- $10^8 = 100,000,000$
 
 
 ```{r}
@@ -593,6 +720,27 @@ ppv_m2 <-
 
 dim(ppv_m2)  # Zeilen, Spalten
 ```
+
+
+Leider werden unsere Eingabewerte (3 bis 8) zerhauen, stattdessen wird 1 bis 6 zurückgegeben. Kümmern wir uns gleich darum.
+
+
+Hier ein Blick in die Tabelle `ppv_m2`: 
+
+```{r echo = FALSE}
+ppv_m2 %>% 
+  head() %>% 
+  gt() 
+```
+
+Ändern wir die Spaltennamen von 1,2,...6, in 3,4,...,8 um.
+
+Reine Zahlen werden als Spaltennamen nicht akzeptiert, deswegen wandeln wir nohc die Zahl `3` in den Text `"3"` um, mit `as.character()`: 
+
+```{r}
+names(ppv_m2) <- as.character(neue_Filme$budget_log10)
+```
+
 
 
 Vom breiten ins lange Format überführen:
@@ -606,12 +754,24 @@ ppv_m2_long <-
 ```
 
 
+Ein paar Erklärungen zu `pivot_wider()`:
+
+- [Bild](https://ab604.github.io/docs/coding-together-2019/img/pivot_wider_R.png)
+- [Beispiel](https://www.r-bloggers.com/2019/10/data-pivoting-with-tidyr/)
+- [Erklärung](https://dcl-wrangle.stanford.edu/pivot-basic.html)
+- [R4DS](https://r4ds.had.co.nz/tidy-data.html)
+
+
+
+
 ```{r}
 ppv_m2_long %>% 
   ggplot(aes(x = budget_log10,
              y = rating)) +
-  geom_boxplot()
+  geom_boxplot() 
 ```
+
+Tja, keine großen Unterschiede zwischen den Budget-Faktoren (also den Werte von `budget_log10`). Unser Modell prognostiziert die Daten ganz passabel. Nicht, dass das Ergebnis spektakulär wäre.
 
 
 
@@ -620,7 +780,7 @@ ppv_m2_long %>%
 
 Mit der Funktion `predictive_interval` kann man sich obige Berechnung sparen, sondern bekommt sie genussfertig nach Hause.
 
-Wir sehen hier die tatsächlichen Rating-Werte pro Budget-Wert, nicht nur $\mu|b$.
+Wir sehen hier die *tatsächlichen Rating-Werte* pro Budget-Wert, nicht nur $\mu|b$.
 
 
 
@@ -651,28 +811,25 @@ Dazu wurden zwei einfache lineare Modelle berechnet, die sich in ihren Vorannahm
 Beide Modelle fanden konsistent einen schwachen, negativen linearen Zusammenhang $\beta$ zwischen Budget und Bewertung: Filme mit mehr Budget wurden konsistent schlechter bewertet, laut den beiden Modellen. 
 Hier sind 90%-PI berichtet:
 
-- Modell 2: [-0.13, -0.07]
-- Modell 2: [-0.10, -0.07] 
-
-
-## Medianerbzw. mitlerer Effekt
-
-
-- Modell 1: -0.1 bzw. -0.1
-- Modell 2: -0.1 bzw. -0.1
-
-
-## Hypothesentests
-
-### "Der Zusammenhang ist positiv"
+- Modell 1: [`r round(posterior_interval(post1)[2,1], 2)`, `r round(posterior_interval(post1)[2,2], 2)`]
+- Modell 2: [`r round(posterior_interval(post2)[2,1], 2)`, `r round(posterior_interval(post2)[2,2], 2)`]
 
 
 
-
-Insgesamt war der Effekt sehr schwach und weitere Modellinspektion zeigte, dass die Modelle den Daten nur schlecht gerecht werden. Die Ergebnisse sollten daher nur mit großer Vorsicht interpretiert werden.
-
-Zu beachten ist, dass diese Analyse keinerlei kausalen Anspruch hat; Gegenstand war allein die Analyse eines statistischen Zusammenhangs (in Form einer Regresssionsanalyse).
+## Medianer Effekt
 
 
-Insgesamt zeigen die D
+- Modell 1: `r round(summary(post1)[2,1], 2)`
+- Modell 2: `r round(summary(post2)[2,1], 2)`
+
+
+
+## Beantwortung der Forschungsfrage
+
+
+Das Modell ist überzeugt, dass es einen leichten, negativen Zusammenhang gibt. Das Modell schließt aus, dass es *keinen* Zusammenhang gibt.
+
+
+
+
 
