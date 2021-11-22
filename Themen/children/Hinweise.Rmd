@@ -29,23 +29,20 @@ class: center, middle, inverse
 
 ---
 
+
+
+
+
+```{r}
+outro_img <- paste0("../img/outro/img", params$kapitel_nr, ".jpg")
+```
+
 name:homepage
-
-## Homepage
-
-
-.pull-left[
-
-```{r}
-outro_img <- paste0("outro/img", params$kapitel_nr, ".jpg")
-```
-
-```{r}
-img(outro_img)
-```
+background-image: url(`r outro_img`)
+background-size: contain
+background-position: left
 
 
-]
 
 
 .pull-right[
@@ -53,11 +50,17 @@ img(outro_img)
 </br>
 </br>
 </br>
-[Homepage](https://sebastiansauer.github.io/bayes-start/)
-
+</br>
+</br>
+</br>
+.right[
+### [Homepage](https://sebastiansauer.github.io/bayes-start/)
+]
 
 
 ]
+
+
 
 
 ---

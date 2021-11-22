@@ -161,7 +161,7 @@ kidiq %>%
 mom_hs=0:
 kid_score = -11 + 51*0 + 1.1* mom_iq + 0.5*0*mom_iq
 
-          = -11 + 1.1*mom_iq`
+          = -11 + 1.1*mom_iq
 
 
 mom_hs=1: 

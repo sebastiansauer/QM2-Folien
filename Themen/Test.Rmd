@@ -55,19 +55,6 @@ class: center, middle
 
 ---
 
-```{r}
-outro_img <- paste0("outro/img", params$kapitel_nr, ".jpg")
-```
-
-
-background-image: url(`paste0(here::here(),"/img/", outro_img)`)
-
-## jlk
-
-jkl
-
----
-
 
 ```{r QM2-Thema4-Gaussmodelle-1, child="children/Hinweise.Rmd"}
 ```
