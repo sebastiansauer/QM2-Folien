@@ -1,7 +1,7 @@
 ---
 params:
   kapitel_name: "TEST" 
-  kapitel_nr: 0
+  kapitel_nr: 6 
 
 title: "`r params$kapitel_name`"
 subtitle: "`r  paste0('Kapitel ', params$kapitel_nr)`"
@@ -23,8 +23,6 @@ output:
 ---
 
 
-```{r child = "header-footer.Rmd"}
-```
 
 
 ```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd"}
@@ -35,13 +33,6 @@ output:
 book <- "Rethink, Kap. 4.4, ROS, Kap. 9.2"
 ```
 
-
-
-```{r}
-knitr::opts_chunk$set(
-   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
-   )
-```
 
 ---
 
@@ -64,8 +55,20 @@ class: center, middle
 
 ---
 
+```{r}
+outro_img <- paste0("outro/img", params$kapitel_nr, ".jpg")
+```
+
+
+background-image: url(`paste0(here::here(),"/img/", outro_img)`)
+
 ## jlk
 
 jkl
 
+---
+
+
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Hinweise.Rmd"}
+```
 
