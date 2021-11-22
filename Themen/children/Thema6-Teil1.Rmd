@@ -22,7 +22,7 @@ Eine Psychologin, die im öffentlichen Dienst arbeitet, versucht herauszufinden,
 *Forschungsfrage:* 
 
 
->    Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt?
+>    Unterscheidet sich der mittlere IQ-Wert (`kid_score`) von Kindern in Abhängigkeit davon, ob ihre jeweilige Mutter über einen Schlusabschluss (`mom_hs`) verfügt? (ceteris paribus)
 
 
 ---
@@ -88,10 +88,8 @@ ggplot(kidiq) +
 ```{r echo = TRUE}
 kidiq %>% 
   group_by(mom_hs) %>% 
-  summarise(kid_score_avg = mean(kid_score))
-  # avg wie "average"
-
-89.4-77.6
+  summarise(kid_score_avg = 
+              mean(kid_score))
 ```
 
 ]
@@ -103,7 +101,7 @@ kidiq %>%
 - In der Bayes-Statistik betrachtet man dazu die Posteriori-Verteilung (z.B. mit 95%PI).
 ]
 
-Der mittlere IQ-Wert unterscheidet sich um ca. 12 Punkte, zugunsten der Kinder von Müttern mit Abschluss. Allerdings gibt es viel Streuung um die Mittelwerte herum.
+Der mittlere (average, avg) IQ-Wert unterscheidet sich um ca. 12 Punkte (89.4-77.6), zugunsten der Kinder von Müttern mit Abschluss. Allerdings gibt es viel Streuung um die Mittelwerte herum.
 
 ---
 
@@ -190,3 +188,61 @@ plot(m10.1,
 
 
 ---
+
+## Nullhypothesen sind praktisch immer falsch
+
+
+.pull-left[
+
+
+
+[](<a href="https://imgflip.com/i/5v5531"><img src="https://i.imgflip.com/5v5531.jpg" title="made at imgflip.com"/></a><div><a href="https://imgflip.com/memegenerator">from Imgflip Meme Generator</a></div>)
+
+<!-- https://imgflip.com/i/5v5531 -->
+
+
+
+```{r}
+knitr::include_graphics("https://i.imgflip.com/5v5531.jpg")
+```
+
+[Quelle: Imgflip Meme Generator](https://imgflip.com/i/5v5531)
+
+
+]
+
+
+
+.pull-right[
+
+>   We do not generally use null hypothesis significance testing in our own work. In the fields in which we work, we do not generally think null hyptheses can be true: in social science and public health, just about every treatment one might consider will have *some* effect, and no comparison or regression coefficient of interest will be exactly zero. We do not find it particularly helpful to formulate and test null hypothess that we knowe ahead of time cannot be true.
+
+
+`r RefManageR::Citet(bib, "gelman_regression_2021")`
+
+
+
+]
+
+---
+
+
+## Alternativen zu Nullhypothesen
+
+
+- Nullhypothesen, $H_0$, sind z.B.: $\rho=0$, $\rho_1 = rho_2$, $\mu_1 = \mu_2$, $\mu=0$, $\beta_1=0$.
+
+- Nullhypothesen zu testen, ist sehr verbreitet.
+
+- Ein Grund ist, dass in der Frequentistischen Statistik keine andere Art von Hypothesentest möglich ist.
+
+- Ein anderer Grund ist vermutlich, ... wir haben es schon immer so gemacht.
+
+- Alternativen zum Testen von Nullhypothesen:
+    - Posteriori-Intervalle (PI oder HDI)  berichten
+    - Rope-Konzept `r RefManageR::Citep(bib, "kruschke_rejecting_2018")`
+    - Wahrscheinlichkeit von inhaltlich bedeutsamen Hypothesen quantifizieren.
+    - Wahrscheinlichkeit quantifizieren, dass der Effekt ein positives bzw. ein negatives Vorzeichen hat.
+
+---
+

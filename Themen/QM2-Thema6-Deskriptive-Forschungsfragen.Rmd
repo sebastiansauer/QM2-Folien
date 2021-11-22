@@ -1,6 +1,6 @@
 ---
 params:
-  kapitel_name: "Deskriptive Forschungsfragen mit metrischer AV" 
+  kapitel_name: "Forschungsfragen mit metrischer AV" 
   kapitel_nr: 6
 
 title: "`r params$kapitel_name`"

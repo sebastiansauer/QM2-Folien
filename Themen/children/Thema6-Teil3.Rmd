@@ -354,8 +354,7 @@ m10.6_r2 %>%
 m10.6b <- stan_glm(price ~ cut, data = diamonds, refresh = 0,
                    prior = normal(location = c(100, 100, 100, 100),
                                   scale = c(100, 100, 100, 100)),
-                   prior_intercept = normal(300, 500)
-                   )
+                   prior_intercept = normal(300, 500))
 coef(m10.6b)
 sigma(m10.6b)
 ```
@@ -465,7 +464,7 @@ plot(rope(m10.6, range = c(-100, 100)))
 
 ## Beantwortung der Forschungsfrage
 
->    Nur das 95%-HDI für Schliffart "Ieal" schloss den Indifferenzbereich von ±100€ aus, die übrigen Mittelwertsdifferenzen nicht. Für die übrigen Differenzen ist keine klare inferenzstatistische Aussage hinsichtlich eines Indifferenzbereichs möglich: Es ist plauibel, laut dem Modell, dass es einen praktisch bedeutsamen Unterschied gibt, aber es ist auch plausibel, dass es keinen praktisch bedeutsamen Unterschied gibt.
+>    Nur das 95%-HDI für Schliffart "Ideal" schloss den Indifferenzbereich von ±100€ aus, die übrigen Mittelwertsdifferenzen nicht. Für die übrigen Differenzen ist keine klare inferenzstatistische Aussage hinsichtlich eines Indifferenzbereichs möglich: Es ist plauibel, laut dem Modell, dass es einen praktisch bedeutsamen Unterschied gibt, aber es ist auch plausibel, dass es keinen praktisch bedeutsamen Unterschied gibt.
 
 >   Die 95%HDI für die Mittelwertsdifferenzen waren wie folgt: cutGood: [-2040, 953], cutIdeal: [-2645, -4], cutPremium: [-965, 1732], cutVeryGood: [-2102, 627]. Das Modell erklärte im Median ca. 3% der Varianz, also nur einen kleinen Teil.
 

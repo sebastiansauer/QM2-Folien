@@ -346,6 +346,41 @@ Man sieht, dass die Intelligenz der Mutter *deutlich* wichtiger ist das Alter de
 ---
 
 
+## Was ist ein kleiner, was ein großer Effekt?
+
+- `r RefManageR::Citet(bib, "cohen_statistical_1988")` definierte kEffektstärken in Bezug auf Mittelwertsvergleiche anhand von $d=(\mu_1 - \mu_o) / \sigma$.
+- Für kleine, mittlere und große Werte gab er folgende Richtwerte:
+    - klein: $d \approx 0.2$
+    - mittel: $d \approx 0.5$
+    - groß: $d \approx 0.8$
+- Auf dieser Basis schlägt `r RefManageR::Citet(bib, "kruschke_rejecting_2018")` einen Rope von $\pm0.1$ vor.
+- Fällt ein Intervall (mit vorab definierter Sicherheit, z.B. 95%) komplett in das Rope, so gilt der Effekt als "praktisch null".
+- Richtlinien für Effektstärken sind nur Notlösungen, die durch  Sachverstand ersetzt werden sollen, wo immer möglich.
+
+
+---
+
+
+## Vernachlässigbarer Regressionseffekt
+
+`r RefManageR::Citet(bib, "kruschke_rejecting_2018")` schlägt vor, einen Regressionskoeffizienten unter folgenden Umständen als "praktisch Null" zu bezeichnen:
+
+- Wenn eine Veränderung über "praktisch den ganzen Wertebereich" von $x$ nur einen vernachlässigbaren Effekt auf $y$ hat.
+- Ein vernachlässigbarer Effekt ist dabei $\hat{y}= \pm 0.1 sd_y$.
+- Der "praktisch ganze Wertebereich" von $x$ sei $\bar{x} \pm 2 sd_x$.
+- Resultiert der Vergleich von $\bar{x} -2 sd$ mit $\bar{x}+2sd$ nur eine Veränderung in $\hat{y}$ von $\bar{y} - 0.1sd_y$ auf $\bar{y} + 0.1 sd_y$, so ist der Regressionskoeffizient praktisch null, der Effekt also vernachlässigbar.
+- Das impliziert Rope-Grenzen von $\beta_x = \pm 0.05$ für z-standardisiwerte Variablen.
+
+
+
+
+
+
+
+
+
+---
+
 ## Verwandtheit von Korrelation und Regression
 
 

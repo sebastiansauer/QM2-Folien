@@ -17,14 +17,14 @@ class: middle, center
 >    Wie stark ist der Zusammenhang von jeweils Schulabschluss der Mutter (`mom_hs`) und  IQ der Mutter (`mom_iq`)  auf den IQ des Kindes (`kid_score`) ?
 
 
-```{r echo = TRUE, results="hide"}
+```{r Thema6-Teil2-1, echo = TRUE, results="hide"}
 library(rstatix)
 data("kidiq")  # Paket rstanarm, alternativ über CSV einlesen
 get_summary_stats(kidiq)
 ```
 
 
-```{r}
+```{r Thema6-Teil2-2}
 get_summary_stats(kidiq) %>% 
   gt() %>% 
   fmt_number(3:last_col(), decimals=2)
@@ -40,7 +40,7 @@ get_summary_stats(kidiq) %>%
 ## Ein metrischer Prädiktor
 
 
-```{r results = "hide"}
+```{r Thema6-Teil2-3, results = "hide"}
 m10.2 <-
   stan_glm(kid_score ~ mom_iq, data = kidiq)
 ```
@@ -48,7 +48,7 @@ m10.2 <-
 `kid_score = 26 + 0.6 * mom_iq + error`
 
 .pull-left[
-```{r fig.asp = 1}
+```{r Thema6-Teil2-4, fig.asp = 1}
 kidiq %>% 
   ggplot(aes(x = mom_iq, y = kid_score)) +
   geom_point(alpha = .7) +
@@ -86,7 +86,7 @@ coef(m10.3)
 ]
 
 .pull-right[
-```{r fig.asp = 0.62}
+```{r Thema6-Teil2-5, fig.asp = 0.62}
 kidiq %>% 
   mutate(mom_hs = factor(mom_hs)) %>%  
   ggplot(aes(x = mom_iq, y = kid_score, color = mom_hs)) +
@@ -128,7 +128,7 @@ m10.4 <-
 ```
 
 
-```{r fig.asp = .3, fig.width=8}
+```{r Thema6-Teil2-6, fig.asp = .3, fig.width=8}
 kidiq %>% 
   mutate(mom_hs = factor(mom_hs)) %>%  
   ggplot(aes(x = mom_iq, y = kid_score, color = mom_hs)) +
@@ -190,7 +190,7 @@ kid_score = -11 + 51*1 + 1.1* mom_iq + 0.5*1*mom_iq
 - Zentrierte Werte geben also an, wie weit ein Messwert vom mittleren (typischen) Messwert entfernt ist.
 - Mit zentrierten Werten ist eine Regression einfacher zu interpretieren.
 
-```{r echo = TRUE}
+```{r Thema6-Teil2-7, echo = TRUE}
 kidiq <-
   kidiq %>% 
   mutate(mom_iq_c = mom_iq - mean(mom_iq),
@@ -244,7 +244,7 @@ kidiq %>%
 
 `m10.4`: 
 
-```{r echo = TRUE}
+```{r Thema6-Teil2-8, echo = TRUE}
 new <- tibble(mom_hs = 0, mom_iq = mean(kidiq$mom_iq))
 pred_new <- posterior_predict(m10.4, newdata = new)
 mean(pred_new)
@@ -252,7 +252,7 @@ mean(pred_new)
 
 `m10.5`: 
 
-```{r echo = TRUE}
+```{r Thema6-Teil2-9, echo = TRUE}
 new <- tibble(mom_hs = 0, mom_iq_c = 0)
 pred_new <- posterior_predict(m10.5, newdata = new)
 mean(pred_new)
@@ -270,13 +270,13 @@ Das Zentrieren ändert auch nicht die Regressionskoeffizienten, da die Streuunge
 ## Perzentilintervalle aus der Posterori-Verteilung
 
 
-```{r echo = TRUE}
+```{r Thema6-Teil2-10, echo = TRUE}
 posterior_interval(m10.5)
 ```
 
 Highest Density (Posterior) Intervalle (HDI oder HDPI) kann man sich  komfortabel ausgeben lassen mit `hdi(m10.5)` aus dem Paket `bayestestR`. 
 
-```{r echo = TRUE, eval = FALSE}
+```{r Thema6-Teil2-11, echo = TRUE, eval = FALSE}
 hdi(m10.5)
 ```
 

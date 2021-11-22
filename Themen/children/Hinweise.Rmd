@@ -29,6 +29,39 @@ class: center, middle, inverse
 
 ---
 
+name:homepage
+
+## Homepage
+
+
+.pull-left[
+
+```{r}
+outro_img <- paste0("outro/img", params$kapitel_nr, ".jpg")
+```
+
+```{r}
+img(outro_img)
+```
+
+
+]
+
+
+.pull-right[
+
+</br>
+</br>
+</br>
+[Homepage](https://sebastiansauer.github.io/bayes-start/)
+
+
+
+]
+
+
+---
+
 name: literatur
 
 ## Literatur

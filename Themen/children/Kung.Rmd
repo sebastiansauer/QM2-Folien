@@ -1,9 +1,9 @@
-```{r}
+```{r Kung-1-bis}
 library(rstanarm)
 library(ggExtra)
 ```
 
-```{r}
+```{r Kung-2-bis}
 rstan::rstan_options(auto_write = TRUE)
 ```
 
@@ -415,7 +415,7 @@ p4
 
 Die Streuung der Größen ist weit:
 
-```{r}
+```{r Kung-3}
 d <- 
   tibble(x = seq(0,75, by =.01),
          y = dexp(x, rate = .01))
@@ -457,7 +457,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/sebastiansauer/QM2-Fo
 
 .pull-left[
 
-```{r message=FALSE, results="hide"}
+```{r Kung-4, message=FALSE, results="hide"}
 m41 <- stan_glm(height ~ 1, data = d2)
 m41_post <- as_tibble(m41)
 names(m41_post) <- c("mu", "sigma")
@@ -473,7 +473,7 @@ m41_post %>%
   scale_fill_viridis_c() 
 ```
 
-```{r}
+```{r Kung-5-bis}
 p_m41_post <- 
   m41_post %>% 
   ggplot() +
@@ -592,7 +592,7 @@ print(m41)
 
 
 
-```{r}
+```{r Kung-6}
 print(m41)
 ```
 
@@ -607,7 +607,7 @@ print(m41)
 </br>
 </br>
 </br>
-```{r}
+```{r Kung-7-bis}
 knitr::include_graphics("https://mc-stan.org/rstanarm/reference/figures/stanlogo.png")
 ```
 
@@ -705,7 +705,7 @@ post_m41 %>%
 
 ## Standard-Prioriwerte bei `stan_glm()` 1/3
 
-```{r echo = TRUE}
+```{r Kung-8-bis, echo = TRUE}
 prior_summary(m41)
 ```
 
@@ -735,7 +735,7 @@ prior_summary(m41)
 ## Visualisierung verschiedener Exponentialverteilungen
 
 
-```{r}
+```{r Kung-9-bis}
 r <- 2
 p_r2 <- 
 ggplot(NULL, aes(c(0,50))) +
@@ -746,7 +746,7 @@ ggplot(NULL, aes(c(0,50))) +
 
 
 
-```{r}
+```{r Kung-10-bis}
 r <- 1
 p_r1 <- 
 ggplot(NULL, aes(c(0,50))) +
@@ -757,7 +757,7 @@ ggplot(NULL, aes(c(0,50))) +
 
 
 
-```{r}
+```{r Kung-11}
 r <- 1/8
 p_r1_8 <- 
 ggplot(NULL, aes(c(0,50))) +
@@ -767,7 +767,7 @@ ggplot(NULL, aes(c(0,50))) +
 ```
 
 
-```{r}
+```{r Kung-12-bis}
 r <- 1/25
 p_r1_25 <- 
 ggplot(NULL, aes(c(0,50))) +
@@ -777,7 +777,7 @@ ggplot(NULL, aes(c(0,50))) +
 ```
 
 
-```{r}
+```{r Kung-13-bis}
 (p_r1_25 + p_r1_8) / (p_r1 + p_r2)
 ```
 
@@ -785,14 +785,14 @@ ggplot(NULL, aes(c(0,50))) +
 ---
 
 ## Modell `m42`: unsere Priori-Werte 
-```{r}
+```{r Kung-14-bis}
 d2 <- 
   d2 %>% 
   mutate(height_c = height - mean(height))  # zentrieren
 ```
 
 
-```{r echo = TRUE}
+```{r Kung-15-bis, echo = TRUE}
 m42 <- 
   stan_glm(height ~ 1, 
            prior_intercept = normal(178, 20),  # mu
@@ -802,7 +802,7 @@ m42 <-
 print(m42)
 ```
 
-```{r eval = FALSE}
+```{r Kung-16-bis, eval = FALSE}
 write_rds(m42, "objects/m42.rds")
 ```
 
@@ -829,7 +829,7 @@ Im Standard werden Mediane und 50%- sowie 90%-Perzentilintervalle gezeigt, [s. D
 ]
 
 .pull-right[
-```{r ref.label="m41-post-plot", fig.asp = 0.5, echo = FALSE}
+```{r Kung-17-bis, ref.label="m41-post-plot", fig.asp = 0.5, echo = FALSE}
 
 ```
 
