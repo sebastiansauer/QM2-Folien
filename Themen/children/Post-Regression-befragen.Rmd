@@ -156,7 +156,8 @@ d2 %>%
              y = height)) +
   geom_point() +
   geom_abline(
-    data = post_m43a %>% slice_head(n=10),
+    data = post_m43a %>% 
+      slice_head(n=10),
     aes(slope = b,
         intercept = a),
     alpha = .3)
@@ -176,7 +177,8 @@ d2 %>%
              y = height)) +
   geom_point() +
   geom_abline(
-    data = post_m43a %>% slice_head(n=100),
+    data = post_m43a %>% 
+      slice_head(n=100),
     aes(slope = b,
         intercept = a),
     alpha = .02)
@@ -373,23 +375,35 @@ mu_at_45_50 %>%
 
 ---
 
-## Wie groß ist ein !Kung mit 50kg Gewicht im Mittel?
+##  Post-Verteilung bedingt auf einen Prädiktorwert
 
-$\mu|w=50$
+
+
+.pull-left[
+
+Was ist das 90% PI für $\mu|w=50$ ?
 
 ```{r Post-Regression-befragen-19, echo = TRUE}
 mu_at_45_50 %>% 
-  summarise(pi = quantile(mu_at_50, prob = c(0.5, .9)))
+  summarise(pi = 
+              quantile(mu_at_50, 
+                       prob = c(0.05, .95)))
 ```
 Die mittlere Größe - gegeben $w=50$ - liegt mit 90% Wahrscheinlichkeit zwischen den beiden Werten.
 
+]
+
+.pull-right[
 
 Welche mittlere Größe wird mit 95% Wahrscheinlichkeit nicht überschritten, wenn die Person 45kg wiegt?
 
-```{r Post-Regression-befragen-20}
+```{r Post-Regression-befragen-20, echo = TRUE}
 mu_at_45_50 %>% 
-  summarise(q_95 = quantile(mu_at_45, prob = .95))
+  summarise(q_95 = 
+              quantile(mu_at_45, 
+                       prob = .95))
 ```
+]
 
 ---
 

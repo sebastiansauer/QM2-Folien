@@ -27,7 +27,7 @@ library("tidyverse")
 - Die (einfache) Regression prüft, inwieweit zwei Variablen, $Y$ und $X$ linear zusammenhängen.
 - Je mehr sie zusammenhängen, desto besser kann man $X$ nutzen, um $Y$ vorherzusagen (und umgekehrt).
 - Hängen $X$ und $Y$ zusammen, heißt das nicht (unbedingt), dass es einen *kausalen* Zusammenhang zwische $X$ und $Y$ gibt.
-- Linear bedeutet, der Zusammenhang ist additiv und konstant: wenn $X$ um eine Einheit steigt, steigt $Y$ immer um $b$ Einheiten.
+- Linear bedeutet, der Zusammenhang ist additiv und konstant: wenn $X$ um eine Einheit steigt, steigt $Y$ immer um $b$ Einheiten (nicht kausal, sondern deskriptiv gemeint).
 
 ]
 
@@ -144,14 +144,14 @@ d2 %>%
 
 
 
-- Zieht man von jedem Gewichtswert den Mittelwert ab, so bekommt man die Abweichung des Gewichts vom Mittelwert (Präditkor "zentrieren").
+- Zieht man von jedem Gewichtswert den Mittelwert ab, so bekommt man die Abweichung des Gewichts vom Mittelwert (Prädiktor "zentrieren").
 - Wenn man den Prädiktor (`weight`) zentriert hat, ist der Achsenabschnitt, $\alpha$, einfacher zu verstehen.
 - In einem Modell mit zentriertem Prädiktor (`weight`) gibt der Achsenabschnitt die Größe einer Person mit durchschnittlichem Gewicht an. 
 - Würde man `weight` nicht zentrieren, gibt der Achsenabschnitt die Größe einer Person mit `weight=0` an, was nicht wirklich sinnvoll zu interpretieren ist.
 
 
 
-`r RefManageR::Citep(bib, "gelman_regression_2021")`
+`r RefManageR::Citep(bib, "gelman_regression_2021", after = "Kap. 10.4,  12.2")`
 
 
 
@@ -185,7 +185,7 @@ d2 %>%
 ]
 
 
-```{r Post-Regression-9, fig.asp=0.5}
+```{r Post-Regression-9, fig.asp=0.4}
 d2 %>% 
   select(weight, weight_c) %>% 
   pivot_longer(everything()) %>% 
@@ -264,10 +264,34 @@ m43_prior_pred <-
            data = d2)
 ```
 
+```{r m3a}
+m43a <- 
+  stan_glm(height ~ weight_c, 
+           prior = normal(0, 10),
+           prior_intercept = normal(0, 20),  # mu
+           prior_aux = exponential(0.1),  # sigma
+           refresh = FALSE,  # bitte nicht so viel Ausgabe drucken
+           data = d2)
+
+m43a_prior_pred <-
+    stan_glm(height ~ weight_c, 
+           prior_intercept = normal(0, 20),  # mu
+           prior_aux = exponential(0.1),  # sigma
+           refresh = FALSE, 
+           prior_PD = TRUE,
+           data = d2)
+```
+
+
+
+
+
+
 ```{r eval = FALSE}
 print(m43)
 summary(m43_prior_pred)
 write_rds(m43, "objects/m43.rds")
+write_rds(m43a, "objects/m43a.rds")
 ```
 
 
@@ -390,32 +414,33 @@ $$
 - $\text{weight}_i$ ist der Prädiktorwert (`weight`) der $i$ten Beobachtung, also einer !Kung-Person (Zeile $i$ im Datensatz).
 - Lies  etwa so:
 
->    "Der Mittelwert $\mu_i$ der $i$ten Person berechnet sich als Summe von $\alpha$ und $\beta \cdot \text{weight}_i$".
+>    "Der Mittelwert $\mu_i$ der $i$ten Person berechnet sich als Summe von $\alpha$ und $\beta$ mal  $\text{weight}_i$".
 
 
 - $\mu_i$ ist eine lineare Funktion von `weight`.
 - $\beta$ gibt den Unterschied in `height` zweier Beobachtung an, die sich um eine Einheit in `weight` unterscheiden (Steigung der Regressionsgeraden).
-- $\alpha$ gibt an, wie groß $\mu$ ist, wenn `weight` Null ist.
+- $\alpha$ gibt an, wie groß $\mu$ ist, wenn `weight` Null ist (Achsenabschnitt, engl. intercept).
 
 ---
 
 
-## Priori-Werte der Regression, `m43`
+## Priori-Werte des Modells `m43`
 
 
 
 $$
 \begin{align*}
-\color{blue}\alpha & \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} && \color{blue}{\text{Priori}} \\
-\color{blue}\beta  & \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  && \color{blue}{\text{Priori}}\\
-\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Exp}(0.1)}  && \color{blue}{\text{Priori}}
+\color{blue}\alpha & \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} && \color{blue}{\text{Priori Achsenabschnitt}} \\
+\color{blue}\beta  & \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 10)}  && \color{blue}{\text{Priori Regressionsgewicht}}\\
+\color{blue}\sigma & \color{blue}\sim \color{blue}{\operatorname{Exp}(0.1)}  && \color{blue}{\text{Priori Sigma}}
 \end{align*}
 $$
 
 - Parameter sind hypothetische Kreaturen: Man kann sie nicht beobachten, sie existieren nicht wirklich. Ihre Verteilungen nennt man Priori-Verteilungen.
 - $\alpha$ wurde in `m41` als $\mu$ bezeichnet, da wir dort eine "Regression ohne Prädiktoren" berechnet haben.
-- $\sigma$ ist uns schon als Parameter bekannt und behält seine Bedeutung.
-- $\beta$ fasst unser Vorwissen, ob und wie sehr der Zusammenhang zwischen Gewicht und Größe positiv (gleichsinnig ist).
+- $\sigma$ ist uns schon als Parameter bekannt und behält seine Bedeutung aus dem letzten Kapitel.
+- Da `height` nicht zentriert ist, der Mittelwert von $\alpha$ bei 178 und nicht 0.
+- $\beta$ fasst unser Vorwissen, ob und wie sehr der Zusammenhang zwischen Gewicht und Größe positiv (gleichsinnig) ist.
    - 🤔 Moment. Dieser Prior, $\beta$ erachtet positive und negative Zusammenhang als gleich wahrscheinlich?!
    - Sind wir wirklich indifferent, ob der Zusammenhang von Gewicht und Größe positiv oder negativ ist? [Nein, sind wir nicht.](https://media.giphy.com/media/daPCSjwus6UR2JxRX1/giphy.gif) 
     
@@ -477,11 +502,11 @@ Jede Zeile definiert eine Regressionsgerade.
 ```{r echo = TRUE, eval = FALSE}
 m43_prior_pred <-
     stan_glm(height ~ weight_c, 
-             prior = normal(0, 10),
-             prior_intercept = normal(178, 20),  # mu
+             prior = normal(0, 10),  # beta
+             prior_intercept = normal(178, 20),  # alpha
              prior_aux = exponential(0.1),  # sigma
              refresh = FALSE, 
-             prior_PD = TRUE,  # DIESER Schalter machts
+             prior_PD = TRUE,  # DIESER Schalter macht's
              data = d2)
 
 m43_prior_pred_draws <- 
@@ -491,6 +516,28 @@ m43_prior_pred_draws <-
          b = weight_c) %>% 
   slice_sample(n = 50)
 ```
+
+
+
+```{r echo = FALSE, eval = FALSE}
+m43a_prior_pred <-
+    stan_glm(height ~ weight_c, 
+             prior = normal(0, 10),  # beta
+             prior_intercept = normal(0, 20),  # alpha
+             prior_aux = exponential(0.1),  # sigma
+             refresh = FALSE, 
+             prior_PD = TRUE,  # DIESER Schalter machts
+             data = d2)
+
+m43a_prior_pred_draws <- 
+  m43a_prior_pred %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`,
+         b = weight_c) %>% 
+  slice_sample(n = 50)
+```
+
+
 
 
 
@@ -626,6 +673,7 @@ m43a_prior_pred_draws %>%
 
 ]
 
+</br>
 
 .footnote[Das Argument `prior_PD = TRUE` sorgt dafür, dass keine Posteriori-Verteilung, sondern eine Prior-Prädiktiv-Verteilung berechnet wird.]
 

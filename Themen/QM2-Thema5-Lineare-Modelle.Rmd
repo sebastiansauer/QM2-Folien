@@ -22,7 +22,7 @@ output:
 
 ---
 
-
+name: gliederung
 
 
 ```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd"}
@@ -43,10 +43,10 @@ knitr::opts_chunk$set(
 
 
 
-name: gliederung
-
 ## Gliederung
 
+
+</br>
 
 
 .xxlarge[

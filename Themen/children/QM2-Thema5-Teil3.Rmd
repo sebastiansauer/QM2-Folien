@@ -13,14 +13,12 @@ class: center, middle
 
 Wir erstellen uns eine Sequenz an Prädiktorwerten, die uns interessieren:
 
-```{r}
-weight_df <-
-  tibble(
-    weight_c = seq(-20,20, by = 5))
+```{r echo = TRUE}
+weight_df <- tibble(weight_c = seq(-20,20, by = 5))
 ```
 
 
-Für diese Werte lassen wir uns dann die Perzentil-Intervalle ausgeben:
+Für diese Werte lassen wir uns dann die Perzentil-Intervalle (PI) ausgeben:
 
 .pull-left[
 ```{r Post-Regression-befragen-21, echo = TRUE}
@@ -71,7 +69,7 @@ d2 %>%
                     ymax = `95%`),
                 size = .5,
                 width = .5,
-                color = "grey60")
+                color = "skyblue")
 ```
 ]
 
@@ -106,6 +104,8 @@ d2 %>%
 ```
 
 
+Je dicker die Violine, desto wahrscheinlicher $\mu|\text{weight_c}_i$.
+
 ]
 
 
@@ -126,7 +126,8 @@ ppc_dens_overlay(
   h, h_sim)
 ```
 
-Die zwei Gipfel hat unser Modell nicht mitgekriegt, ansonsten decken sich die Vorhersagen der PPV gut mit den echten Daten.
+`?posterior_predict` zeigt Hilfe für diese Funktion. 
+Die Funktion zeigt die Vorhersagen für die AV laut der Posteriori-Verteilung.
 
 ]
 
@@ -135,6 +136,8 @@ Die zwei Gipfel hat unser Modell nicht mitgekriegt, ansonsten decken sich die Vo
 ```{r ref.label="ppv-plot1"}
 
 ```
+
+Die zwei Gipfel hat unser Modell nicht mitgekriegt, ansonsten decken sich die Vorhersagen der PPV gut mit den echten Daten.
 
 ]
 
