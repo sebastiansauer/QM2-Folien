@@ -80,16 +80,34 @@ Da Fakten universell sind (sein können), ist Wissenschaft potenziell ein Weg zu
 
 ---
 
-## Was nützt die Covid-19-Impfung?
+## Datenlage spricht zugunsten der Covid19-Impfung
 
 
 
 
 >    The effectiveness of full messenger RNA (mRNA) vaccination (≥14 days after the second dose) was 89% (95% confidence interval [CI], 87 to 91) against laboratory-confirmed SARS-CoV-2 infection leading to hospitalization, 90% (95% CI, 86 to 93) against infection leading to an ICU admission, and 91% (95% CI, 89 to 93) against infection leading to an emergency department or urgent care clinic visit.
 
-`r RefManageR::Citet(bib, "thompson_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))`; vgl. auch `r RefManageR::Citet(bib, "nasreen_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))`
+`r RefManageR::Citet(bib, "thompson_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))`; vgl. auch `r RefManageR::Citet(bib, "nasreen_effectiveness_2021", .opts = list(max.names = 3, longnamesfirst = FALSE))`, `r RefManageR::Citet(bib, "pormohammad_efficacy_2021")`
 
-### Die aktuelle Faktenlage spricht klar zugunsten der Schutzwirkung der Corona-Impfung 
+
+
+Zwei Anforderungen an die Qualität von Studien:
+1. *handwerklich gut*:  z.B. vergleichbare Gruppen, genaue Messinstrumente
+2. *bescheiden*: die Forschungsfrage wird nur dann selbstbewusst beantwortet, wenn es die handwerkliche Qualität der Studie zulässt. Gibt es eine Vielzahl weiterer Studien mit abweichenden Ergebnissen, wird dies bei der Beantwortung der Forschungsfrage berücksichtigt. 
+
+---
+
+## Psychologische Intervention zur Erhöhung der Impfquote
+
+
+```{r out.width="100%"}
+knitr::include_graphics("https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41586-021-03843-2/MediaObjects/41586_2021_3843_Fig2_HTML.png")
+```
+
+[Quelle/Volltext](https://www.nature.com/articles/s41586-021-03843-2)
+
+`r RefManageR::Citet(bib, "dai_behavioural_2021")`
+
 
 ---
 

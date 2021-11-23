@@ -354,7 +354,7 @@ m10.6_r2 %>%
 m10.6b <- stan_glm(price ~ cut, data = diamonds, refresh = 0,
                    prior = normal(location = c(100, 100, 100, 100),
                                   scale = c(100, 100, 100, 100)),
-                   prior_intercept = normal(300, 500))
+                   prior_intercept = normal(3000, 500))
 coef(m10.6b)
 sigma(m10.6b)
 ```
