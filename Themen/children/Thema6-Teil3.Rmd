@@ -343,6 +343,40 @@ m10.6_r2 %>%
 
 ---
 
+## Definition vom "klassischen" $R^2$
+
+
+
+
+- Wie genau sind die Vorhersagen des Modells? $\sigma$ (Vorhersagefehler) quantifiziert die Streuung der Residuen $r_i = y_i - X_i\hat{\beta}$, mit $\hat{y}_i = X_i\hat{\beta}$. 
+- Anders gesagt: $\hat{y} = \beta_0 + \beta_1x_1 + \beta_2x_2 + \cdots = X\hat{\beta}$.
+- Anders gesagt gibt $\sigma$ die "typische" Abweichung einer Beobachtung vom vorhergesagten Wert an.
+- Es ist nützlich, $\sigma$ in Bezug zu setzen zur Streuung der AV, $sd_y=s_y$:
+- $R^2 = 1- (\hat{\sigma}^2/s^2_y)$.
+- $R2$ gibt damit den Anteil der vom Modell erklärten Varianz, $V$, an.
+- Berechnet man das Modell mit der Methode der kleinsten Quadrate (nicht mit Bayes), dann ist der obige Ausdruck äquivalent zu:
+- $R^2=V_{i=1}^n \hat{y}_i/s_y^2$
+- Die beiden obigen Ausdrücke nehmen $\hat{y}_i$ als fix (sicher) an und vernachlässigen Ungewissheit; sie sind übergewiss aus Bayes-Sicht.
+
+
+---
+
+## Bayes' $R^2$
+
+- Besser ist es (aus Bayes-Sicht), die Ungewissheit der Vorhersagen bei der Berechnung der Modellgüte miteinzubeziehen:
+- $\text{Bayes }R^2 = \frac{\text{erkärte Varianz}}{\text{Erklärte Varianz + Residualvarianz}}= \frac{V_{mod}}{V_{mod} + V_{res}}$
+- $V_{mod}$ ist die Varianz in der PPV mit $s = 1, \ldots, S$ simulierten Stichproben, $V(\hat{y}_i)$ und $V_{res}$ ist die Residualvarianz im Modell.
+- Für jede Stichprobe $s$ berechnet man die vorhergesagten Werte, $\hat{y}_i^s$, die Residualvarianz $\sigma^2_s$ und den Anteil der erklärten Varianz:
+- $\text{Bayes }R^2_s = \frac{V(\hat{y}_i^s)}{V(\hat{y}_i^s+\sigma_s^2)}$
+
+
+`r RefManageR::Citep(bib, "gelman_regression_2021", after = ", Kap. 11.7")`
+
+
+
+
+---
+
 ## Priori-Werte
 
 - Unser Modell hat schwach informierte (weakly informative) Priors.

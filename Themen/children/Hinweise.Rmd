@@ -23,9 +23,13 @@ class: center, middle, inverse
 
 - Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
 
-- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. Wenn Sie mit `.Rmd` ersetzen, den Quellcode.
+- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. 
 
-- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser druckt (Drucken als PDF).
+- Alternativ können Sie im Browser Chrome die Folien als PDF drucken (klicken Sie auf den entsprechenden Menüpunkt).
+
+- Den Quellcode der Skripte finden Sie [hier](https://github.com/sebastiansauer/QM2-Folien/tree/main/Themen).
+
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser die Webseite druckt (Drucken als PDF).
 
 ---
 
