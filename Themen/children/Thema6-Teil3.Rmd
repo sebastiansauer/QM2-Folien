@@ -370,7 +370,7 @@ m10.6_r2 %>%
 - $\text{Bayes }R^2_s = \frac{V(\hat{y}_i^s)}{V(\hat{y}_i^s+\sigma_s^2)}$
 
 
-`r RefManageR::Citep(bib, "gelman_regression_2021", after = ", Kap. 11.7")`
+`r RefManageR::Citep(bib, c( "gelman_r_squared_2019", "gelman_regression_2021"), after = ", Kap. 11.7")`
 
 
 
