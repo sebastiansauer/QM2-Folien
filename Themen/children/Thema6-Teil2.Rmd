@@ -170,6 +170,8 @@ kid_score = -11 + 51*1 + 1.1* mom_iq + 0.5*1*mom_iq
           = 40 + 0.6*mom_iq
 ```
 
+`r RefManageR::Citep(bib, "gelman_regression_2021", after = ", Kap. 10.3")`
+
 
 ---
 

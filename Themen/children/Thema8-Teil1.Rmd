@@ -1,0 +1,213 @@
+```{r}
+library(gt)
+library(tidyverse)
+library(dagitty)
+library(emo)
+```
+
+
+name: teil-1
+class: middle, center
+
+
+
+# Teil 1
+## Statistik, was soll ich tun?
+
+
+---
+
+
+## Studie A: Was raten Sie dem Arzt?
+
+Medikament einnehmen, ja oder nein?
+
+</br>
+
+```{r}
+studie_a <-
+  tibble::tribble(
+     ~ Gruppe,      ~`Mit Medikament`,         ~`Ohne Medikament`,
+"Männer",    "81/87 überlebt (93%)", "234/270 überlebt (87%)",
+"Frauen",  "192/263 überlebt (73%)",   "55/80 überlebt (69%)",
+"Gesamt",  "273/350 überlebt (78%)", "289/350 überlebt (83%)"
+  ) 
+
+studie_a %>% 
+  gt()
+```
+
+</br>
+
+
+- Die Daten stammen aus einer (fiktiven) klinischen Studie, $n=700$\, hoher Qualität (Beobachtungsstudie).
+- Bei Männern scheint das Medikament zu helfen; bei Frauen auch.
+- Aber *insgesamt* (Summe von Frauen und Männern) *nicht*?!
+- Was sollen wir den Arzt rate? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er das Geschlecht kennt?
+
+
+
+---
+
+## Kausalmodell zur Studie A
+
+.pull-left[
+
+- Das Geschlecht hat einen Einfluss (+) auf Einnahme des Medikaments und auf Heilung (-).
+- Das Medikament hat einen Einfluss (+) auf Heilung.
+- Betrachtet man die Gesamt-Daten zur Heilung, so ist der Effekt von Geschlecht und Medikament *vermengt* (konfundiert).
+
+]
+
+.pull-right[
+```{r}
+dag_studie_a <-
+  dagitty("dag{
+          gender -> drug
+          drug -> recovery
+          gender -> recovery
+          }
+      ")
+plot(dag_studie_a)
+```
+
+]
+
+### Betrachtung der Teildaten (stratifziert pro Gruppe) zeigt den wahren, kausalen Effekt. 
+
+Betrachtung der Gesamtdaten zeigt einen *konfundierten* Effekt: Geschlecht konfundiert den Zusammenhang von Medikament und Heilung.
+
+---
+
+
+## Studie B: Was raten Sie dem Arzt?
+
+Medikament einnehmen, ja oder nein?
+
+</br>
+
+```{r}
+studie_b <- 
+  tibble::tribble(
+~ Gruppe,          ~`Ohne Medikament`,          ~`Mit Medikament`,
+"geringer Blutdruck",    "81/87 überlebt (93%)", "234/270 überlebt (87%)",
+"hoher Blutdruck",  "192/263 überlebt (73%)",   "55/80 überlebt (69%)",
+"Gesamt",  "273/350 überlebt (78%)", "289/350 überlebt (83%)"
+  )
+
+studie_b %>% 
+  gt()
+```
+
+
+
+</br>
+
+
+- Die Daten stammen aus einer (fiktiven) klinischen Studie, $n=700$, hoher Qualität (Beobachtungsstudie).
+- Bei geringem Blutdruck scheint das Medikament zu schaden.
+- Bei hohem Blutdrck scheint das Medikamenet auch zu schaden.
+- Aber *insgesamt* (Summe über beide Gruppe) *nicht*, da scheint es zu nutzen?!
+- Was sollen wir den Arzt rate? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er den Blutdruck nicht kennt?
+
+
+
+---
+
+## Kausalmodell zur Studie B
+
+
+
+.pull-left[
+
+- Das Medikament hat einen (absenkenden) Einfluss auf den Blutdruck.
+- Gleichzeitig hat das Medikament einen (toxischen) Effekt auf die Heilung.
+- Verringerter Blutdruck hat einen positiven Einfluss auf die Heilung.
+- Sucht man innerhalb der Leute mit gesenktem Blutdruck nach Effekten, findet man nur den toxischen Effekt: Gegeben diesen Blutdruck ist das Medikament schädlich aufgrund des toxischen Effekts. Der positive Effekt der Blutdruck-Senkung ist auf diese Art nicht zu sehen.
+]
+
+
+
+.pull-right[
+
+```{r}
+dag_studie_b <-
+  dagitty("dag{
+          drug -> pressure
+          drug -> toxic
+          pressure -> recovery
+          toxic -> recovery
+          }
+      ")
+plot(dag_studie_b)
+```
+
+Betrachtung der Teildaten zeigt nur den toxischen Effekt des Medikaments, nicht den nützlichen (Reduktion des Blutdrucks).
+
+]
+
+
+
+### Betrachtung der Gesamtdaten zeigt den wahren, kausalen Effekt. 
+
+
+
+
+---
+
+
+## Studie A und B: Gleiche Daten, unterschiedliches Kausalmodell
+
+
+.pull-left[
+
+```{r}
+plot(dag_studie_a)
+```
+
+]
+
+
+
+.pull-right[
+```{r}
+plot(dag_studie_b)
+```
+
+]
+
+
+Kausale Interpretation - und damit Entscheidungen für Handlungen - war nur möglich, wenn das Kausalmodell bekannt ist. 
+Die Daten alleine reichen nicht.
+
+
+---
+
+
+## Sorry, Statistik: Du allein schaffst es nicht
+
+
+
+.pull-left[
+### Statistik alleine reicht nicht für Kausalschlüsse
+.xxxlarge[
+🧟
+]
+]
+
+
+
+
+.pull-right[
+### Statistik plus Theorie erlaubt Kausalschlüsse
+.xxxlarge[
+📚+📊=🤩
+]
+]
+
+- Für Entscheidungen ("Was soll ich tun?") braucht man kausales Wissen.
+- Kausales Wissen basiert auf einer Theorie (Kausalmodell) plus Daten.
+
+
+---
+

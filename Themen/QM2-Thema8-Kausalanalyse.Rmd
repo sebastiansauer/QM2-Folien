@@ -1,0 +1,71 @@
+---
+params:
+  kapitel_name: "Kausalanalyse" 
+  kapitel_nr: 8
+
+title: "`r params$kapitel_name`"
+subtitle: "`r  paste0('Kapitel ', params$kapitel_nr)`"
+
+output:
+  xaringan::moon_reader:
+    keep_md: false
+    css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
+    lib_dir: libs
+    seal: true
+    nature:
+      titleSlideClass: ["right", "bottom", "test"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd", eval = TRUE}
+```
+
+
+```{r}
+book <- "Regression and other stories"
+book_chap <- "10, 11 (jeweils in Auszügen)"
+```
+
+
+```{r}
+knitr::opts_chunk$set(
+   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
+   )
+```
+
+
+
+
+## Gliederung
+
+
+</br>
+</br>
+
+
+
+
+.xlarge[
+1. [Teil 1: Statistik, was soll ich tun?](#teil-1)
+
+
+3. [Hinweise](#hinweise)
+]
+
+---
+
+
+
+
+```{r QM2-Thema6-Intro, eval = TRUE, child="children/Thema8-Teil1.Rmd"}
+```
+
+
+
+```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Hinweise.Rmd"}
+```

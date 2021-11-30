@@ -55,6 +55,15 @@ class: center, middle
 
 ---
 
+## Ref tets
+
+`r RefManageR::Citep(bib, "gelman_regression_2021")`
+
+
+
+
+---
+
 
 ```{r QM2-Thema4-Gaussmodelle-1, child="children/Hinweise.Rmd"}
 ```

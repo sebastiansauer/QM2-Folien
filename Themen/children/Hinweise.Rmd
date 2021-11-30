@@ -3,6 +3,13 @@ name: hinweise
 class: center, middle, inverse
 
 
+
+
+```{r}
+outro_img <- paste0("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/img/outro/img", params$kapitel_nr, ".jpg")
+```
+
+
 # Hinweise 
 
 ---
@@ -33,15 +40,7 @@ class: center, middle, inverse
 
 ---
 
-
-
-
-
-```{r}
-outro_img <- paste0("../img/outro/img", params$kapitel_nr, ".jpg")
-```
-
-name:homepage
+name: homepage
 background-image: url(`r outro_img`)
 background-size: contain
 background-position: left
@@ -67,16 +66,24 @@ background-position: left
 
 
 
+
+<!-- https://github.com/sebastiansauer/QM2-Folien/blob/main/img/outro/img1.jpg?raw=true -->
+<!-- ../img/outro/img -->
+
 ---
 
 name: literatur
 
 ## Literatur
 
-
+.small[
 ```{r Hinweise-1, results='asis', echo=FALSE, cache=FALSE}
-PrintBibliography(bib)
-
-
+RefManageR::PrintBibliography(bib)
 ```
+
+]
+
+
+---
+
 
