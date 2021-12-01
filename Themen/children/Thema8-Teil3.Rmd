@@ -22,6 +22,521 @@ class: middle, center
 ## Kollision
 
 
+
+
+```{r}
+gg_simple_dag <- function(d) {
+  
+  d %>% 
+    ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+    geom_dag_point(color = "steelblue", alpha = 1/2, size = 6.5) +
+    geom_dag_text(color = "black") +
+    geom_dag_edges() + 
+    theme_dag()}
+```
+
+
+
+
+
+```{r}
+gg_fancy_dag <- function(d, x = 1, y = 1, circle = "U") {
+  
+  d %>% 
+    ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+    geom_dag_point(aes(color = name == circle),
+                   alpha = 1/2, size = 6.5, show.legend = F) +
+    geom_point(x = x, y = y, 
+               size = 6.5, shape = 1, stroke = 1, color = "orange") +
+    geom_dag_text(color = "black") +
+    geom_dag_edges() + 
+    scale_color_manual(values = c("steelblue", "orange")) +
+    theme_dag()
+  
+}
+
+```
+
+
 ---
 
 
+## Kein Zusammenhang von Intelligenz und Schönheit
+
+```{r}
+
+myf <- function(x) -x+0.75
+
+myf2 <- function(x) -x + 1.25
+
+n <- 1e3
+
+d2 <- tibble(
+  x = runif(n),
+  y = runif(n),
+  status = case_when(
+    y > myf(x) & y < myf2(x) ~ TRUE,
+    TRUE ~ FALSE
+  )
+)
+
+
+p_coll1 <-
+  d2 %>% 
+  ggplot() +
+  aes(x  = x,
+      y = y) +
+  geom_point() +
+ # scale_color_manual(values = c("grey80", "black")) +
+  theme_bw() +
+  labs(x = "Looks",
+       y = "Talent") +
+    theme(legend.position = "bottom",
+          axis.text = element_blank())
+```
+
+
+
+```{r}
+p_coll1
+```
+
+.footnote[[Gott ist gerecht (?)](https://twitter.com/TheTweetOfGod/status/1462594155176026123)]
+
+---
+
+
+
+## Aber Ihre Dates sind entweder schlau oder schön
+
+
+```{r}
+p_coll2 <- 
+  d2 %>% 
+  ggplot() +
+  aes(x  = x,
+      y = y,
+      color = status) +
+  geom_point() +
+  scale_color_manual(values = c("grey80", "black")) +
+  theme_bw() +
+  labs(x = "Looks",
+       y = "Talent") +
+    theme(legend.position = "bottom",
+          axis.text = element_blank())
+```
+
+
+
+```{r}
+p_coll2
+```
+
+Wie kann das sein?
+
+---
+
+
+## DAG zur Rettung 
+
+Dieser DAG bietet eine rettende Erklärung:
+
+
+.pull-left[
+```{r}
+coll1_dag <-
+  dagify(date ~ Looks + Talent)
+
+p_coll_dag1 <- 
+coll1_dag %>% 
+  ggdag() +
+  theme_dag()
+
+p_coll_dag1
+```
+
+]
+
+
+
+.pull-right[
+
+```{r fig.width=9}
+collider_triangle(x = "Looks",
+                  y = "Talent",
+                  m = "date") %>% 
+  ggdag_dseparated(controlling_for = "m",
+                   text = TRUE,
+                   use_labels = "label") +
+  theme_dag()
+```
+
+
+```{r eval = FALSE}
+ggdag_adjust(coll1_dag, var = "date") +
+  theme_dag()
+```
+
+
+]
+---
+
+## Kollision
+
+.pull-left[
+
+- Als *Kollision* (Kollisionsverzerrung, Auswahlverzerrung) bezeichnet man eine DAG, bei dem eine Wirkung zwei Ursachen hat.
+- Kontrolliert man auf die *Wirkung*, so entsteht eine Scheinkorrelation zwischen den Ursachen.
+- Man kann also zu viele oder falsche Prädiktoren einer Regression hinzufügen, so dass die Koeffizienten nicht die kausalen Effekte zeigen, sondern durch Scheinkorrelation verzerrte Werte
+
+]
+
+
+.pull-right[
+
+```{r}
+collider_triangle(x = "Looks",
+                  y = "Talent",
+                  m = "date") %>% 
+  ggdag_dseparated(controlling_for = "m",
+                   text = TRUE,
+                   use_labels = "label") +
+  theme_dag()
+```
+
+]
+
+
+
+---
+
+## Einfaches Beispiel zur Kollision
+
+
+.pull-left[
+- In der Zeitung *Glitzer* werden nur folgende Menschen gezeigt:
+    - Schöne Menschen
+    - Reiche Menschen
+    
+- Gehen wir davon aus, dass Schönheit und Reichtum unabhängig voneinander sind.
+
+- Wenn ich Ihnen sage, dass Don nicht schön ist, was lernen wir dann über seine finanzielle Situation?
+
+]
+
+
+.pull-right[
+
+</br>
+</br>
+</br>
+
+.center[
+"Ich bin schön, unglaublich schön, und groß, großartig, tolle Gene!!!"
+
+.xxxlarge[🧑]
+]
+
+]
+
+
+---
+
+
+## Noch ein einfaches Beispiel zur Kollision
+
+.left-column[
+
+
+</br>
+</br>
+
+.center[
+"So langsam check ich's!"
+
+.xxxlarge[🧑]
+]
+]
+
+
+
+.right-column[
+
+- Z = X + Y, wobei X und Y unabhängig sind
+
+-  Wenn ich Ihnen sage, X = 3, lernen Sie nichts über Y, da die beiden Variablen unabhängig sind
+
+- Aber: Wenn ich Ihnen zuerst sage, Z = 10, und dann sage, X = 3, wissen Sie sofort, was Y ist (Y = 7).
+
+- Also: X und Y sind abhängig – gegeben Z.
+]
+
+---
+
+
+## Durch Kontrolle entsteht eine Verzerrung bei der Kollision
+
+
+.pull-left[
+
+
+```{r}
+p_coll_dag1
+```
+
+
+]
+
+
+
+.pull-right[
+
+
+```{r fig.width=9}
+collider_triangle(x = "x",
+                  y = "y",
+                  m = "z") %>% 
+  ggdag_dseparated(controlling_for = "m") +
+  theme_dag()
+```
+
+]
+
+- Ohne Kontrolle von `date` entsteht keine Scheinkorrelation zwischen `Looks` und `Talent`. Der Pfad ("Fluss") von `Looks` über `date` nach `Talent` ist blockiert.
+
+- Kontrolliert man `date`, so *öffnet* sich der Pfad `Looks`->`date`-> `Talent` und die Scheinkorrelation entsteht: Der Pfad ist nicht mehr blockiert.
+
+- Das Kontrollieren von `date` geht zumeist durch Bilden einer Auswahl einer Teilgruppe von sich.
+
+
+
+---
+
+## IQ, Fleiss und Eignung fürs Studium
+
+
+.pull-left[
+
+```{r}
+coll2_dag <- ggdag::dagify(s ~ f + iq,
+                      outcome = "s",
+                      labels = c("s" = "Studium",
+                                 "iq" = "Intelligenz",
+                                 "d" = "Fleiss"))
+
+p_coll_dag2 <- ggdag(coll2_dag, use_labels = "label")  + theme_dag_blank()
+p_coll_dag2
+
+# coll2_dag <-
+#   dagify(eignung ~ fleiss + iq)
+# 
+# p_coll_dag2 <- 
+# coll2_dag %>% 
+#   ggdag() +
+#   theme_dag()
+# 
+# p_coll_dag2
+```
+
+]
+
+
+.pull-right[
+
+`eignung` (fürs Studium) sei definiert als die Summe von `iq` und `fleiss`, plus etwas Glück:
+
+```{r echo = TRUE}
+set.seed(42)  # Reproduzierbarkeit
+N <- 1e03
+
+d_eignung <-
+tibble(
+  iq = rnorm(N),
+  fleiss = rnorm(N),
+  glueck = rnorm(N, 0, sd = .1),
+  eignung = 
+    1/2 * iq + 1/2 * fleiss + glueck,
+  studium = ifelse(eignung > 0, 
+                   1, 0)
+  )
+```
+
+
+]
+Bei positiver `eignung` wird ein Studium aufgenommen (`studium = 1`) ansonsten nicht (`studium = 0)`. 
+
+
+[Quelle](https://data-se.netlify.app/2020/04/16/simulation-berkson-s-paradox/)
+
+
+
+
+---
+
+## Schlagzeile "Schlauheit macht faul!"
+
+Eine Studie untersucht den Zusammenhang von Intelligenz und Fleiß bei Studentis.
+
+Ergebnis: Ein negativer Zusammenhang. 
+
+.pull-left[
+
+```{r results = "hide", echo = TRUE}
+m_eignung <-
+  stan_glm(
+    iq ~ fleiss,
+    data = d_eignung %>% 
+      filter(studium == 1))
+```
+
+```{r}
+coef(m_eignung)
+```
+
+]
+
+.pull-right[
+
+```{r}
+d_eignung %>% 
+  filter(studium == 1) %>% 
+  ggplot(aes(x = fleiss, y = iq)) +
+  geom_point(alpha = .5) +
+  geom_smooth(method = "lm")
+```
+
+
+]
+
+
+
+
+
+---
+
+## Kollisionsverzerrung nur bei Stratifizierung
+
+Nur durch das Stratifizieren (Aufteilen in Subgruppen, Kontrollieren, Adjustieren) tritt die Scheinkorrelation auf.
+
+
+.pull-left[
+Ohne Stratifizierung tritt keine Scheinkorrelation auf
+
+```{r}
+d_eignung %>% 
+ ggplot(aes(x = fleiss, y = iq)) +
+  geom_point(alpha = .5) +
+  geom_smooth(method = "lm")
+```
+
+
+]
+
+
+.pull-right[
+Mit Stratifizierung tritt Scheinkorrelation auf
+
+```{r}
+d_eignung %>% 
+  mutate(studium = factor(studium)) %>% 
+  ggplot(aes(x = fleiss, y = iq, color = studium)) +
+  geom_point(alpha = .5) +
+  geom_smooth(method = "lm")
+```
+
+]
+
+
+---
+
+
+## Einfluss von Großeltern und Eltern auf Kinder
+
+
+
+.pull-left[
+
+- Wir wollen den (kausalen) Einfluss der Eltern `E` und Großeltern `G` auf den Bildungserfolg der Kinder `K`. untersuchen.
+
+- Wir nehmen folgende Effekte an:
+    - indirekter Effekt von `G` auf `K`: $G \rightarrow E \rightarrow K$
+    - direkter Effekt von `E` auf `K`: $E \rightarrow K$
+    - direkter Effekt von `G` auf `K`: $G \rightarrow K$
+
+
+]
+
+.pull-right[
+
+
+
+
+```{r}
+dag_coords <-
+  tibble(name = c("G", "E", "K"),
+         x    = c(1, 2, 2),
+         y    = c(2, 2, 1))
+
+dagify(G ~ E,
+       K ~ E + G,
+       coords = dag_coords) %>%
+  gg_simple_dag()
+```
+
+
+]
+
+
+---
+
+## Der Gespenster-DAG
+
+.pull-left[
+
+
+```{r}
+coll4_dag <-
+  dagitty("dag
+          {
+          G -> E
+          E -> K
+          G -> K
+          U -> E
+          U -> K
+          }
+          ")
+
+dag_coords <-
+  tibble(name = c("G", "E", "K", "U"),
+         x    = c(1, 2, 2, 2.5),
+         y    = c(2, 2, 1, 1.5))
+
+dagify(E ~ G + U,
+       K ~ E + G + U,
+       coords = dag_coords) %>% 
+gg_fancy_dag(x = 2.5, y = 1.5, circle = "U")
+```
+
+]
+
+.pull-right[
+
+
+
+]
+
+
+`r RefManageR::Citep(bib, "kurz_statistical_2021")`
+
+
+
+---
+
+
+
+
+
+
+
+
+---

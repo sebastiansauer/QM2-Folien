@@ -354,7 +354,7 @@ A true hypothesis will pass and fail many statistical "tests" on its way to acce
 
 
 
-```{r fig.asp = .33, fig.width=7}
+```{r fig.asp = .33, fig.width=9}
 km1 <- confounder_triangle(x = "bedrooms",
                           y = "price",
                           z = "living area") %>% 
@@ -368,7 +368,7 @@ Wenn dieses Kausalmodell stimmt, findet man eine *Scheinkorrelation* zwischen `p
 
 Eine Scheinkorrelation ist ein Zusammenhang, der *nicht* auf eine kausalen Einfluss beruht.
 
-`d_connected` heißt, dass die betreffenden Variablen "verbunden" sind durch einen Pfad, durch den die Assoziation (Korrelation) wie durch einen Fluss fließt. `d_separated` heißt, dass sie nicht `d_connected` sind.
+`d_connected` heißt, dass die betreffenden Variablen "verbunden" sind durch einen gerichteten (`d` wie directed) Pfad, durch den die Assoziation (Korrelation) wie durch einen Fluss fließt 🌊. `d_separated` heißt, dass sie nicht `d_connected` sind.
 
 
 ---
@@ -401,7 +401,7 @@ variable kontrollieren.
 
 
 
-```{r fig.asp = 0.45, fig.width=7}
+```{r fig.asp = 0.45, fig.width=9, dpi=300}
 confounder_triangle(x = "bedrooms",
                           y = "price",
                           z = "living area") %>% 
@@ -425,20 +425,16 @@ Durch das Kontrollieren ("adjustieren"), sind `bedrooms` und `price` nicht mehr 
 ```
 
 
+
 ```{r}
-source()
+source("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/41bc43754169f64abd6ad98f8d52b5c0e23eda80/R-Code/controlling-confounder.R")
 ```
 
 
 
 
-
-
-
-.footnote[[Quellcode](https://github.com/sebastiansauer/QM2-Folien/blob/main/Themen/children/Konfundierer-kontrollieren.Rmd)]
-
 .pull-left[
-### Ohne Kontrollieren der Konfundierungsvariablen
+Ohne Kontrollieren der Konfundierungsvariablen
 
 Regressionsmodell:
 `y ~ x`
@@ -453,7 +449,7 @@ Es wird (fälschlich) eine Korrelation zwischen `x` und `y`  angezeigt: Scheinko
 
 
 .pull-right[
-### Mit Kontrollieren der Konfundierungsvariablen
+Mit Kontrollieren der Konfundierungsvariablen
 
 
 Regressionsmodell:
@@ -466,6 +462,11 @@ p_konf2
 Es wird korrekt gezeigt, dass es keine Korrelation zwischen `x` und `y` gibt, wenn `group` kontrolliert wird.
 
 ]
+
+
+
+
+.footnote[[Quellcode](https://github.com/sebastiansauer/QM2-Folien/blob/main/Themen/children/Konfundierer-kontrollieren.Rmd)]
 
 ---
 
@@ -559,7 +560,7 @@ knitr::include_graphics("https://i0.wp.com/knowingneurons.com/wp-content/uploads
 
 
 
-```{r }
+```{r fig.width=7}
 confounder_triangle(x = "Schoki",
                           y = "Nobelpreise",
                           z = "Entwicklungsstand") %>% 
@@ -573,7 +574,7 @@ confounder_triangle(x = "Schoki",
 
 
 .pull-left[
-```{r fig.asp = 1.3, fig.width=5}
+```{r fig.asp = 1.3, fig.width=9}
 km3 <- collider_triangle(x = "bedrooms",
                           y = "livingArea",
                           m = "price") %>% 
