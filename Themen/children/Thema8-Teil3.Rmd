@@ -1,0 +1,27 @@
+```{r}
+library(gt)
+library(tidyverse)
+library(dagitty)
+library(DT)
+library(rstanarm)
+library(ggdag)
+```
+
+
+
+
+
+
+name: teil-3
+class: middle, center
+
+
+
+# Teil 3
+
+## Kollision
+
+
+---
+
+

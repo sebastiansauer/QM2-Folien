@@ -12,7 +12,7 @@ library(ggdag)
 
 
 
-name: teil-1
+name: teil-2
 class: middle, center
 
 
@@ -268,18 +268,19 @@ Oh nein!"
 .xxxlarge[👩]
 
 
-```{r hauspreis-stratifizieren, child="Hauspreis-stratifizieren.Rmd"}
+```{r hauspreis-stratifizieren, child="Hauspreis-stratifizieren.Rmd", dpi = 300}
 
 ```
 
 
+.footnote[[Quellcode](https://github.com/sebastiansauer/QM2-Folien/blob/main/Themen/children/Hauspreis-stratifizieren.Rmd)]
 
 ---
 
 ## Kontrollieren von Variablen
 
 
-💡 Durch das Aufnehmen von Prädiktoren in die multiple Regression werden die Prädiktoren *kontrolliert*:
+💡 Durch das Aufnehmen von Prädiktoren in die multiple Regression werden die Prädiktoren *kontrolliert* ("adjustiert"):
 
 - Die Koeffizienten einer multiplen Regression zeigen den Zusammenhang $\beta$ des einen Prädiktors mit $y$, wenn man den (oder die) anderen Prädiktoren statistisch *konstant hält*. 
 
@@ -303,6 +304,8 @@ Oh nein!"
 "Aber welche und wie viele Prädiktoren soll ich denn jetzt in mein Modell aufnehmen?!
 
 Und welches Modell ist jetzt richtig?!"
+</br>
+</br>
 .xxxlarge[🧑]
 ]
 ]
@@ -351,7 +354,7 @@ A true hypothesis will pass and fail many statistical "tests" on its way to acce
 
 
 
-```{r fig.asp = .5, fig.width=7}
+```{r fig.asp = .33, fig.width=7}
 km1 <- confounder_triangle(x = "bedrooms",
                           y = "price",
                           z = "living area") %>% 
@@ -364,6 +367,8 @@ print(km1)
 Wenn dieses Kausalmodell stimmt, findet man eine *Scheinkorrelation* zwischen `price` und `bedrooms`.
 
 Eine Scheinkorrelation ist ein Zusammenhang, der *nicht* auf eine kausalen Einfluss beruht.
+
+`d_connected` heißt, dass die betreffenden Variablen "verbunden" sind durch einen Pfad, durch den die Assoziation (Korrelation) wie durch einen Fluss fließt. `d_separated` heißt, dass sie nicht `d_connected` sind.
 
 
 ---
@@ -381,7 +386,8 @@ Wenn das Kausalmodell stimmt, dann zeigt `m2` den kausalen Effekt von `livingAre
 
 </br>
 
-"Wir müssen die Konfundierungsvariable kontrollieren.
+"Wir müssen die Konfundierungs-
+variable kontrollieren.
 
 .xxxlarge[👩]
 
@@ -395,7 +401,7 @@ Wenn das Kausalmodell stimmt, dann zeigt `m2` den kausalen Effekt von `livingAre
 
 
 
-```{r fig.asp = 0.5, fig.width=7}
+```{r fig.asp = 0.45, fig.width=7}
 confounder_triangle(x = "bedrooms",
                           y = "price",
                           z = "living area") %>% 
@@ -404,17 +410,32 @@ confounder_triangle(x = "bedrooms",
   theme_dag()
 ```
 
+Durch das Kontrollieren ("adjustieren"), sind `bedrooms` und `price` nicht mehr korreliert, nicht mehr `d_connected`, sondern jetzt `d_separeted`.
+
 ]
 
 
 ---
 
-```{r konfundierer-kontrollieren, child="Konfundierer-kontrollieren.Rmd"}
+## Konfundierer kontrollieren
+
+```{r konfundierer-kontrollieren, eval = FALSE, child="Konfundierer-kontrollieren.Rmd"}
+
 
 ```
 
 
+```{r}
+source()
+```
 
+
+
+
+
+
+
+.footnote[[Quellcode](https://github.com/sebastiansauer/QM2-Folien/blob/main/Themen/children/Konfundierer-kontrollieren.Rmd)]
 
 .pull-left[
 ### Ohne Kontrollieren der Konfundierungsvariablen
@@ -476,20 +497,38 @@ print(km1)
 Unser Modell `m2` sagt uns, 
 dass beide Prädiktoren jeweils einen eigenen Beitrag zur Erklärung der AV haben.
 
-Daher könnte das folgende Kausalmodell, `km2` besser passen:
 
-```{r fig.asp = .5, fig.width=7}
-km2 <- mediation_triangle(x = "livingArea",
-                          y = "price",
-                          m = "bedrooms") %>% 
-  ggdag_dconnected(text = FALSE, use_labels = "label") +
+.pull-left[
+- Daher könnte das folgende Kausalmodell, `km2` besser passen.
+
+- In diesem Modell gibt es eine *Wirkkette*: $a \rightarrow b \rightarrow p$.
+
+- Insgesamt gibt es zwei Kausaleinflüsse von `a` auf `p`:
+    - $a \rightarrow p$
+    - $a \rightarrow b \rightarrow p$
+
+- Man nennt die mittlere Variable einer Wirkkette auch einen *Mediator* und den Pfad von der UV (`a`) über den Mediator (`b`) zur AV (`p`) auch *Mediation*.
+
+]
+
+.pull-right[
+```{r fig.asp = 1, fig.width=7}
+km2 <- 
+  dagify(
+  b ~ a,
+  p ~ a,
+  p ~ b,
+  labels = c(b = "bedrooms",
+             p = "price",
+             a = "livingArea")) %>% 
+    ggdag(use_labels = "label") +
   theme_dag()
 
 print(km2)
 ```
 
 
-
+]
 
 ---
 
@@ -583,13 +622,175 @@ d %>%
 ---
 
 
-## Jedes Kausalmodell impliziert Unabhängigkeiten
+## Unabhängkeiten laut `km1`
+
+`b`: bedrooms, `p`: price, `a` area (living area)
+
+
+.pull-left[
+```{r}
+km1
+```
+]
+
+.pull-right[
+$b \indep p \, |\, a$: `bedrooms` sind unabhängig von `price`, wenn man `livingArea` kontrolliert.
+
+⛈️ Passt nicht zu den Daten/zum Modell
+]
+
+
+---
+
+## Unabhängkeiten laut `km2`
+
+`b`: bedrooms, `p`: price, `a` area (living area)
+
+
+
+.pull-left[
+```{r}
+km2
+```
+]
+
+.pull-right[
+keine Unabhängigkeiten
+
+❓ Passt zu den Daten/zum Modell
+]
+
+
+---
+
+## Unabhängkeiten laut `km3`
+
+`b`: bedrooms, `p`: price, `a` area (living area)
+
+
+
+
+.pull-left[
+```{r}
+km3
+```
+]
+
+.pull-right[
+$b \indep a$: `bedrooms` sind unabhängig von `livingArea` (`a`)
+
+⛈️ Passt nicht zu den Daten/zum Modell
+]
+
+
+---
+
+## DAGs: Directed Acyclic Graphs
+
+
+.pull-left[
+- DAGs sind eine bestimmte Art von Kausalgraphen.
+
+- Ein *Graph* besteht aus Knoten (Variablen) und Kanten (Linien), die die Knoten verbinden.
+
+- DAGs sind eine Methode, um Kausalstrukturen graphisch zu analyiseren.
+
+- DAGs sind *gerichtet*; die Pfeile zeigen immer in eine Richtung (und zwar von Ursache zu Wirkung).
+
+- DAGs sind *azyklisch*; die Wirkung eines Knoten darf nicht wieder auf ihn zurückführen. 
+
+]
+
+.pull-right[
+`km1`
+```{r}
+km1
+```
+
+]
+
+
+---
+
+## Leider passen potenziell viele DAGs zu einer Datenlage
+
+`b`: bedrooms, `p`: price, `a` area (living area)
+
+
+
+```{r}
+dag_km1 <-
+  dagitty("dag{
+         a -> b
+         a -> p
+         }
+         ")
+
+
+
+
+coordinates(dag_km1) <- list(
+  x = list(a = 0, b = 1, p = 1),
+  y = list(a = 0.5, b= 1, p = 0 )
+)
+
+ggdag_equivalent_dags(dag_km1) +
+  theme_dag()
+```
 
 
 
 ---
 
 
+## Was ist eigentlich Kausation?
+
+
+
+.pull-left[
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+  Weiß man, was die Wirkung $W$ einer Handlung $H$ (Intervention) ist,
+  so hat man $H$ als Ursache von $W$ erkannt.
+  ]
+]
+
+
+.pull-right[
+
+</br>
+</br>
+
+```{r}
+knitr::include_graphics("https://imgs.xkcd.com/comics/correlation.png")
+```
+
+
+[Quelle](https://xkcd.com/552/) und [Erklärung](https://www.explainxkcd.com/wiki/index.php/552:_Correlation)
+]
+
+
+
+---
+
+
+## Fazit
+
+- Sind zwei Variablen korreliert (abhängig, assoziiert), so kann es dafür zwei Gründe geben:
+    - Kausaler Zusammenhang
+    - Nichtkausaler Zusammenhang ("Scheinkorrelation")
+    
+- Eine mögliche Ursache einer Scheinkorrelation ist Konfundierung.
+
+- Konfundierung kann man entdecken, indem man die angenommene Konfundierungsvariable kontrolliert (adjustiert), z.B. indem man ihn als Prädiktor in eine Regression aufnimmt.
+
+- Ist die Annahme einer Konfundierung korrekt, so löst sich der Scheinzusammenhang nach dem Adjustieren auf.
+
+- Löst sich der Scheinzusammenhang nicht auf, sondern drehen sich die Vorzeichen der Zusammenhänge nach Adjustieren um, so spricht man einem *Simpson Paradox*.
+
+- Die Daten alleine können nie sagen, welches Kausalmodell der Fall ist in einer Beobachtungsstudie. Fachwissen (inhaltliches wissenschaftliches Wisseen) ist nötig, um DAGs auszuschließen.
+
+
+---
 
 
 
