@@ -3,7 +3,9 @@ myf <- function(x) -x+0.75
 
 myf2 <- function(x) -x + 1.25
 
+
 n <- 1e3
+
 
 d2 <- tibble(
   x = runif(n),
