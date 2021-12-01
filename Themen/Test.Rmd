@@ -55,21 +55,33 @@ class: center, middle
 
 ---
 
+## Box
+
+
+.content-box-blue[asdjlö]
+.bg-lightest-blue.b--blue.ba.bw2.br3.shadow-5.ph4.mt5[
+The only way to write good code is to write tons of bad code first. 
+Feeling shame about bad code stops you from getting to good code
+]
+
+
+$\newcommand{\indep}{\perp \!\!\! \perp}$
+
+
+
+
+asdfjk
+
+$X \indep Y$
+
+---
+
 ## Ref tets
 
 `r RefManageR::Citep(bib, "gelman_regression_2021")`
 
 
 ---
-
-## Pckgs
-
-
-```{r}
-library(grateful)
-x <- scan_packages()
-```
-
 
 ---
 

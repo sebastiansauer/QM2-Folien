@@ -9,6 +9,9 @@ library(ggdag)
 
 
 
+
+
+
 name: teil-1
 class: middle, center
 
@@ -17,6 +20,7 @@ class: middle, center
 # Teil 2
 ## Konfundierung
 
+$\newcommand{\indep}{\perp \!\!\! \perp}$
 
 ---
 
@@ -259,62 +263,15 @@ Oh nein!"
 ... wenn man die Wohnfläche (Quadratmeter) kontrolliert.
 
 
--left-column[
+
 **Ne-Ga-Tiv!**
 .xxxlarge[👩]
-]
 
 
-.right-column[
+```{r hauspreis-stratifizieren, child="Hauspreis-stratifizieren.Rmd"}
 
-```{r}
-d <- 
-d %>% 
-  mutate(size_group = case_when(
-    livingArea < quantile(livingArea, prob = .25) ~ 1,
-    livingArea < quantile(livingArea, prob = .5) ~ 2,   
-    livingArea < quantile(livingArea, prob = .75) ~ 3,
-    TRUE ~ 4
-  ))
 ```
 
-
-```{r results='hide'}
-m2a <- stan_glm(price ~ bedrooms + size_group, data = d)
-```
-
-
-```{r}
-d_m2a <-
-  tibble(
-    size_group = 1:4,
-    intercept = coef(m2a)[1] + size_group * coef(m2a)[3],
-    slope = coef(m2a)[2]
-  )
-```
-
-
-```{r fig.asp = 0.4, fig.width=7}
-size_group_labs <-
-  c(`1` = "sehr kleine Häuser (q1)",
-    `2` = "eher kleine Häuser (q2)",
-    `3` = "eher große Häuser (q3)",
-    `4` = "sehr große Häuser (q4)")
-
-d %>% 
-  ggplot(aes(x = bedrooms, y = price)) +
-  geom_jitter(alpha = .3) +
-  geom_abline(data = d_m2a,
-              aes(intercept = intercept,
-                  slope = slope),
-              color = "blue",
-              size = 2) +
-  facet_wrap(~ size_group, nrow = 1, labeller = as_labeller(size_group_labs)) +
-  labs(title = "Hauspreis als Funktion von Zimmerzahl und Quadratmeter",
-       caption = "Facetten zeigen Quartile der Variable 'Quadratmeter'")
-```
-
-]
 
 
 ---
@@ -402,7 +359,6 @@ km1 <- confounder_triangle(x = "bedrooms",
   theme_dag()
 
 print(km1)
-
 ```
 
 Wenn dieses Kausalmodell stimmt, findet man eine *Scheinkorrelation* zwischen `price` und `bedrooms`.
@@ -453,6 +409,9 @@ confounder_triangle(x = "bedrooms",
 
 ---
 
+```{r konfundierer-kontrollieren, child="Konfundierer-kontrollieren.Rmd"}
+
+```
 
 
 
@@ -494,7 +453,7 @@ Es wird korrekt gezeigt, dass es keine Korrelation zwischen `x` und `y` gibt, we
 
 .pull-left[
 
-```{r fig.asp = 1.3}
+```{r fig.asp = 1.1}
 print(km1)
 ```
 
@@ -509,6 +468,29 @@ print(km1)
 ]
 
 
+
+---
+
+## Kausalmodell 2, `km2` 
+
+Unser Modell `m2` sagt uns, 
+dass beide Prädiktoren jeweils einen eigenen Beitrag zur Erklärung der AV haben.
+
+Daher könnte das folgende Kausalmodell, `km2` besser passen:
+
+```{r fig.asp = .5, fig.width=7}
+km2 <- mediation_triangle(x = "livingArea",
+                          y = "price",
+                          m = "bedrooms") %>% 
+  ggdag_dconnected(text = FALSE, use_labels = "label") +
+  theme_dag()
+
+print(km2)
+```
+
+
+
+
 ---
 
 ## Schoki macht Nobelpreis! (?)
@@ -521,9 +503,12 @@ knitr::include_graphics("https://i0.wp.com/knowingneurons.com/wp-content/uploads
 ```
 
 
-.content-box-blue[Korrelation ungleich Kausation!]
 
-Wie könnte man bloß diesen Zusammenhang erklären? Was steckt dahinter?
+💣 Korrelation ungleich Kausation!
+
+
+
+
 
 
 
@@ -535,12 +520,76 @@ Wie könnte man bloß diesen Zusammenhang erklären? Was steckt dahinter?
 
 
 
-```{r}
+```{r }
 confounder_triangle(x = "Schoki",
                           y = "Nobelpreise",
                           z = "Entwicklungsstand") %>% 
   ggdag_dconnected(text = FALSE, use_labels = "label") +
   theme_dag()
-
 ```
+
+---
+
+## Dons Kausalmodell, `km3`
+
+
+.pull-left[
+```{r fig.asp = 1.3, fig.width=5}
+km3 <- collider_triangle(x = "bedrooms",
+                          y = "livingArea",
+                          m = "price") %>% 
+  ggdag_dconnected(text = FALSE, use_labels = "label") +
+  theme_dag()
+
+print(km3)
+```
+
+]
+
+
+
+
+
+
+
+
+.pull-right[
+.center[
+
+"Ich glaube aber an dieses Kausalmodell. 
+Der Experte bin ich !"
+.xxxlarge[🧑]
+
+</br>
+
+"Don, nach deinem Kausalmodell müssten `bedrooms` und `livingArea` unkorreliert sein. Sind sie aber nicht."
+```{r}
+d %>% 
+  summarise(cor(bedrooms, livingArea))
+```
+
+
+.xxxlarge[👩]
+
+]
+]
+
+
+
+
+
+
+
+---
+
+
+## Jedes Kausalmodell impliziert Unabhängigkeiten
+
+
+
+---
+
+
+
+
 

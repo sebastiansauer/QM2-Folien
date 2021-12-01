@@ -1,0 +1,50 @@
+
+
+
+```{r}
+d <- 
+d %>% 
+  mutate(size_group = case_when(
+    livingArea < quantile(livingArea, prob = .25) ~ 1,
+    livingArea < quantile(livingArea, prob = .5) ~ 2,   
+    livingArea < quantile(livingArea, prob = .75) ~ 3,
+    TRUE ~ 4
+  ))
+```
+
+
+```{r results='hide'}
+m2a <- stan_glm(price ~ bedrooms + size_group, data = d)
+```
+
+
+```{r}
+d_m2a <-
+  tibble(
+    size_group = 1:4,
+    intercept = coef(m2a)[1] + size_group * coef(m2a)[3],
+    slope = coef(m2a)[2]
+  )
+```
+
+
+```{r fig.asp = 0.4, fig.width=7}
+size_group_labs <-
+  c(`1` = "sehr kleine Häuser (q1)",
+    `2` = "eher kleine Häuser (q2)",
+    `3` = "eher große Häuser (q3)",
+    `4` = "sehr große Häuser (q4)")
+
+d %>% 
+  ggplot(aes(x = bedrooms, y = price)) +
+  geom_jitter(alpha = .3) +
+  geom_abline(data = d_m2a,
+              aes(intercept = intercept,
+                  slope = slope),
+              color = "blue",
+              size = 2) +
+  facet_wrap(~ size_group, nrow = 1, labeller = as_labeller(size_group_labs)) +
+  labs(title = "Hauspreis als Funktion von Zimmerzahl und Quadratmeter",
+       caption = "Facetten zeigen Quartile der Variable 'Quadratmeter'")
+```
+
