@@ -55,8 +55,11 @@ knitr::opts_chunk$set(
 
 2. [Teil 2: Konfundierung](#teil-2)
 
+3. [Teil 3: Kollision](#teil-3)
 
-3. [Hinweise](#hinweise)
+4. [Teil 4: Die Hintertür schließen](#teil-4)
+
+5. [Hinweise](#hinweise)
 ]
 
 
@@ -104,4 +107,6 @@ $\newcommand{\notindep}{\not\!\perp\!\!\!\perp}$
 
 ```{r QM2-Thema8-Hinweise, eval = TRUE, child="children/Hinweise.Rmd"}
 ```
-        
+
+
+
