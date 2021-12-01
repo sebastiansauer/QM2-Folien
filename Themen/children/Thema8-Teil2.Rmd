@@ -280,7 +280,7 @@ Oh nein!"
 ## Kontrollieren von Variablen
 
 
-💡 Durch das Aufnehmen von Prädiktoren in die multiple Regression werden die Prädiktoren *kontrolliert* ("adjustiert"):
+💡 Durch das Aufnehmen von Prädiktoren in die multiple Regression werden die Prädiktoren *kontrolliert* (adjustiert, konditioniert):
 
 - Die Koeffizienten einer multiplen Regression zeigen den Zusammenhang $\beta$ des einen Prädiktors mit $y$, wenn man den (oder die) anderen Prädiktoren statistisch *konstant hält*. 
 
@@ -690,7 +690,7 @@ $b \indep a$: `bedrooms` sind unabhängig von `livingArea` (`a`)
 
 
 .pull-left[
-- DAGs sind eine bestimmte Art von Kausalgraphen.
+- DAGs sind eine bestimmte Art von Graphen zur Analyse von Kausalstrukturen.
 
 - Ein *Graph* besteht aus Knoten (Variablen) und Kanten (Linien), die die Knoten verbinden.
 
@@ -707,6 +707,8 @@ $b \indep a$: `bedrooms` sind unabhängig von `livingArea` (`a`)
 ```{r}
 km1
 ```
+
+- Ein *Pfad* ist ein Weg durch den DAG, von Knoten zu Knoten über die Kanten, unabhängig von der Pfeilrichtung.
 
 ]
 

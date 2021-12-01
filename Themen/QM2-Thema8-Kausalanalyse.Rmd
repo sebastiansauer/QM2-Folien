@@ -83,6 +83,12 @@ knitr::opts_chunk$set(
 
 
 
+```{r QM2-Thema8-Teil4, eval = TRUE, child="children/Thema8-Teil4.Rmd"}
+```
+
+
+
+
 ```{r QM2-Thema8-Hinweise, eval = TRUE, child="children/Hinweise.Rmd"}
 ```
         

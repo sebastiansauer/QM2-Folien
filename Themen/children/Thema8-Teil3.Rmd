@@ -33,13 +33,7 @@ gg_simple_dag <- function(d) {
     geom_dag_text(color = "black") +
     geom_dag_edges() + 
     theme_dag()}
-```
 
-
-
-
-
-```{r}
 gg_fancy_dag <- function(d, x = 1, y = 1, circle = "U") {
   
   d %>% 
@@ -52,10 +46,15 @@ gg_fancy_dag <- function(d, x = 1, y = 1, circle = "U") {
     geom_dag_edges() + 
     scale_color_manual(values = c("steelblue", "orange")) +
     theme_dag()
-  
 }
-
 ```
+
+
+$\newcommand{\indep}{\perp \!\!\! \perp}$
+$\newcommand{\notindep}{\not\!\perp\!\!\!\perp}$
+
+
+
 
 
 ---
@@ -179,22 +178,23 @@ ggdag_adjust(coll1_dag, var = "date") +
 
 
 ]
+
 ---
 
 ## Kollision
 
 .pull-left[
 
-- Als *Kollision* (Kollisionsverzerrung, Auswahlverzerrung) bezeichnet man eine DAG, bei dem eine Wirkung zwei Ursachen hat.
+- Als *Kollision* (Kollisionsverzerrung, Auswahlverzerrung, engl. collider) bezeichnet man eine DAG, bei dem eine Wirkung zwei Ursachen hat.
 - Kontrolliert man auf die *Wirkung*, so entsteht eine Scheinkorrelation zwischen den Ursachen.
-- Man kann also zu viele oder falsche Prädiktoren einer Regression hinzufügen, so dass die Koeffizienten nicht die kausalen Effekte zeigen, sondern durch Scheinkorrelation verzerrte Werte
+- Man kann also zu viele oder falsche Prädiktoren einer Regression hinzufügen, so dass die Koeffizienten nicht die kausalen Effekte zeigen, sondern durch Scheinkorrelation verzerrte Werte.
 
 ]
 
 
 .pull-right[
 
-```{r}
+```{r out.width=9}
 collider_triangle(x = "Looks",
                   y = "Talent",
                   m = "date") %>% 
@@ -205,6 +205,8 @@ collider_triangle(x = "Looks",
 ```
 
 ]
+
+Vgl. `r RefManageR::Citet(bib, "rohrer_thinking_2018")`.
 
 
 
@@ -262,13 +264,13 @@ collider_triangle(x = "Looks",
 
 .right-column[
 
-- Z = X + Y, wobei X und Y unabhängig sind
+- Sei Z = X + Y, wobei X und Y unabhängig sind.
 
--  Wenn ich Ihnen sage, X = 3, lernen Sie nichts über Y, da die beiden Variablen unabhängig sind
+- Wenn ich Ihnen sage, X = 3, lernen Sie nichts über Y, da die beiden Variablen unabhängig sind
 
 - Aber: Wenn ich Ihnen zuerst sage, Z = 10, und dann sage, X = 3, wissen Sie sofort, was Y ist (Y = 7).
 
-- Also: X und Y sind abhängig – gegeben Z.
+- Also: X und Y sind abhängig – gegeben Z: $ X \notindep Y \,|\, Z$.
 ]
 
 ---
@@ -338,6 +340,13 @@ p_coll_dag2
 # p_coll_dag2
 ```
 
+Bei positiver `eignung` wird ein Studium aufgenommen (`studium = 1`) ansonsten nicht (`studium = 0)`. 
+
+
+[Quelle](https://data-se.netlify.app/2020/04/16/simulation-berkson-s-paradox/)
+
+
+
 ]
 
 
@@ -363,11 +372,6 @@ tibble(
 
 
 ]
-Bei positiver `eignung` wird ein Studium aufgenommen (`studium = 1`) ansonsten nicht (`studium = 0)`. 
-
-
-[Quelle](https://data-se.netlify.app/2020/04/16/simulation-berkson-s-paradox/)
-
 
 
 
@@ -446,6 +450,10 @@ d_eignung %>%
 
 ]
 
+Kontrollieren einer Variablen - Aufnehmen in die Regression - kann genausogut schaden wie nützen.
+
+Nur Kenntnis des DAGs verrät die richtige Entscheidung.
+
 
 ---
 
@@ -486,6 +494,9 @@ dagify(G ~ E,
 
 ]
 
+R-Syntax stammt von `r RefManageR::Citet(bib, "kurz_statistical_2021")`.
+
+
 
 ---
 
@@ -521,12 +532,19 @@ gg_fancy_dag(x = 2.5, y = 1.5, circle = "U")
 
 .pull-right[
 
+- `U` könnte ein ungemessener Einfluss sein, der auf `E` und `K` wirkt, etwa Nachbarschaft.
 
+- Die Großeltern wohnen woanders (in Spanien), daher wirkt die Nachbarschaft der Eltern und Kinder nicht auf sie.
+
+- `E` ist sowohl für `G` als auch für `U` eine Wirkung, also eine Kollisionsvariable auf diesem Pfad.
+
+- Wenn wir `E` kontrollieren, wird es den Pfad $G \rightarrow K$ verzerren, auch wenn wir niemals `U` messen.
 
 ]
 
+Die Sache ist chancenlos. Wir müssen den DAG verloren geben. 👻
 
-`r RefManageR::Citep(bib, "kurz_statistical_2021")`
+`r RefManageR::Citep(bib, "mcelreath_statistical_2020", after = ", S. 180")`
 
 
 
