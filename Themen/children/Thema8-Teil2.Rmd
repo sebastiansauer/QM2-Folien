@@ -31,8 +31,9 @@ $\newcommand{\indep}{\perp \!\!\! \perp}$
 [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/mosaicData/SaratogaHouses.csv); 
 [Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/mosaicData/SaratogaHouses.html)
 
+
 ```{r echo = TRUE}
-d_path <- "https://vincentarelbundock.github.io/Rdatasets/csv/mosaicData/SaratogaHouses.csv"
+d_path <- "https://tinyurl.com/3jn3cc5u"
 ```
 
 
@@ -178,7 +179,7 @@ dons_new_house <- tibble(bedrooms = 4)
 mean(posterior_predict(m1, dons_new_house))
 ```
 
-### Mit 4 statt 2 Schlafzimmer steigt der Wert auf 250k
+### Mit 4 statt 2 Schlafzimmer steigt der Wert auf 250k, laut `m1`.
 
 
 "Volltreffer! Jetzt verdien ich 100 Tausend mehr! 🤑"
@@ -315,7 +316,6 @@ Und welches Modell ist jetzt richtig?!"
 .center[
 "Leider kann die Statistik keine Antwort darauf geben."
 
-</br>
 </br>
 </br>
 
@@ -623,7 +623,7 @@ d %>%
 ---
 
 
-## Unabhängkeiten laut `km1`
+## Unabhängigkeiten laut `km1`
 
 `b`: bedrooms, `p`: price, `a` area (living area)
 
@@ -643,7 +643,7 @@ $b \indep p \, |\, a$: `bedrooms` sind unabhängig von `price`, wenn man `living
 
 ---
 
-## Unabhängkeiten laut `km2`
+## Unabhängigkeiten laut `km2`
 
 `b`: bedrooms, `p`: price, `a` area (living area)
 
@@ -664,7 +664,7 @@ keine Unabhängigkeiten
 
 ---
 
-## Unabhängkeiten laut `km3`
+## Unabhängigkeiten laut `km3`
 
 `b`: bedrooms, `p`: price, `a` area (living area)
 
@@ -694,21 +694,23 @@ $b \indep a$: `bedrooms` sind unabhängig von `livingArea` (`a`)
 
 - Ein *Graph* besteht aus Knoten (Variablen) und Kanten (Linien), die die Knoten verbinden.
 
-- DAGs sind eine Methode, um Kausalstrukturen graphisch zu analyiseren.
-
 - DAGs sind *gerichtet*; die Pfeile zeigen immer in eine Richtung (und zwar von Ursache zu Wirkung).
 
 - DAGs sind *azyklisch*; die Wirkung eines Knoten darf nicht wieder auf ihn zurückführen. 
 
+- Ein *Pfad* ist ein Weg durch den DAG, von Knoten zu Knoten über die Kanten, unabhängig von der Pfeilrichtung.
+
 ]
 
 .pull-right[
-`km1`
+
+### DAG von `km1`
+
 ```{r}
 km1
 ```
 
-- Ein *Pfad* ist ein Weg durch den DAG, von Knoten zu Knoten über die Kanten, unabhängig von der Pfeilrichtung.
+
 
 ]
 
@@ -721,7 +723,7 @@ km1
 
 
 
-```{r}
+```{r fig.width=9}
 dag_km1 <-
   dagitty("dag{
          a -> b
@@ -755,6 +757,13 @@ ggdag_equivalent_dags(dag_km1) +
   Weiß man, was die Wirkung $W$ einer Handlung $H$ (Intervention) ist,
   so hat man $H$ als Ursache von $W$ erkannt.
   ]
+  
+  
+`r RefManageR::Citep(bib, "mcelreath_statistical_2020")`
+
+
+
+
 ]
 
 

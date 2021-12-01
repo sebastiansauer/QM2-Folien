@@ -28,11 +28,15 @@ class: middle, center
 
 ## Zur Erinnerung: Konfundierung
 
-Forschungsfrage: Wie groß ist der (kausale) Einfluss der Schlafzimmerzahl auf den Verkaufspreis des Hauses?
 
-`a:` livingArea, `b`: bedrooms, `p`: prize
+
+
 
 .pull-left[
+
+*Forschungsfrage*: Wie groß ist der (kausale) Einfluss der Schlafzimmerzahl auf den Verkaufspreis des Hauses?
+
+`a:` livingArea, `b`: bedrooms, `p`: prize
 
 UV: `b`, AV: `p`
 
@@ -68,7 +72,7 @@ dagify(p ~ a + b,
 ---
 
 
-## Experimente zeigen den echten kausalen Effekt
+## Gute Experimente zeigen den echten kausalen Effekt
 
 
 .pull-left[
@@ -127,21 +131,21 @@ dagify(p ~ a + b,
 ```{r}
 p_conf <- confounder_triangle(x = NULL, y = NULL, z = NULL, x_y_associated = FALSE) %>% 
   gg_simple_dag() +
-  labs(title = "Die Konfundierung (Gabel)")
+  labs(title = "Die Konfundierung")
 ```
 
 ```{r}
 p_med <- 
   mediation_triangle(x = NULL, y = NULL, m = NULL, x_y_associated = FALSE) %>% 
   gg_simple_dag() +
-  labs(title = "Die Mediation (Wirkkette)")
+  labs(title = "Die Mediation")
 ```
 
 
 ```{r}
 p_coll <- collider_triangle(x = NULL, y = NULL, m = NULL, x_y_associated = FALSE) %>% 
   gg_simple_dag() +
-  labs(title = "Die Kollision (Auwahlverzerrung)")
+  labs(title = "Die Kollision")
 ```
 
 
@@ -235,15 +239,15 @@ Hier ist ein Rezept, das garantiert, dass Sie welche Variablen Sie kontrollieren
 ---
 
 
-## Schließen Sie die Hintertür (wenn möglich)! - 1
+## Schließen Sie die Hintertür (wenn möglich)!, `bsp1`
 
 UV: $X$, AV: $Y$, drei Covariaten (A, B, C) und ein ungemessene Variable, U
 
 
 
-.pull-left[
 
-```{r}
+
+```{r out.width="50%"}
 dag_coords <-
   tibble(name = c("A", "B", "C", "U", "X", "Y"),
          x    = c(2, 2, 3, 1, 1, 3),
@@ -258,17 +262,16 @@ dagify(B ~ C + U,
   gg_fancy_dag(x = 1, y = 3, circle = "U")
 ```
 
-]
 
-.pull-left[
-Es gibt zwei Hinterürpfade:
+
+Es gibt zwei Hintertürpfade:
 
 1. $X \leftarrow U \leftarrow A \rightarrow C \rightarrow Y$, offen
 2. $X \leftarrow U \rightarrow B \leftarrow C \rightarrow Y$, geschlossen
 
 Kontrollieren von $A$ oder (auch) $C$ schließt die offene Hintertür.
 
-]
+
 
 `r RefManageR::Citep(bib, c("mcelreath_statistical_2020", "kurz_statistical_2021"))`, s.S. 186.
 
@@ -277,11 +280,11 @@ Kontrollieren von $A$ oder (auch) $C$ schließt die offene Hintertür.
 
 
 
-## Schließen Sie die Hintertür (wenn möglich)! - 2
+## Schließen Sie die Hintertür (wenn möglich)!, `bsp2`
 
-.pull-left[
+UV: $W$, AV: $D$
 
-```{r}
+```{r out.width = "70%", fig.asp = 0.5}
 dag_coords <-
   tibble(name = c("A", "D", "M", "S", "W"),
          x    = c(1, 3, 2, 1, 3),
@@ -295,30 +298,43 @@ dagify(A ~ S,
   gg_simple_dag()
 ```
 
-Kontrollieren, um die offenen Hinterüren zu schließen:
+Kontrollieren Sie diese Variablen, um die offenen Hintertüren zu schließen:
 
-1. A, M
-2. S
+- entweder $A$ und $M$
+- oder $S$
 
-]
-
-.pull-right[
-
->   In this graph, S is whether or not a State is in the southern United States,  
-A is median age at marriage,  
-M is marriage rate,  
-W is number of Waffle Houses, and  
-D is divorce rate. 
-This graph assumes that southern States have lower ages of marriage (S → A), 
-higher rates of marriage both directly (S → M) 
-and mediated through age of marriage (S → A → M),
-as well as more waffles (S → W). 
-Age of marriage and marriage rate both influence divorce.
-
->    There are three open backdoor paths between W and D. (p. 187)
-]
+[Mehr Infos](https://bookdown.org/content/4857/the-haunted-dag-the-causal-terror.html#backdoor-waffles.)
 
 
-`r RefManageR::Citep(bib, c("mcelreath_statistical_2020", "kurz_statistical_2021"))`, s.S. 186.
+
+`r RefManageR::Citep(bib, c("mcelreath_statistical_2020", "kurz_statistical_2021"))`, s.S. 188.
 
 ---
+
+
+## Implizierte bedingte Unabhängigkeiten von `bsp2`
+
+- Ein Graph ohne `U`s ist eine starke, oft zu starke (unrealistisch optimistische) Annahme.
+- Auch wenn die Daten aus nicht sagen können, welcher DAG der richtige ist, können wir zumindest lernen, welcher DAG falsch ist.
+- Einige testbare Modellimplikationen sind vom Modell implizierte bedingte Unabhängigkeiten.
+- Bedingten Unabhängigkeit zwischen zwei Variablen sind Variablen, die nicht assoziiert (also stochastisch unabhängig) sind, wenn wir eine bestimmte Menge an Drittvariablen kontrollieren.
+
+- `bsp2` impliziert folgende bedingte Unabhängigkeiten:
+
+```{r}
+dag_6.2 <- 
+  dagitty(
+    "dag {
+    A -> D
+    A -> M -> D
+    A <- S -> M
+    S -> W -> D
+    }"
+  )
+
+impliedConditionalIndependencies(dag_6.2)
+```
+
+---
+
+

@@ -59,6 +59,19 @@ knitr::opts_chunk$set(
 3. [Hinweise](#hinweise)
 ]
 
+
+
+
+```{r source-funs-local}
+source("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/R-Code/gg_simple_fancy_dag.R")
+```
+
+
+$\newcommand{\indep}{\perp \!\!\! \perp}$
+$\newcommand{\notindep}{\not\!\perp\!\!\!\perp}$
+
+
+
 ---
 
 
