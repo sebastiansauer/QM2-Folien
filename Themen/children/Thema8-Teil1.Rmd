@@ -2,7 +2,7 @@
 library(gt)
 library(tidyverse)
 library(dagitty)
-library(emo)
+
 ```
 
 
@@ -18,9 +18,9 @@ class: middle, center
 ---
 
 
-## Studie A: Was raten Sie dem Arzt?
+## Studie A: Östrogen
 
-Medikament einnehmen, ja oder nein?
+Was raten Sie dem Arzt? Medikament einnehmen, ja oder nein?
 
 </br>
 
@@ -45,6 +45,8 @@ studie_a %>%
 - Aber *insgesamt* (Summe von Frauen und Männern) *nicht*?!
 - Was sollen wir den Arzt rate? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er das Geschlecht kennt?
 
+`r RefManageR::Citep(bib, "pearl_causal_2016")`
+
 
 
 ---
@@ -53,9 +55,9 @@ studie_a %>%
 
 .pull-left[
 
-- Das Geschlecht hat einen Einfluss (+) auf Einnahme des Medikaments und auf Heilung (-).
+- Das Geschlecht (Östrogren) hat einen Einfluss (+) auf Einnahme des Medikaments und auf Heilung (-).
 - Das Medikament hat einen Einfluss (+) auf Heilung.
-- Betrachtet man die Gesamt-Daten zur Heilung, so ist der Effekt von Geschlecht und Medikament *vermengt* (konfundiert).
+- Betrachtet man die Gesamt-Daten zur Heilung, so ist der Effekt von Geschlecht (Östrogen) und Medikament *vermengt* (konfundiert).
 
 ]
 
@@ -68,6 +70,12 @@ dag_studie_a <-
           gender -> recovery
           }
       ")
+
+coordinates(dag_studie_a) <-
+  list(x = c(gender = 0, drug = 0, recovery  = 1),
+       y = c(gender = 0, drug = 1, recovery = 0.5))
+
+
 plot(dag_studie_a)
 ```
 
@@ -80,9 +88,9 @@ Betrachtung der Gesamtdaten zeigt einen *konfundierten* Effekt: Geschlecht konfu
 ---
 
 
-## Studie B: Was raten Sie dem Arzt?
+## Studie B: Blutdruck
 
-Medikament einnehmen, ja oder nein?
+Was raten Sie dem Arzt? Medikament einnehmen, ja oder nein?
 
 </br>
 
@@ -111,7 +119,7 @@ studie_b %>%
 - Was sollen wir den Arzt rate? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er den Blutdruck nicht kennt?
 
 
-
+`r RefManageR::Citep(bib, "pearl_causal_2016")`
 ---
 
 ## Kausalmodell zur Studie B
@@ -139,6 +147,10 @@ dag_studie_b <-
           toxic -> recovery
           }
       ")
+
+
+
+
 plot(dag_studie_b)
 ```
 
@@ -160,7 +172,7 @@ Betrachtung der Teildaten zeigt nur den toxischen Effekt des Medikaments, nicht 
 
 
 .pull-left[
-
+### Studie A
 ```{r}
 plot(dag_studie_a)
 ```
@@ -170,6 +182,7 @@ plot(dag_studie_a)
 
 
 .pull-right[
+### Studie B
 ```{r}
 plot(dag_studie_b)
 ```
@@ -191,7 +204,7 @@ Die Daten alleine reichen nicht.
 .pull-left[
 ### Statistik alleine reicht nicht für Kausalschlüsse
 .xxxlarge[
-🧟
+.center[🧟]
 ]
 ]
 
@@ -201,7 +214,7 @@ Die Daten alleine reichen nicht.
 .pull-right[
 ### Statistik plus Theorie erlaubt Kausalschlüsse
 .xxxlarge[
-📚+📊=🤩
+.center[📚+📊=🤩]
 ]
 ]
 
@@ -210,4 +223,74 @@ Die Daten alleine reichen nicht.
 
 
 ---
+
+
+## Studie C: Nierensteine
+
+
+.center2[
+Nehmen wir an, es gibt zwei Behandlungsvarianten bei Nierensteinen, Behandlung A und B. Ärzte tendieren zu Behandlung A bei großen Steinen (die einen schwereren Verlauf haben); bei kleineren Steinen tendieren die Ärzte zu Behandlung B. 
+
+
+Sollte ein Patient, der nicht weiß, ob sein Nierenstein groß oder klein ist, die Wirksamkeit in der Gesamtpopulation (Gesamtdaten) oder in den stratiﬁzierten Daten (Teildaten nach Steingröße) betrachten, um zu entscheiden, welche Behandlungsvariante er (oder sie) wählt?
+]
+
+
+
+
+---
+
+## Kausalmodell zur Studie C
+
+
+.pull-left[
+- Die Größe der Nierensteine hat einen Einfluss auf die Behandlungsmethode.
+- Die Behandlung hat eien Einfluss auf die Heilung.
+- Damit gibt es eine Mediation von Größe -> Behandlung -> Heilung.
+- Darüberhinaus gibt es noch einen Einfluss von Größe der Nierensteine auf die Heilung.
+]
+
+
+.pull-right[
+```{r}
+dag_studie_c <-
+  dagitty("dag{
+         size -> recovery
+         size -> treatment
+         treatment -> recovery
+          }
+      ")
+
+coordinates(dag_studie_c) <-
+  list(x = c(size = 0, treatment = 0, recovery  = 1),
+       y = c(size = 0, treatment = 1, recovery = 0.5))
+
+plot(dag_studie_c)
+
+```
+]
+
+---
+
+## Soll ich heiraten?
+
+
+.center2[
+„Studien zeigen, dass Einkommen und Heiraten (bzw. verheiratete sein) hoch korrelieren. Daher wird sich dein Einkommen erhöhen, wenn du heiratest.“
+]
+
+
+---
+
+## Soll ich mich beeilen?
+
+
+.center2[
+„Studien zeigen, dass Leute, die sich beeilen, zu spät zu ihrer Besprechung kommen. Daher lieber nicht beeilen, oder du kommst zu spät zu deiner Besprechung.“
+]
+
+
+---
+
+
 

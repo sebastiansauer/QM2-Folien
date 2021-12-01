@@ -344,12 +344,16 @@ coef(m10.10)
 
 
 - Der *Achsenabschnitt* gibt den Mittelwert der AV (`kid_score`) an, da `kid_score_z = 0` identisch ist zum Mittelwert von  `kid_score`.
-- Der Koeffizient für `mom_iq_z` gibt an, um wie viele SD-Einheiten sich `kid_score` (die AV) ändert, wenn sich `mom_iq` um eine SD-Einheit ändert. Dabei werden Mütter mittleren Alters betrachtet.
+- Der Koeffizient für `mom_iq_z` gibt an, um wie viele SD-Einheiten sich `kid_score` (die AV) ändert, wenn sich `mom_iq` um eine SD-Einheit ändert. 
 - Der Koeffizient für `mom_age_z` gibt an, um wie viele SD-Einheiten sich `kid_score` (die AV) ändert, wenn sich `mom_age` um eine SD-Einheit ändert.
 
-Jetzt sind die Prädiktoren in ihrer Relevanz (Zusammenhang mit der AV) vergleichbar. 
 
-Man sieht, dass die Intelligenz der Mutter *deutlich* wichtiger ist das Alter der Mutter (im Hinblick auf die Vorhersage bzw. den Zusammenhang mit mit der AV).
+
+Jetzt sind die Prädiktoren in ihrer Relevanz (Zusammenhang mit der AV) vergleichbar: 
+
+- Man sieht, dass die Intelligenz der Mutter *deutlich wichtiger* ist das Alter der Mutter (im Hinblick auf die Vorhersage bzw. den Zusammenhang mit mit der AV).
+
+
 
 ---
 

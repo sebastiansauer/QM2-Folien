@@ -22,9 +22,9 @@ outro_img <- paste0("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien
 
 - Dieses Skript wurde erstellt am `r Sys.time()` 
 
-- Lizenz: [CC-BY](https://creativecommons.org/licenses/by/4.0/)
+- Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
 
-- Autor ist Sebastian Sauer.
+- Autor: Sebastian Sauer.
 
 - Um diese HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
 
@@ -75,6 +75,8 @@ background-position: left
 name: literatur
 
 ## Literatur
+
+[Diese](https://sebastiansauer.github.io/QM2-Folien/citations.html) R-Pakete wurden verwendet.
 
 .small[
 ```{r Hinweise-1, results='asis', echo=FALSE, cache=FALSE}

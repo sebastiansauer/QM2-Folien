@@ -60,6 +60,15 @@ class: center, middle
 `r RefManageR::Citep(bib, "gelman_regression_2021")`
 
 
+---
+
+## Pckgs
+
+
+```{r}
+library(grateful)
+x <- scan_packages()
+```
 
 
 ---

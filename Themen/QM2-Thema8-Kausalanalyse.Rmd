@@ -53,6 +53,8 @@ knitr::opts_chunk$set(
 .xlarge[
 1. [Teil 1: Statistik, was soll ich tun?](#teil-1)
 
+2. [Teil 2: Konfundierung](#teil-2)
+
 
 3. [Hinweise](#hinweise)
 ]
@@ -67,5 +69,14 @@ knitr::opts_chunk$set(
 
 
 
+
+```{r QM2-Thema6-Intro, eval = TRUE, child="children/Thema8-Teil2.Rmd"}
+```
+
+
+
+
+
 ```{r QM2-Thema4-Gaussmodelle-3, eval = TRUE, child="children/Hinweise.Rmd"}
 ```
+        
