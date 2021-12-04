@@ -337,4 +337,22 @@ impliedConditionalIndependencies(dag_6.2)
 
 ---
 
+## Fazit
 
+- Wie (und sogar ob) Sie statistische Ergebnisse (z.B. eines Regressionsmodells) interpretieren können, hängt von der *epistemologischen Zielrichting* der Forschungsfrage ab:
+    - Bei *deskriptiven* Forschungsfragen können die Ergebnisse (z.B. Regressionskoeffizienten) direkt interpretiert werden. Z.B. "Der Unterschied zwischen beiden Gruppen beträgt etwa ...". Allerdings ist eine kausale Interpretation nicht zulässig.
+    - Bei *prognostischen* Fragestellungen spielen die Modellkoeffizienten keine Rolle, stattdessen geht es um vorhergesagten Werte, $\hat{y}_i$, z.B. auf Basis der PPV. Kausalaussagen sind zwar nicht möglich, aber auch nicht von Interesse.
+    - Bei *kausalen* Forschungsfragen dürfen die Modellkoeffizienten nur auf Basis eines Kausalmodells (DAG) oder eines (gut gemachten) Experiments interpretiert werden.
+    
+- Modellkoeffizienten ändern sich (oft), wenn man Prädiktoren zum Modell hinzufügt oder wegnimmt.
+- Entgegen der verbreiteten Annahme ist es falsch, möglichst viele Prädiktoren in das Modell aufzunehmen, wenn das Ziel eine Kausalaussage ist.
+- Kenntniss der "kausalen Atome" ist Voraussetzung zur Ableitung von Kausalschlüsse in Beobachtungsstudien.
+
+
+
+
+
+
+
+
+---

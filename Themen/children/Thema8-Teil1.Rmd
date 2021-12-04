@@ -40,7 +40,7 @@ studie_a %>%
 </br>
 
 
-- Die Daten stammen aus einer (fiktiven) klinischen Studie, $n=700$\, hoher Qualität (Beobachtungsstudie).
+- Die Daten stammen aus einer (fiktiven) klinischen Studie, $n=700$, hoher Qualität (Beobachtungsstudie).
 - Bei Männern scheint das Medikament zu helfen; bei Frauen auch.
 - Aber *insgesamt* (Summe von Frauen und Männern) *nicht*?!
 - Was sollen wir den Arzt rate? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er das Geschlecht kennt?

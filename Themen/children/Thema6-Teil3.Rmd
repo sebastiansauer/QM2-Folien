@@ -21,7 +21,19 @@ class: middle, center
 
 *Hintergrund*:
 
-Nach Ihrem Studium haben Sie bei einem aufstrebenden Online-Händler angeheuert. Sie sind für alles zuständig, was nach Wissenschaft oder Analyse aussieht oder sonst den Anschein erweckt, kompliziert zu sein. Aus irgendwelchen Gründen liegt Ihre Chefin Diamante️n, so dass Ihre erste Aufgabe darin besteht, Diamantenpreise zu analysieren. Das Ziel Ihrer Chefin liegt darin, zu erkennen, was ein Preis ist, für den ein Diamant gut verkauft werden kann. Kennt man diesen Preis, kann man sich auf die Suche machen, ob man den Diamant irgendwo günstiger find. Wenn ja, macht man Gewinn. Gutes Geschäftsmodell, meint Ihre Chefin.
+Nach Ihrem Studium haben Sie bei einem aufstrebenden Online-Händler angeheuert
+Sie sind für alles zuständig, 
+was nach Wissenschaft oder Analyse aussieht oder sonst den Anschein erweckt,
+kompliziert zu sein. 
+Aus irgendwelchen Gründen liebt Ihre Chefin Diamanten,
+so dass Ihre erste Aufgabe darin besteht, Diamantenpreise zu analysieren. 
+Das Ziel Ihrer Chefin liegt darin, 
+zu erkennen, was ein Preis ist, 
+für den ein Diamant gut verkauft werden kann. Kennt man diesen Preis, 
+kann man sich auf die Suche machen, 
+ob man den Diamant irgendwo günstiger findet. 
+Wenn ja, macht man Gewinn. 
+Gutes Geschäftsmodell, meint Ihre Chefin.
 
 </br>
 
