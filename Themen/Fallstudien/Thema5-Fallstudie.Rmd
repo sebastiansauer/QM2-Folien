@@ -1,5 +1,5 @@
 ---
-title: "QM2-Thema5-Fallstudie1: Filmbewertungen"
+title: "Fallstudie 'Filmbewertungen'"
 author: "ses"
 date: "`r Sys.time()`"
 output: 
@@ -73,7 +73,11 @@ help(movies)
 
 ## Bezug zum Studiengang AWM
 
-Nach dem Studium haben Sie bei einem Online-Händler angeheuert und zwar in der Medien-Abteilung. Der Hinweis, dass Sie etwas mit Medien studiert haben genügte. Vielleicht war auch die Behauptung, dass Sie der absolute R-Checker seien nützlich, um den Job zu bekommen ... Jedenfalls müssen Sie den Behauptungen Taten folgen lassen, Schluck!
+Nach dem Studium haben Sie bei einem Online-Händler angeheuert und zwar in der Medien-Abteilung. 
+Der Hinweis, dass Sie etwas mit Medien studiert haben genügte. 
+Vielleicht war auch die Behauptung, dass Sie der absolute R-Checker seien nützlich, 
+um den Job zu bekommen ... 
+Jedenfalls müssen Sie den Behauptungen Taten folgen lassen, Schluck!
 
 
 
@@ -81,7 +85,9 @@ Nach dem Studium haben Sie bei einem Online-Händler angeheuert und zwar in der 
 
 *Wie (stark) ist der Zusammenhang von logarithmierten Budget und Bewertung eines Films?*
 
-Unser Kunde -- ein reicher Mäzen mit extrentischem Lebenswandel, der gerne ein paar Millionen invetieren möchte -- geht von einem positivem Zusammenhang, $\beta$ aus. Entsprechend sei unsere Hypothese $H_1: \beta > 0$.
+Unser Kunde -- ein reicher Mäzen mit extremen Lebenswandel, 
+der gerne ein paar Millionen investieren möchte -- geht von einem positivem Zusammenhang, $\beta$ aus. 
+Entsprechend sei unsere Hypothese $H_1: \beta > 0$.
 
 
 # Explorative Analyse
@@ -108,7 +114,9 @@ movies2 <-
 ```
 
 
-Einige Filme haben ein Budget von 0. Das Logarithmus von 0 ist aber minus Unendlich. Mit dieser "Zahl" kann man nicht rechnen. Daher filtern wir alle Zeilen mit `-Inf` heraus.
+Einige Filme haben ein Budget von 0. 
+Das Logarithmus von 0 ist aber minus Unendlich. Mit dieser "Zahl" kann man nicht rechnen. 
+Daher filtern wir alle Zeilen mit `-Inf` heraus.
 
 
 ## Logarithmus
@@ -119,7 +127,7 @@ Einige Filme haben ein Budget von 0. Das Logarithmus von 0 ist aber minus Unendl
 - 10000: 10^4 -> log10(10^4) = 4
 - 100000: 10^5 -> log10(10^5) = 5
 
-Wir nehmen also die Größenordnung heran, nicht den Betrag selber.
+Wir modellieren also die Größenordnung, nicht den Betrag selber.
 
 
 
@@ -149,7 +157,9 @@ Es scheint  einen sehr schwachen, *negativen* Zusammenhang zu geben.
 
 Das gefällt unserem Auftraggeber nicht.
 
-Aber, sagt er, und das zu Recht, entscheidend ist ja nicht die Stichprobe, sondern die Population. Weswegen wir uns bitte schön sofort an die Inferenzstatistik bewegen sollten.
+Aber, sagt er, und das zu Recht, entscheidend ist ja nicht die Stichprobe, 
+sondern die Population. 
+Weswegen wir uns bitte schön sofort an die Inferenzstatistik bewegen sollten.
 
 Aha, unser Mäzen kennt sich also sogar mit Statistik aus.
 
@@ -202,8 +212,11 @@ toc()
 
 Einige Infos zu den Priori-Werten bei `stan_glm()` findet sich [hier](https://cran.r-project.org/web/packages/rstanarm/vignettes/priors.html).
 
+Einen Überblick zu allen Funktionen (R-Befehlen) aus `rstanarm` findet sich übrigens [hier](https://mc-stan.org/rstanarm/reference/index.html).
 
-`tic()` und `toc()` messen Anfang und Ende der dazwischen liegenden Zeit. Da die Modelle ein paar Sekunden brauchen, ist es ganz interessant zu wissen, wie lange wir warten mussten.
+`tic()` und `toc()` messen Anfang und Ende der dazwischen liegenden Zeit. 
+Da die Modelle ein paar Sekunden brauchen, 
+ist es ganz interessant zu wissen, wie lange wir warten mussten.
 
 
 ### Priors
@@ -218,7 +231,10 @@ prior_summary(post1)
 Mit `coefficients` ist das Regressionsgewicht $\beta$ gemeint.
 
 
-Das sind keineswegs besonders schlaue Prioris. Könnten wir unseren Mäzen befragen, er scheint ja Experte zu sein, kämen wir vielleicht zu klügeren Prioris (allerdings ist der Mäzen gerade auf einer "Musen-Reise" und nicht zu sprechen).
+Das sind keineswegs besonders schlaue Prioris. 
+Könnten wir unseren Mäzen befragen, er scheint ja Experte zu sein, 
+kämen wir vielleicht zu klügeren Prioris 
+(allerdings ist der Mäzen gerade auf einer "Musen-Reise" und nicht zu sprechen).
 
 
 ### Posteriori-Verteilung
@@ -251,7 +267,12 @@ posterior_interval(post1) %>%
   round(2)
 ```
 
-Wir wissen jetzt also schon das Wesentliche: Mit einer Wahrscheinlichkeit von 90% liegt der Zusammenhang (das Beta-Gewicht) für Log-Budget zwischen -0.13 und -0.07. Es gibt also einen gewissen, negativen Zusammenhang zwischen Budget und Bewertung eines Films, laut unserem Golem zumindest.
+Wir wissen jetzt also schon das Wesentliche: 
+Mit einer Wahrscheinlichkeit von 90% liegt der Zusammenhang (das Beta-Gewicht) 
+für Log-Budget zwischen -0.13 und -0.07. 
+Es gibt also einen gewissen, 
+negativen Zusammenhang zwischen Budget und Bewertung eines Films, 
+laut unserem Golem zumindest.
 
 
 ### Visualisieren
@@ -280,10 +301,12 @@ post1_prior_pred
 ```
 
 
-Die Koeffizienten aus `post1_prior_pred` sind also *rein* durch die Priori-Werte definiert; die Daten sind nicht eingeflossen.
+Die Koeffizienten aus `post1_prior_pred` sind also *rein* durch die Priori-Werte definiert; 
+die Daten sind nicht eingeflossen.
 
 
-Wenn wir das Objekt mit `as_tibble()` in eine Tabelle umwandeln, bekommen wir eine Tabelle mit den Stichproben:
+Wenn wir das Objekt mit `as_tibble()` in eine Tabelle umwandeln, 
+bekommen wir eine Tabelle mit den Stichproben:
 
 ```{r}
 post1_prior_pred_draws <- 
@@ -375,7 +398,8 @@ draws_m1 %>%
 
 
 
-Die Posteriori-Intervalle kann man sich schnöde mit `plot()` ausgeben lassen, wobei man als Parameter den Namen des Modells übergibt.
+Die Posteriori-Intervalle kann man sich schnöde mit `plot()` ausgeben lassen, 
+wobei man als Parameter den Namen des Modells übergibt.
 
 ```{r}
 plot(post1)
@@ -394,7 +418,8 @@ mcmc_areas(post1) +
 S. [Hilfe hier](https://mc-stan.org/bayesplot/reference/MCMC-intervals.html)
 
 
-Man kann sich auch angeben, welchen Parameter man visualisieren möchte, und zwar mit dem Argument `pars` (wie *paramters*).
+Man kann sich auch angeben, welchen Parameter man visualisieren möchte, 
+und zwar mit dem Argument `pars` (wie *parameters*).
 
 
 Oder nur das Posteriori-Interval für den Regressionskoeffizienten:
@@ -408,34 +433,43 @@ mcmc_areas(post1,
 ### Fazit
 
 
-Die Wahrscheinlichkeit, dass der Zusammenhang in Wirklichkeit zwischen -0.15 und -0.05 ist, ist sehr hoch.
+Die Wahrscheinlichkeit, dass der Zusammenhang in Wirklichkeit zwischen -0.15 und -0.05 ist, 
+ist sehr hoch.
 
 Aber was bedeutet das, wie interpretiert man den Befund?
 
-Rufen wir uns dazu ins Gedächtnis, was log10 bedeutet: Es bedeutet, dass man das Budget mit 10 multipliziert, also verzehnfacht, sozusagen eine Null hintendran schreibt.
+Rufen wir uns dazu ins Gedächtnis, was log10 bedeutet: 
+Es bedeutet, dass man das Budget mit 10 multipliziert, also verzehnfacht, sozusagen eine Null hintendran schreibt.
 
 Also: *Verzehnfacht man das Budget, so verringert sich mittlere Bewertung um etwa 0.15 bis 0.05 Punkte.*
 
-Ob das viel ist, muss ein Medienexperte beantworten. Vielleicht sind Sie ja einer!
+Ob das viel ist, muss ein Medienexperte beantworten. 
+Vielleicht sind Sie ja einer!
 
 
 ## Modell 2: Informierte (?) Priors
 
-Kramen wir all unser Wissen über Filme und die Filmindustrie zusammen! Wie wichtig sind die Kohlen für die Güte eines Films? Haben die einen großen Einfluss? 
+Kramen wir all unser Wissen über Filme und die Filmindustrie zusammen! 
+Wie wichtig sind die Kohlen für die Güte eines Films? Haben die einen großen Einfluss? 
 
-(Wenn wir von "Einfluss" sprechen, denken wir sicher automatisch an *kausalen* Einfluss. Jedenfalls geht es mir so und ich glaube, es ist schwierig, nicht an kausalen Einfluss, sondern nur an blanke Assoization, zu denken).
+(Wenn wir von "Einfluss" sprechen, denken wir sicher automatisch an *kausalen* Einfluss. 
+Jedenfalls geht es mir so und ich glaube, es ist schwierig, nicht an kausalen Einfluss, sondern nur an blanke Assoization, zu denken).
 
 
 ### Modellefinition in R (rstanarm)
 
 
-Nach langem Beratschschlagen mit Film-Experten gehen wir davon aus, dass es im Prinzip - "normalerweise" keinen Zusammenhang gibt. Allerdings hat man in Filmen schon Pferde kotzen gesehen, deswegen wollen wir unseren Golem zu verstehen geben, dass er sich auch auf Überraschungen einstellen soll ...
+Nach langem Beratschschlagen mit Film-Experten gehen wir davon aus, dass es im Prinzip - "normalerweise" keinen Zusammenhang gibt. 
+Allerdings hat man in Filmen schon Pferde kotzen gesehen, 
+deswegen wollen wir unseren Golem zu verstehen geben, 
+dass er sich auch auf Überraschungen einstellen soll ...
 
 Kurz gesagt, auf Golem-Sprech:
 
 $$\beta = \mathcal{N}(0,0.2)$$
 
-Mit anderen Worten, verzehnfacht man das Budget, erwarten wir eine Veränderung von (in 95% der Fälle) nicht mehr als ±0.4 Rating-Punkte.
+Mit anderen Worten, verzehnfacht man das Budget, 
+erwarten wir eine Veränderung von (in 95% der Fälle) nicht mehr als ±0.4 Rating-Punkte.
 
 Für die übrigen Priorwerte greifen wir auf wenig ambitionierte Standardwerte zurück.
 
@@ -485,7 +519,8 @@ toc()
 
 #### Visualisierung der Prior-Prädiktiv-Verteilung
 
-Dazu gehen wir vor wie für Modell 1, `post1`. Zuerst wandeln wir das Objekt `post2` in eine Tabele mit den Stichproben aus der Post-Verteilung um:
+Dazu gehen wir vor wie für Modell 1, `post1`. 
+Zuerst wandeln wir das Objekt `post2` in eine Tabele mit den Stichproben aus der Post-Verteilung um:
 
 ```{r}
 post2_prior_pred_draws <- 
@@ -574,7 +609,8 @@ draws_m2 %>%
   fmt_number(everything(), decimals = 1)
 ```
 
-Und hier die Regressionsgerade mit dem "Unsicherheitsbereich" für die Regressionskoeffizienten.
+Und hier die Regressionsgerade mit dem "Unsicherheitsbereich" 
+für die Regressionskoeffizienten.
 
 ```{r}
 plot0 +
@@ -631,7 +667,8 @@ Das ist das Gleiche wie unser Dichte-Diagramme etwas weiter oben.
 summary(post2)
 ```
 
-Laut dem Modell (`post2`) liegt der Regressionskoeffizient mit 90% Wahrscheinlichkeit eng um -0.1 herum.
+Laut dem Modell (`post2`) liegt der Regressionskoeffizient mit 90% Wahrscheinlichkeit 
+eng um -0.1 herum.
 
 Genauer gesagt: $90\%PI_b: (-0.13, -0.07)$:
 
@@ -659,7 +696,8 @@ draws_m2 %>%
 ```
 
 
-Die Wahrscheinlichkeit ist praktisch Null, dass der Zusammenhang positiv ist.
+Die Wahrscheinlichkeit ist praktisch Null, 
+dass der Zusammenhang positiv ist.
 
 
 
@@ -699,7 +737,8 @@ Der Golem blickt es nicht! Das Modell ist schlecht.
 
 #### PPV berechnen
 
-Simulieren wir den Erfolg neuer Filme; dabei betrachten wir das Budget von $10^3$ bis $10^8$ (6 Werte). Wir ziehen pro Budgetwert 1000 Stichproben aus der PPV.
+Simulieren wir den Erfolg neuer Filme; dabei betrachten wir das Budget von $10^3$ bis $10^8$ (6 Werte). 
+Wir ziehen pro Budgetwert 1000 Stichproben aus der PPV.
 
 ```{r}
 neue_Filme <- tibble(
@@ -731,7 +770,8 @@ dim(ppv_m2)  # Zeilen, Spalten
 ```
 
 
-Leider werden unsere Eingabewerte (3 bis 8) zerhauen, stattdessen wird 1 bis 6 zurückgegeben. Kümmern wir uns gleich darum.
+Leider werden unsere Eingabewerte (3 bis 8) zerhauen, stattdessen wird 1 bis 6 zurückgegeben. 
+Kümmern wir uns gleich darum.
 
 
 Hier ein Blick in die Tabelle `ppv_m2`: 
@@ -744,7 +784,8 @@ ppv_m2 %>%
 
 Ändern wir die Spaltennamen von 1,2,...6, in 3,4,...,8 um.
 
-Reine Zahlen werden als Spaltennamen nicht akzeptiert, deswegen wandeln wir nohc die Zahl `3` in den Text `"3"` um, mit `as.character()`: 
+Reine Zahlen werden als Spaltennamen nicht akzeptiert, 
+deswegen wandeln wir noch die Zahl `3` in den Text `"3"` um, mit `as.character()`: 
 
 ```{r}
 names(ppv_m2) <- as.character(neue_Filme$budget_log10)
@@ -780,14 +821,16 @@ ppv_m2_long %>%
   geom_boxplot() 
 ```
 
-Tja, keine großen Unterschiede zwischen den Budget-Faktoren (also den Werte von `budget_log10`). Unser Modell prognostiziert die Daten ganz passabel. Nicht, dass das Ergebnis spektakulär wäre.
+Tja, keine großen Unterschiede zwischen den Budget-Faktoren (also den Werte von `budget_log10`). 
+Unser Modell prognostiziert die Daten ganz passabel. Nicht, dass das Ergebnis spektakulär wäre.
 
 
 
 
 ### 90%-Vorhersage-Intervalle
 
-Mit der Funktion `predictive_interval` kann man sich obige Berechnung sparen, sondern bekommt sie genussfertig nach Hause.
+Mit der Funktion `predictive_interval` kann man sich obige Berechnung sparen, 
+sondern bekommt sie genussfertig nach Hause.
 
 Wir sehen hier die *tatsächlichen Rating-Werte* pro Budget-Wert, nicht nur $\mu|b$.
 
@@ -812,12 +855,17 @@ Wie man sieht, sind die Intervalle sehr groß: Das Modell ist *sehr* schlecht.
 
 Die Forschungsfrage war, ob das Budget eines Films mit der Bewertung zusammenhängt.
 
-Dazu wurden zwei einfache lineare Modelle berechnet, die sich in ihren Vorannahmen leicht unterschieden.
+Dazu wurden zwei einfache lineare Modelle berechnet, 
+die sich in ihren Vorannahmen leicht unterschieden.
 
 
 ## Schätzbereiche für $\beta$ 
 
-Beide Modelle fanden konsistent einen schwachen, negativen linearen Zusammenhang $\beta$ zwischen Budget und Bewertung: Filme mit mehr Budget wurden konsistent schlechter bewertet, laut den beiden Modellen. 
+Beide Modelle fanden konsistent einen schwachen, 
+negativen linearen Zusammenhang $\beta$ zwischen Budget und Bewertung: 
+Filme mit mehr Budget wurden konsistent schlechter bewertet, 
+laut den beiden Modellen. 
+
 Hier sind 90%-PI berichtet:
 
 - Modell 1: [`r round(posterior_interval(post1)[2,1], 2)`, `r round(posterior_interval(post1)[2,2], 2)`]
@@ -836,7 +884,9 @@ Hier sind 90%-PI berichtet:
 ## Beantwortung der Forschungsfrage
 
 
-Das Modell ist überzeugt, dass es einen leichten, negativen Zusammenhang gibt. Das Modell schließt aus, dass es *keinen* Zusammenhang gibt.
+Das Modell ist überzeugt, dass es einen leichten, 
+negativen Zusammenhang gibt. Das Modell schließt aus, 
+dass es *keinen* Zusammenhang gibt.
 
 
 
