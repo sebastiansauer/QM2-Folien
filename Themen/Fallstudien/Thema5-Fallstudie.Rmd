@@ -68,7 +68,7 @@ help(movies)
 
 
 
-# Hingergrund
+# Hintergrund
 
 
 ## Bezug zum Studiengang AWM
@@ -95,11 +95,12 @@ Entsprechend sei unsere Hypothese $H_1: \beta > 0$.
 
 ## Datensatz vorverarbeiten 
 
-Es macht für Analysen, die in Stan laufen immer Sinn
+Es macht für Analysen, die in Stan laufen, grundsätzlich Sinn:
 
 - nur die relevanten Variablen in die Analyse aufzunehmen
 - fehlende Werte zu entfernen
 - vorab (vor dem Modellieren) etwaige Transformationen (wie Quadrieren, logarithmieren) vorzunehmen 
+- UV und AV zu z-standardisieren
 
 ```{r}
 movies <-
@@ -117,6 +118,10 @@ movies2 <-
 Einige Filme haben ein Budget von 0. 
 Das Logarithmus von 0 ist aber minus Unendlich. Mit dieser "Zahl" kann man nicht rechnen. 
 Daher filtern wir alle Zeilen mit `-Inf` heraus.
+
+
+Eine Standardisierung der Prädiktoren könnte nützlich sein,
+ist hier aber nicht weiter ausgeführt.
 
 
 ## Logarithmus
@@ -139,6 +144,15 @@ Wir modellieren also die Größenordnung, nicht den Betrag selber.
 movies2 %>% 
   get_summary_stats() %>% 
   gt()
+```
+
+Die Umrechung (im Kopf) von logarithmierten Werten ist nicht ganz einfach,
+daher hier nochmal die ursprünglichen, nicht-transformierten Werte:
+
+```{r}
+movies %>% 
+  select(budget, rating) %>% 
+  get_summary_stats(type = "mean_sd")
 ```
 
 
@@ -164,12 +178,7 @@ Weswegen wir uns bitte schön sofort an die Inferenzstatistik bewegen sollten.
 Aha, unser Mäzen kennt sich also sogar mit Statistik aus.
 
 
-# Modellefinition
-
-
-
-
-## Priors
+# Modelldefinition
 
 
 
@@ -200,7 +209,7 @@ Die Prioriwerte sind etwas weiter unten aufgeführt.
 
 ### Modellefinition in R (rstanarm)
 
-```{r}
+```{r compute-post1}
 tic()
 post1 <- stan_glm(rating ~ budget_log10,
                data = movies2,
@@ -210,7 +219,8 @@ toc()
 ```
 
 
-Einige Infos zu den Priori-Werten bei `stan_glm()` findet sich [hier](https://cran.r-project.org/web/packages/rstanarm/vignettes/priors.html).
+Einige Infos zu den Priori-Werten bei `stan_glm()` 
+findet sich [hier](https://cran.r-project.org/web/packages/rstanarm/vignettes/priors.html).
 
 Einen Überblick zu allen Funktionen (R-Befehlen) aus `rstanarm` findet sich übrigens [hier](https://mc-stan.org/rstanarm/reference/index.html).
 
@@ -282,7 +292,7 @@ laut unserem Golem zumindest.
 
 
 
-```{r echo = TRUE, eval = TRUE}
+```{r compute-post1-prior-pred, echo = TRUE, eval = TRUE}
 post1_prior_pred <- stan_glm(rating ~ budget_log10,
                data = movies2,
                prior_PD = TRUE  # DIESER Schalter gibt uns die Prior-Prädiktiv-Verteilung
@@ -329,7 +339,7 @@ aes(intercept = a, slope = b), color = "skyblue", size = 0.2)
 ```
 
 
-Puh, die Priori-Werte sind ... vogelwild🐦 .
+Puh, die Priori-Werte sind ... vogelwild 🐦.
 
 
 
@@ -459,28 +469,84 @@ Jedenfalls geht es mir so und ich glaube, es ist schwierig, nicht an kausalen Ei
 ### Modellefinition in R (rstanarm)
 
 
-Nach langem Beratschschlagen mit Film-Experten gehen wir davon aus, dass es im Prinzip - "normalerweise" keinen Zusammenhang gibt. 
+Außerdem z-standardisieren wir jetzt UV und AV.
+
+```{r}
+movies3 <- 
+  movies2 %>% 
+  transmute(budget_log10_z = scale(budget_log10),
+            rating_z = scale(rating))
+```
+
+
+
+Nach langem Beratschschlagen mit Film-Experten gehen wir davon aus, 
+dass es im Prinzip - "normalerweise" keinen Zusammenhang gibt. 
 Allerdings hat man in Filmen schon Pferde kotzen gesehen, 
 deswegen wollen wir unseren Golem zu verstehen geben, 
 dass er sich auch auf Überraschungen einstellen soll ...
+(Schließlich wurden wir, oder zumindest unser Mäzen gerade selber von den Daten überrascht.) 
 
-Kurz gesagt, auf Golem-Sprech:
+Kurz gesagt, wir definieren $\beta$ so, auf Golem-Sprech:
 
 $$\beta = \mathcal{N}(0,0.2)$$
 
-Mit anderen Worten, verzehnfacht man das Budget, 
-erwarten wir eine Veränderung von (in 95% der Fälle) nicht mehr als ±0.4 Rating-Punkte.
+
+Bei z-standardisierten Variablen in einem einfachen Regressionsmodell 
+kann $\beta$ wir $\rho$ (Korrelation) interpretiert werden.
+
+Oben formulierter Prior ist also der Meinung.
+
+*Es gibt eine schwache ($r=0.2$) Korrelation*
+*zwischen Verzehnfachung des Budgetsund der Filmbewertung*.
+
+Mit anderen Worten, ein Unterschied von einer SD im Log-Budget 
+geht mit einer Veränduerng von (in 95% der Fälle) nicht mehr als ±0.4 Rating-Punkte einher.
+
+Ein Nachteil der z-Standardisierung ist die schwierigere Interpretation;
+daher ist die Zentrierung in einigen Fällen die bessere Transformation.
+Bei der Zentrierung bleiben die Einheiten (wie Dollar) erhalten,
+was oft wünschenswert ist.
+Sind die Eiheiten aber wenig "sprechend" (z.B. Punkte auf einer Fragebogenskala),
+so verliert man wenig, wenn man die Roh-Einheiten mit der z-Transformation aufgibt.
 
 Für die übrigen Priorwerte greifen wir auf wenig ambitionierte Standardwerte zurück.
 
-```{r}
-post2 <- stan_glm(rating ~ budget_log10,
-               data = movies2,
-               prior_intercept = normal(6, 1),  # alpha
-               prior_aux = exponential(1),  # sigma
+
+
+`transmute()` ist wie `mutate()`, nur dass nur die transformierten Variablen
+im Datensatz behalten werden, alle übrigen Variablen werden entfernt.
+
+
+
+```{r compute-post2}
+post2 <- stan_glm(rating_z ~ budget_log10_z,
+               data = movies3,
                prior = normal(0, .2),  # beta
                refresh = 0)  # Nicht so viel Ausgabe
 ```
+
+
+Ein "Gefühl" zur Exponentialverteilung zu entwickeln, 
+ist nicht so einfach wie bei der Normalverteilung, da
+weniger gebräuchlich.
+
+Es hilft, sich die Quantile `q` der `exp`onentialverteilung anzuschauen, 
+hier die "Standardverteilung" mit der Rate 1:
+
+```{r}
+qexp(p = .95, rate = 1)
+```
+
+
+Die Ausgabe sagt uns, dass 95% der Beobachtungen einen Wert kleiner als ca. 3 haben.
+
+Auf unsere Fallstudie bezogen:
+Wir erwarten, dass 95% der Werte höchstens 3 Einheiten der AV vom 
+vorhergesagten Wert entfernt sind.
+Das ist ziemlich lax (schwach informativ),
+denn unsere AV ist z-skaliert.
+
 
 
 Um Rechenzeit zu sparen, kann man das Modell auch speichern:
@@ -493,6 +559,9 @@ load(file = "post2.rda")
 
 ### Priors
 
+Hier ein Überblick der Priors, 
+die unser Modell `post2` verwendet:
+
 ```{r}
 prior_summary(post2)
 ```
@@ -503,12 +572,10 @@ prior_summary(post2)
 
 #### Berechnen der Prior-Prädiktiv-Verteilung
 
-```{r}
+```{r compute-post2-prior-pred}
 tic()
-post2_prior_pred <- stan_glm(rating ~ budget_log10,
-                             data = movies2,
-                             prior_intercept = normal(6, 1),  # alpha
-                             prior_aux = exponential(1),  # sigma
+post2_prior_pred <- stan_glm(rating_z ~ budget_log10_z,
+                             data = movies3,
                              prior_PD = TRUE,  # Prior-Prädiktiv-Verteilung
                              prior = normal(0, .2),  # beta
                              refresh = 0)  # Nicht so viel Ausgabe
@@ -520,14 +587,14 @@ toc()
 #### Visualisierung der Prior-Prädiktiv-Verteilung
 
 Dazu gehen wir vor wie für Modell 1, `post1`. 
-Zuerst wandeln wir das Objekt `post2` in eine Tabele mit den Stichproben aus der Post-Verteilung um:
+Zuerst wandeln wir das Objekt `post2` in eine Tabelle mit den Stichproben aus der Post-Verteilung um:
 
 ```{r}
 post2_prior_pred_draws <- 
   post2_prior_pred %>% 
   as_tibble() %>% 
   rename(a = `(Intercept)`,  # schönere, einfachere Namen
-         b = budget_log10) %>% 
+         b = budget_log10_z) %>% 
   slice_sample(n = 100)
 ```
 
@@ -537,11 +604,11 @@ Und dann visualisieren
 
 
 ```{r prior-post2-plot, echo = TRUE, eval = TRUE}
-movies2 %>% 
+movies3 %>% 
   ggplot() +
-  geom_point(aes(x = budget_log10, y = rating)) + 
+  geom_point(aes(x = budget_log10_z, y = rating_z)) + 
   geom_abline(data = post2_prior_pred_draws,
-aes(intercept = a, slope = b), color = "skyblue", size = 0.2)
+              aes(intercept = a, slope = b), color = "skyblue", size = 0.2)
 ```
 
 
@@ -647,14 +714,14 @@ mcmc_areas(post2) +
 
 ```{r}
 mcmc_intervals(post2,
-               pars = "budget_log10") 
+               pars = "budget_log10_z") 
 ```
 
 
 
 ```{r}
 mcmc_areas(post2,
-           pars = "budget_log10") +
+           pars = "budget_log10_z") +
   labs(title = "Posteriori-Verteilung",
        caption = "Gezeigt werden Median und 50% bzw. 90% Perzentil-Intervalle")
 ```
@@ -731,6 +798,32 @@ Der Anteil erklärter Varianz ist praktisch Null.
 Der Golem blickt es nicht! Das Modell ist schlecht. 
 
 
+### Verhältnis von Prior zu Posteriori
+
+Ein interessanter Blick ist der Vergleich der Priori- zu Posteriori-Verteilungen:
+Um wieviel hat sich unsere Einschätzung (von Priori zu Posteriori) durch die Daten geändert?
+
+Das kann man sich gut so visualisieren lassen:
+
+```{r}
+posterior_vs_prior(post2)
+```
+
+
+Wir sehen, dass sich die zentrale Tendenz der Parameter (von Prior zu Posterior)
+kaum geändert hat: Die "Lage" ist fast gleich.
+Allerdings hat sich die Ungewissheit (des Golems) drastisch verringert.
+Ob wir seiner Meinung folgen,
+steht auf einem anderen Blatt: Seine Meinung bezieht sich ausschließlich
+auf seine kleine Welt.
+Er weiß nichts von der Welt außer den Informationen, 
+die wir ihm gegeben haben.
+Wir dagegen vermuten vermutlich,
+dass noch andere Dinge eine Rolle spielen außer dem Budget,
+wenn es darum geht, die Beliebtheit eines Films vorherzusagen.
+
+
+
 
 
 ### PPV
@@ -741,8 +834,9 @@ Simulieren wir den Erfolg neuer Filme; dabei betrachten wir das Budget von $10^3
 Wir ziehen pro Budgetwert 1000 Stichproben aus der PPV.
 
 ```{r}
-neue_Filme <- tibble(
-  budget_log10 = 3:8)
+neue_Filme <- 
+  tibble(
+    budget_log10_z = 3:8)
 ```
 
 
@@ -788,7 +882,7 @@ Reine Zahlen werden als Spaltennamen nicht akzeptiert,
 deswegen wandeln wir noch die Zahl `3` in den Text `"3"` um, mit `as.character()`: 
 
 ```{r}
-names(ppv_m2) <- as.character(neue_Filme$budget_log10)
+names(ppv_m2) <- as.character(neue_Filme$budget_log10_z)
 ```
 
 
@@ -799,7 +893,7 @@ Vom breiten ins lange Format überführen:
 ppv_m2_long <- 
   ppv_m2 %>% 
   pivot_longer(everything(),
-               names_to="budget_log10",
+               names_to="budget_log10_z",
                values_to="rating")
 ```
 
@@ -816,7 +910,7 @@ Ein paar Erklärungen zu `pivot_wider()`:
 
 ```{r}
 ppv_m2_long %>% 
-  ggplot(aes(x = budget_log10,
+  ggplot(aes(x = budget_log10_z,
              y = rating)) +
   geom_boxplot() 
 ```
@@ -887,6 +981,29 @@ Hier sind 90%-PI berichtet:
 Das Modell ist überzeugt, dass es einen leichten, 
 negativen Zusammenhang gibt. Das Modell schließt aus, 
 dass es *keinen* Zusammenhang gibt.
+
+## Limitationen
+
+Die Grenzen dieser Analyse sind vielschichtig.
+Ein Hauptprobleme ist sicherlich, dass wir nur einen Prädiktor verwendet haben,
+um einen Eindruck von der "Relevanz" des Prädiktors zu bekommen.
+Dabei ist "Relevanz" wahrscheinlich bereits ein kausales Wort -
+und ohne ein Kausalmodell können wir über kausale Gegebenheiten keine Schlüsse ziehen.
+Es bleibt uns der, eher unbefriedigende *deskriptive* Schluss,
+dass es einen schwachen, negativen, linearen Zusammenhang zwischen den beiden Größen gibt -
+laut diesem Modell. Es darf nicht vergessen werden,
+dass sich der Zusammenhang ändern kann (und es in vielen Fällen auch tun wird),
+wenn wir das Modell verändern, z.B. weitere Prädiktoren dem Modell hinzufügen.
+
+Ein komfortabler Ausweg ist oder wäre es, 
+sich auf Vorhersagen zu begrenzen. Dafür sind Kausalmodelle nicht zwingend 
+(aber auch nicht verkehrt).
+
+Ein weiterer Kritikpunkt könnte die Wahl unserer Prior sein.
+Allerdings waren unsere Priors nur schwach informativ,
+so dass sie wenig Einfluss auf die Posteriori-Verteilung hatten.
+
+
 
 
 
