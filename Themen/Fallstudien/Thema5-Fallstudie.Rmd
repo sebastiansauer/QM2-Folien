@@ -285,7 +285,7 @@ negativen Zusammenhang zwischen Budget und Bewertung eines Films,
 laut unserem Golem zumindest.
 
 
-### Visualisieren
+### Visualisieren von `post1`
 
 
 #### Priori-Verteilung
@@ -520,10 +520,12 @@ im Datensatz behalten werden, alle übrigen Variablen werden entfernt.
 
 
 ```{r compute-post2}
+tic()
 post2 <- stan_glm(rating_z ~ budget_log10_z,
                data = movies3,
                prior = normal(0, .2),  # beta
                refresh = 0)  # Nicht so viel Ausgabe
+toc()
 ```
 
 
@@ -643,13 +645,21 @@ summary(post2)
 ```
 
 
-### Visualisieren
+### Visualisieren von `post2`
 
 
 #### Regressionsgerade 
 
 ```{r}
-plot1_m2 <- plot0 +
+plot0_z <- movies3 %>% 
+  ggplot(aes(x = budget_log10_z, y = rating_z)) +
+  geom_point(alpha = .2)
+```
+
+
+```{r}
+plot1_m2 <- 
+  plot0_z +
   geom_abline(intercept = coef(post2)[1],
               slope = coef(post2)[2],
               color = "blue")
@@ -680,7 +690,7 @@ Und hier die Regressionsgerade mit dem "Unsicherheitsbereich"
 für die Regressionskoeffizienten.
 
 ```{r}
-plot0 +
+plot0_z +
   geom_abline(data = draws_m2,
               aes(intercept = a,
                   slope = b),
