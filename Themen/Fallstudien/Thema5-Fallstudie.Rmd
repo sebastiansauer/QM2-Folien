@@ -1015,6 +1015,12 @@ so dass sie wenig Einfluss auf die Posteriori-Verteilung hatten.
 
 
 
+# SessionInfo
+
+```{r}
+sessioninfo::session_info()
+```
+
 
 
 
