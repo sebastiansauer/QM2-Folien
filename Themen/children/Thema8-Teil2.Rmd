@@ -242,8 +242,7 @@ Don!"
 
 .pull-right[
 .center[
-"Halbiert!? Weniger Geld?!
-Oh nein!"
+"Verringert!? Weniger Geld?! Oh nein!"
 </br>
 
 
@@ -265,7 +264,7 @@ Oh nein!"
 
 
 
-**Ne-Ga-Tiv!**
+**"Ne-Ga-Tiv!"**
 .xxxlarge[👩]
 
 
@@ -331,16 +330,16 @@ Und welches Modell ist jetzt richtig?!"
 ## Welches Modell richtig ist, kann die Statistik nicht sagen
 
 >   Often people want statistical modeling to do things that statical modeling cannot do.
-For exmaple, we'd like to know wehter an effect is "real" or rather spurios.
+For example, we'd like to know wheter an effect is "real" or rather spurios.
 Unfortunately, modeling merely quantifies uncertainty in the precise way that the model understands the problem.
-Usually answer to lage world questions about truth and causation depend upon information not included in the model.
-For example, any observed occrelatio nbetween an outcome and preedcitor could be eliminated or reversed once another predictor is added to the model.
+Usually answers to lage world questions about truth and causation depend upon information not included in the model.
+For example, any observed correlation between an outcome and predictor could be eliminated or reversed once another predictor is added to the model.
 But if we cannot think of the right variable,
 we might never notice.
 Therefore all statical models are vulnerable to and demand critique,
 regardless of the precision of their estimates
 and apparaent accuracy of their predictions.
-Rpoudns of model criticism and revision emofy the reald tests of scientific hyptoheses.
+Rounds of model criticism and revision embody the real tests of scientific hypotheses.
 A true hypothesis will pass and fail many statistical "tests" on its way to acceptance.
 
 

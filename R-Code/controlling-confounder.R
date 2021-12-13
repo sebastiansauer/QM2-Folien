@@ -29,8 +29,7 @@ p_konf2 <-
   ggplot(aes(x = x, y = y, color = group)) +
   geom_point() +
   geom_smooth(method = "lm") +
-  labs(title = "Mit Kontrolle der Konfundierungsvariablen") +
-  theme(legend.position = "bottom")
+  theme(legend.position = c(0.8, 0.2))
 
 
 

@@ -43,7 +43,7 @@ studie_a %>%
 - Die Daten stammen aus einer (fiktiven) klinischen Studie, $n=700$, hoher Qualität (Beobachtungsstudie).
 - Bei Männern scheint das Medikament zu helfen; bei Frauen auch.
 - Aber *insgesamt* (Summe von Frauen und Männern) *nicht*?!
-- Was sollen wir den Arzt rate? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er das Geschlecht kennt?
+- Was sollen wir den Arzt raten? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er das Geschlecht kennt?
 
 `r RefManageR::Citep(bib, "pearl_causal_2016")`
 
@@ -116,7 +116,7 @@ studie_b %>%
 - Bei geringem Blutdruck scheint das Medikament zu schaden.
 - Bei hohem Blutdrck scheint das Medikamenet auch zu schaden.
 - Aber *insgesamt* (Summe über beide Gruppe) *nicht*, da scheint es zu nutzen?!
-- Was sollen wir den Arzt rate? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er den Blutdruck nicht kennt?
+- Was sollen wir den Arzt raten? Soll er das Medikament verschreiben? Vielleicht nur dann, wenn er den Blutdruck nicht kennt?
 
 
 `r RefManageR::Citep(bib, "pearl_causal_2016")`

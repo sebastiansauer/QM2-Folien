@@ -314,9 +314,9 @@ Kontrollieren Sie diese Variablen, um die offenen Hintertüren zu schließen:
 
 ## Implizierte bedingte Unabhängigkeiten von `bsp2`
 
-- Ein Graph ohne `U`s ist eine starke, oft zu starke (unrealistisch optimistische) Annahme.
-- Auch wenn die Daten aus nicht sagen können, welcher DAG der richtige ist, können wir zumindest lernen, welcher DAG falsch ist.
-- Einige testbare Modellimplikationen sind vom Modell implizierte bedingte Unabhängigkeiten.
+- Ein Graph ohne `U`s ist eine starke - oft zu starke (unrealistisch optimistische) - Annahme.
+- Auch wenn die Daten nicht sagen können, welcher DAG der richtige ist, können wir zumindest lernen, welcher DAG falsch ist.
+- Die vom Modell implizierten bedingten Unabhängigkeiten geben uns Möglichkeiten, zu prüfen, ob wir einen DAG verwerfen (ausschließen) können.
 - Bedingten Unabhängigkeit zwischen zwei Variablen sind Variablen, die nicht assoziiert (also stochastisch unabhängig) sind, wenn wir eine bestimmte Menge an Drittvariablen kontrollieren.
 
 - `bsp2` impliziert folgende bedingte Unabhängigkeiten:
@@ -343,7 +343,6 @@ impliedConditionalIndependencies(dag_6.2)
     - Bei *deskriptiven* Forschungsfragen können die Ergebnisse (z.B. Regressionskoeffizienten) direkt interpretiert werden. Z.B. "Der Unterschied zwischen beiden Gruppen beträgt etwa ...". Allerdings ist eine kausale Interpretation nicht zulässig.
     - Bei *prognostischen* Fragestellungen spielen die Modellkoeffizienten keine Rolle, stattdessen geht es um vorhergesagten Werte, $\hat{y}_i$, z.B. auf Basis der PPV. Kausalaussagen sind zwar nicht möglich, aber auch nicht von Interesse.
     - Bei *kausalen* Forschungsfragen dürfen die Modellkoeffizienten nur auf Basis eines Kausalmodells (DAG) oder eines (gut gemachten) Experiments interpretiert werden.
-    
 - Modellkoeffizienten ändern sich (oft), wenn man Prädiktoren zum Modell hinzufügt oder wegnimmt.
 - Entgegen der verbreiteten Annahme ist es falsch, möglichst viele Prädiktoren in das Modell aufzunehmen, wenn das Ziel eine Kausalaussage ist.
 - Kenntniss der "kausalen Atome" ist Voraussetzung zur Ableitung von Kausalschlüsse in Beobachtungsstudien.

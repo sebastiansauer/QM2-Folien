@@ -170,7 +170,7 @@ ggdag_adjust(coll1_dag, var = "date") +
 
 .pull-right[
 
-```{r fig.width=9}
+```{r fig.width=9, dpi=300, fig.asp=1}
 p_coll_dag2
 ```
 
@@ -193,7 +193,7 @@ Man kann also zu viele oder falsche Prädiktoren einer Regression hinzufügen, s
     
 - Gehen wir davon aus, dass Schönheit und Reichtum unabhängig voneinander sind.
 
-- Wenn ich Ihnen sage, dass Don nicht schön ist, was lernen wir dann über seine finanzielle Situation?
+- Wenn ich Ihnen sage, dass Don nicht schön ist, aber in der Glitzer häufig auftaucht, was lernen wir dann über seine finanzielle Situation?
 
 ]
 
@@ -212,6 +212,8 @@ Man kann also zu viele oder falsche Prädiktoren einer Regression hinzufügen, s
 
 ]
 
+
+.footnote[Don muss reich sein.]
 
 ---
 
@@ -349,9 +351,9 @@ tibble(
 
 ---
 
-## Schlagzeile "Schlauheit macht faul!"
+## Schlagzeile "Schlauheit macht Studentis faul!"
 
-Eine Studie untersucht den Zusammenhang von Intelligenz und Fleiß bei Studentis.
+Eine Studie untersucht den Zusammenhang von Intelligenz (iq) und Fleiß (f) bei Studentis (s).
 
 Ergebnis: Ein negativer Zusammenhang. 
 
@@ -378,9 +380,12 @@ d_eignung %>%
   filter(studium == 1) %>% 
   ggplot(aes(x = fleiss, y = iq)) +
   geom_point(alpha = .5) +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm") +
+  labs(title = "Nativer Zusammenhang bei Studentis")
 ```
 
+
+$f \notindep iq \,|\, s$
 
 ]
 
@@ -436,13 +441,15 @@ Nur Kenntnis des DAGs verrät die richtige Entscheidung.
 
 .pull-left[
 
-- Wir wollen den (kausalen) Einfluss der Eltern `E` und Großeltern `G` auf den Bildungserfolg der Kinder `K`. untersuchen.
+- Wir wollen den (kausalen) Einfluss der Eltern `E` und Großeltern `G` auf den *Bildungserfolg* der Kinder `K` untersuchen.
 
 - Wir nehmen folgende Effekte an:
     - indirekter Effekt von `G` auf `K`: $G \rightarrow E \rightarrow K$
     - direkter Effekt von `E` auf `K`: $E \rightarrow K$
     - direkter Effekt von `G` auf `K`: $G \rightarrow K$
 
+
+- Wir sind v.a. interessiert an $G \rightarrow K$, dem *direkten kausalen* Effekt von Großeltern auf ihre Enkel.
 
 ]
 
@@ -457,12 +464,14 @@ dag_coords <-
          x    = c(1, 2, 2),
          y    = c(2, 2, 1))
 
-dagify(G ~ E,
+dagify(E ~ G,
        K ~ E + G,
        coords = dag_coords) %>%
   gg_simple_dag()
 ```
 
+
+Aber was ist, wenn wir vielleicht eine *u*nbekannte Variable übersehen haben? (S. nächste Seite 👻)
 
 ]
 
@@ -504,7 +513,7 @@ gg_fancy_dag(x = 2.5, y = 1.5, circle = "U")
 
 .pull-right[
 
-- `U` könnte ein ungemessener Einfluss sein, der auf `E` und `K` wirkt, etwa Nachbarschaft.
+- `U` könnte ein ungemessener Einfluss sein, der auf `E` und `K` wirkt, etwa *Nachbarschaft*.
 
 - Die Großeltern wohnen woanders (in Spanien), daher wirkt die Nachbarschaft der Eltern und Kinder nicht auf sie.
 
