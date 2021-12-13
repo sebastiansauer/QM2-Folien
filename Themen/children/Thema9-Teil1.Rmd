@@ -1,0 +1,457 @@
+```{r}
+#library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+```
+
+
+
+
+
+
+name: teil-1
+class: middle, center
+
+
+
+# Teil 1
+
+## Grundlagen der logistischen Regression
+
+
+---
+
+
+## Lineare Modelle für binäre AV?
+
+
+>    *Forschungsfrage*: Kann man anhand des Spritverbrauchs vorhersagen, ob ein Auto eine Automatik- bzw. ein manuelle Schaltung hat? Anders gesagt: Hängen Spritverbrauch und Getriebeart? (Datensatz `mtcars`)
+
+
+.pull-left[
+
+```{r echo = TRUE}
+data(mtcars)
+mtcars <-
+  mtcars %>% 
+  mutate(mpg_z = scale(mpg))
+```
+
+```{r echo = TRUE, results = "show"}
+m91 <-
+  stan_glm(am ~ mpg_z, 
+           data = mtcars, 
+           refresh = 0)
+coef(m91)
+```
+
+
+Wir können die Vorhersagen des Modells, d.h. $\hat{y}_i$, 
+als *Wahrscheinlichkeit* interpretieren (für `am=1)`.
+
+]
+
+.pull-right[
+```{r}
+mtcars %>% 
+  ggplot(aes(x = mpg_z, y = am)) +
+  geom_hline(yintercept = 0.5, color = "white", size = 2) +
+  geom_point() +
+  geom_abline(intercept = coef(m91)[1],
+              slope = coef(m91)[2],
+              color = "blue") 
+```
+
+
+
+
+```{r}
+pred_mpg_z_0 <- predict(m91, newdata = data.frame(mpg_z = 0))
+```
+
+
+$Pr(\text{am}=1|m91,\text{mpg_z}=0) = 0.46$: 
+Die Wahrscheinlichkeit einer manuelle Schaltung, 
+gegeben einem durchschnittlichen Verbrauch (und dem Modell `m91`) liegt bei knapp 50%.
+
+
+
+]
+
+
+---
+
+## Lineare Modelle running wild
+
+Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
+
+- ... bei `mpg_z = -2`?
+
+```{r echo = TRUE}
+(predict(m91, newdata = data.frame(mpg_z = -2)))
+```
+
+$Pr(\hat{y})<0$ macht keinen Sinn. ⚡ 
+
+
+- ... bei `mpg_z = +2`?
+
+```{r echo = TRUE}
+(predict(m91, newdata = data.frame(mpg_z = 2)))
+```
+
+
+$Pr(\hat{y})>1$ macht keinen Sinn. ⚡ 
+
+
+
+Schauen Sie sich mal die Vorhersage an für `mpg_z=5` 🤯 
+
+---
+
+## Wir müssen die Regressionsgerade umbiegen
+
+
+.pull-left[
+... wenn der vorhergesagte Wert eine Wahrscheinlichkeit, $p_i$, ist.
+
+```{r fig.asp = 1}
+s_fun <- function(x) exp(x) / (1 + exp(x))
+
+plot_logist_regr <- 
+  ggplot(tibble(x=c(-2,2))) +
+  aes(x=x) +
+  geom_abline(slope = .25,
+              intercept = 0.5) +
+  labs(x = "x",
+       y = "Pr(y=1)=p") +
+  geom_hline(yintercept = c(0,1), linetype = "dotted") +
+  scale_x_continuous(limits = c(-5,5)) +
+  scale_y_continuous(limits = c(-0.5, 1.5)) +
+  stat_function( fun = s_fun, color = "blue", size = 2) +
+  geom_rect(xmin = -Inf,
+            xmax = +Inf,
+            ymin = 1,
+            ymax = +Inf,
+            fill = "Red",
+            alpha = .2) +
+  geom_rect(xmin = -Inf,
+            xmax = +Inf,
+            ymin = 0,
+            ymax = -Inf,
+            fill = "Red",
+            alpha = .2)
+
+plot_logist_regr
+```
+
+
+]
+
+.pull-right[
+- Die *schwarze* Gerade verlässt den Wertebereich der Wahrscheinlichkeit.
+
+- Die *blaue* Kurve, $\mathcal{f}$, bleibt im erlaubten Bereich, $Pr(y) \in [0,1]$.
+
+- Wir müssen also die linke oder die rechte Seite des linearen Modells transformieren:
+
+$p_i = f(\alpha + \beta \cdot x)$ bzw.:
+
+$f(p) = \alpha + \beta \cdot x$
+
+- $\mathcal{f}$ nennt man eine *Link-Funktion*.
+
+- Die Regression mit  $\mathcal{f}$ nennt man *logistische* Regression.
+
+
+]
+
+
+`r RefManageR::Citet(bib, "mcelreath_statistical_2020", after = ", Kap. 10.2")`
+
+
+
+---
+
+## Verallgemeinerte lineare Modelle zur Rettung
+
+- Für metrische AV mit theoretisch unendlichen Grenzen des Wertebereichs haben wir bisher eine Normalverteilung verwendet:
+
+$$y_i \sim \mathcal{N}(\mu_i, \sigma)$$
+
+- Dann ist die Normalverteilung eine voraussetzungsarme Wahl (maximiert die Entropie).
+
+- Aber wenn die AV *binär* ist bzw. *Häufigkeiten* modelliert, braucht man eine Variable die nur positive Werte zulässt.
+
+- In diesem Fall passt die *Binomialverteilung*, $\mathcal{Bin}$ oder $\mathcal{B}$, gut und ist voraussetzungsarm (maximiert die Entropie):
+
+$$
+\begin{align}
+y_i &\sim \mathcal{Bin}(n, p_i) \\
+f(p_i) &= \alpha + \beta x
+\end{align}
+$$
+- Eine binäre Variablen ist eine Häufigkeitsvariable mit $\mathcal{Bin}(1,p)$.
+
+- Diese Verallgemeinerung des linearen Modells bezeichnet man als *generalisiertes lineares Modell* (generalized linear model).
+
+---
+
+## Der Logit-Link
+
+- Der *Logit-Link*, $\mathcal{L}$, `logit` oder Logit-Funktion genannt, ordnet einen Parameter, der als Wahrscheinlichkeitsmasse definiert ist (und daher im Bereich von 0 bis 1 liegt), einem linearen Modell zu (das jeden beliebigen reellen Wert annehmen kann):
+
+$$
+\begin{align}
+y_i &\sim \mathcal{B}(n, p_i) \\
+\text{logit}(p_i) &= \alpha + \beta x_i
+\end{align}
+$$
+
+- Die Logit-Funktion $\mathcal{L}$ ist definiert als der Logarithmus des Verhältnisses der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit:
+
+$$\mathcal{L} = \text{log} \frac{p_i}{1-p_i}$$
+
+- Das Verhältnis der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit nennt man auch *Odds*.
+
+- Also:
+
+$$\mathcal{L} = \text{log} \frac{p_i}{1-p_i} = \alpha + \beta x_i$$
+
+
+---
+
+## Inverser Logit
+
+Um nach $p$ aufzulösen, müssen wir einige Algebra bemühen:
+
+$$
+\begin{align}
+\text{log} \frac{p}{1-p} &= \alpha + \beta x & & \text{Exponentieren}\\
+\frac{p}{1-p} &= e^{\alpha + \beta x} \\
+p_i &= e^{\alpha + \beta x_i} (1-p) & & \text{Zur Vereinfachung: } x := e^{\alpha + \beta x_i} \\
+p_i &= x (1-p) \\
+&= x - xp \\
+p + px &= x \\
+p(1+x) &= x \\
+p &= \frac{x} {1+x} & & \text{Lösen wir x wieder auf.} \\
+p &= \frac{e^{\alpha + \beta x_i}}{1 + e^{\alpha + \beta x_i}}
+\end{align}
+$$
+
+Diese Funktion nennt man auch *inverser Logit*, $\text{logit}^{-1}$.
+
+---
+## Logit und Inverser Logit
+.pull-left[
+#### Logit
+$(0,1) \rightarrow (-\infty, +\infty)$
+
+```{r}
+ggplot() +
+  annotate("segment", 
+           x = 0,
+           xend = 0,
+           y = 0,
+           yend = 1) +
+  scale_x_continuous(breaks = c(0,1), labels = c("p", "Logit")) +
+  scale_y_continuous(breaks = NULL) +
+  annotate("label",
+           x = c(0, 0),
+             y = c(0, 1),
+             label = c("0", "1")) +
+  annotate("segment", 
+           x = 1,
+           xend = 1,
+           y = -1,
+           yend = 2) +
+  annotate("segment", 
+           x = 1,
+           xend = 1,
+           y = -2,
+           yend = 3,
+           linetype = "dotted") +
+  annotate("label",
+           x = c(1, 1),
+             y = c(-2, 3),
+             label = c("-∞", "+∞")) +
+  annotate("segment",
+           x = 0.02,
+           xend = 0.98,
+           y = 0,
+           yend = -2,
+           #linetype = "dotted",
+           size = 0.1,
+           arrow = arrow()) +
+  annotate("segment",
+           x = 0.02,
+           xend = 0.98,
+           y = 1,
+           yend = 3,
+           #linetype = "dotted",
+           size = 0.1,
+           arrow = arrow()) +
+  labs(x = "",
+       y = "") +
+  annotate("label",
+           x = c(1.01),
+             y = c(.5),
+             label = c("0"),
+           size = 1) +
+  labs(x = "",
+       y = "") +
+  annotate("label",
+           x = c(-0.01),
+             y = c(.5),
+             label = c("0.5"),
+           size = 1) +
+  annotate("segment",
+           x = 0.02,
+           xend = 0.98,
+           yend = .5,
+           y = .5,
+           #linetype = "dotted",
+           size = 0.1,
+           arrow = arrow())
+```
+
+Praktisch, um Wahrscheinlichkeit zu modellieren.
+
+$$p \rightarrow \fbox{logit} \rightarrow \alpha + \beta x$$
+
+]
+.pull-right[
+#### Inv-Logit
+$(-\infty, +\infty) \rightarrow (0,1)$
+
+```{r}
+ggplot() +
+  annotate("segment", 
+           x = 0,
+           xend = 0,
+           y = 0,
+           yend = 1) +
+  scale_x_continuous(breaks = c(0,1), labels = c("p", "Logit")) +
+  scale_y_continuous(breaks = NULL) +
+  annotate("label",
+           x = c(0, 0),
+             y = c(0, 1),
+             label = c("0", "1")) +
+  annotate("segment", 
+           x = 1,
+           xend = 1,
+           y = -1,
+           yend = 2) +
+  annotate("segment", 
+           x = 1,
+           xend = 1,
+           y = -2,
+           yend = 3,
+           linetype = "dotted") +
+  annotate("label",
+           x = c(1, 1),
+             y = c(-2, 3),
+             label = c("-∞", "+∞")) +
+  annotate("segment",
+           xend = 0.02,
+           x = 0.98,
+           yend = 0,
+           y = -2,
+           #linetype = "dotted",
+           size = 0.1,
+           arrow = arrow()) +
+  annotate("segment",
+           xend = 0.02,
+           x = 0.98,
+           yend = 1,
+           y = 3,
+           #linetype = "dotted",
+           size = 0.1,
+           arrow = arrow()) +
+  annotate("label",
+           x = c(1.01),
+             y = c(.5),
+             label = c("0"),
+           size = 1) +
+  labs(x = "",
+       y = "") +
+  annotate("label",
+           x = c(-0.01),
+             y = c(.5),
+             label = c("0.5"),
+           size = 1) +
+  annotate("segment",
+           xend = 0.02,
+           x = 0.98,
+           yend = .5,
+           y = .5,
+           #linetype = "dotted",
+           size = 0.1,
+           arrow = arrow())
+```
+
+Praktisch, um in Wahrscheinlichkeiten umzurechnen.
+
+$$p \leftarrow \fbox{inv-logit} \leftarrow \alpha + \beta x$$
+
+]
+
+
+
+
+---
+
+## Die Koeffizienten sind schwer zu interpretieren
+
+```{r fig.asp=0.3}
+s_fun <- function(x) exp(x) / (1 + exp(x))
+inv_logist <- function(x) x
+
+p_logist1 <- 
+  ggplot(tibble(x=c(-2,2))) +
+  aes(x=x) +
+  labs(x = "x",
+       title = "Logistische Regression",
+       y = "Pr(y=1)=p") +
+  scale_x_continuous(limits = c(-3,3)) +
+  scale_y_continuous(limits = c(-0.5, 1.5)) +
+  stat_function( fun = plogis) 
+
+p_logist2 <- 
+  ggplot(tibble(x=c(-2,2))) +
+  aes(x=x) +
+  labs(x = "x",
+       title = "Lineare Regression",
+       y = "Logit") +
+  scale_x_continuous(limits = c(-3,3)) +
+  scale_y_continuous(limits = c(-5, 5)) +
+  stat_function(fun = inv_logist)  
+
+p_logist1 + p_logist2
+```
+
+
+
+- In der logistischen Regression gilt *nicht* mehr, dass eine konstante Veränderung in der UV mit einer konstanten Veränderung in der AV einhergeht.
+- Stattdessen geht eine konstante Veränderung in der UV mit einer konstanten Veränderung im *Logit* der AV einher.
+- Beim logistischen Modell hier gilt, dass in der Nähe von $x=0$ die größte Veränderung in $p$ von statten geht; je weiter weg von $x=0$, desto geringer ist die Veränderung in $p$.
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+

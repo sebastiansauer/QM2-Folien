@@ -1,0 +1,276 @@
+```{r}
+library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+```
+
+
+
+
+
+
+name: teil-1
+class: middle, center
+
+
+
+# Teil 2
+
+## Beispiele zur logistischen Regression
+
+---
+
+## Geschlecht vorhersagen auf Basis der Körpergröße
+
+[Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/openintro/speed_gender_height.html), [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv)
+
+
+```{r echo = TRUE}
+d <- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv")
+```
+
+
+```{r fig.asp = .5}
+binomial_smooth <- function(...) {
+    geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
+}
+
+d %>% 
+  drop_na() %>% 
+  mutate(male = ifelse(gender == "male", 1, 0),
+         height_cm = height * 2.54,
+         height_c = height_cm - mean(height_cm)) %>% 
+  drop_na() %>% 
+  mutate(male = ifelse(gender == "male", 1, 0)) %>% 
+ggplot() +
+  aes(x = height_c, y = male) +
+  geom_jitter(alpha = .5, width = 0.1, height = 0.1) +
+  binomial_smooth() +
+  scale_y_continuous("Wahrscheinlichkeit für 'Mann'",
+    breaks = c(0, 1))
+  
+```
+
+
+
+
+
+---
+
+## Modell `m92`
+
+
+```{r echo = TRUE}
+d2 <- d %>% 
+  drop_na() %>% 
+  mutate(male = ifelse(gender == "male", 1, 0),
+         height_cm = height * 2.54,
+         height_c = height_cm - mean(height_cm)) 
+
+m92 <- stan_glm(male ~ height_c, 
+                family = binomial(link="logit"),
+                data = d2, refresh = 0)
+
+coef(m92)
+```
+
+- Die Modellgleichung kann man so schreiben: $Pr(y=1) = Pr(\text{male}) = \text{logit}^{-1}(`r round(coef(m92)[1], 2)` + `r round(coef(m92)[2], 2)`*\text{height})$
+- Bei einer mittleren Größe (`height_c = 0`) ist der Logit für 'Mann' `r round(coef(m92)[1], 2)`. 
+- WEnn dieser Wert kleiner ist als Null, ist die Wahrscheinlichkeit kleiner als 50%.
+- Für jeden zusätzlichen Zentimeter Größe steigt die Wahrscheinlichkeit, dass wir 'Mann' vorhersagen um ca. `r round(coef(m92)[2], 2)` Logits.
+- Der Zuwachs an Wahrscheinlichkeit ist *nicht* konstant pro zusätzlichen Logit.
+
+
+---
+
+## Umrechnen von Logits in Wahrscheinlichkeit
+
+- Logits sind schwer zu interpretieren, rechnen wir in Wahrscheinlichkeit, $p$ um.
+
+- Der Achsenabschnitt im zentrierten (oder z-standardisierten) Modell gibt, den Y-Wert an für eine Beobachtung mit mittleren X-Wert:
+
+```{r echo = TRUE}
+invlogit <- plogis  # Funktion, um Inv-Logit von R berechnen zu lassen
+
+invlogit(coef(m92)[1])
+```
+
+- Bei einer Person mittleren Größe sagt unser Modell mit einer Wahrscheinlichkeit von ca. `r round(invlogit(coef(m92)[1]), 2)` vorher, dass es ein Mann ist.
+
+```{r echo = TRUE}
+invlogit(coef(m92)[1] + coef(m92)[2]*10)
+```
+
+- Bei einer Person, die 10cm größer ist als der Mittelwert, geht unser Modell von einer Wahrscheinlichkeit von `r round(invlogit(coef(m92)[1] + coef(m92)[2]*10), 2)` aus.
+
+
+## Post befragen: 95%-PI
+
+
+
+```{r echo = TRUE}
+posterior_interval(m92, prob = .95)
+
+invlogit(c(-1.22, -0.95))
+```
+
+Die Wahrscheinlichkeit, dass eine mittelgroße Person ein Mann ist, 
+liegt zwischen ca. 23% und 28%, laut dem Modell.
+
+Die Intervallgrenzen des Regressionsgewichts $\beta$ sind schwieriger zu interpretieren, 
+da die Veränderung in den Wahrscheinlichkeiten nicht konstant sind:
+Je größere eine Person, 
+desto geringer der Zuwachs in Wahrscheinlichkeit (ein Mann zu sein) pro zusätzliche Logit-Einheit.
+
+Zur Interpretation von $\beta$ ist es meist sinnvoller, die Vorhersagen des Modells (in Wahrscheinlichkeitsmaßen) zu betrachten, die PPV also.
+
+
+
+---
+
+## PPV befragen 1
+
+>    $Pr(\text{Mann}\;|\;\text{height}_c=10, m92)?$
+
+
+
+
+Ausgabe in Logit:
+
+```{r echo = TRUE}
+posterior_predict(m92, newdata = tibble(height_c = 10)) %>% 
+  mean() 
+```
+
+Mit `invlogit()` kann man sich den Logit-Wert in Wahrscheinlichkeit umrechnen lassen.
+
+Ausgabe direkt in Wahrscheinlichkeit:
+
+```{r echo = TRUE}
+m92_ppv_10 <- posterior_predict(m92, newdata = tibble(height_c = 10)) 
+
+m92_ppv_10 %>%  
+  mean()
+```
+
+`posterior_epred()` zeigt uns die Vorhersagen aus der PPV für $\alpha + \beta \cdot 10$.
+
+
+
+
+
+
+
+---
+
+## PPV-Vorhersagen etwas genauer betrachtet
+
+Betrachten wir die PPV für Personen der Größe -40, -30, ..., +40 cm größer als der Durchschnitt:
+
+```{r echo = TRUE}
+height_vec <- seq(-40, 40, by = 10)
+heights_df <- tibble(height_c = height_vec)
+m92_ppv <- posterior_predict(m92, newdata = heights_df) %>% 
+  as_tibble()
+```
+
+
+
+Die ersten paar Zeilen von `m92_ppv`:
+
+
+```{r}
+m92_ppv %>%  # die ersten paar Zeilen aus der Post-Verteilung
+  slice_head(n=5) %>% 
+  gt() 
+```
+
+
+Die 9 Spalten entsprechen den 9 Werten von `height_vec`, (-40, -30, ..., +40).
+
+---
+
+
+## PPV befragen 2
+
+>    Wie groß ist die Wahrscheinlichkeit, dass eine Person, die -40, -30, ..., 40 cm größer ist als der Durchschnitt, als Mann klassifiziert wird?
+
+
+```{r echo = TRUE, results='hold'}
+m92_ppv %>% 
+  summarise(minus40 = mean(`1`),  # -40cm
+            minus30 = mean(`2`),  # -30cm
+            minus20 = mean(`3`),  # -20cm
+            minus10 = mean(`4`),  # - 10 cm
+            null_durchschnitt = mean(`5`))
+# und so weiter
+```
+
+
+
+
+---
+
+## PPV befragen 3
+
+>    Wie groß ist die Wahrscheinlichkeit, dass eine überdurchschnittlich große Person als Mann klassifiziert wird?
+
+- Dazu bilden wir den Mittelwert der Spalten 5-9.
+- Für diesen Zweck muss die Tabelle so umgeformt werden, dass die Wahrscheinlichkeiten aller 9 Gruppen in einer Spalte stehen (`pivot_wider()`).
+- Dann filtern wir die Gruppen 5-9.
+
+
+```{r echo = TRUE}
+m92_ppv %>% 
+  pivot_longer(everything()) %>% 
+  filter(name == c("5", "6", "7", "8", "9")) %>% 
+  summarise(p_mann = mean(value))
+```
+
+
+
+
+---
+
+## Tabellen umformen von lang nach breit und zurück
+
+- `pivot_longer()` von breit nach lang (`gather`)
+- `pivot_wider()` von lang nach breit (`spread`)
+
+
+
+```{r out.width="50%"}
+knitr::include_graphics("https://github.com/gadenbuie/tidyexplain/raw/main/images/tidyr-spread-gather.gif")
+```
+
+
+Garrick Aden-Buie [Quelle](https://github.com/gadenbuie/tidyexplain#spread-and-gather); [vgl. auch dieses Tutorial](https://ab604.github.io/docs/coding-together-2019/data-wrangle-2.html#reshaping-data-with-pivots)
+
+
+---
+## Datensatz zu außerehelichen Affären
+
+
+[Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/AER/Affairs.html), [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv)
+
+```{r}
+d <- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv")
+```
+
+
+```{r}
+d %>% 
+  mutate(is_hallodri = ifelse(affairs > 0, 1, 0)) %>% 
+ggplot() +
+  aes(x = rating, y = is_hallodri) +
+  geom_jitter(alpha = .5) +
+  scale_y_continuous(breaks = c(0, 1)) +
+  stat_smooth(method = "glm", family = "binomial")
+```
+
+
+---

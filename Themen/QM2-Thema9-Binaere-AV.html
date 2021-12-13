@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Forschungsfragen für binäre AV</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-css.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: right, bottom, test, title-slide
+
+# Forschungsfragen für binäre AV
+## Kapitel 9
+
+---
+
+
+
+
+
+
+
+&lt;style&gt;
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Gliederung
+
+
+&lt;/br&gt;
+&lt;/br&gt;
+
+
+
+
+.xlarge[
+1. [Teil 1: Grundlagen der logistischen Regression](#teil-1)
+
+2. [Teil 2: Beispiele zur logistischen Regression](#teil-2)
+
+
+5. [Hinweise](#hinweise)
+]
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+name: teil-1
+class: middle, center
+
+
+
+# Teil 1
+
+## Grundlagen der logistischen Regression
+
+
+---
+
+
+## Lineare Modelle für binäre AV?
+
+
+&gt;    *Forschungsfrage*: Kann man anhand des Spritverbrauchs vorhersagen, ob ein Auto eine Automatik- bzw. ein manuelle Schaltung hat? Anders gesagt: Hängen Spritverbrauch und Getriebeart? (Datensatz `mtcars`)
+
+
+.pull-left[
+
+
+```r
+data(mtcars)
+mtcars &lt;-
+  mtcars %&gt;% 
+  mutate(mpg_z = scale(mpg))
+```
+
+
+```r
+m91 &lt;-
+  stan_glm(am ~ mpg_z, 
+           data = mtcars, 
+           refresh = 0)
+coef(m91)
+```
+
+```
+## (Intercept)       mpg_z 
+##   0.4057537   0.2983551
+```
+
+
+Wir können die Vorhersagen des Modells, d.h. `\(\hat{y}_i\)`, 
+als *Wahrscheinlichkeit* interpretieren (für `am=1)`.
+
+]
+
+.pull-right[
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+
+
+`\(Pr(\text{am}=1|m91,\text{mpg_z}=0) = 0.46\)`: 
+Die Wahrscheinlichkeit einer manuelle Schaltung, 
+gegeben einem durchschnittlichen Verbrauch (und dem Modell `m91`) liegt bei knapp 50%.
+
+
+
+]
+
+
+---
+
+## Lineare Modelle running wild
+
+Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
+
+- ... bei `mpg_z = -2`?
+
+
+```r
+(predict(m91, newdata = data.frame(mpg_z = -2)))
+```
+
+```
+##          1 
+## -0.1893626
+```
+
+`\(Pr(\hat{y})&lt;0\)` macht keinen Sinn. ⚡ 
+
+
+- ... bei `mpg_z = +2`?
+
+
+```r
+(predict(m91, newdata = data.frame(mpg_z = 2)))
+```
+
+```
+##        1 
+## 1.001363
+```
+
+
+`\(Pr(\hat{y})&gt;1\)` macht keinen Sinn. ⚡ 
+
+
+
+Schauen Sie sich mal die Vorhersage an für `mpg_z=5` 🤯 
+
+---
+
+## Wir müssen die Regressionsgerade umbiegen
+
+
+.pull-left[
+... wenn der vorhergesagte Wert eine Wahrscheinlichkeit, `\(p_i\)`, ist.
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+- Die *schwarze* Gerade verlässt den Wertebereich der Wahrscheinlichkeit.
+
+- Die *blaue* Kurve, `\(\mathcal{f}\)`, bleibt im erlaubten Bereich, `\(Pr(y) \in [0,1]\)`.
+
+- Wir müssen also die linke oder die rechte Seite des linearen Modells transformieren:
+
+`\(p_i = f(\alpha + \beta \cdot x)\)` bzw.:
+
+`\(f(p) = \alpha + \beta \cdot x\)`
+
+- `\(\mathcal{f}\)` nennt man eine *Link-Funktion*.
+
+- Die Regression mit  `\(\mathcal{f}\)` nennt man *logistische* Regression.
+
+
+]
+
+
+&lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath (2020, Kap. 10.2)](#bib-mcelreath_statistical_2020)
+
+
+
+---
+
+## Verallgemeinerte lineare Modelle zur Rettung
+
+- Für metrische AV mit theoretisch unendlichen Grenzen des Wertebereichs haben wir bisher eine Normalverteilung verwendet:
+
+`$$y_i \sim \mathcal{N}(\mu_i, \sigma)$$`
+
+- Dann ist die Normalverteilung eine voraussetzungsarme Wahl (maximiert die Entropie).
+
+- Aber wenn die AV *binär* ist bzw. *Häufigkeiten* modelliert, braucht man eine Variable die nur positive Werte zulässt.
+
+- In diesem Fall passt die *Binomialverteilung*, `\(\mathcal{Bin}\)` oder `\(\mathcal{B}\)`, gut und ist voraussetzungsarm (maximiert die Entropie):
+
+$$
+`\begin{align}
+y_i &amp;\sim \mathcal{Bin}(n, p_i) \\
+f(p_i) &amp;= \alpha + \beta x
+\end{align}`
+$$
+- Eine binäre Variablen ist eine Häufigkeitsvariable mit `\(\mathcal{Bin}(1,p)\)`.
+
+- Diese Verallgemeinerung des linearen Modells bezeichnet man als *generalisiertes lineares Modell* (generalized linear model).
+
+---
+
+## Der Logit-Link
+
+- Der *Logit-Link*, `\(\mathcal{L}\)`, `logit` oder Logit-Funktion genannt, ordnet einen Parameter, der als Wahrscheinlichkeitsmasse definiert ist (und daher im Bereich von 0 bis 1 liegt), einem linearen Modell zu (das jeden beliebigen reellen Wert annehmen kann):
+
+$$
+`\begin{align}
+y_i &amp;\sim \mathcal{B}(n, p_i) \\
+\text{logit}(p_i) &amp;= \alpha + \beta x_i
+\end{align}`
+$$
+
+- Die Logit-Funktion `\(\mathcal{L}\)` ist definiert als der Logarithmus des Verhältnisses der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit:
+
+`$$\mathcal{L} = \text{log} \frac{p_i}{1-p_i}$$`
+
+- Das Verhältnis der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit nennt man auch *Odds*.
+
+- Also:
+
+`$$\mathcal{L} = \text{log} \frac{p_i}{1-p_i} = \alpha + \beta x_i$$`
+
+
+---
+
+## Inverser Logit
+
+Um nach `\(p\)` aufzulösen, müssen wir einige Algebra bemühen:
+
+$$
+`\begin{align}
+\text{log} \frac{p}{1-p} &amp;= \alpha + \beta x &amp; &amp; \text{Exponentieren}\\
+\frac{p}{1-p} &amp;= e^{\alpha + \beta x} \\
+p_i &amp;= e^{\alpha + \beta x_i} (1-p) &amp; &amp; \text{Zur Vereinfachung: } x := e^{\alpha + \beta x_i} \\
+p_i &amp;= x (1-p) \\
+&amp;= x - xp \\
+p + px &amp;= x \\
+p(1+x) &amp;= x \\
+p &amp;= \frac{x} {1+x} &amp; &amp; \text{Lösen wir x wieder auf.} \\
+p &amp;= \frac{e^{\alpha + \beta x_i}}{1 + e^{\alpha + \beta x_i}}
+\end{align}`
+$$
+
+Diese Funktion nennt man auch *inverser Logit*, `\(\text{logit}^{-1}\)`.
+
+---
+## Logit und Inverser Logit
+.pull-left[
+#### Logit
+`\((0,1) \rightarrow (-\infty, +\infty)\)`
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Praktisch, um Wahrscheinlichkeit zu modellieren.
+
+`$$p \rightarrow \fbox{logit} \rightarrow \alpha + \beta x$$`
+
+]
+.pull-right[
+#### Inv-Logit
+`\((-\infty, +\infty) \rightarrow (0,1)\)`
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Praktisch, um in Wahrscheinlichkeiten umzurechnen.
+
+`$$p \leftarrow \fbox{inv-logit} \leftarrow \alpha + \beta x$$`
+
+]
+
+
+
+
+---
+
+## Die Koeffizienten sind schwer zu interpretieren
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+- In der logistischen Regression gilt *nicht* mehr, dass eine konstante Veränderung in der UV mit einer konstanten Veränderung in der AV einhergeht.
+- Stattdessen geht eine konstante Veränderung in der UV mit einer konstanten Veränderung im *Logit* der AV einher.
+- Beim logistischen Modell hier gilt, dass in der Nähe von `\(x=0\)` die größte Veränderung in `\(p\)` von statten geht; je weiter weg von `\(x=0\)`, desto geringer ist die Veränderung in `\(p\)`.
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+name: teil-1
+class: middle, center
+
+
+
+# Teil 2
+
+## Beispiele zur logistischen Regression
+
+---
+
+## Geschlecht vorhersagen auf Basis der Körpergröße
+
+[Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/openintro/speed_gender_height.html), [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv)
+
+
+
+```r
+d &lt;- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv")
+```
+
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+---
+
+## Modell `m92`
+
+
+
+```r
+d2 &lt;- d %&gt;% 
+  drop_na() %&gt;% 
+  mutate(male = ifelse(gender == "male", 1, 0),
+         height_cm = height * 2.54,
+         height_c = height_cm - mean(height_cm)) 
+
+m92 &lt;- stan_glm(male ~ height_c, 
+                family = binomial(link="logit"),
+                data = d2, refresh = 0)
+
+coef(m92)
+```
+
+```
+## (Intercept)    height_c 
+##  -1.0851107   0.2030866
+```
+
+- Die Modellgleichung kann man so schreiben: `\(Pr(y=1) = Pr(\text{male}) = \text{logit}^{-1}(-1.09 + 0.2*\text{height})\)`
+- Bei einer mittleren Größe (`height_c = 0`) ist der Logit für 'Mann' -1.09. 
+- WEnn dieser Wert kleiner ist als Null, ist die Wahrscheinlichkeit kleiner als 50%.
+- Für jeden zusätzlichen Zentimeter Größe steigt die Wahrscheinlichkeit, dass wir 'Mann' vorhersagen um ca. 0.2 Logits.
+- Der Zuwachs an Wahrscheinlichkeit ist *nicht* konstant pro zusätzlichen Logit.
+
+
+---
+
+## Umrechnen von Logits in Wahrscheinlichkeit
+
+- Logits sind schwer zu interpretieren, rechnen wir in Wahrscheinlichkeit, `\(p\)` um.
+
+- Der Achsenabschnitt im zentrierten (oder z-standardisierten) Modell gibt, den Y-Wert an für eine Beobachtung mit mittleren X-Wert:
+
+
+```r
+invlogit &lt;- plogis  # Funktion, um Inv-Logit von R berechnen zu lassen
+
+invlogit(coef(m92)[1])
+```
+
+```
+## (Intercept) 
+##   0.2525401
+```
+
+- Bei einer Person mittleren Größe sagt unser Modell mit einer Wahrscheinlichkeit von ca. 0.25 vorher, dass es ein Mann ist.
+
+
+```r
+invlogit(coef(m92)[1] + coef(m92)[2]*10)
+```
+
+```
+## (Intercept) 
+##   0.7202607
+```
+
+- Bei einer Person, die 10cm größer ist als der Mittelwert, geht unser Modell von einer Wahrscheinlichkeit von 0.72 aus.
+
+
+## Post befragen: 95%-PI
+
+
+
+
+```r
+posterior_interval(m92, prob = .95)
+```
+
+```
+##                   2.5%      97.5%
+## (Intercept) -1.2565356 -0.9251265
+## height_c     0.1818243  0.2254166
+```
+
+```r
+invlogit(c(-1.22, -0.95))
+```
+
+```
+## [1] 0.2279365 0.2788848
+```
+
+Die Wahrscheinlichkeit, dass eine mittelgroße Person ein Mann ist, 
+liegt zwischen ca. 23% und 28%, laut dem Modell.
+
+Die Intervallgrenzen des Regressionsgewichts `\(\beta\)` sind schwieriger zu interpretieren, 
+da die Veränderung in den Wahrscheinlichkeiten nicht konstant sind:
+Je größere eine Person, 
+desto geringer der Zuwachs in Wahrscheinlichkeit (ein Mann zu sein) pro zusätzliche Logit-Einheit.
+
+Zur Interpretation von `\(\beta\)` ist es meist sinnvoller, die Vorhersagen des Modells (in Wahrscheinlichkeitsmaßen) zu betrachten, die PPV also.
+
+
+
+---
+
+## PPV befragen 1
+
+&gt;    `\(Pr(\text{Mann}\;|\;\text{height}_c=10, m92)?\)`
+
+
+
+
+Ausgabe in Logit:
+
+
+```r
+posterior_predict(m92, newdata = tibble(height_c = 10)) %&gt;% 
+  mean() 
+```
+
+```
+## [1] 0.71875
+```
+
+Mit `invlogit()` kann man sich den Logit-Wert in Wahrscheinlichkeit umrechnen lassen.
+
+Ausgabe direkt in Wahrscheinlichkeit:
+
+
+```r
+m92_ppv_10 &lt;- posterior_predict(m92, newdata = tibble(height_c = 10)) 
+
+m92_ppv_10 %&gt;%  
+  mean()
+```
+
+```
+## [1] 0.73625
+```
+
+`posterior_epred()` zeigt uns die Vorhersagen aus der PPV für `\(\alpha + \beta \cdot 10\)`.
+
+
+
+
+
+
+
+---
+
+## PPV-Vorhersagen etwas genauer betrachtet
+
+Betrachten wir die PPV für Personen der Größe -40, -30, ..., +40 cm größer als der Durchschnitt:
+
+
+```r
+height_vec &lt;- seq(-40, 40, by = 10)
+heights_df &lt;- tibble(height_c = height_vec)
+m92_ppv &lt;- posterior_predict(m92, newdata = heights_df) %&gt;% 
+  as_tibble()
+```
+
+
+
+Die ersten paar Zeilen von `m92_ppv`:
+
+
+<div id="vdlwhtixcq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#vdlwhtixcq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#vdlwhtixcq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#vdlwhtixcq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#vdlwhtixcq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#vdlwhtixcq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#vdlwhtixcq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#vdlwhtixcq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#vdlwhtixcq .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vdlwhtixcq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vdlwhtixcq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#vdlwhtixcq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#vdlwhtixcq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#vdlwhtixcq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#vdlwhtixcq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vdlwhtixcq .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vdlwhtixcq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#vdlwhtixcq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vdlwhtixcq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vdlwhtixcq .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vdlwhtixcq .gt_left {
+  text-align: left;
+}
+
+#vdlwhtixcq .gt_center {
+  text-align: center;
+}
+
+#vdlwhtixcq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#vdlwhtixcq .gt_font_normal {
+  font-weight: normal;
+}
+
+#vdlwhtixcq .gt_font_bold {
+  font-weight: bold;
+}
+
+#vdlwhtixcq .gt_font_italic {
+  font-style: italic;
+}
+
+#vdlwhtixcq .gt_super {
+  font-size: 65%;
+}
+
+#vdlwhtixcq .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">5</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">6</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">7</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">8</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">9</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+Die 9 Spalten entsprechen den 9 Werten von `height_vec`, (-40, -30, ..., +40).
+
+---
+
+
+## PPV befragen 2
+
+&gt;    Wie groß ist die Wahrscheinlichkeit, dass eine Person, die -40, -30, ..., 40 cm größer ist als der Durchschnitt, als Mann klassifiziert wird?
+
+
+
+```r
+m92_ppv %&gt;% 
+  summarise(minus40 = mean(`1`),  # -40cm
+            minus30 = mean(`2`),  # -30cm
+            minus20 = mean(`3`),  # -20cm
+            minus10 = mean(`4`),  # - 10 cm
+            null_durchschnitt = mean(`5`))
+# und so weiter
+```
+
+```
+## # A tibble: 1 × 5
+##   minus40 minus30 minus20 minus10 null_durchschnitt
+##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt;
+## 1       0  0.0005 0.00625  0.0432             0.244
+```
+
+
+
+
+---
+
+## PPV befragen 3
+
+&gt;    Wie groß ist die Wahrscheinlichkeit, dass eine überdurchschnittlich große Person als Mann klassifiziert wird?
+
+- Dazu bilden wir den Mittelwert der Spalten 5-9.
+- Für diesen Zweck muss die Tabelle so umgeformt werden, dass die Wahrscheinlichkeiten aller 9 Gruppen in einer Spalte stehen (`pivot_wider()`).
+- Dann filtern wir die Gruppen 5-9.
+
+
+
+```r
+m92_ppv %&gt;% 
+  pivot_longer(everything()) %&gt;% 
+  filter(name == c("5", "6", "7", "8", "9")) %&gt;% 
+  summarise(p_mann = mean(value))
+```
+
+```
+## # A tibble: 1 × 1
+##   p_mann
+##    &lt;dbl&gt;
+## 1  0.776
+```
+
+
+
+
+---
+
+## Tabellen umformen von lang nach breit und zurück
+
+- `pivot_longer()` von breit nach lang
+- `pivot_wider()` von lang nach breit
+
+
+
+&lt;img src="https://github.com/gadenbuie/tidyexplain/raw/main/images/tidyr-spread-gather.gif" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+Garrick Aden-Buie [Quelle](https://github.com/gadenbuie/tidyexplain#spread-and-gather)
+
+
+[Vgl. auch dieses Tutorial](https://ab604.github.io/docs/coding-together-2019/data-wrangle-2.html#reshaping-data-with-pivots)
+
+
+---
+## Datensatz zu außerehelichen Affären
+
+
+[Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/AER/Affairs.html), [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv)
+
+
+
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+
+
+
+name: hinweise
+class: center, middle, inverse
+
+
+
+
+
+
+
+# Hinweise 
+
+---
+
+## Zu diesem Skript
+
+- Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+  - Regression and other stories
+
+
+- Dieses Skript wurde erstellt am 2021-12-13 01:00:39 
+
+- Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
+
+- Autor: Sebastian Sauer.
+
+- Um diese HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
+
+- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. 
+
+- Alternativ können Sie im Browser Chrome die Folien als PDF drucken (klicken Sie auf den entsprechenden Menüpunkt).
+
+- Den Quellcode der Skripte finden Sie [hier](https://github.com/sebastiansauer/QM2-Folien/tree/main/Themen).
+
+- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser die Webseite druckt (Drucken als PDF).
+
+---
+
+name: homepage
+background-image: url(https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/img/outro/img9.jpg)
+background-size: contain
+background-position: left
+
+
+
+
+.pull-right[
+
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+.right[
+### [Homepage](https://sebastiansauer.github.io/bayes-start/)
+]
+
+
+]
+
+
+
+
+
+&lt;!-- https://github.com/sebastiansauer/QM2-Folien/blob/main/img/outro/img1.jpg?raw=true --&gt;
+&lt;!-- ../img/outro/img --&gt;
+
+---
+
+name: literatur
+
+## Literatur
+
+[Diese](https://sebastiansauer.github.io/QM2-Folien/citations.html) R-Pakete wurden verwendet.
+
+.small[
+&lt;a name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
+a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
+statistical science. Taylor and Francis, CRC Press.
+
+]
+
+
+---
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

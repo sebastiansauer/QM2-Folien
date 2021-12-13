@@ -1043,6 +1043,7 @@ modelle %>%
 ```
 
 
+Tja. Das R-Quadrat ist jeweils gering.
 
 
 # Fazit

@@ -1,0 +1,92 @@
+---
+params:
+  kapitel_name: "Forschungsfragen für binäre AV" 
+  kapitel_nr: 9
+
+title: "`r params$kapitel_name`"
+subtitle: "`r  paste0('Kapitel ', params$kapitel_nr)`"
+
+output:
+  xaringan::moon_reader:
+    keep_md: false
+    css: ["my-css.css","xaringan-themer.css",  "hygge", "default-fonts"]
+    lib_dir: libs
+    seal: true
+    nature:
+      titleSlideClass: ["right", "bottom", "test"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+
+```{r QM2-Thema4-Gaussmodelle-1, child="children/Setup.Rmd", eval = TRUE}
+```
+
+
+```{r}
+book <- "Regression and other stories"
+book_chap <- "10, 11 (jeweils in Auszügen)"
+```
+
+
+```{r}
+knitr::opts_chunk$set(
+   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
+   )
+```
+
+
+
+
+## Gliederung
+
+
+</br>
+</br>
+
+
+
+
+.xlarge[
+1. [Teil 1: Grundlagen der logistischen Regression](#teil-1)
+
+2. [Teil 2: Beispiele zur logistischen Regression](#teil-2)
+
+
+5. [Hinweise](#hinweise)
+]
+
+
+
+
+```{r source-funs-local}
+source("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/R-Code/gg_simple_fancy_dag.R")
+```
+
+
+
+
+
+
+---
+
+
+
+
+```{r QM2-Thema8-Teil1, eval = TRUE, child="children/Thema9-Teil1.Rmd"}
+```
+
+
+```{r QM2-Thema8-Teil2, eval = TRUE, child="children/Thema9-Teil2.Rmd"}
+```
+
+
+
+```{r QM2-Thema8-Hinweise, eval = TRUE, child="children/Hinweise.Rmd"}
+```
+
+
+
