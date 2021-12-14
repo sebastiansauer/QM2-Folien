@@ -27,8 +27,8 @@ output:
 
 
 ```{r}
-book <- "Regression and other stories"
-book_chap <- "10, 11 (jeweils in Auszügen)"
+book <- "Regression and other stories (Kap. 13); Statistical Rethinking (Kap. 10.2)"
+
 ```
 
 
@@ -53,8 +53,9 @@ knitr::opts_chunk$set(
 .xlarge[
 1. [Teil 1: Grundlagen der logistischen Regression](#teil-1)
 
-2. [Teil 2: Beispiele zur logistischen Regression](#teil-2)
+2. [Teil 2: Metrische UV](#teil-2)
 
+2. [Teil 3: Binäre UV](#teil-3)
 
 5. [Hinweise](#hinweise)
 ]
@@ -82,6 +83,12 @@ source("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/R-Code/
 
 ```{r QM2-Thema8-Teil2, eval = TRUE, child="children/Thema9-Teil2.Rmd"}
 ```
+
+
+
+```{r QM2-Thema8-Teil3, eval = TRUE, child="children/Thema9-Teil3.Rmd"}
+```
+
 
 
 

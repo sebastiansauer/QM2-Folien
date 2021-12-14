@@ -20,7 +20,7 @@ outro_img <- paste0("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien
   - `r book`
 
 
-- Dieses Skript wurde erstellt am `r Sys.time()` 
+- Dieses Skript wurde erstellt am `r Sys.time()`. 
 
 - Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
 

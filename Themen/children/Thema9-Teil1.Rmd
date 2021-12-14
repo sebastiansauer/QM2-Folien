@@ -301,14 +301,14 @@ ggplot() +
            x = c(1.01),
              y = c(.5),
              label = c("0"),
-           size = 1) +
+           size = 2) +
   labs(x = "",
        y = "") +
   annotate("label",
            x = c(-0.01),
              y = c(.5),
              label = c("0.5"),
-           size = 1) +
+           size = 2) +
   annotate("segment",
            x = 0.02,
            xend = 0.98,
@@ -376,14 +376,14 @@ ggplot() +
            x = c(1.01),
              y = c(.5),
              label = c("0"),
-           size = 1) +
+           size = 2) +
   labs(x = "",
        y = "") +
   annotate("label",
            x = c(-0.01),
              y = c(.5),
              label = c("0.5"),
-           size = 1) +
+           size = 2) +
   annotate("segment",
            xend = 0.02,
            x = 0.98,

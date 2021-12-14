@@ -104,8 +104,9 @@ class: right, bottom, test, title-slide
 .xlarge[
 1. [Teil 1: Grundlagen der logistischen Regression](#teil-1)
 
-2. [Teil 2: Beispiele zur logistischen Regression](#teil-2)
+2. [Teil 2: Metrische UV](#teil-2)
 
+2. [Teil 3: Binäre UV](#teil-3)
 
 5. [Hinweise](#hinweise)
 ]
@@ -173,7 +174,7 @@ coef(m91)
 
 ```
 ## (Intercept)       mpg_z 
-##   0.4057537   0.2983551
+##   0.4067226   0.2977948
 ```
 
 
@@ -215,7 +216,7 @@ Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
 
 ```
 ##          1 
-## -0.1893626
+## -0.1892514
 ```
 
 `\(Pr(\hat{y})&lt;0\)` macht keinen Sinn. ⚡ 
@@ -229,8 +230,8 @@ Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
 ```
 
 ```
-##        1 
-## 1.001363
+##         1 
+## 0.9996292
 ```
 
 
@@ -411,14 +412,15 @@ Praktisch, um in Wahrscheinlichkeiten umzurechnen.
 
 
 
-name: teil-1
+
+name: teil-2
 class: middle, center
 
 
 
 # Teil 2
 
-## Beispiele zur logistischen Regression
+## Metrische UV
 
 ---
 
@@ -434,6 +436,33 @@ d &lt;- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/openintro/s
 
 
 &lt;img src="Kapitel_9_chunk-img/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Zusammenhang von Körpergröße und 'Mann'?
+
+&gt;    *Forschungsfrage*: Ist der Zusammenhang von *Körpergröße* und 'Mann' positiv? Gehen also höhere Werte in Körpergröße `height` einher mit einer höheren Wahrscheinlichkeit, dass es sich um einen Mann `m` handelt?
+
+
+$$
+`\begin{align}
+m_i &amp;\sim \mathcal{B}(1, p_i) \\
+\mathcal{log}(p_i) &amp;= \alpha + \beta \cdot \text{height}_i \\
+\alpha &amp;\sim \text{klären wir noch}  \\
+\beta &amp;\sim \text{klären wir noch}  \\
+\end{align}`
+$$
+
+- Die Variable `\(m_i\)` (ob eine Person ein Mann ist) wird als binomial verteilt angenommen mit der Wahrscheinlichkeit `\(p_i\)`.
+- Die Häufigkeiten, die pro Person möglich sind, begrenzen sich auf 0 und 1 (solche Ereignisse nennt man auch *Bernoulli verteilt*).
+- Pro Person wird der Logit von `\(p_i\)` modelliert als lineare Funktion der Körpergröße dieser Person.
+- Entsprechend gilt auch:
+
+`$$p_i = \text{logit}^{-1}( \alpha + \beta \cdot \text{height}_i)$$`
+
+
+
 
 
 
@@ -461,11 +490,11 @@ coef(m92)
 
 ```
 ## (Intercept)    height_c 
-##  -1.0851107   0.2030866
+##  -1.0833006   0.2023509
 ```
 
-- Die Modellgleichung kann man so schreiben: `\(Pr(y=1) = Pr(\text{male}) = \text{logit}^{-1}(-1.09 + 0.2*\text{height})\)`
-- Bei einer mittleren Größe (`height_c = 0`) ist der Logit für 'Mann' -1.09. 
+- Die Modellgleichung kann man so schreiben: `\(Pr(y=1) = Pr(\text{male}) = \text{logit}^{-1}(-1.08 + 0.2*\text{height})\)`
+- Bei einer mittleren Größe (`height_c = 0`) ist der Logit für 'Mann' -1.08. 
 - WEnn dieser Wert kleiner ist als Null, ist die Wahrscheinlichkeit kleiner als 50%.
 - Für jeden zusätzlichen Zentimeter Größe steigt die Wahrscheinlichkeit, dass wir 'Mann' vorhersagen um ca. 0.2 Logits.
 - Der Zuwachs an Wahrscheinlichkeit ist *nicht* konstant pro zusätzlichen Logit.
@@ -488,7 +517,7 @@ invlogit(coef(m92)[1])
 
 ```
 ## (Intercept) 
-##   0.2525401
+##   0.2528819
 ```
 
 - Bei einer Person mittleren Größe sagt unser Modell mit einer Wahrscheinlichkeit von ca. 0.25 vorher, dass es ein Mann ist.
@@ -500,10 +529,12 @@ invlogit(coef(m92)[1] + coef(m92)[2]*10)
 
 ```
 ## (Intercept) 
-##   0.7202607
+##   0.7191417
 ```
 
 - Bei einer Person, die 10cm größer ist als der Mittelwert, geht unser Modell von einer Wahrscheinlichkeit von 0.72 aus.
+
+---
 
 
 ## Post befragen: 95%-PI
@@ -517,8 +548,8 @@ posterior_interval(m92, prob = .95)
 
 ```
 ##                   2.5%      97.5%
-## (Intercept) -1.2565356 -0.9251265
-## height_c     0.1818243  0.2254166
+## (Intercept) -1.2469628 -0.9235511
+## height_c     0.1811644  0.2246151
 ```
 
 ```r
@@ -540,6 +571,35 @@ desto geringer der Zuwachs in Wahrscheinlichkeit (ein Mann zu sein) pro zusätzl
 Zur Interpretation von `\(\beta\)` ist es meist sinnvoller, die Vorhersagen des Modells (in Wahrscheinlichkeitsmaßen) zu betrachten, die PPV also.
 
 
+---
+
+## Ist der Zusammenhang von Größe und 'Mann' positiv?
+
+&gt;    Forschungsfrage: Ist der Zusammenhang von Körpergröße und 'Mann' positiv?
+
+
+Zählen wir den Anteil der Stichproben, die ein positives `\(\beta\)` findet:
+
+
+```
+## # A tibble: 1 × 2
+##   `height_c &gt; 0`     n
+##   &lt;lgl&gt;          &lt;int&gt;
+## 1 TRUE            4000
+```
+
+
+Eigentlich hatten wir das schon hier gesehen:
+
+
+```
+##               2.5%     97.5%
+## height_c 0.1811644 0.2246151
+```
+
+
+&gt;    Der Zusammenhang von Körpergröße und 'Mann' ist sehr sicher positiv, laut dem Modell: Je größer eine Person, desto höher die Wahrscheinlichkeit, dass sie ein Mann ist.
+
 
 ---
 
@@ -559,7 +619,7 @@ posterior_predict(m92, newdata = tibble(height_c = 10)) %&gt;%
 ```
 
 ```
-## [1] 0.71875
+## [1] 0.71775
 ```
 
 Mit `invlogit()` kann man sich den Logit-Wert in Wahrscheinlichkeit umrechnen lassen.
@@ -575,10 +635,10 @@ m92_ppv_10 %&gt;%
 ```
 
 ```
-## [1] 0.73625
+## [1] 0.72225
 ```
 
-`posterior_epred()` zeigt uns die Vorhersagen aus der PPV für `\(\alpha + \beta \cdot 10\)`.
+`posterior_predict()` zeigt uns die Vorhersagen aus der PPV für `\(\alpha + \beta \cdot 10\)`.
 
 
 
@@ -605,12 +665,12 @@ m92_ppv &lt;- posterior_predict(m92, newdata = heights_df) %&gt;%
 Die ersten paar Zeilen von `m92_ppv`:
 
 
-<div id="vdlwhtixcq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="hhkaozykni" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vdlwhtixcq .gt_table {
+#hhkaozykni .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -635,7 +695,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-left-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_heading {
+#hhkaozykni .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -647,7 +707,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_title {
+#hhkaozykni .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -657,7 +717,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-bottom-width: 0;
 }
 
-#vdlwhtixcq .gt_subtitle {
+#hhkaozykni .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -667,13 +727,13 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-width: 0;
 }
 
-#vdlwhtixcq .gt_bottom_border {
+#hhkaozykni .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_col_headings {
+#hhkaozykni .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -688,7 +748,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_col_heading {
+#hhkaozykni .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -708,7 +768,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   overflow-x: hidden;
 }
 
-#vdlwhtixcq .gt_column_spanner_outer {
+#hhkaozykni .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -720,15 +780,15 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 4px;
 }
 
-#vdlwhtixcq .gt_column_spanner_outer:first-child {
+#hhkaozykni .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vdlwhtixcq .gt_column_spanner_outer:last-child {
+#hhkaozykni .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vdlwhtixcq .gt_column_spanner {
+#hhkaozykni .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -740,7 +800,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   width: 100%;
 }
 
-#vdlwhtixcq .gt_group_heading {
+#hhkaozykni .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -762,7 +822,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   vertical-align: middle;
 }
 
-#vdlwhtixcq .gt_empty_group_heading {
+#hhkaozykni .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -777,15 +837,15 @@ Die ersten paar Zeilen von `m92_ppv`:
   vertical-align: middle;
 }
 
-#vdlwhtixcq .gt_from_md > :first-child {
+#hhkaozykni .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vdlwhtixcq .gt_from_md > :last-child {
+#hhkaozykni .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vdlwhtixcq .gt_row {
+#hhkaozykni .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -804,7 +864,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   overflow-x: hidden;
 }
 
-#vdlwhtixcq .gt_stub {
+#hhkaozykni .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -816,7 +876,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-left: 12px;
 }
 
-#vdlwhtixcq .gt_summary_row {
+#hhkaozykni .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -826,7 +886,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 5px;
 }
 
-#vdlwhtixcq .gt_first_summary_row {
+#hhkaozykni .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -836,7 +896,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_grand_summary_row {
+#hhkaozykni .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -846,7 +906,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 5px;
 }
 
-#vdlwhtixcq .gt_first_grand_summary_row {
+#hhkaozykni .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -856,11 +916,11 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_striped {
+#hhkaozykni .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vdlwhtixcq .gt_table_body {
+#hhkaozykni .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -869,7 +929,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-bottom-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_footnotes {
+#hhkaozykni .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -883,13 +943,13 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_footnote {
+#hhkaozykni .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#vdlwhtixcq .gt_sourcenotes {
+#hhkaozykni .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -903,41 +963,41 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#vdlwhtixcq .gt_sourcenote {
+#hhkaozykni .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#vdlwhtixcq .gt_left {
+#hhkaozykni .gt_left {
   text-align: left;
 }
 
-#vdlwhtixcq .gt_center {
+#hhkaozykni .gt_center {
   text-align: center;
 }
 
-#vdlwhtixcq .gt_right {
+#hhkaozykni .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vdlwhtixcq .gt_font_normal {
+#hhkaozykni .gt_font_normal {
   font-weight: normal;
 }
 
-#vdlwhtixcq .gt_font_bold {
+#hhkaozykni .gt_font_bold {
   font-weight: bold;
 }
 
-#vdlwhtixcq .gt_font_italic {
+#hhkaozykni .gt_font_italic {
   font-style: italic;
 }
 
-#vdlwhtixcq .gt_super {
+#hhkaozykni .gt_super {
   font-size: 65%;
 }
 
-#vdlwhtixcq .gt_footnote_marks {
+#hhkaozykni .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -972,6 +1032,15 @@ Die ersten paar Zeilen von `m92_ppv`:
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
@@ -981,17 +1050,8 @@ Die ersten paar Zeilen von `m92_ppv`:
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
-<td class="gt_row gt_center">1</td>
-<td class="gt_row gt_center">1</td></tr>
-    <tr><td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td></tr>
@@ -1036,7 +1096,7 @@ m92_ppv %&gt;%
 ## # A tibble: 1 × 5
 ##   minus40 minus30 minus20 minus10 null_durchschnitt
 ##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt;
-## 1       0  0.0005 0.00625  0.0432             0.244
+## 1 0.00025  0.0005   0.006   0.039             0.251
 ```
 
 
@@ -1065,7 +1125,7 @@ m92_ppv %&gt;%
 ## # A tibble: 1 × 1
 ##   p_mann
 ##    &lt;dbl&gt;
-## 1  0.776
+## 1  0.787
 ```
 
 
@@ -1075,33 +1135,404 @@ m92_ppv %&gt;%
 
 ## Tabellen umformen von lang nach breit und zurück
 
-- `pivot_longer()` von breit nach lang
-- `pivot_wider()` von lang nach breit
+- `pivot_longer()` von breit nach lang (`gather`)
+- `pivot_wider()` von lang nach breit (`spread`)
 
 
 
 &lt;img src="https://github.com/gadenbuie/tidyexplain/raw/main/images/tidyr-spread-gather.gif" width="50%" style="display: block; margin: auto;" /&gt;
 
 
-Garrick Aden-Buie [Quelle](https://github.com/gadenbuie/tidyexplain#spread-and-gather)
-
-
-[Vgl. auch dieses Tutorial](https://ab604.github.io/docs/coding-together-2019/data-wrangle-2.html#reshaping-data-with-pivots)
+Garrick Aden-Buie [Quelle](https://github.com/gadenbuie/tidyexplain#spread-and-gather); [vgl. auch dieses Tutorial](https://ab604.github.io/docs/coding-together-2019/data-wrangle-2.html#reshaping-data-with-pivots)
 
 
 ---
+
+
 ## Datensatz zu außerehelichen Affären
 
 
 [Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/AER/Affairs.html), [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv)
 
 
+```r
+d_hallodri &lt;- read_csv(
+ "https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv")
+```
+
+.pull-left[
+
+```r
+d_hallodri &lt;-
+  d_hallodri %&gt;% 
+  mutate(is_hallodri = 
+           ifelse(affairs &gt; 0, 1, 0),
+         rating_z =
+           scale(rating)) 
+
+d_hallodri %&gt;% 
+  select(is_hallodri, rating_z) %&gt;% 
+  group_by(rating_z) %&gt;% 
+  get_summary_stats(
+    type = "mean_sd")
+```
+]
 
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.pull-right[
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-31-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
 
 
 ---
+
+
+## Hallodri-Modell
+
+&gt;  Kovariiert die Wahrscheinlichkeit `\(p_i\)` für *Hallodri* `\(h_i\)` (negativ) mit der (z-standardisierten) Ehezufriedenheit `\(r_i\)`?
+
+
+$$
+`\begin{align}
+h_i &amp;\sim \mathcal{B}(1,p_i) \\
+\text{log}(p_i) &amp;= \alpha + \beta \cdot r_i \\
+\alpha &amp;\sim \mathcal{N}(0, 2.5) \\
+\beta &amp;\sim \mathcal{N}(0, 2.5)
+\end{align}`
+$$
+
+
+
+```r
+m_hallodri1 &lt;-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           family = binomial(link = "logit"))
+```
+
+
+---
+
+## Hallodri-Modell: Ergebnisse
+
+
+```r
+posterior_interval(m_hallodri1, pars = "(Intercept)") %&gt;% invlogit()
+```
+
+```
+##                   5%       95%
+## (Intercept) 0.207198 0.2655569
+```
+
+```r
+posterior_interval(m_hallodri1, pars = "rating_z")
+```
+
+```
+##                  5%        95%
+## rating_z -0.7143518 -0.4051863
+```
+
+
+- Bei mittlerer Ehezufriedenheit liegt die Wahrscheinlichkeit eines Seitensprungs bei ca. 21% bis 27% (95%-PI).
+- Je höher die Ehezufriedenheit, desto geringer die Wahrscheinlichkeit für einen Seitensprung.
+- Laut dem Modell ist `\(\beta\)` mit hoher Wahrscheinlichkeit negativ.
+
+
+---
+
+## Vorhersagen bei den Hallordis
+
+&gt;  Wie hoch ist die Wahrscheinlichkeit für einen Seitensprung, wenn `rating_z = -3`?
+
+
+Punktschätzer:
+
+```r
+predict(m_hallodri1, 
+  newdata = tibble(rating_z=-3))
+```
+
+```
+##         1 
+## 0.5091203
+```
+
+
+.pull-left[
+
+
+95%-PI aus der Post-Verteilung (nicht PPV) als Wahrscheinlichkeit:
+
+```r
+posterior_epred(m_hallodri1, 
+  newdata = tibble(rating_z = -3)) %&gt;% 
+  quantile(prob = c(0.025, .975))
+```
+
+```
+##      2.5%     97.5% 
+## 0.4898910 0.7391456
+```
+
+
+
+]
+
+.pull-right[
+
+
+```r
+posterior_epred(m_hallodri1, 
+  newdata = tibble(rating_z = -3)) %&gt;% 
+  as_tibble() %&gt;% 
+  ggplot(aes(x = `1`)) +
+  geom_density()
+```
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+
+
+
+---
+
+
+## Prioris bei den Hallodri
+
+
+
+```
+## Priors for model 'm_hallodri1' 
+## ------
+## Intercept (after predictors centered)
+##  ~ normal(location = 0, scale = 2.5)
+## 
+## Coefficients
+##   Specified prior:
+##     ~ normal(location = 0, scale = 2.5)
+##   Adjusted prior:
+##     ~ normal(location = 0, scale = 2.5)
+## ------
+## See help('prior_summary.stanreg') for more details
+```
+
+
+- Unser Prädiktor ist z-standardisiert.
+
+- Ein Prior für `\(\sigma\)` gibt es bei Binomialmodellen nicht.
+
+---
+
+## Priori-Analyse
+
+
+
+```r
+m_hallodri2 &lt;-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           family = binomial(link = "logit"))
+```
+
+
+.pull-left[
+
+
+```r
+m_hallodri2 %&gt;% 
+  as_tibble() %&gt;% 
+  rename(a = `(Intercept)`) %&gt;% 
+  mutate(a_p = invlogit(a)) %&gt;% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+Unser Golem geht apriori von extremen Wahrscheinlichkeiten des Hallodritums aus: 
+Entweder du bist einer 🏩 oder du bist es nicht 🧐.
+
+
+---
+
+## Uninformativer Prior
+
+
+
+
+```r
+m_hallodri3 &lt;-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           prior_intercept = normal(0, 10),
+           family = binomial(link = "logit"))
+```
+
+
+
+
+.pull-left[
+
+
+```r
+m_hallodri3 %&gt;% 
+  as_tibble() %&gt;% 
+  rename(a = `(Intercept)`) %&gt;% 
+  mutate(a_p = invlogit(a)) %&gt;% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-41-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+💡 Je flacher der Priori, 
+desto extremer die Priori-Verteilung bei einem Binomial-Modell.
+
+Wir sollten gemäßigtere Prioris bevorzugen.
+
+---
+
+## Gemäßigter Prior
+
+
+
+
+
+```r
+m_hallodri4 &lt;-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           prior_intercept = normal(0, 1),
+           family = binomial(link = "logit"))
+```
+
+
+
+
+.pull-left[
+
+
+```r
+m_hallodri4 %&gt;% 
+  as_tibble() %&gt;% 
+  rename(a = `(Intercept)`) %&gt;% 
+  mutate(a_p = invlogit(a)) %&gt;% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+👍 Das sieht gut aus!
+
+---
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+## Visualisierung der Modellfunktion
+
+
+
+
+
+
+
+
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+
+
+
+---
+
+
+## Vorhersagen mit Ungewissheit visualisiert
+
+.pull-left[
+Vorhersagen aus der Post-Verteilung für jede Stufe von `rating_z`.
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+Vorhersagen aus der Post-Präd-Verteilung für jede Stufe von `rating_z`.
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+name: teil-3
+class: middle, center
+
+
+
+# Teil 3
+
+## Binäre UV
+
+---
+
+
+
 
 
 
@@ -1123,10 +1554,10 @@ class: center, middle, inverse
 ## Zu diesem Skript
 
 - Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
-  - Regression and other stories
+  - Regression and other stories (Kap. 13); Statistical Rethinking (Kap. 10.2)
 
 
-- Dieses Skript wurde erstellt am 2021-12-13 01:00:39 
+- Dieses Skript wurde erstellt am 2021-12-14 08:20:21. 
 
 - Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
 

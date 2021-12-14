@@ -208,10 +208,9 @@ mean(posterior_predict(m1, dons_new_house))
 ---
 
 
-## Modell 2: Preis als Funktion von Zimmerzahl und von Quadratmetern
+## Modell 2: `price ~ bedrooms + livingArea`
 
 
-Modell 2 hat schlechte Nachrichten für Don.
 
 ```{r echo = TRUE, results = "hide"}
 m2 <- stan_glm(price ~ bedrooms + livingArea, data = d)
@@ -225,7 +224,8 @@ coef(m2)
 
 
 ```{r echo = TRUE}
-mean(posterior_predict(m2, newdata = tibble(bedrooms = 4, livingArea = 1200)))
+posterior_predict(m2,
+   newdata = tibble(bedrooms = 4, livingArea = 1200))) %>% mean()
 ```
 
 

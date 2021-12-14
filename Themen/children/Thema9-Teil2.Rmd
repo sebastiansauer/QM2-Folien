@@ -1,11 +1,15 @@
+
 ```{r}
 library(gt)
 library(tidyverse)
 #library(dagitty)
 #library(DT)
 library(rstanarm)
+library(rstatix)
 #library(ggdag)
-library(patchwork)
+#library(patchwork)
+library(tidybayes)
+library(modelr)
 ```
 
 
@@ -13,14 +17,14 @@ library(patchwork)
 
 
 
-name: teil-1
+name: teil-2
 class: middle, center
 
 
 
 # Teil 2
 
-## Beispiele zur logistischen Regression
+## Metrische UV
 
 ---
 
@@ -54,6 +58,33 @@ ggplot() +
     breaks = c(0, 1))
   
 ```
+
+
+---
+
+## Zusammenhang von Körpergröße und 'Mann'?
+
+>    *Forschungsfrage*: Ist der Zusammenhang von *Körpergröße* und 'Mann' positiv? Gehen also höhere Werte in Körpergröße `height` einher mit einer höheren Wahrscheinlichkeit, dass es sich um einen Mann `m` handelt?
+
+
+$$
+\begin{align}
+m_i &\sim \mathcal{B}(1, p_i) \\
+\mathcal{log}(p_i) &= \alpha + \beta \cdot \text{height}_i \\
+\alpha &\sim \text{klären wir noch}  \\
+\beta &\sim \text{klären wir noch}  \\
+\end{align}
+$$
+
+- Die Variable $m_i$ (ob eine Person ein Mann ist) wird als binomial verteilt angenommen mit der Wahrscheinlichkeit $p_i$.
+- Die Häufigkeiten, die pro Person möglich sind, begrenzen sich auf 0 und 1 (solche Ereignisse nennt man auch *Bernoulli verteilt*).
+- Pro Person wird der Logit von $p_i$ modelliert als lineare Funktion der Körpergröße dieser Person.
+- Entsprechend gilt auch:
+
+$$p_i = \text{logit}^{-1}( \alpha + \beta \cdot \text{height}_i)$$
+
+
+
 
 
 
@@ -107,6 +138,8 @@ invlogit(coef(m92)[1] + coef(m92)[2]*10)
 
 - Bei einer Person, die 10cm größer ist als der Mittelwert, geht unser Modell von einer Wahrscheinlichkeit von `r round(invlogit(coef(m92)[1] + coef(m92)[2]*10), 2)` aus.
 
+---
+
 
 ## Post befragen: 95%-PI
 
@@ -128,6 +161,31 @@ desto geringer der Zuwachs in Wahrscheinlichkeit (ein Mann zu sein) pro zusätzl
 
 Zur Interpretation von $\beta$ ist es meist sinnvoller, die Vorhersagen des Modells (in Wahrscheinlichkeitsmaßen) zu betrachten, die PPV also.
 
+
+---
+
+## Ist der Zusammenhang von Größe und 'Mann' positiv?
+
+>    Forschungsfrage: Ist der Zusammenhang von Körpergröße und 'Mann' positiv?
+
+
+Zählen wir den Anteil der Stichproben, die ein positives $\beta$ findet:
+
+```{r}
+m92 %>% 
+  as_tibble() %>% 
+  count(height_c > 0)
+```
+
+
+Eigentlich hatten wir das schon hier gesehen:
+
+```{r}
+posterior_interval(m92, prob = .95,pars = "height_c")
+```
+
+
+>    Der Zusammenhang von Körpergröße und 'Mann' ist sehr sicher positiv, laut dem Modell: Je größer eine Person, desto höher die Wahrscheinlichkeit, dass sie ein Mann ist.
 
 
 ---
@@ -157,7 +215,7 @@ m92_ppv_10 %>%
   mean()
 ```
 
-`posterior_epred()` zeigt uns die Vorhersagen aus der PPV für $\alpha + \beta \cdot 10$.
+`posterior_predict()` zeigt uns die Vorhersagen aus der PPV für $\alpha + \beta \cdot 10$.
 
 
 
@@ -252,25 +310,395 @@ Garrick Aden-Buie [Quelle](https://github.com/gadenbuie/tidyexplain#spread-and-g
 
 
 ---
+
+
 ## Datensatz zu außerehelichen Affären
 
 
 [Beschreibung des Datensatzes](https://vincentarelbundock.github.io/Rdatasets/doc/AER/Affairs.html), [Datenquelle](https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv)
 
-```{r}
-d <- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv")
+```{r echo = TRUE}
+d_hallodri <- read_csv(
+ "https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv")
 ```
 
+### EDA
 
-```{r}
-d %>% 
-  mutate(is_hallodri = ifelse(affairs > 0, 1, 0)) %>% 
-ggplot() +
+.pull-left[
+```{r hallodri1, echo = TRUE, results="hide"}
+d_hallodri <-
+  d_hallodri %>% 
+  mutate(is_hallodri = 
+           ifelse(affairs > 0, 1, 0),
+         rating_z =
+           scale(rating)) 
+
+d_hallodri %>% 
+  select(is_hallodri, rating_z) %>% 
+  group_by(rating_z) %>% 
+  get_summary_stats(
+    type = "mean_sd")
+```
+]
+
+
+
+.pull-right[
+```{r fig.asp = c(0.4, 0.4)}
+d_hallodri %>% 
+  ggplot() +
   aes(x = rating, y = is_hallodri) +
   geom_jitter(alpha = .5) +
   scale_y_continuous(breaks = c(0, 1)) +
   stat_smooth(method = "glm", family = "binomial")
+
+d_hallodri %>%
+  mutate(rating = factor(rating),
+         is_hallodri = factor(is_hallodri)) %>% 
+  ggplot() +
+  aes(x = rating, fill = is_hallodri) +
+  geom_bar(position = "fill") 
 ```
+
+]
+
+
+---
+
+
+## Hallodri-Modell
+
+>  Kovariiert die Wahrscheinlichkeit $p_i$ für *Hallodri* $h_i$ (negativ) mit der (z-standardisierten) Ehezufriedenheit $r_i$?
+
+
+$$
+\begin{align}
+h_i &\sim \mathcal{B}(1,p_i) \\
+\text{log}(p_i) &= \alpha + \beta \cdot r_i \\
+\alpha &\sim \mathcal{N}(0, 2.5) \\
+\beta &\sim \mathcal{N}(0, 2.5)
+\end{align}
+$$
+
+
+```{r echo = TRUE}
+m_hallodri1 <-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           family = binomial(link = "logit"))
+```
+
+
+---
+
+## Hallodri-Modell: Ergebnisse
+
+```{r echo = TRUE}
+posterior_interval(m_hallodri1, pars = "(Intercept)") %>% invlogit()
+posterior_interval(m_hallodri1, pars = "rating_z")
+```
+
+
+- Bei mittlerer Ehezufriedenheit liegt die Wahrscheinlichkeit eines Seitensprungs bei ca. 21% bis 27% (95%-PI).
+- Je höher die Ehezufriedenheit, desto geringer die Wahrscheinlichkeit für einen Seitensprung.
+- Laut dem Modell ist $\beta$ mit hoher Wahrscheinlichkeit negativ.
+
+
+---
+
+## Vorhersagen bei den Hallordis
+
+>  Wie hoch ist die Wahrscheinlichkeit für einen Seitensprung, wenn `rating_z = -3`?
+
+
+
+
+
+.pull-left[
+
+Punktschätzer:
+```{r echo = TRUE}
+predict(m_hallodri1, 
+  newdata = tibble(rating_z=-3))
+```
+
+
+95%-PI aus der Post-Verteilung (nicht PPV) als Wahrscheinlichkeit:
+```{r echo = TRUE}
+posterior_epred(m_hallodri1, 
+  newdata = tibble(rating_z = -3)) %>% 
+  quantile(prob = c(0.025, .975))
+```
+
+
+
+]
+
+.pull-right[
+
+```{r echo = TRUE}
+posterior_epred(m_hallodri1, 
+  newdata = tibble(rating_z = -3)) %>% 
+  as_tibble() %>% 
+  ggplot(aes(x = `1`)) +
+  geom_density()
+```
+
+]
+
+
+
+
+
+
+---
+
+
+## Prioris bei den Hallodri
+
+
+```{r}
+prior_summary(m_hallodri1)
+```
+
+
+- Unser Prädiktor ist z-standardisiert.
+
+- Ein Prior für $\sigma$ gibt es bei Binomialmodellen nicht.
+
+---
+
+## Priori-Analyse
+
+
+```{r echo = TRUE}
+m_hallodri2 <-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           family = binomial(link = "logit"))
+```
+
+
+.pull-left[
+
+```{r priori-alpha-m2, echo = TRUE, eval = FALSE}
+m_hallodri2 %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) %>% 
+  mutate(a_p = invlogit(a)) %>% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+```{r ref.label="priori-alpha-m2"}
+
+```
+
+
+]
+
+Unser Golem geht apriori von extremen Wahrscheinlichkeiten des Hallodritums aus: 
+Entweder du bist einer 🏩 oder du bist es nicht 🧐.
+
+
+---
+
+## Uninformativer Prior
+
+
+
+```{r echo = TRUE}
+m_hallodri3 <-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           prior_intercept = normal(0, 10),
+           family = binomial(link = "logit"))
+```
+
+
+
+
+.pull-left[
+
+```{r priori-alpha-m3, echo = TRUE, eval = FALSE}
+m_hallodri3 %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) %>% 
+  mutate(a_p = invlogit(a)) %>% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+```{r ref.label="priori-alpha-m3"}
+
+```
+
+
+]
+
+💡 Je flacher der Priori, 
+desto extremer die Priori-Verteilung bei einem Binomial-Modell.
+
+Wir sollten gemäßigtere Prioris bevorzugen.
+
+---
+
+## Gemäßigter Prior
+
+
+
+
+```{r echo = TRUE}
+m_hallodri4 <-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           prior_intercept = normal(0, 1),
+           family = binomial(link = "logit"))
+```
+
+
+
+
+.pull-left[
+
+```{r priori-alpha-m4, echo = TRUE, eval = FALSE}
+m_hallodri4 %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) %>% 
+  mutate(a_p = invlogit(a)) %>% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+```{r ref.label="priori-alpha-m4"}
+
+```
+
+
+]
+
+
+👍 Das sieht gut aus!
+
+
+
+
+
+
+
+
+
+---
+
+
+## Visualisierung der Modellfunktion
+
+
+
+
+
+```{r hallodri-plot, ech = FALSE, eval = FALSE}
+d_hallodri %>%
+  data_grid(rating_z = -3:2) %>% 
+  add_epred_draws(m_hallodri1, ndraws = 100) %>% 
+  ggplot(aes(x = rating_z, y = is_hallodri)) +
+  geom_jitter(data = d_hallodri, 
+              size = 1, 
+              width=0.1, height = 0.1,
+              alpha = .5) +
+  stat_lineribbon(aes(y = .epred)) +
+  scale_fill_brewer() 
+```
+
+
+
+```{r ref.label = "hallodri-plot", fig.asp = .618} 
+
+```
+
+
+
+
+
+
+
+
+---
+
+
+## Vorhersagen mit Ungewissheit visualisiert
+
+.pull-left[
+Vorhersagen aus der Post-Verteilung für jede Stufe von `rating_z`.
+
+```{r fig.asp=1}
+epred_ratingz <- 
+  posterior_epred(m_hallodri1, 
+  newdata = tibble(rating_z = -3:2)) %>% 
+  as_tibble()   %>% 
+  pivot_longer(everything(), 
+               names_to = "rating_z",
+               values_to = "is_hallodri") %>% 
+  mutate(rating_z = as.integer(rating_z)) %>% 
+  mutate(rating_z = rating_z - 4)
+
+
+
+d_hallodri %>%
+  data_grid(rating_z = -3:2) %>% 
+  add_epred_draws(m_hallodri1, ndraws = 100) %>% 
+  ggplot(aes(x = rating_z, y = is_hallodri)) +
+  geom_jitter(data = d_hallodri, size = 1)  +
+  stat_lineribbon(aes(y = .epred)) +
+  scale_fill_brewer() +
+   geom_violin(data = epred_ratingz,
+                    aes(y = is_hallodri,
+                  x = rating_z,
+                  group = rating_z),
+               size = .3,
+               alpha = .5) +
+  labs(title = "Violinen zeigen Post-Verteilung")
+```
+
+
+]
+
+.pull-right[
+Vorhersagen aus der PPV für jede Stufe von `rating_z`.
+
+```{r fig.asp = 1}
+postpred_ratingz <- 
+  posterior_predict(m_hallodri1, 
+  newdata = tibble(rating_z = -3:2)) %>% 
+  as_tibble()   %>% 
+  pivot_longer(everything(), 
+               names_to = "rating_z",
+               values_to = "is_hallodri") %>% 
+  mutate(rating_z = as.integer(rating_z)) %>% 
+  mutate(rating_z = rating_z - 4)
+
+
+postpred_ratingz %>% 
+  mutate(is_hallodri = as.numeric(is_hallodri)) %>% 
+   count(rating_z, is_hallodri) %>% 
+  mutate(is_hallodri = factor(is_hallodri)) %>% 
+  ggplot(aes(x = rating_z, y = n, fill = is_hallodri)) +
+  geom_col(position = "fill") +
+  scale_fill_viridis_d()
+```
+
+]
 
 
 ---
