@@ -1,0 +1,163 @@
+
+```{r}
+library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+```
+
+
+
+
+
+
+name: teil-4
+class: middle, center
+
+
+
+# Teil 4
+
+## Binäre UV
+
+---
+
+## Logistische Regression nur mit Achsenabschnitt
+
+- *Lineare* ("normale") Regression nur mit Achsenabschnitt ist identisch zur Schätzung eines *Mittelwerts.*
+- Lineare Regression mit einer binären UV ist identisch zur Schätzung eines Unterschieds im Mittelwert zwischen zwei Gruppen.
+- Analog dazu entspricht eine *logistische* Regression nur mit Achsenabschnitt dem Schätzen eines *Anteils.*
+
+>   50 Personen werden auf Ignoranzitis getestet (eine schlimme Krankheit), davon 10 Personen positiv. Was ist der Anteil in der Population?
+
+Vermutlich so etwa 20% (wenn die Stichprobe gut ist), plus minus ein bisschen.
+
+Als logistische Regression:
+
+```{r echo = TRUE}
+y <- rep(c(0,1), c(40, 10)) # 40 mal 0, 10 mal 1
+ignor_df <- tibble(y)
+ignor_m <- stan_glm(y ~ 1, data = ignor_df, refresh = 0,
+                    family = binomial(link = "logit"))
+```
+
+
+---
+
+## Ergebnisse des Ignoranzitis-Modells
+
+
+.pull-left[
+**Logit-Skala**
+
+Der Achsenabschnitt ist der Punktschätzer zum Anteil der Ignoranzitis-Positiven (in der Population):
+
+```{r echo = TRUE}
+coef(ignor_m)
+```
+
+Und hier die Ungenauigkeit (Standardfehler) für den Punktschätzer:
+
+```{r echo = TRUE}
+se(ignor_m)
+```
+
+]
+
+.pull-right[
+**Wahrscheinlichkeits-Skala**
+
+Der Anteil in der Pr-Skala:
+```{r echo = TRUE}
+coef(ignor_m) %>% invlogit()
+```
+
+95%-PI des Punktschätzers:
+```{r echo = TRUE, eval = TRUE}
+UG <- (coef(ignor_m) - 
+  2*se(ignor_m)) %>% invlogit() 
+OG <- (coef(ignor_m) + 
+  2*se(ignor_m)) %>% invlogit() 
+```
+
+UG: `r round(UG,2)`; OG: `r round(OG, 2)`.
+
+]
+
+
+
+---
+
+## Eine binäre UV
+
+- Die logistische Regression mit einer UV ist äquivalent zum Vergleich zweier Anteile.
+
+>  Zur Bekämpfung der Ignoranzitis wird das Medikament Lisliberin verabreicht. In der Experimentalgruppe (mit Lisliberin) liegt der Anteil von Ignoranzitis danach noch bei 5 von 50. In der Kontrollgruppe liegt der Anteil bei 20 von 60.
+
+```{r}
+options(digits = 3)
+```
+
+
+```{r echo = TRUE, results="hold"}
+gruppe <- rep(c(0, 1), c(50, 60))
+ignor <- rep(c(0, 1, 0, 1), c(45, 5, 40, 20))
+lisliber_df <- tibble(gruppe, ignor)
+
+lisliber_m <- stan_glm(ignor ~ gruppe, data = lisliber_df, refresh = 0,
+                       family = binomial(link = "logit"))
+coef(lisliber_m)
+se(lisliber_m)
+```
+
+
+
+
+
+
+
+
+---
+
+
+## Ergebnisse zum Lisliber-Modell
+
+Vorhersagen pro Gruppe in der Pr-Skala bekommt man auch mit `posterior_epred()`:
+
+```{r echo = TRUE}
+neu <- tibble(gruppe = c(0,1))
+lisliber_post <- posterior_epred(lisliber_m, newdata = neu)
+lisliber_post <- lisliber_post %>% 
+  as_tibble() %>% 
+  mutate(diff_gruppen = `2` - `1`)
+```
+
+
+.pull-left[
+Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
+```{r}
+lisliber_post %>% 
+  head(n=3) %>% 
+  gt()
+```
+
+
+]
+
+
+.pull-right[
+```{r echo = TRUE}
+lisliber_post %>% 
+  summarise(
+   diff_mw = mean(diff_gruppen),
+   diff_sd = sd(diff_gruppen))
+```
+
+
+]
+
+
+---

@@ -165,7 +165,6 @@ $f(p) = \alpha + \beta \cdot x$
 
 - $\mathcal{f}$ nennt man eine *Link-Funktion*.
 
-- Die Regression mit  $\mathcal{f}$ nennt man *logistische* Regression.
 
 
 ]
@@ -203,7 +202,7 @@ $$
 
 ## Der Logit-Link
 
-- Der *Logit-Link*, $\mathcal{L}$, `logit` oder Logit-Funktion genannt, ordnet einen Parameter, der als Wahrscheinlichkeitsmasse definiert ist (und daher im Bereich von 0 bis 1 liegt), einem linearen Modell zu (das jeden beliebigen reellen Wert annehmen kann):
+- Der *Logit-Link*, $\mathcal{L}$, `logit`, Log-Odds oder Logit-Funktion genannt, ordnet einen Parameter, der als Wahrscheinlichkeitsmasse definiert ist (und daher im Bereich von 0 bis 1 liegt), einem linearen Modell zu (das jeden beliebigen reellen Wert annehmen kann):
 
 $$
 \begin{align}
@@ -251,7 +250,7 @@ Diese Funktion nennt man auch *inverser Logit*, $\text{logit}^{-1}$.
 #### Logit
 $(0,1) \rightarrow (-\infty, +\infty)$
 
-```{r}
+```{r dpi = 300}
 ggplot() +
   annotate("segment", 
            x = 0,
@@ -301,14 +300,14 @@ ggplot() +
            x = c(1.01),
              y = c(.5),
              label = c("0"),
-           size = 2) +
+           size = 4) +
   labs(x = "",
        y = "") +
   annotate("label",
            x = c(-0.01),
              y = c(.5),
              label = c("0.5"),
-           size = 2) +
+           size = 4) +
   annotate("segment",
            x = 0.02,
            xend = 0.98,
@@ -328,7 +327,7 @@ $$p \rightarrow \fbox{logit} \rightarrow \alpha + \beta x$$
 #### Inv-Logit
 $(-\infty, +\infty) \rightarrow (0,1)$
 
-```{r}
+```{r }
 ggplot() +
   annotate("segment", 
            x = 0,
@@ -376,14 +375,14 @@ ggplot() +
            x = c(1.01),
              y = c(.5),
              label = c("0"),
-           size = 2) +
+           size = 3) +
   labs(x = "",
        y = "") +
   annotate("label",
            x = c(-0.01),
              y = c(.5),
              label = c("0.5"),
-           size = 2) +
+           size = 3) +
   annotate("segment",
            xend = 0.02,
            x = 0.98,
@@ -401,13 +400,39 @@ $$p \leftarrow \fbox{inv-logit} \leftarrow \alpha + \beta x$$
 ]
 
 
+---
+
+## Logistische Regression
+
+- Eine Regression mit binomial verteilter AV und Logit-Link nennt man *logistische Regression*.
+
+- Man verwendet die logistische Regression um binomial verteilte AV zu modellieren, z.B.
+    - Wie hoch ist die Wahrscheinlichkeit, dass ein Kunde das Produkt kauft?
+    - Wie hoch ist die Wahrscheinlichkeit, dass ein Mitarbeiter kündigt?
+    - Wie hoch ist die Wahrscheinlichkeit, die Klausur zu bestehen?
+    
+- Die logistische Regression ist eine normale, lineare Regression für den Logit der AV:
+
+
+$$
+\begin{align}
+y_i &\sim \mathcal{B}(n, p_i) \\
+\text{logit}(p_i) &= \alpha + \beta x_i
+\end{align}
+$$
+
+
+- Da es sich um eine normale, lineare Regression handelt, sind alle bekannten Methoden und Techniken der linearen Regression zulässig.
+
+- Da Logits nicht einfach zu interpretieren sind, rechnet man nach der Berechnung des Modells den Logit häufig in Wahrscheinlichkeiten um.
+
 
 
 ---
 
 ## Die Koeffizienten sind schwer zu interpretieren
 
-```{r fig.asp=0.3}
+```{r fig.asp=0.4}
 s_fun <- function(x) exp(x) / (1 + exp(x))
 inv_logist <- function(x) x
 
@@ -440,8 +465,37 @@ p_logist1 + p_logist2
 - Stattdessen geht eine konstante Veränderung in der UV mit einer konstanten Veränderung im *Logit* der AV einher.
 - Beim logistischen Modell hier gilt, dass in der Nähe von $x=0$ die größte Veränderung in $p$ von statten geht; je weiter weg von $x=0$, desto geringer ist die Veränderung in $p$.
 
+---
+
+## Logits vs. Wahrscheinlichkeiten $p$
+
+.pull-left[
+```{r logit-konvert, echo = TRUE, results='hide'}
+konvert_logits <-
+  tibble(
+    logit = c( -10, -3, 
+              -2, -1, -0.5, -.25, 
+              0, 
+              .25, .5, 1, 2, 
+              3, 10),
+    p = invlogit(logit)
+  ) 
+
+```
 
 
+]
+
+.pull-right[
+
+```{r}
+konvert_logits %>% 
+  gt() %>% 
+  fmt_number(everything(), decimals = 2)
+```
+
+
+]
 
 
 

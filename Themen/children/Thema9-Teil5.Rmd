@@ -1,0 +1,70 @@
+
+```{r}
+library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+```
+
+
+
+
+
+
+name: teil-4
+class: middle, center
+
+
+
+# Teil 5
+
+## Modellgüte
+
+---
+
+## Fehlerrate
+
+Die *Fehlerrate* ist definiert als der Anteil für den eine der beiden folgenden Fehler  zutrifft:
+  - Fehler 1: $y_i = 1$ wenn $Pr(\hat{y_i}) < 0.5$ 
+  - Fehler 2: $y_i = 0$ wenn $Pr(\hat{y_i}) > 0.5$ 
+  
+- Die Fehlerrate sollte immer kleiner sein als $1/2$: Sonst könnten wir alle $\beta$s auf 0 setzen und würden eine bessere Fehlerrate (besseren "Fit") bekommen.
+- Man kann die Fehlerrate seines Modells mit dem *Nullmodell* vergleichen, das für alle $y_i$ die gleiche Wahrscheinlichkeit annimmt.
+- Das Nullmodell ist die Regression ohne Prädiktoren (nur mit Achsenabschnitt).
+- Die Fehlerrate des Nullmodells entspricht dem Anteil $p$ von $y_i = 1$ oder $1-p$ (je nachdem, welcher Wert von beiden kleiner ist).
+
+`r RefManageR::Citep(bib, "gelman_regression_2021", after = ", S. 255")`
+
+
+---
+
+## Fehlerrate berechnen für das Hallodri-Modell
+
+```{r echo = TRUE}
+d_hallodri <- 
+  d_hallodri %>% 
+  mutate(hallodri_pred =  predict(m_hallodri1))
+```
+
+```{r echo = TRUE}
+d_hallodri <-  
+  d_hallodri %>% 
+  mutate(wrong_pred = 
+     (hallodri_pred>0.5 & is_hallodri==0) |  # Fehler 1
+     (hallodri_pred<0.5 & is_hallodri==1))   # Fehler 2
+
+error_rate <-
+  d_hallodri %>% 
+  summarise(error_rate = mean(wrong_pred))
+
+error_rate
+```
+
+
+
+---
+
+

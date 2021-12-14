@@ -106,7 +106,11 @@ class: right, bottom, test, title-slide
 
 2. [Teil 2: Metrische UV](#teil-2)
 
-2. [Teil 3: Binäre UV](#teil-3)
+2. [Teil 3: Prioris](#teil-3)
+
+2. [Teil 4: Binäre UV](#teil-4)
+
+2. [Teil 5: Modellgüte](#teil-5)
 
 5. [Hinweise](#hinweise)
 ]
@@ -122,8 +126,6 @@ class: right, bottom, test, title-slide
 
 
 ---
-
-
 
 
 
@@ -174,7 +176,7 @@ coef(m91)
 
 ```
 ## (Intercept)       mpg_z 
-##   0.4067226   0.2977948
+##       0.409       0.300
 ```
 
 
@@ -184,7 +186,7 @@ als *Wahrscheinlichkeit* interpretieren (für `am=1)`.
 ]
 
 .pull-right[
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-102-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -215,8 +217,8 @@ Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
 ```
 
 ```
-##          1 
-## -0.1892514
+##      1 
+## -0.187
 ```
 
 `\(Pr(\hat{y})&lt;0\)` macht keinen Sinn. ⚡ 
@@ -230,8 +232,8 @@ Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
 ```
 
 ```
-##         1 
-## 0.9996292
+##    1 
+## 1.01
 ```
 
 
@@ -249,7 +251,7 @@ Schauen Sie sich mal die Vorhersage an für `mpg_z=5` 🤯
 .pull-left[
 ... wenn der vorhergesagte Wert eine Wahrscheinlichkeit, `\(p_i\)`, ist.
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-106-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -267,7 +269,6 @@ Schauen Sie sich mal die Vorhersage an für `mpg_z=5` 🤯
 
 - `\(\mathcal{f}\)` nennt man eine *Link-Funktion*.
 
-- Die Regression mit  `\(\mathcal{f}\)` nennt man *logistische* Regression.
 
 
 ]
@@ -305,7 +306,7 @@ $$
 
 ## Der Logit-Link
 
-- Der *Logit-Link*, `\(\mathcal{L}\)`, `logit` oder Logit-Funktion genannt, ordnet einen Parameter, der als Wahrscheinlichkeitsmasse definiert ist (und daher im Bereich von 0 bis 1 liegt), einem linearen Modell zu (das jeden beliebigen reellen Wert annehmen kann):
+- Der *Logit-Link*, `\(\mathcal{L}\)`, `logit`, Log-Odds oder Logit-Funktion genannt, ordnet einen Parameter, der als Wahrscheinlichkeitsmasse definiert ist (und daher im Bereich von 0 bis 1 liegt), einem linearen Modell zu (das jeden beliebigen reellen Wert annehmen kann):
 
 $$
 `\begin{align}
@@ -353,7 +354,7 @@ Diese Funktion nennt man auch *inverser Logit*, `\(\text{logit}^{-1}\)`.
 #### Logit
 `\((0,1) \rightarrow (-\infty, +\infty)\)`
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-107-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Praktisch, um Wahrscheinlichkeit zu modellieren.
 
@@ -364,7 +365,7 @@ Praktisch, um Wahrscheinlichkeit zu modellieren.
 #### Inv-Logit
 `\((-\infty, +\infty) \rightarrow (0,1)\)`
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-108-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Praktisch, um in Wahrscheinlichkeiten umzurechnen.
 
@@ -373,13 +374,39 @@ Praktisch, um in Wahrscheinlichkeiten umzurechnen.
 ]
 
 
+---
+
+## Logistische Regression
+
+- Eine Regression mit binomial verteilter AV und Logit-Link nennt man *logistische Regression*.
+
+- Man verwendet die logistische Regression um binomial verteilte AV zu modellieren, z.B.
+    - Wie hoch ist die Wahrscheinlichkeit, dass ein Kunde das Produkt kauft?
+    - Wie hoch ist die Wahrscheinlichkeit, dass ein Mitarbeiter kündigt?
+    - Wie hoch ist die Wahrscheinlichkeit, die Klausur zu bestehen?
+    
+- Die logistische Regression ist eine normale, lineare Regression für den Logit der AV:
+
+
+$$
+`\begin{align}
+y_i &amp;\sim \mathcal{B}(n, p_i) \\
+\text{logit}(p_i) &amp;= \alpha + \beta x_i
+\end{align}`
+$$
+
+
+- Da es sich um eine normale, lineare Regression handelt, sind alle bekannten Methoden und Techniken der linearen Regression zulässig.
+
+- Da Logits nicht einfach zu interpretieren sind, rechnet man nach der Berechnung des Modells den Logit häufig in Wahrscheinlichkeiten um.
+
 
 
 ---
 
 ## Die Koeffizienten sind schwer zu interpretieren
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-109-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -387,8 +414,410 @@ Praktisch, um in Wahrscheinlichkeiten umzurechnen.
 - Stattdessen geht eine konstante Veränderung in der UV mit einer konstanten Veränderung im *Logit* der AV einher.
 - Beim logistischen Modell hier gilt, dass in der Nähe von `\(x=0\)` die größte Veränderung in `\(p\)` von statten geht; je weiter weg von `\(x=0\)`, desto geringer ist die Veränderung in `\(p\)`.
 
+---
+
+## Logits vs. Wahrscheinlichkeiten `\(p\)`
+
+.pull-left[
+
+```r
+konvert_logits &lt;-
+  tibble(
+    logit = c( -10, -3, 
+              -2, -1, -0.5, -.25, 
+              0, 
+              .25, .5, 1, 2, 
+              3, 10),
+    p = invlogit(logit)
+  ) 
+```
 
 
+]
+
+.pull-right[
+
+<div id="ulgxvkvecw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ulgxvkvecw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ulgxvkvecw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ulgxvkvecw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ulgxvkvecw .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ulgxvkvecw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ulgxvkvecw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ulgxvkvecw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ulgxvkvecw .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ulgxvkvecw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ulgxvkvecw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ulgxvkvecw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ulgxvkvecw .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ulgxvkvecw .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ulgxvkvecw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ulgxvkvecw .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ulgxvkvecw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ulgxvkvecw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ulgxvkvecw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ulgxvkvecw .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ulgxvkvecw .gt_left {
+  text-align: left;
+}
+
+#ulgxvkvecw .gt_center {
+  text-align: center;
+}
+
+#ulgxvkvecw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ulgxvkvecw .gt_font_normal {
+  font-weight: normal;
+}
+
+#ulgxvkvecw .gt_font_bold {
+  font-weight: bold;
+}
+
+#ulgxvkvecw .gt_font_italic {
+  font-style: italic;
+}
+
+#ulgxvkvecw .gt_super {
+  font-size: 65%;
+}
+
+#ulgxvkvecw .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">logit</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">p</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">&minus;10.00</td>
+<td class="gt_row gt_right">0.00</td></tr>
+    <tr><td class="gt_row gt_right">&minus;3.00</td>
+<td class="gt_row gt_right">0.05</td></tr>
+    <tr><td class="gt_row gt_right">&minus;2.00</td>
+<td class="gt_row gt_right">0.12</td></tr>
+    <tr><td class="gt_row gt_right">&minus;1.00</td>
+<td class="gt_row gt_right">0.27</td></tr>
+    <tr><td class="gt_row gt_right">&minus;0.50</td>
+<td class="gt_row gt_right">0.38</td></tr>
+    <tr><td class="gt_row gt_right">&minus;0.25</td>
+<td class="gt_row gt_right">0.44</td></tr>
+    <tr><td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">0.50</td></tr>
+    <tr><td class="gt_row gt_right">0.25</td>
+<td class="gt_row gt_right">0.56</td></tr>
+    <tr><td class="gt_row gt_right">0.50</td>
+<td class="gt_row gt_right">0.62</td></tr>
+    <tr><td class="gt_row gt_right">1.00</td>
+<td class="gt_row gt_right">0.73</td></tr>
+    <tr><td class="gt_row gt_right">2.00</td>
+<td class="gt_row gt_right">0.88</td></tr>
+    <tr><td class="gt_row gt_right">3.00</td>
+<td class="gt_row gt_right">0.95</td></tr>
+    <tr><td class="gt_row gt_right">10.00</td>
+<td class="gt_row gt_right">1.00</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+]
 
 
 
@@ -431,11 +860,12 @@ class: middle, center
 
 
 ```r
-d &lt;- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv")
+d &lt;- read_csv(
+"https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv")
 ```
 
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-113-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -490,7 +920,7 @@ coef(m92)
 
 ```
 ## (Intercept)    height_c 
-##  -1.0833006   0.2023509
+##      -1.079       0.202
 ```
 
 - Die Modellgleichung kann man so schreiben: `\(Pr(y=1) = Pr(\text{male}) = \text{logit}^{-1}(-1.08 + 0.2*\text{height})\)`
@@ -517,7 +947,7 @@ invlogit(coef(m92)[1])
 
 ```
 ## (Intercept) 
-##   0.2528819
+##       0.254
 ```
 
 - Bei einer Person mittleren Größe sagt unser Modell mit einer Wahrscheinlichkeit von ca. 0.25 vorher, dass es ein Mann ist.
@@ -529,7 +959,7 @@ invlogit(coef(m92)[1] + coef(m92)[2]*10)
 
 ```
 ## (Intercept) 
-##   0.7191417
+##        0.72
 ```
 
 - Bei einer Person, die 10cm größer ist als der Mittelwert, geht unser Modell von einer Wahrscheinlichkeit von 0.72 aus.
@@ -547,9 +977,9 @@ posterior_interval(m92, prob = .95)
 ```
 
 ```
-##                   2.5%      97.5%
-## (Intercept) -1.2469628 -0.9235511
-## height_c     0.1811644  0.2246151
+##               2.5%  97.5%
+## (Intercept) -1.254 -0.918
+## height_c     0.181  0.225
 ```
 
 ```r
@@ -557,7 +987,7 @@ invlogit(c(-1.22, -0.95))
 ```
 
 ```
-## [1] 0.2279365 0.2788848
+## [1] 0.228 0.279
 ```
 
 Die Wahrscheinlichkeit, dass eine mittelgroße Person ein Mann ist, 
@@ -593,8 +1023,8 @@ Eigentlich hatten wir das schon hier gesehen:
 
 
 ```
-##               2.5%     97.5%
-## height_c 0.1811644 0.2246151
+##           2.5% 97.5%
+## height_c 0.181 0.225
 ```
 
 
@@ -619,7 +1049,7 @@ posterior_predict(m92, newdata = tibble(height_c = 10)) %&gt;%
 ```
 
 ```
-## [1] 0.71775
+## [1] 0.725
 ```
 
 Mit `invlogit()` kann man sich den Logit-Wert in Wahrscheinlichkeit umrechnen lassen.
@@ -635,7 +1065,7 @@ m92_ppv_10 %&gt;%
 ```
 
 ```
-## [1] 0.72225
+## [1] 0.718
 ```
 
 `posterior_predict()` zeigt uns die Vorhersagen aus der PPV für `\(\alpha + \beta \cdot 10\)`.
@@ -665,12 +1095,12 @@ m92_ppv &lt;- posterior_predict(m92, newdata = heights_df) %&gt;%
 Die ersten paar Zeilen von `m92_ppv`:
 
 
-<div id="hhkaozykni" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="sobalqegez" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#hhkaozykni .gt_table {
+#sobalqegez .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -695,7 +1125,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-left-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_heading {
+#sobalqegez .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -707,7 +1137,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_title {
+#sobalqegez .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -717,7 +1147,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-bottom-width: 0;
 }
 
-#hhkaozykni .gt_subtitle {
+#sobalqegez .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -727,13 +1157,13 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-width: 0;
 }
 
-#hhkaozykni .gt_bottom_border {
+#sobalqegez .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_col_headings {
+#sobalqegez .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -748,7 +1178,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_col_heading {
+#sobalqegez .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -768,7 +1198,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   overflow-x: hidden;
 }
 
-#hhkaozykni .gt_column_spanner_outer {
+#sobalqegez .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -780,15 +1210,15 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 4px;
 }
 
-#hhkaozykni .gt_column_spanner_outer:first-child {
+#sobalqegez .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hhkaozykni .gt_column_spanner_outer:last-child {
+#sobalqegez .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hhkaozykni .gt_column_spanner {
+#sobalqegez .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -800,7 +1230,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   width: 100%;
 }
 
-#hhkaozykni .gt_group_heading {
+#sobalqegez .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -822,7 +1252,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   vertical-align: middle;
 }
 
-#hhkaozykni .gt_empty_group_heading {
+#sobalqegez .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -837,15 +1267,15 @@ Die ersten paar Zeilen von `m92_ppv`:
   vertical-align: middle;
 }
 
-#hhkaozykni .gt_from_md > :first-child {
+#sobalqegez .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hhkaozykni .gt_from_md > :last-child {
+#sobalqegez .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hhkaozykni .gt_row {
+#sobalqegez .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -864,7 +1294,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   overflow-x: hidden;
 }
 
-#hhkaozykni .gt_stub {
+#sobalqegez .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -876,7 +1306,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-left: 12px;
 }
 
-#hhkaozykni .gt_summary_row {
+#sobalqegez .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -886,7 +1316,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 5px;
 }
 
-#hhkaozykni .gt_first_summary_row {
+#sobalqegez .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -896,7 +1326,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_grand_summary_row {
+#sobalqegez .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -906,7 +1336,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 5px;
 }
 
-#hhkaozykni .gt_first_grand_summary_row {
+#sobalqegez .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -916,11 +1346,11 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_striped {
+#sobalqegez .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hhkaozykni .gt_table_body {
+#sobalqegez .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -929,7 +1359,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-bottom-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_footnotes {
+#sobalqegez .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -943,13 +1373,13 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_footnote {
+#sobalqegez .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#hhkaozykni .gt_sourcenotes {
+#sobalqegez .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -963,41 +1393,41 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#hhkaozykni .gt_sourcenote {
+#sobalqegez .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#hhkaozykni .gt_left {
+#sobalqegez .gt_left {
   text-align: left;
 }
 
-#hhkaozykni .gt_center {
+#sobalqegez .gt_center {
   text-align: center;
 }
 
-#hhkaozykni .gt_right {
+#sobalqegez .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hhkaozykni .gt_font_normal {
+#sobalqegez .gt_font_normal {
   font-weight: normal;
 }
 
-#hhkaozykni .gt_font_bold {
+#sobalqegez .gt_font_bold {
   font-weight: bold;
 }
 
-#hhkaozykni .gt_font_italic {
+#sobalqegez .gt_font_italic {
   font-style: italic;
 }
 
-#hhkaozykni .gt_super {
+#sobalqegez .gt_super {
   font-size: 65%;
 }
 
-#hhkaozykni .gt_footnote_marks {
+#sobalqegez .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1023,8 +1453,17 @@ Die ersten paar Zeilen von `m92_ppv`:
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td></tr>
@@ -1040,18 +1479,9 @@ Die ersten paar Zeilen von `m92_ppv`:
     <tr><td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
-<td class="gt_row gt_center">1</td>
-<td class="gt_row gt_center">1</td>
-<td class="gt_row gt_center">1</td></tr>
-    <tr><td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td></tr>
@@ -1094,9 +1524,12 @@ m92_ppv %&gt;%
 
 ```
 ## # A tibble: 1 × 5
-##   minus40 minus30 minus20 minus10 null_durchschnitt
-##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt;
-## 1 0.00025  0.0005   0.006   0.039             0.251
+##   minus40 minus30 minus20
+##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1       0 0.00025   0.004
+## # … with 2 more variables:
+## #   minus10 &lt;dbl&gt;,
+## #   null_durchschnitt &lt;dbl&gt;
 ```
 
 
@@ -1125,7 +1558,7 @@ m92_ppv %&gt;%
 ## # A tibble: 1 × 1
 ##   p_mann
 ##    &lt;dbl&gt;
-## 1  0.787
+## 1  0.783
 ```
 
 
@@ -1160,14 +1593,16 @@ d_hallodri &lt;- read_csv(
  "https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv")
 ```
 
+EDA:
+
 .pull-left[
 
 ```r
 d_hallodri &lt;-
   d_hallodri %&gt;% 
   mutate(is_hallodri = 
-           ifelse(affairs &gt; 0, 1, 0),
-         rating_z =
+    ifelse(affairs &gt; 0, 1, 0),
+    rating_z =
            scale(rating)) 
 
 d_hallodri %&gt;% 
@@ -1181,7 +1616,7 @@ d_hallodri %&gt;%
 
 
 .pull-right[
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-31-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-128-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-128-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1212,6 +1647,12 @@ m_hallodri1 &lt;-
 ```
 
 
+💣 Der AV liegt eine metrische Variable zugrunde (`affairs`).
+Zumeist ist es sinnvoller, 
+die informationsreichere metrische Variable zu modellieren.
+Die Dichotomisierung zu einer binären Variablen verschenkt viel Information.
+Hier zu didaktischen Zwecken.
+
 ---
 
 ## Hallodri-Modell: Ergebnisse
@@ -1222,8 +1663,8 @@ posterior_interval(m_hallodri1, pars = "(Intercept)") %&gt;% invlogit()
 ```
 
 ```
-##                   5%       95%
-## (Intercept) 0.207198 0.2655569
+##                5%   95%
+## (Intercept) 0.208 0.266
 ```
 
 ```r
@@ -1231,8 +1672,8 @@ posterior_interval(m_hallodri1, pars = "rating_z")
 ```
 
 ```
-##                  5%        95%
-## rating_z -0.7143518 -0.4051863
+##              5%    95%
+## rating_z -0.718 -0.408
 ```
 
 
@@ -1248,6 +1689,11 @@ posterior_interval(m_hallodri1, pars = "rating_z")
 &gt;  Wie hoch ist die Wahrscheinlichkeit für einen Seitensprung, wenn `rating_z = -3`?
 
 
+
+
+
+.pull-left[
+
 Punktschätzer:
 
 ```r
@@ -1256,12 +1702,9 @@ predict(m_hallodri1,
 ```
 
 ```
-##         1 
-## 0.5091203
+##     1 
+## 0.514
 ```
-
-
-.pull-left[
 
 
 95%-PI aus der Post-Verteilung (nicht PPV) als Wahrscheinlichkeit:
@@ -1273,8 +1716,8 @@ posterior_epred(m_hallodri1,
 ```
 
 ```
-##      2.5%     97.5% 
-## 0.4898910 0.7391456
+##  2.5% 97.5% 
+## 0.496 0.743
 ```
 
 
@@ -1292,7 +1735,7 @@ posterior_epred(m_hallodri1,
   geom_density()
 ```
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-133-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1302,6 +1745,79 @@ posterior_epred(m_hallodri1,
 
 
 ---
+
+
+## Visualisierung der Modellfunktion
+
+
+
+
+
+
+
+
+.pull-left[
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-134-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+.pull-right[
+- Um den charakterischen, s-förmigen Verlauf der logistischen Funktion zu zeigen, ist hier der Wertebereich des Prädiktors übermäßig nach links erweitert.
+
+- Extreme Wahrscheinlichkeiten sind mit weniger Unsicherheit verbunden als mittlere Wahrscheinlichkeiten.
+
+]
+
+
+---
+
+
+## Vorhersagen mit Ungewissheit visualisiert
+
+.pull-left[
+Vorhersagen aus der Post-Verteilung für jede Stufe von `rating_z`.
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-135-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+Vorhersagen aus der PPV für jede Stufe von `rating_z`.
+
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-136-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+name: teil-3
+class: middle, center
+
+
+
+# Teil 3
+
+## Prioris
+
+---
+
+
 
 
 ## Prioris bei den Hallodri
@@ -1358,7 +1874,7 @@ m_hallodri2 %&gt;%
 
 .pull-right[
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-140-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1401,7 +1917,7 @@ m_hallodri3 %&gt;%
 
 .pull-right[
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-41-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-142-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1446,7 +1962,7 @@ m_hallodri4 %&gt;%
 
 .pull-right[
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-144-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1454,32 +1970,6 @@ m_hallodri4 %&gt;%
 
 👍 Das sieht gut aus!
 
----
-
-
-
-
-
-
-
-
-
-
-
----
-
-
-## Visualisierung der Modellfunktion
-
-
-
-
-
-
-
-
-
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1491,23 +1981,6 @@ m_hallodri4 %&gt;%
 ---
 
 
-## Vorhersagen mit Ungewissheit visualisiert
-
-.pull-left[
-Vorhersagen aus der Post-Verteilung für jede Stufe von `rating_z`.
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
-]
-
-.pull-right[
-Vorhersagen aus der Post-Präd-Verteilung für jede Stufe von `rating_z`.
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-]
-
-
----
 
 
 
@@ -1520,17 +1993,620 @@ Vorhersagen aus der Post-Präd-Verteilung für jede Stufe von `rating_z`.
 
 
 
-name: teil-3
+
+
+name: teil-4
 class: middle, center
 
 
 
-# Teil 3
+# Teil 4
 
 ## Binäre UV
 
 ---
 
+## Logistische Regression nur mit Achsenabschnitt
+
+- *Lineare* ("normale") Regression nur mit Achsenabschnitt ist identisch zur Schätzung eines *Mittelwerts.*
+- Lineare Regression mit einer binären UV ist identisch zur Schätzung eines Unterschieds im Mittelwert zwischen zwei Gruppen.
+- Analog dazu entspricht eine *logistische* Regression nur mit Achsenabschnitt dem Schätzen eines *Anteils.*
+
+&gt;   50 Personen werden auf Ignoranzitis getestet (eine schlimme Krankheit), davon 10 Personen positiv. Was ist der Anteil in der Population?
+
+Vermutlich so etwa 20% (wenn die Stichprobe gut ist), plus minus ein bisschen.
+
+Als logistische Regression:
+
+
+```r
+y &lt;- rep(c(0,1), c(40, 10)) # 40 mal 0, 10 mal 1
+ignor_df &lt;- tibble(y)
+ignor_m &lt;- stan_glm(y ~ 1, data = ignor_df, refresh = 0,
+                    family = binomial(link = "logit"))
+```
+
+
+---
+
+## Ergebnisse des Ignoranzitis-Modells
+
+
+.pull-left[
+**Logit-Skala**
+
+Der Achsenabschnitt ist der Punktschätzer zum Anteil der Ignoranzitis-Positiven (in der Population):
+
+
+```r
+coef(ignor_m)
+```
+
+```
+## (Intercept) 
+##       -1.38
+```
+
+Und hier die Ungenauigkeit (Standardfehler) für den Punktschätzer:
+
+
+```r
+se(ignor_m)
+```
+
+```
+## (Intercept) 
+##       0.355
+```
+
+]
+
+.pull-right[
+**Wahrscheinlichkeits-Skala**
+
+Der Anteil in der Pr-Skala:
+
+```r
+coef(ignor_m) %&gt;% invlogit()
+```
+
+```
+## (Intercept) 
+##       0.201
+```
+
+95%-PI des Punktschätzers:
+
+```r
+UG &lt;- (coef(ignor_m) - 
+  2*se(ignor_m)) %&gt;% invlogit() 
+OG &lt;- (coef(ignor_m) + 
+  2*se(ignor_m)) %&gt;% invlogit() 
+```
+
+UG: 0.11; OG: 0.34.
+
+]
+
+
+
+---
+
+## Eine binäre UV
+
+- Die logistische Regression mit einer UV ist äquivalent zum Vergleich zweier Anteile.
+
+&gt;  Zur Bekämpfung der Ignoranzitis wird das Medikament Lisliberin verabreicht. In der Experimentalgruppe (mit Lisliberin) liegt der Anteil von Ignoranzitis danach noch bei 5 von 50. In der Kontrollgruppe liegt der Anteil bei 20 von 60.
+
+
+
+
+
+```r
+gruppe &lt;- rep(c(0, 1), c(50, 60))
+ignor &lt;- rep(c(0, 1, 0, 1), c(45, 5, 40, 20))
+lisliber_df &lt;- tibble(gruppe, ignor)
+
+lisliber_m &lt;- stan_glm(ignor ~ gruppe, data = lisliber_df, refresh = 0,
+                       family = binomial(link = "logit"))
+coef(lisliber_m)
+se(lisliber_m)
+```
+
+```
+## (Intercept)      gruppe 
+##       -2.21        1.53 
+## (Intercept)      gruppe 
+##       0.487       0.558
+```
+
+
+
+
+
+
+
+
+---
+
+
+## Ergebnisse zum Lisliber-Modell
+
+Vorhersagen pro Gruppe in der Pr-Skala bekommt man auch mit `posterior_epred()`:
+
+
+```r
+neu &lt;- tibble(gruppe = c(0,1))
+lisliber_post &lt;- posterior_epred(lisliber_m, newdata = neu)
+lisliber_post &lt;- lisliber_post %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(diff_gruppen = `2` - `1`)
+```
+
+
+.pull-left[
+Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
+<div id="szrobxfzzl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#szrobxfzzl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#szrobxfzzl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#szrobxfzzl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#szrobxfzzl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#szrobxfzzl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#szrobxfzzl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#szrobxfzzl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#szrobxfzzl .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#szrobxfzzl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#szrobxfzzl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#szrobxfzzl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#szrobxfzzl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#szrobxfzzl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#szrobxfzzl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#szrobxfzzl .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#szrobxfzzl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#szrobxfzzl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#szrobxfzzl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#szrobxfzzl .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#szrobxfzzl .gt_left {
+  text-align: left;
+}
+
+#szrobxfzzl .gt_center {
+  text-align: center;
+}
+
+#szrobxfzzl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#szrobxfzzl .gt_font_normal {
+  font-weight: normal;
+}
+
+#szrobxfzzl .gt_font_bold {
+  font-weight: bold;
+}
+
+#szrobxfzzl .gt_font_italic {
+  font-style: italic;
+}
+
+#szrobxfzzl .gt_super {
+  font-size: 65%;
+}
+
+#szrobxfzzl .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">diff_gruppen</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">0.1227</td>
+<td class="gt_row gt_right">0.402</td>
+<td class="gt_row gt_right">0.279</td></tr>
+    <tr><td class="gt_row gt_right">0.1851</td>
+<td class="gt_row gt_right">0.348</td>
+<td class="gt_row gt_right">0.163</td></tr>
+    <tr><td class="gt_row gt_right">0.0715</td>
+<td class="gt_row gt_right">0.305</td>
+<td class="gt_row gt_right">0.234</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+]
+
+
+.pull-right[
+
+```r
+lisliber_post %&gt;% 
+  summarise(
+   diff_mw = mean(diff_gruppen),
+   diff_sd = sd(diff_gruppen))
+```
+
+```
+## # A tibble: 1 × 2
+##   diff_mw diff_sd
+##     &lt;dbl&gt;   &lt;dbl&gt;
+## 1   0.232  0.0738
+```
+
+
+]
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+name: teil-4
+class: middle, center
+
+
+
+# Teil 5
+
+## Modellgüte
+
+---
+
+## Fehlerrate
+
+Die *Fehlerrate* ist definiert als der Anteil für den eine der beiden folgenden Fehler  zutrifft:
+  - Fehler 1: `\(y_i = 1\)` wenn `\(Pr(\hat{y_i}) &lt; 0.5\)` 
+  - Fehler 2: `\(y_i = 0\)` wenn `\(Pr(\hat{y_i}) &gt; 0.5\)` 
+  
+- Die Fehlerrate sollte immer kleiner sein als `\(1/2\)`: Sonst könnten wir alle `\(\beta\)`s auf 0 setzen und würden eine bessere Fehlerrate (besseren "Fit") bekommen.
+- Man kann die Fehlerrate seines Modells mit dem *Nullmodell* vergleichen, das für alle `\(y_i\)` die gleiche Wahrscheinlichkeit annimmt.
+- Das Nullmodell ist die Regression ohne Prädiktoren (nur mit Achsenabschnitt).
+- Die Fehlerrate des Nullmodells entspricht dem Anteil `\(p\)` von `\(y_i = 1\)` oder `\(1-p\)` (je nachdem, welcher Wert von beiden kleiner ist).
+
+&lt;a name=cite-gelman_regression_2021&gt;&lt;/a&gt;([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021), S. 255)
+
+
+---
+
+## Fehlerrate berechnen für das Hallodri-Modell
+
+
+```r
+d_hallodri &lt;- 
+  d_hallodri %&gt;% 
+  mutate(hallodri_pred =  predict(m_hallodri1))
+```
+
+
+```r
+d_hallodri &lt;-  
+  d_hallodri %&gt;% 
+  mutate(wrong_pred = 
+     (hallodri_pred&gt;0.5 &amp; is_hallodri==0) |  # Fehler 1
+     (hallodri_pred&lt;0.5 &amp; is_hallodri==1))   # Fehler 2
+
+error_rate &lt;-
+  d_hallodri %&gt;% 
+  summarise(error_rate = mean(wrong_pred))
+
+error_rate
+```
+
+```
+## # A tibble: 1 × 1
+##   error_rate
+##        &lt;dbl&gt;
+## 1      0.250
+```
+
+
+
+---
 
 
 
@@ -1557,7 +2633,7 @@ class: center, middle, inverse
   - Regression and other stories (Kap. 13); Statistical Rethinking (Kap. 10.2)
 
 
-- Dieses Skript wurde erstellt am 2021-12-14 08:20:21. 
+- Dieses Skript wurde erstellt am 2021-12-14 15:13:25. 
 
 - Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
 
@@ -1616,10 +2692,26 @@ name: literatur
 [Diese](https://sebastiansauer.github.io/QM2-Folien/citations.html) R-Pakete wurden verwendet.
 
 .small[
-&lt;a name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
-R.](#cite-mcelreath_statistical_2020) (2020). _Statistical rethinking:
-a Bayesian course with examples in R and Stan_. 2nd ed. CRC texts in
-statistical science. Taylor and Francis, CRC Press.
+&lt;a
+name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
+A., J. Hill, and A.
+Vehtari](#cite-gelman_regression_2021)
+(2021). _Regression and
+other stories_. Analytical
+methods for social
+research. Cambridge
+University Press.
+
+&lt;a
+name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020)
+(2020). _Statistical
+rethinking: a Bayesian
+course with examples in R
+and Stan_. 2nd ed. CRC
+texts in statistical
+science. Taylor and
+Francis, CRC Press.
 
 ]
 

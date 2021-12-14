@@ -21,7 +21,158 @@ class: middle, center
 
 # Teil 3
 
-## Binäre UV
+## Prioris
+
+---
+
+
+
+
+## Prioris bei den Hallodri
+
+
+```{r}
+prior_summary(m_hallodri1)
+```
+
+
+- Unser Prädiktor ist z-standardisiert.
+
+- Ein Prior für $\sigma$ gibt es bei Binomialmodellen nicht.
+
+---
+
+## Priori-Analyse
+
+
+```{r echo = TRUE}
+m_hallodri2 <-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           family = binomial(link = "logit"))
+```
+
+
+.pull-left[
+
+```{r priori-alpha-m2, echo = TRUE, eval = FALSE}
+m_hallodri2 %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) %>% 
+  mutate(a_p = invlogit(a)) %>% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+```{r ref.label="priori-alpha-m2"}
+
+```
+
+
+]
+
+Unser Golem geht apriori von extremen Wahrscheinlichkeiten des Hallodritums aus: 
+Entweder du bist einer 🏩 oder du bist es nicht 🧐.
+
+
+---
+
+## Uninformativer Prior
+
+
+
+```{r echo = TRUE}
+m_hallodri3 <-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           prior_intercept = normal(0, 10),
+           family = binomial(link = "logit"))
+```
+
+
+
+
+.pull-left[
+
+```{r priori-alpha-m3, echo = TRUE, eval = FALSE}
+m_hallodri3 %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) %>% 
+  mutate(a_p = invlogit(a)) %>% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+```{r ref.label="priori-alpha-m3"}
+
+```
+
+
+]
+
+💡 Je flacher der Priori, 
+desto extremer die Priori-Verteilung bei einem Binomial-Modell.
+
+Wir sollten gemäßigtere Prioris bevorzugen.
+
+---
+
+## Gemäßigter Prior
+
+
+
+
+```{r echo = TRUE}
+m_hallodri4 <-
+  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
+           prior_PD = TRUE,
+           prior_intercept = normal(0, 1),
+           family = binomial(link = "logit"))
+```
+
+
+
+
+.pull-left[
+
+```{r priori-alpha-m4, echo = TRUE, eval = FALSE}
+m_hallodri4 %>% 
+  as_tibble() %>% 
+  rename(a = `(Intercept)`) %>% 
+  mutate(a_p = invlogit(a)) %>% 
+  ggplot(aes(x = a_p)) +
+  geom_density()
+```
+
+]
+
+.pull-right[
+
+```{r ref.label="priori-alpha-m4"}
+
+```
+
+
+]
+
+
+👍 Das sieht gut aus!
+
+
+
+
+
+
+
+
 
 ---
 

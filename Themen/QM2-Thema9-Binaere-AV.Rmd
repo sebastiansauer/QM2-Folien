@@ -55,7 +55,11 @@ knitr::opts_chunk$set(
 
 2. [Teil 2: Metrische UV](#teil-2)
 
-2. [Teil 3: Binäre UV](#teil-3)
+2. [Teil 3: Prioris](#teil-3)
+
+2. [Teil 4: Binäre UV](#teil-4)
+
+2. [Teil 5: Modellgüte](#teil-5)
 
 5. [Hinweise](#hinweise)
 ]
@@ -75,8 +79,6 @@ source("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/R-Code/
 ---
 
 
-
-
 ```{r QM2-Thema8-Teil1, eval = TRUE, child="children/Thema9-Teil1.Rmd"}
 ```
 
@@ -89,6 +91,17 @@ source("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/R-Code/
 ```{r QM2-Thema8-Teil3, eval = TRUE, child="children/Thema9-Teil3.Rmd"}
 ```
 
+
+
+
+
+```{r QM2-Thema8-Teil4, eval = TRUE, child="children/Thema9-Teil4.Rmd"}
+```
+
+
+
+```{r QM2-Thema8-Teil5, eval = TRUE, child="children/Thema9-Teil5.Rmd"}
+```
 
 
 

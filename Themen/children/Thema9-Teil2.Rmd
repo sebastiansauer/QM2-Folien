@@ -34,11 +34,12 @@ class: middle, center
 
 
 ```{r echo = TRUE}
-d <- read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv")
+d <- read_csv(
+"https://vincentarelbundock.github.io/Rdatasets/csv/openintro/speed_gender_height.csv")
 ```
 
 
-```{r fig.asp = .5}
+```{r fig.asp = .4}
 binomial_smooth <- function(...) {
     geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
 }
@@ -322,15 +323,15 @@ d_hallodri <- read_csv(
  "https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv")
 ```
 
-### EDA
+EDA:
 
 .pull-left[
 ```{r hallodri1, echo = TRUE, results="hide"}
 d_hallodri <-
   d_hallodri %>% 
   mutate(is_hallodri = 
-           ifelse(affairs > 0, 1, 0),
-         rating_z =
+    ifelse(affairs > 0, 1, 0),
+    rating_z =
            scale(rating)) 
 
 d_hallodri %>% 
@@ -354,7 +355,7 @@ d_hallodri %>%
 
 d_hallodri %>%
   mutate(rating = factor(rating),
-         is_hallodri = factor(is_hallodri)) %>% 
+   is_hallodri = factor(is_hallodri)) %>% 
   ggplot() +
   aes(x = rating, fill = is_hallodri) +
   geom_bar(position = "fill") 
@@ -387,6 +388,12 @@ m_hallodri1 <-
            family = binomial(link = "logit"))
 ```
 
+
+💣 Der AV liegt eine metrische Variable zugrunde (`affairs`).
+Zumeist ist es sinnvoller, 
+die informationsreichere metrische Variable zu modellieren.
+Die Dichotomisierung zu einer binären Variablen verschenkt viel Information.
+Hier zu didaktischen Zwecken.
 
 ---
 
@@ -453,155 +460,6 @@ posterior_epred(m_hallodri1,
 ---
 
 
-## Prioris bei den Hallodri
-
-
-```{r}
-prior_summary(m_hallodri1)
-```
-
-
-- Unser Prädiktor ist z-standardisiert.
-
-- Ein Prior für $\sigma$ gibt es bei Binomialmodellen nicht.
-
----
-
-## Priori-Analyse
-
-
-```{r echo = TRUE}
-m_hallodri2 <-
-  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
-           prior_PD = TRUE,
-           family = binomial(link = "logit"))
-```
-
-
-.pull-left[
-
-```{r priori-alpha-m2, echo = TRUE, eval = FALSE}
-m_hallodri2 %>% 
-  as_tibble() %>% 
-  rename(a = `(Intercept)`) %>% 
-  mutate(a_p = invlogit(a)) %>% 
-  ggplot(aes(x = a_p)) +
-  geom_density()
-```
-
-]
-
-.pull-right[
-
-```{r ref.label="priori-alpha-m2"}
-
-```
-
-
-]
-
-Unser Golem geht apriori von extremen Wahrscheinlichkeiten des Hallodritums aus: 
-Entweder du bist einer 🏩 oder du bist es nicht 🧐.
-
-
----
-
-## Uninformativer Prior
-
-
-
-```{r echo = TRUE}
-m_hallodri3 <-
-  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
-           prior_PD = TRUE,
-           prior_intercept = normal(0, 10),
-           family = binomial(link = "logit"))
-```
-
-
-
-
-.pull-left[
-
-```{r priori-alpha-m3, echo = TRUE, eval = FALSE}
-m_hallodri3 %>% 
-  as_tibble() %>% 
-  rename(a = `(Intercept)`) %>% 
-  mutate(a_p = invlogit(a)) %>% 
-  ggplot(aes(x = a_p)) +
-  geom_density()
-```
-
-]
-
-.pull-right[
-
-```{r ref.label="priori-alpha-m3"}
-
-```
-
-
-]
-
-💡 Je flacher der Priori, 
-desto extremer die Priori-Verteilung bei einem Binomial-Modell.
-
-Wir sollten gemäßigtere Prioris bevorzugen.
-
----
-
-## Gemäßigter Prior
-
-
-
-
-```{r echo = TRUE}
-m_hallodri4 <-
-  stan_glm(is_hallodri ~ rating_z, data = d_hallodri, refresh = 0,
-           prior_PD = TRUE,
-           prior_intercept = normal(0, 1),
-           family = binomial(link = "logit"))
-```
-
-
-
-
-.pull-left[
-
-```{r priori-alpha-m4, echo = TRUE, eval = FALSE}
-m_hallodri4 %>% 
-  as_tibble() %>% 
-  rename(a = `(Intercept)`) %>% 
-  mutate(a_p = invlogit(a)) %>% 
-  ggplot(aes(x = a_p)) +
-  geom_density()
-```
-
-]
-
-.pull-right[
-
-```{r ref.label="priori-alpha-m4"}
-
-```
-
-
-]
-
-
-👍 Das sieht gut aus!
-
-
-
-
-
-
-
-
-
----
-
-
 ## Visualisierung der Modellfunktion
 
 
@@ -610,7 +468,7 @@ m_hallodri4 %>%
 
 ```{r hallodri-plot, ech = FALSE, eval = FALSE}
 d_hallodri %>%
-  data_grid(rating_z = -3:2) %>% 
+  data_grid(rating_z = -10:2) %>% 
   add_epred_draws(m_hallodri1, ndraws = 100) %>% 
   ggplot(aes(x = rating_z, y = is_hallodri)) +
   geom_jitter(data = d_hallodri, 
@@ -622,16 +480,22 @@ d_hallodri %>%
 ```
 
 
+.pull-left[
 
-```{r ref.label = "hallodri-plot", fig.asp = .618} 
+```{r ref.label = "hallodri-plot", fig.asp = 1} 
 
 ```
 
 
+]
 
 
+.pull-right[
+- Um den charakterischen, s-förmigen Verlauf der logistischen Funktion zu zeigen, ist hier der Wertebereich des Prädiktors übermäßig nach links erweitert.
 
+- Extreme Wahrscheinlichkeiten sind mit weniger Unsicherheit verbunden als mittlere Wahrscheinlichkeiten.
 
+]
 
 
 ---
