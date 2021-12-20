@@ -253,24 +253,22 @@ Die 9 Spalten entsprechen den 9 Werten von `height_vec`, (-40, -30, ..., +40).
 
 ## PPV befragen 2
 
->    Wie groß ist die Wahrscheinlichkeit, dass eine Person, die -40, -30, ..., 40 cm größer ist als der Durchschnitt, als Mann klassifiziert wird?
+>    Wie groß ist die Wahrscheinlichkeit, dass eine Person, die -40, -30, ..., 40 cm größer ist als der Durchschnitt (`group`), als Mann klassifiziert wird?
 
 
 
 
 ```{r echo = TRUE, results = "hide"}
-m92_ppv %>% 
-  pivot_longer(everything(), 
+m92_ppv %>%  pivot_longer(everything(), 
                names_to = "group",
                values_to = "pred") %>% 
   group_by(group) %>% 
-  summarise(group_avg = mean(pred),
-            group_sd = sd(pred))
+  summarise(group_avg = mean(pred), group_sd = sd(pred))
 ```
 
+.pull-left[
 ```{r}
-m92_ppv %>% 
-  pivot_longer(everything(), 
+m92_ppv %>% pivot_longer(everything(), 
                names_to = "group",
                values_to = "pred") %>% 
   mutate(group = as.integer(group)) %>% 
@@ -282,7 +280,36 @@ m92_ppv %>%
   fmt_number(where(is.numeric), decimals = 3)
 ```
 
+]
 
+.pull-right[
+```{r results="show", fig.asp = .4}
+m92_ppv %>% 
+  pivot_longer(everything(), 
+               names_to = "group",
+               values_to = "pred") %>% 
+  mutate(group = as.integer(group)) %>% 
+  group_by(group) %>% 
+  summarise(group_avg = mean(pred),
+            group_sd = sd(pred)) %>%
+  ggplot(aes(x = group)) +
+  geom_errorbar(aes(ymin = group_avg - group_sd,
+                    ymax = group_avg + group_sd),
+                width = 0.2) +
+  geom_point(aes(y = group_avg),
+             alpha = .7) +
+  scale_x_continuous(breaks = 1:9) +
+  scale_y_continuous(breaks = c(0, .5, 1)) +
+  labs(
+    title = "Vorhersagen (PPV) pro Gruppe",
+    caption = "Fehlerbalken zeigen MW±SD",
+    y = "Wskt"
+  )
+```
+
+Die Streuungswerte aus der PPV sind nur bedingt zu interpretieren.
+
+]
 
 
 ---
