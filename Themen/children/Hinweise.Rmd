@@ -26,17 +26,17 @@ outro_img <- paste0("https://raw.githubusercontent.com/sebastiansauer/QM2-Folien
 
 - Autor: Sebastian Sauer.
 
-- Um diese HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+- Um die HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
 
-- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts für die HTML-Folien.
 
-- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. 
+- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version (bzw. HTML-Version) der Datei. 
 
 - Alternativ können Sie im Browser Chrome die Folien als PDF drucken (klicken Sie auf den entsprechenden Menüpunkt).
 
 - Den Quellcode der Skripte finden Sie [hier](https://github.com/sebastiansauer/QM2-Folien/tree/main/Themen).
 
-- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser die Webseite druckt (Drucken als PDF).
+- Eine PDF-Version aus den HTML-Folien kann erzeugt werden, indem man im Chrome-Browser die Webseite druckt (Drucken als PDF).
 
 ---
 

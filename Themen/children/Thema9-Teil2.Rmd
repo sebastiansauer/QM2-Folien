@@ -2,6 +2,7 @@
 ```{r}
 library(gt)
 library(tidyverse)
+library(tidybayes)
 #library(dagitty)
 #library(DT)
 library(rstanarm)
@@ -71,7 +72,7 @@ ggplot() +
 $$
 \begin{align}
 m_i &\sim \mathcal{B}(1, p_i) \\
-\mathcal{log}(p_i) &= \alpha + \beta \cdot \text{height}_i \\
+\mathcal{L}(p_i) &= \alpha + \beta \cdot \text{height}_i \\
 \alpha &\sim \text{klären wir noch}  \\
 \beta &\sim \text{klären wir noch}  \\
 \end{align}
@@ -149,7 +150,7 @@ invlogit(coef(m92)[1] + coef(m92)[2]*10)
 ```{r echo = TRUE}
 posterior_interval(m92, prob = .95)
 
-invlogit(c(-1.22, -0.95))
+invlogit(c(-1.22, -0.95))  # Von Logits in Pr umrechnen
 ```
 
 Die Wahrscheinlichkeit, dass eine mittelgroße Person ein Mann ist, 
@@ -160,7 +161,7 @@ da die Veränderung in den Wahrscheinlichkeiten nicht konstant sind:
 Je größere eine Person, 
 desto geringer der Zuwachs in Wahrscheinlichkeit (ein Mann zu sein) pro zusätzliche Logit-Einheit.
 
-Zur Interpretation von $\beta$ ist es meist sinnvoller, die Vorhersagen des Modells (in Wahrscheinlichkeitsmaßen) zu betrachten, die PPV also.
+
 
 
 ---
@@ -172,18 +173,14 @@ Zur Interpretation von $\beta$ ist es meist sinnvoller, die Vorhersagen des Mode
 
 Zählen wir den Anteil der Stichproben, die ein positives $\beta$ findet:
 
-```{r}
+```{r echo = TRUE}
 m92 %>% 
   as_tibble() %>% 
   count(height_c > 0)
 ```
 
 
-Eigentlich hatten wir das schon hier gesehen:
-
-```{r}
-posterior_interval(m92, prob = .95,pars = "height_c")
-```
+Das hatten wir schon mit `posterior_interval()` gesehen, das ein 95%-PI ausgegeben hat, in dem die Null nicht enthalten ist.
 
 
 >    Der Zusammenhang von Körpergröße und 'Mann' ist sehr sicher positiv, laut dem Modell: Je größer eine Person, desto höher die Wahrscheinlichkeit, dass sie ein Mann ist.
@@ -191,32 +188,32 @@ posterior_interval(m92, prob = .95,pars = "height_c")
 
 ---
 
-## PPV befragen 1
+## Vorhersagen auf Basis der Post-Verteilung
 
 >    $Pr(\text{Mann}\;|\;\text{height}_c=10, m92)?$
 
 
 
 
-Ausgabe in Logit:
+- Ausgabe in Logit, $\mathcal{L}$:
 
 ```{r echo = TRUE}
-posterior_predict(m92, newdata = tibble(height_c = 10)) %>% 
-  mean() 
+posterior_linpred(m92, newdata = tibble(height_c = 10)) %>%
+  mean()  # `invlogit()` rechnet in Pr. um
 ```
 
-Mit `invlogit()` kann man sich den Logit-Wert in Wahrscheinlichkeit umrechnen lassen.
 
-Ausgabe direkt in Wahrscheinlichkeit:
+- Ausgabe in Wahrscheinlichkeit, $Pr$:
 
-```{r echo = TRUE}
-m92_ppv_10 <- posterior_predict(m92, newdata = tibble(height_c = 10)) 
+```{r echo = TRUE, results = "hide"}
+m92_post_10 <- 
+  posterior_epred(m92, newdata = tibble(height_c = 10)) 
 
-m92_ppv_10 %>%  
-  mean()
+m92_post_10 %>% as_tibble() %>% 
+  summarise(mean(`1`), sd(`1`))  # Punktschätzer plus Streuung
 ```
 
-`posterior_predict()` zeigt uns die Vorhersagen aus der PPV für $\alpha + \beta \cdot 10$.
+Vorhergesagter Wert: ca. 72% (MW, Punktschätzer) ± 2% (Streuung d.h. Standardfehler)
 
 
 
@@ -226,9 +223,9 @@ m92_ppv_10 %>%
 
 ---
 
-## PPV-Vorhersagen etwas genauer betrachtet
+## PPV befragen 1
 
-Betrachten wir die PPV für Personen der Größe -40, -30, ..., +40 cm größer als der Durchschnitt:
+Betrachten wir die PPV für Personen der Größe -40, -30, ..., +40 cm größer als der Durchschnitt, hier hilft `posterior_predict()`: 
 
 ```{r echo = TRUE}
 height_vec <- seq(-40, 40, by = 10)
@@ -259,14 +256,30 @@ Die 9 Spalten entsprechen den 9 Werten von `height_vec`, (-40, -30, ..., +40).
 >    Wie groß ist die Wahrscheinlichkeit, dass eine Person, die -40, -30, ..., 40 cm größer ist als der Durchschnitt, als Mann klassifiziert wird?
 
 
-```{r echo = TRUE, results='hold'}
+
+
+```{r echo = TRUE, results = "hide"}
 m92_ppv %>% 
-  summarise(minus40 = mean(`1`),  # -40cm
-            minus30 = mean(`2`),  # -30cm
-            minus20 = mean(`3`),  # -20cm
-            minus10 = mean(`4`),  # - 10 cm
-            null_durchschnitt = mean(`5`))
-# und so weiter
+  pivot_longer(everything(), 
+               names_to = "group",
+               values_to = "pred") %>% 
+  group_by(group) %>% 
+  summarise(group_avg = mean(pred),
+            group_sd = sd(pred))
+```
+
+```{r}
+m92_ppv %>% 
+  pivot_longer(everything(), 
+               names_to = "group",
+               values_to = "pred") %>% 
+  mutate(group = as.integer(group)) %>% 
+  filter(group < 6) %>% 
+  group_by(group) %>% 
+  summarise(group_avg = mean(pred),
+            group_sd = sd(pred)) %>% 
+  gt() %>% 
+  fmt_number(where(is.numeric), decimals = 3)
 ```
 
 
@@ -276,9 +289,9 @@ m92_ppv %>%
 
 ## PPV befragen 3
 
->    Wie groß ist die Wahrscheinlichkeit, dass eine überdurchschnittlich große Person als Mann klassifiziert wird?
+>    Wie groß ist die Wahrscheinlichkeit, dass eine überdurchschnittlich große Person als Mann klassifiziert wird? Wie hoch ist die Ungewissheit dieser Klassifizierung?
 
-- Dazu bilden wir den Mittelwert der Spalten 5-9.
+- Dazu bilden wir den Mittelwert der Spalten 6-9.
 - Für diesen Zweck muss die Tabelle so umgeformt werden, dass die Wahrscheinlichkeiten aller 9 Gruppen in einer Spalte stehen (`pivot_wider()`).
 - Dann filtern wir die Gruppen 5-9.
 
@@ -286,8 +299,9 @@ m92_ppv %>%
 ```{r echo = TRUE}
 m92_ppv %>% 
   pivot_longer(everything()) %>% 
-  filter(name == c("5", "6", "7", "8", "9")) %>% 
-  summarise(p_mann = mean(value))
+  filter(name == c("6", "7", "8", "9")) %>% 
+  summarise(p_mann_avg = mean(value),
+            p_mann_sd = sd(value))
 ```
 
 
@@ -375,7 +389,7 @@ d_hallodri %>%
 $$
 \begin{align}
 h_i &\sim \mathcal{B}(1,p_i) \\
-\text{log}(p_i) &= \alpha + \beta \cdot r_i \\
+\mathcal{L}(p_i) &= \alpha + \beta \cdot r_i \\
 \alpha &\sim \mathcal{N}(0, 2.5) \\
 \beta &\sim \mathcal{N}(0, 2.5)
 \end{align}

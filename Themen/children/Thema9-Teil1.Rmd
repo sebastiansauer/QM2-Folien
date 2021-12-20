@@ -211,7 +211,7 @@ y_i &\sim \mathcal{B}(n, p_i) \\
 \end{align}
 $$
 
-- Die Logit-Funktion $\mathcal{L}$ ist definiert als der Logarithmus des Verhältnisses der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit:
+- Die Logit-Funktion $\mathcal{L}$ ist definiert als der (natürliche) Logarithmus des Verhältnisses der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit:
 
 $$\mathcal{L} = \text{log} \frac{p_i}{1-p_i}$$
 
@@ -238,11 +238,11 @@ p_i &= x (1-p) \\
 p + px &= x \\
 p(1+x) &= x \\
 p &= \frac{x} {1+x} & & \text{Lösen wir x wieder auf.} \\
-p &= \frac{e^{\alpha + \beta x_i}}{1 + e^{\alpha + \beta x_i}}
+p &= \frac{e^{\alpha + \beta x_i}}{1 + e^{\alpha + \beta x_i}} = \mathcal{L}^{-1}
 \end{align}
 $$
 
-Diese Funktion nennt man auch *inverser Logit*, $\text{logit}^{-1}$.
+Diese Funktion nennt man auch *inverser Logit*, $\text{logit}^{-1}, \mathcal{L}^{-1}$.
 
 ---
 ## Logit und Inverser Logit
@@ -411,12 +411,12 @@ $$p \leftarrow \fbox{inv-logit} \leftarrow \alpha + \beta x$$
     - Wie hoch ist die Wahrscheinlichkeit, dass ein Mitarbeiter kündigt?
     - Wie hoch ist die Wahrscheinlichkeit, die Klausur zu bestehen?
     
-- Die logistische Regression ist eine normale, lineare Regression für den Logit der AV:
+- Die logistische Regression ist eine normale, lineare Regression für den Logit von $Pr(y=1)$, wobei $y$ (AV) binomialvereteilt mit $n=1$ angenommen wird:
 
 
 $$
 \begin{align}
-y_i &\sim \mathcal{B}(n, p_i) \\
+y_i &\sim \mathcal{B}(1, p_i) \\
 \text{logit}(p_i) &= \alpha + \beta x_i
 \end{align}
 $$

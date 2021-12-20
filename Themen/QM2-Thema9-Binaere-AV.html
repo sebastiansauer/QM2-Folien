@@ -176,7 +176,7 @@ coef(m91)
 
 ```
 ## (Intercept)       mpg_z 
-##       0.409       0.300
+##       0.404       0.295
 ```
 
 
@@ -186,7 +186,7 @@ als *Wahrscheinlichkeit* interpretieren (für `am=1)`.
 ]
 
 .pull-right[
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-102-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -218,7 +218,7 @@ Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
 
 ```
 ##      1 
-## -0.187
+## -0.185
 ```
 
 `\(Pr(\hat{y})&lt;0\)` macht keinen Sinn. ⚡ 
@@ -232,8 +232,8 @@ Wie groß ist die Wahrscheinlichkeit für eine manuelle Schaltung ...
 ```
 
 ```
-##    1 
-## 1.01
+##     1 
+## 0.995
 ```
 
 
@@ -251,7 +251,7 @@ Schauen Sie sich mal die Vorhersage an für `mpg_z=5` 🤯
 .pull-left[
 ... wenn der vorhergesagte Wert eine Wahrscheinlichkeit, `\(p_i\)`, ist.
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-106-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -274,7 +274,7 @@ Schauen Sie sich mal die Vorhersage an für `mpg_z=5` 🤯
 ]
 
 
-&lt;a name=cite-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath (2020, Kap. 10.2)](#bib-mcelreath_statistical_2020)
+[McElreath (2020, Kap. 10.2)](#bib-mcelreath_statistical_2020)
 
 
 
@@ -315,7 +315,7 @@ y_i &amp;\sim \mathcal{B}(n, p_i) \\
 \end{align}`
 $$
 
-- Die Logit-Funktion `\(\mathcal{L}\)` ist definiert als der Logarithmus des Verhältnisses der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit:
+- Die Logit-Funktion `\(\mathcal{L}\)` ist definiert als der (natürliche) Logarithmus des Verhältnisses der Wahrscheinlichkeit zu Gegenwahrscheinlichkeit:
 
 `$$\mathcal{L} = \text{log} \frac{p_i}{1-p_i}$$`
 
@@ -342,11 +342,11 @@ p_i &amp;= x (1-p) \\
 p + px &amp;= x \\
 p(1+x) &amp;= x \\
 p &amp;= \frac{x} {1+x} &amp; &amp; \text{Lösen wir x wieder auf.} \\
-p &amp;= \frac{e^{\alpha + \beta x_i}}{1 + e^{\alpha + \beta x_i}}
+p &amp;= \frac{e^{\alpha + \beta x_i}}{1 + e^{\alpha + \beta x_i}} = \mathcal{L}^{-1}
 \end{align}`
 $$
 
-Diese Funktion nennt man auch *inverser Logit*, `\(\text{logit}^{-1}\)`.
+Diese Funktion nennt man auch *inverser Logit*, `\(\text{logit}^{-1}, \mathcal{L}^{-1}\)`.
 
 ---
 ## Logit und Inverser Logit
@@ -354,7 +354,7 @@ Diese Funktion nennt man auch *inverser Logit*, `\(\text{logit}^{-1}\)`.
 #### Logit
 `\((0,1) \rightarrow (-\infty, +\infty)\)`
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-107-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Praktisch, um Wahrscheinlichkeit zu modellieren.
 
@@ -365,7 +365,7 @@ Praktisch, um Wahrscheinlichkeit zu modellieren.
 #### Inv-Logit
 `\((-\infty, +\infty) \rightarrow (0,1)\)`
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-108-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Praktisch, um in Wahrscheinlichkeiten umzurechnen.
 
@@ -385,12 +385,12 @@ Praktisch, um in Wahrscheinlichkeiten umzurechnen.
     - Wie hoch ist die Wahrscheinlichkeit, dass ein Mitarbeiter kündigt?
     - Wie hoch ist die Wahrscheinlichkeit, die Klausur zu bestehen?
     
-- Die logistische Regression ist eine normale, lineare Regression für den Logit der AV:
+- Die logistische Regression ist eine normale, lineare Regression für den Logit von `\(Pr(y=1)\)`, wobei `\(y\)` (AV) binomialvereteilt mit `\(n=1\)` angenommen wird:
 
 
 $$
 `\begin{align}
-y_i &amp;\sim \mathcal{B}(n, p_i) \\
+y_i &amp;\sim \mathcal{B}(1, p_i) \\
 \text{logit}(p_i) &amp;= \alpha + \beta x_i
 \end{align}`
 $$
@@ -406,7 +406,7 @@ $$
 
 ## Die Koeffizienten sind schwer zu interpretieren
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-109-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -437,12 +437,12 @@ konvert_logits &lt;-
 
 .pull-right[
 
-<div id="ulgxvkvecw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ioceyspiss" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ulgxvkvecw .gt_table {
+#ioceyspiss .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -467,7 +467,7 @@ konvert_logits &lt;-
   border-left-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_heading {
+#ioceyspiss .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -479,7 +479,7 @@ konvert_logits &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_title {
+#ioceyspiss .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -489,7 +489,7 @@ konvert_logits &lt;-
   border-bottom-width: 0;
 }
 
-#ulgxvkvecw .gt_subtitle {
+#ioceyspiss .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -499,13 +499,13 @@ konvert_logits &lt;-
   border-top-width: 0;
 }
 
-#ulgxvkvecw .gt_bottom_border {
+#ioceyspiss .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_col_headings {
+#ioceyspiss .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -520,7 +520,7 @@ konvert_logits &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_col_heading {
+#ioceyspiss .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -540,7 +540,7 @@ konvert_logits &lt;-
   overflow-x: hidden;
 }
 
-#ulgxvkvecw .gt_column_spanner_outer {
+#ioceyspiss .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -552,15 +552,15 @@ konvert_logits &lt;-
   padding-right: 4px;
 }
 
-#ulgxvkvecw .gt_column_spanner_outer:first-child {
+#ioceyspiss .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ulgxvkvecw .gt_column_spanner_outer:last-child {
+#ioceyspiss .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ulgxvkvecw .gt_column_spanner {
+#ioceyspiss .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -572,7 +572,7 @@ konvert_logits &lt;-
   width: 100%;
 }
 
-#ulgxvkvecw .gt_group_heading {
+#ioceyspiss .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -594,7 +594,7 @@ konvert_logits &lt;-
   vertical-align: middle;
 }
 
-#ulgxvkvecw .gt_empty_group_heading {
+#ioceyspiss .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -609,15 +609,15 @@ konvert_logits &lt;-
   vertical-align: middle;
 }
 
-#ulgxvkvecw .gt_from_md > :first-child {
+#ioceyspiss .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ulgxvkvecw .gt_from_md > :last-child {
+#ioceyspiss .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ulgxvkvecw .gt_row {
+#ioceyspiss .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -636,7 +636,7 @@ konvert_logits &lt;-
   overflow-x: hidden;
 }
 
-#ulgxvkvecw .gt_stub {
+#ioceyspiss .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -648,7 +648,7 @@ konvert_logits &lt;-
   padding-left: 12px;
 }
 
-#ulgxvkvecw .gt_summary_row {
+#ioceyspiss .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -658,7 +658,7 @@ konvert_logits &lt;-
   padding-right: 5px;
 }
 
-#ulgxvkvecw .gt_first_summary_row {
+#ioceyspiss .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -668,7 +668,7 @@ konvert_logits &lt;-
   border-top-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_grand_summary_row {
+#ioceyspiss .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -678,7 +678,7 @@ konvert_logits &lt;-
   padding-right: 5px;
 }
 
-#ulgxvkvecw .gt_first_grand_summary_row {
+#ioceyspiss .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -688,11 +688,11 @@ konvert_logits &lt;-
   border-top-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_striped {
+#ioceyspiss .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ulgxvkvecw .gt_table_body {
+#ioceyspiss .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -701,7 +701,7 @@ konvert_logits &lt;-
   border-bottom-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_footnotes {
+#ioceyspiss .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -715,13 +715,13 @@ konvert_logits &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_footnote {
+#ioceyspiss .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ulgxvkvecw .gt_sourcenotes {
+#ioceyspiss .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -735,41 +735,41 @@ konvert_logits &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ulgxvkvecw .gt_sourcenote {
+#ioceyspiss .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ulgxvkvecw .gt_left {
+#ioceyspiss .gt_left {
   text-align: left;
 }
 
-#ulgxvkvecw .gt_center {
+#ioceyspiss .gt_center {
   text-align: center;
 }
 
-#ulgxvkvecw .gt_right {
+#ioceyspiss .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ulgxvkvecw .gt_font_normal {
+#ioceyspiss .gt_font_normal {
   font-weight: normal;
 }
 
-#ulgxvkvecw .gt_font_bold {
+#ioceyspiss .gt_font_bold {
   font-weight: bold;
 }
 
-#ulgxvkvecw .gt_font_italic {
+#ioceyspiss .gt_font_italic {
   font-style: italic;
 }
 
-#ulgxvkvecw .gt_super {
+#ioceyspiss .gt_super {
   font-size: 65%;
 }
 
-#ulgxvkvecw .gt_footnote_marks {
+#ioceyspiss .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -865,7 +865,7 @@ d &lt;- read_csv(
 ```
 
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-113-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -878,7 +878,7 @@ d &lt;- read_csv(
 $$
 `\begin{align}
 m_i &amp;\sim \mathcal{B}(1, p_i) \\
-\mathcal{log}(p_i) &amp;= \alpha + \beta \cdot \text{height}_i \\
+\mathcal{L}(p_i) &amp;= \alpha + \beta \cdot \text{height}_i \\
 \alpha &amp;\sim \text{klären wir noch}  \\
 \beta &amp;\sim \text{klären wir noch}  \\
 \end{align}`
@@ -920,7 +920,7 @@ coef(m92)
 
 ```
 ## (Intercept)    height_c 
-##      -1.079       0.202
+##      -1.077       0.203
 ```
 
 - Die Modellgleichung kann man so schreiben: `\(Pr(y=1) = Pr(\text{male}) = \text{logit}^{-1}(-1.08 + 0.2*\text{height})\)`
@@ -959,7 +959,7 @@ invlogit(coef(m92)[1] + coef(m92)[2]*10)
 
 ```
 ## (Intercept) 
-##        0.72
+##       0.721
 ```
 
 - Bei einer Person, die 10cm größer ist als der Mittelwert, geht unser Modell von einer Wahrscheinlichkeit von 0.72 aus.
@@ -978,12 +978,12 @@ posterior_interval(m92, prob = .95)
 
 ```
 ##               2.5%  97.5%
-## (Intercept) -1.254 -0.918
+## (Intercept) -1.250 -0.916
 ## height_c     0.181  0.225
 ```
 
 ```r
-invlogit(c(-1.22, -0.95))
+invlogit(c(-1.22, -0.95))  # Von Logits in Pr umrechnen
 ```
 
 ```
@@ -998,7 +998,7 @@ da die Veränderung in den Wahrscheinlichkeiten nicht konstant sind:
 Je größere eine Person, 
 desto geringer der Zuwachs in Wahrscheinlichkeit (ein Mann zu sein) pro zusätzliche Logit-Einheit.
 
-Zur Interpretation von `\(\beta\)` ist es meist sinnvoller, die Vorhersagen des Modells (in Wahrscheinlichkeitsmaßen) zu betrachten, die PPV also.
+
 
 
 ---
@@ -1011,6 +1011,12 @@ Zur Interpretation von `\(\beta\)` ist es meist sinnvoller, die Vorhersagen des 
 Zählen wir den Anteil der Stichproben, die ein positives `\(\beta\)` findet:
 
 
+```r
+m92 %&gt;% 
+  as_tibble() %&gt;% 
+  count(height_c &gt; 0)
+```
+
 ```
 ## # A tibble: 1 × 2
 ##   `height_c &gt; 0`     n
@@ -1019,13 +1025,7 @@ Zählen wir den Anteil der Stichproben, die ein positives `\(\beta\)` findet:
 ```
 
 
-Eigentlich hatten wir das schon hier gesehen:
-
-
-```
-##           2.5% 97.5%
-## height_c 0.181 0.225
-```
+Das hatten wir schon mit `posterior_interval()` gesehen, das ein 95%-PI ausgegeben hat, in dem die Null nicht enthalten ist.
 
 
 &gt;    Der Zusammenhang von Körpergröße und 'Mann' ist sehr sicher positiv, laut dem Modell: Je größer eine Person, desto höher die Wahrscheinlichkeit, dass sie ein Mann ist.
@@ -1033,42 +1033,38 @@ Eigentlich hatten wir das schon hier gesehen:
 
 ---
 
-## PPV befragen 1
+## Vorhersagen auf Basis der Post-Verteilung
 
 &gt;    `\(Pr(\text{Mann}\;|\;\text{height}_c=10, m92)?\)`
 
 
 
 
-Ausgabe in Logit:
+- Ausgabe in Logit, `\(\mathcal{L}\)`:
 
 
 ```r
-posterior_predict(m92, newdata = tibble(height_c = 10)) %&gt;% 
-  mean() 
+posterior_linpred(m92, newdata = tibble(height_c = 10)) %&gt;%
+  mean()  # `invlogit()` rechnet in Pr. um
 ```
 
 ```
-## [1] 0.725
+## [1] 0.948
 ```
 
-Mit `invlogit()` kann man sich den Logit-Wert in Wahrscheinlichkeit umrechnen lassen.
 
-Ausgabe direkt in Wahrscheinlichkeit:
+- Ausgabe in Wahrscheinlichkeit, `\(Pr\)`:
 
 
 ```r
-m92_ppv_10 &lt;- posterior_predict(m92, newdata = tibble(height_c = 10)) 
+m92_post_10 &lt;- 
+  posterior_epred(m92, newdata = tibble(height_c = 10)) 
 
-m92_ppv_10 %&gt;%  
-  mean()
+m92_post_10 %&gt;% as_tibble() %&gt;% 
+  summarise(mean(`1`), sd(`1`))  # Punktschätzer plus Streuung
 ```
 
-```
-## [1] 0.718
-```
-
-`posterior_predict()` zeigt uns die Vorhersagen aus der PPV für `\(\alpha + \beta \cdot 10\)`.
+Vorhergesagter Wert: ca. 72% (MW, Punktschätzer) ± 2% (Streuung d.h. Standardfehler)
 
 
 
@@ -1078,9 +1074,9 @@ m92_ppv_10 %&gt;%
 
 ---
 
-## PPV-Vorhersagen etwas genauer betrachtet
+## PPV befragen 1
 
-Betrachten wir die PPV für Personen der Größe -40, -30, ..., +40 cm größer als der Durchschnitt:
+Betrachten wir die PPV für Personen der Größe -40, -30, ..., +40 cm größer als der Durchschnitt, hier hilft `posterior_predict()`: 
 
 
 ```r
@@ -1095,12 +1091,12 @@ m92_ppv &lt;- posterior_predict(m92, newdata = heights_df) %&gt;%
 Die ersten paar Zeilen von `m92_ppv`:
 
 
-<div id="sobalqegez" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ppsqpuomhl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#sobalqegez .gt_table {
+#ppsqpuomhl .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1125,7 +1121,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-left-color: #D3D3D3;
 }
 
-#sobalqegez .gt_heading {
+#ppsqpuomhl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1137,7 +1133,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#sobalqegez .gt_title {
+#ppsqpuomhl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1147,7 +1143,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-bottom-width: 0;
 }
 
-#sobalqegez .gt_subtitle {
+#ppsqpuomhl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1157,13 +1153,13 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-width: 0;
 }
 
-#sobalqegez .gt_bottom_border {
+#ppsqpuomhl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sobalqegez .gt_col_headings {
+#ppsqpuomhl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1178,7 +1174,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#sobalqegez .gt_col_heading {
+#ppsqpuomhl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1198,7 +1194,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   overflow-x: hidden;
 }
 
-#sobalqegez .gt_column_spanner_outer {
+#ppsqpuomhl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1210,15 +1206,15 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 4px;
 }
 
-#sobalqegez .gt_column_spanner_outer:first-child {
+#ppsqpuomhl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sobalqegez .gt_column_spanner_outer:last-child {
+#ppsqpuomhl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sobalqegez .gt_column_spanner {
+#ppsqpuomhl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1230,7 +1226,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   width: 100%;
 }
 
-#sobalqegez .gt_group_heading {
+#ppsqpuomhl .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1252,7 +1248,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   vertical-align: middle;
 }
 
-#sobalqegez .gt_empty_group_heading {
+#ppsqpuomhl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1267,15 +1263,15 @@ Die ersten paar Zeilen von `m92_ppv`:
   vertical-align: middle;
 }
 
-#sobalqegez .gt_from_md > :first-child {
+#ppsqpuomhl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sobalqegez .gt_from_md > :last-child {
+#ppsqpuomhl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sobalqegez .gt_row {
+#ppsqpuomhl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1294,7 +1290,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   overflow-x: hidden;
 }
 
-#sobalqegez .gt_stub {
+#ppsqpuomhl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1306,7 +1302,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-left: 12px;
 }
 
-#sobalqegez .gt_summary_row {
+#ppsqpuomhl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1316,7 +1312,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 5px;
 }
 
-#sobalqegez .gt_first_summary_row {
+#ppsqpuomhl .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1326,7 +1322,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-color: #D3D3D3;
 }
 
-#sobalqegez .gt_grand_summary_row {
+#ppsqpuomhl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1336,7 +1332,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   padding-right: 5px;
 }
 
-#sobalqegez .gt_first_grand_summary_row {
+#ppsqpuomhl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1346,11 +1342,11 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-top-color: #D3D3D3;
 }
 
-#sobalqegez .gt_striped {
+#ppsqpuomhl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sobalqegez .gt_table_body {
+#ppsqpuomhl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1359,7 +1355,7 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-bottom-color: #D3D3D3;
 }
 
-#sobalqegez .gt_footnotes {
+#ppsqpuomhl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1373,13 +1369,13 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#sobalqegez .gt_footnote {
+#ppsqpuomhl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#sobalqegez .gt_sourcenotes {
+#ppsqpuomhl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1393,41 +1389,41 @@ Die ersten paar Zeilen von `m92_ppv`:
   border-right-color: #D3D3D3;
 }
 
-#sobalqegez .gt_sourcenote {
+#ppsqpuomhl .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#sobalqegez .gt_left {
+#ppsqpuomhl .gt_left {
   text-align: left;
 }
 
-#sobalqegez .gt_center {
+#ppsqpuomhl .gt_center {
   text-align: center;
 }
 
-#sobalqegez .gt_right {
+#ppsqpuomhl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sobalqegez .gt_font_normal {
+#ppsqpuomhl .gt_font_normal {
   font-weight: normal;
 }
 
-#sobalqegez .gt_font_bold {
+#ppsqpuomhl .gt_font_bold {
   font-weight: bold;
 }
 
-#sobalqegez .gt_font_italic {
+#ppsqpuomhl .gt_font_italic {
   font-style: italic;
 }
 
-#sobalqegez .gt_super {
+#ppsqpuomhl .gt_super {
   font-size: 65%;
 }
 
-#sobalqegez .gt_footnote_marks {
+#ppsqpuomhl .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1454,6 +1450,15 @@ Die ersten paar Zeilen von `m92_ppv`:
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
@@ -1463,15 +1468,6 @@ Die ersten paar Zeilen von `m92_ppv`:
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">1</td>
-<td class="gt_row gt_center">1</td>
-<td class="gt_row gt_center">1</td></tr>
-    <tr><td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
@@ -1480,8 +1476,8 @@ Die ersten paar Zeilen von `m92_ppv`:
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td></tr>
@@ -1489,7 +1485,7 @@ Die ersten paar Zeilen von `m92_ppv`:
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
 <td class="gt_row gt_center">0</td>
-<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
 <td class="gt_row gt_center">1</td>
@@ -1512,25 +1508,386 @@ Die 9 Spalten entsprechen den 9 Werten von `height_vec`, (-40, -30, ..., +40).
 
 
 
+
+
 ```r
 m92_ppv %&gt;% 
-  summarise(minus40 = mean(`1`),  # -40cm
-            minus30 = mean(`2`),  # -30cm
-            minus20 = mean(`3`),  # -20cm
-            minus10 = mean(`4`),  # - 10 cm
-            null_durchschnitt = mean(`5`))
-# und so weiter
+  pivot_longer(everything(), 
+               names_to = "group",
+               values_to = "pred") %&gt;% 
+  group_by(group) %&gt;% 
+  summarise(group_avg = mean(pred),
+            group_sd = sd(pred))
 ```
 
-```
-## # A tibble: 1 × 5
-##   minus40 minus30 minus20
-##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1       0 0.00025   0.004
-## # … with 2 more variables:
-## #   minus10 &lt;dbl&gt;,
-## #   null_durchschnitt &lt;dbl&gt;
-```
+<div id="ctzqjnmfnd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ctzqjnmfnd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ctzqjnmfnd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ctzqjnmfnd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ctzqjnmfnd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ctzqjnmfnd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ctzqjnmfnd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ctzqjnmfnd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ctzqjnmfnd .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ctzqjnmfnd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ctzqjnmfnd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ctzqjnmfnd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ctzqjnmfnd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ctzqjnmfnd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ctzqjnmfnd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ctzqjnmfnd .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ctzqjnmfnd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ctzqjnmfnd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ctzqjnmfnd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzqjnmfnd .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ctzqjnmfnd .gt_left {
+  text-align: left;
+}
+
+#ctzqjnmfnd .gt_center {
+  text-align: center;
+}
+
+#ctzqjnmfnd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ctzqjnmfnd .gt_font_normal {
+  font-weight: normal;
+}
+
+#ctzqjnmfnd .gt_font_bold {
+  font-weight: bold;
+}
+
+#ctzqjnmfnd .gt_font_italic {
+  font-style: italic;
+}
+
+#ctzqjnmfnd .gt_super {
+  font-size: 65%;
+}
+
+#ctzqjnmfnd .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">group</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">group_avg</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">group_sd</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">1.000</td>
+<td class="gt_row gt_right">0.001</td>
+<td class="gt_row gt_right">0.022</td></tr>
+    <tr><td class="gt_row gt_right">2.000</td>
+<td class="gt_row gt_right">0.001</td>
+<td class="gt_row gt_right">0.035</td></tr>
+    <tr><td class="gt_row gt_right">3.000</td>
+<td class="gt_row gt_right">0.005</td>
+<td class="gt_row gt_right">0.072</td></tr>
+    <tr><td class="gt_row gt_right">4.000</td>
+<td class="gt_row gt_right">0.043</td>
+<td class="gt_row gt_right">0.204</td></tr>
+    <tr><td class="gt_row gt_right">5.000</td>
+<td class="gt_row gt_right">0.246</td>
+<td class="gt_row gt_right">0.431</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
 
 
 
@@ -1539,9 +1896,9 @@ m92_ppv %&gt;%
 
 ## PPV befragen 3
 
-&gt;    Wie groß ist die Wahrscheinlichkeit, dass eine überdurchschnittlich große Person als Mann klassifiziert wird?
+&gt;    Wie groß ist die Wahrscheinlichkeit, dass eine überdurchschnittlich große Person als Mann klassifiziert wird? Wie hoch ist die Ungewissheit dieser Klassifizierung?
 
-- Dazu bilden wir den Mittelwert der Spalten 5-9.
+- Dazu bilden wir den Mittelwert der Spalten 6-9.
 - Für diesen Zweck muss die Tabelle so umgeformt werden, dass die Wahrscheinlichkeiten aller 9 Gruppen in einer Spalte stehen (`pivot_wider()`).
 - Dann filtern wir die Gruppen 5-9.
 
@@ -1550,15 +1907,16 @@ m92_ppv %&gt;%
 ```r
 m92_ppv %&gt;% 
   pivot_longer(everything()) %&gt;% 
-  filter(name == c("5", "6", "7", "8", "9")) %&gt;% 
-  summarise(p_mann = mean(value))
+  filter(name == c("6", "7", "8", "9")) %&gt;% 
+  summarise(p_mann_avg = mean(value),
+            p_mann_sd = sd(value))
 ```
 
 ```
-## # A tibble: 1 × 1
-##   p_mann
-##    &lt;dbl&gt;
-## 1  0.783
+## # A tibble: 1 × 2
+##   p_mann_avg p_mann_sd
+##        &lt;dbl&gt;     &lt;dbl&gt;
+## 1      0.923     0.267
 ```
 
 
@@ -1616,7 +1974,7 @@ d_hallodri %&gt;%
 
 
 .pull-right[
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-128-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-128-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-32-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1632,7 +1990,7 @@ d_hallodri %&gt;%
 $$
 `\begin{align}
 h_i &amp;\sim \mathcal{B}(1,p_i) \\
-\text{log}(p_i) &amp;= \alpha + \beta \cdot r_i \\
+\mathcal{L}(p_i) &amp;= \alpha + \beta \cdot r_i \\
 \alpha &amp;\sim \mathcal{N}(0, 2.5) \\
 \beta &amp;\sim \mathcal{N}(0, 2.5)
 \end{align}`
@@ -1664,7 +2022,7 @@ posterior_interval(m_hallodri1, pars = "(Intercept)") %&gt;% invlogit()
 
 ```
 ##                5%   95%
-## (Intercept) 0.208 0.266
+## (Intercept) 0.209 0.267
 ```
 
 ```r
@@ -1673,7 +2031,7 @@ posterior_interval(m_hallodri1, pars = "rating_z")
 
 ```
 ##              5%    95%
-## rating_z -0.718 -0.408
+## rating_z -0.711 -0.405
 ```
 
 
@@ -1703,7 +2061,7 @@ predict(m_hallodri1,
 
 ```
 ##     1 
-## 0.514
+## 0.507
 ```
 
 
@@ -1717,7 +2075,7 @@ posterior_epred(m_hallodri1,
 
 ```
 ##  2.5% 97.5% 
-## 0.496 0.743
+## 0.491 0.737
 ```
 
 
@@ -1735,7 +2093,7 @@ posterior_epred(m_hallodri1,
   geom_density()
 ```
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-133-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-37-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1758,7 +2116,7 @@ posterior_epred(m_hallodri1,
 
 .pull-left[
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-134-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-38-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1780,7 +2138,7 @@ posterior_epred(m_hallodri1,
 .pull-left[
 Vorhersagen aus der Post-Verteilung für jede Stufe von `rating_z`.
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-135-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1788,7 +2146,7 @@ Vorhersagen aus der Post-Verteilung für jede Stufe von `rating_z`.
 .pull-right[
 Vorhersagen aus der PPV für jede Stufe von `rating_z`.
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-136-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1824,6 +2182,10 @@ class: middle, center
 
 
 
+```r
+prior_summary(m_hallodri1)
+```
+
 ```
 ## Priors for model 'm_hallodri1' 
 ## ------
@@ -1842,7 +2204,7 @@ class: middle, center
 
 - Unser Prädiktor ist z-standardisiert.
 
-- Ein Prior für `\(\sigma\)` gibt es bei Binomialmodellen nicht.
+- Ein Prior für `\(\sigma\)` gibt es bei Binomialmodellen nicht. Ein Binomialmodell sagt nicht, wie groß die Abweichung vom vorhergesagten Wert ist; es kennt nur "Treffer" oder "daneben".
 
 ---
 
@@ -1874,7 +2236,7 @@ m_hallodri2 %&gt;%
 
 .pull-right[
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-140-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1917,7 +2279,7 @@ m_hallodri3 %&gt;%
 
 .pull-right[
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-142-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1962,13 +2324,18 @@ m_hallodri4 %&gt;%
 
 .pull-right[
 
-&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-144-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_9_chunk-img/unnamed-chunk-48-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
 
 
 👍 Das sieht gut aus!
+
+Dieser Priori ist konservativer, vorsichtiger. 
+Er hat keine starke Meinung; 
+daher lässt er die Daten stärker zum Sprechen kommen.
+Das ist meist zu bevorzugen.
 
 
 
@@ -2044,7 +2411,7 @@ coef(ignor_m)
 
 ```
 ## (Intercept) 
-##       -1.38
+##        -1.4
 ```
 
 Und hier die Ungenauigkeit (Standardfehler) für den Punktschätzer:
@@ -2056,7 +2423,7 @@ se(ignor_m)
 
 ```
 ## (Intercept) 
-##       0.355
+##        0.35
 ```
 
 ]
@@ -2072,7 +2439,7 @@ coef(ignor_m) %&gt;% invlogit()
 
 ```
 ## (Intercept) 
-##       0.201
+##       0.197
 ```
 
 95%-PI des Punktschätzers:
@@ -2084,7 +2451,7 @@ OG &lt;- (coef(ignor_m) +
   2*se(ignor_m)) %&gt;% invlogit() 
 ```
 
-UG: 0.11; OG: 0.34.
+UG: 0.11; OG: 0.33.
 
 ]
 
@@ -2115,9 +2482,9 @@ se(lisliber_m)
 
 ```
 ## (Intercept)      gruppe 
-##       -2.21        1.53 
+##       -2.24        1.53 
 ## (Intercept)      gruppe 
-##       0.487       0.558
+##       0.472       0.550
 ```
 
 
@@ -2146,12 +2513,12 @@ lisliber_post &lt;- lisliber_post %&gt;%
 
 .pull-left[
 Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
-<div id="szrobxfzzl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ykfhbysbzh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#szrobxfzzl .gt_table {
+#ykfhbysbzh .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2176,7 +2543,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-left-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_heading {
+#ykfhbysbzh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2188,7 +2555,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-right-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_title {
+#ykfhbysbzh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2198,7 +2565,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-bottom-width: 0;
 }
 
-#szrobxfzzl .gt_subtitle {
+#ykfhbysbzh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2208,13 +2575,13 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-top-width: 0;
 }
 
-#szrobxfzzl .gt_bottom_border {
+#ykfhbysbzh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_col_headings {
+#ykfhbysbzh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2229,7 +2596,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-right-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_col_heading {
+#ykfhbysbzh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2249,7 +2616,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   overflow-x: hidden;
 }
 
-#szrobxfzzl .gt_column_spanner_outer {
+#ykfhbysbzh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2261,15 +2628,15 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   padding-right: 4px;
 }
 
-#szrobxfzzl .gt_column_spanner_outer:first-child {
+#ykfhbysbzh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#szrobxfzzl .gt_column_spanner_outer:last-child {
+#ykfhbysbzh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#szrobxfzzl .gt_column_spanner {
+#ykfhbysbzh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2281,7 +2648,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   width: 100%;
 }
 
-#szrobxfzzl .gt_group_heading {
+#ykfhbysbzh .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2303,7 +2670,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   vertical-align: middle;
 }
 
-#szrobxfzzl .gt_empty_group_heading {
+#ykfhbysbzh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2318,15 +2685,15 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   vertical-align: middle;
 }
 
-#szrobxfzzl .gt_from_md > :first-child {
+#ykfhbysbzh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#szrobxfzzl .gt_from_md > :last-child {
+#ykfhbysbzh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#szrobxfzzl .gt_row {
+#ykfhbysbzh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2345,7 +2712,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   overflow-x: hidden;
 }
 
-#szrobxfzzl .gt_stub {
+#ykfhbysbzh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2357,7 +2724,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   padding-left: 12px;
 }
 
-#szrobxfzzl .gt_summary_row {
+#ykfhbysbzh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2367,7 +2734,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   padding-right: 5px;
 }
 
-#szrobxfzzl .gt_first_summary_row {
+#ykfhbysbzh .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2377,7 +2744,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-top-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_grand_summary_row {
+#ykfhbysbzh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2387,7 +2754,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   padding-right: 5px;
 }
 
-#szrobxfzzl .gt_first_grand_summary_row {
+#ykfhbysbzh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2397,11 +2764,11 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-top-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_striped {
+#ykfhbysbzh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#szrobxfzzl .gt_table_body {
+#ykfhbysbzh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2410,7 +2777,7 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-bottom-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_footnotes {
+#ykfhbysbzh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2424,13 +2791,13 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-right-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_footnote {
+#ykfhbysbzh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#szrobxfzzl .gt_sourcenotes {
+#ykfhbysbzh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2444,41 +2811,41 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
   border-right-color: #D3D3D3;
 }
 
-#szrobxfzzl .gt_sourcenote {
+#ykfhbysbzh .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#szrobxfzzl .gt_left {
+#ykfhbysbzh .gt_left {
   text-align: left;
 }
 
-#szrobxfzzl .gt_center {
+#ykfhbysbzh .gt_center {
   text-align: center;
 }
 
-#szrobxfzzl .gt_right {
+#ykfhbysbzh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#szrobxfzzl .gt_font_normal {
+#ykfhbysbzh .gt_font_normal {
   font-weight: normal;
 }
 
-#szrobxfzzl .gt_font_bold {
+#ykfhbysbzh .gt_font_bold {
   font-weight: bold;
 }
 
-#szrobxfzzl .gt_font_italic {
+#ykfhbysbzh .gt_font_italic {
   font-style: italic;
 }
 
-#szrobxfzzl .gt_super {
+#ykfhbysbzh .gt_super {
   font-size: 65%;
 }
 
-#szrobxfzzl .gt_footnote_marks {
+#ykfhbysbzh .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -2494,15 +2861,15 @@ Vorhersagen auf Basis der Post-Verteilung (ersten paar Stichproben):
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">0.1227</td>
-<td class="gt_row gt_right">0.402</td>
-<td class="gt_row gt_right">0.279</td></tr>
-    <tr><td class="gt_row gt_right">0.1851</td>
-<td class="gt_row gt_right">0.348</td>
-<td class="gt_row gt_right">0.163</td></tr>
-    <tr><td class="gt_row gt_right">0.0715</td>
-<td class="gt_row gt_right">0.305</td>
-<td class="gt_row gt_right">0.234</td></tr>
+    <tr><td class="gt_row gt_right">0.0755</td>
+<td class="gt_row gt_right">0.399</td>
+<td class="gt_row gt_right">0.323</td></tr>
+    <tr><td class="gt_row gt_right">0.0709</td>
+<td class="gt_row gt_right">0.411</td>
+<td class="gt_row gt_right">0.340</td></tr>
+    <tr><td class="gt_row gt_right">0.1388</td>
+<td class="gt_row gt_right">0.244</td>
+<td class="gt_row gt_right">0.105</td></tr>
   </tbody>
   
   
@@ -2526,7 +2893,7 @@ lisliber_post %&gt;%
 ## # A tibble: 1 × 2
 ##   diff_mw diff_sd
 ##     &lt;dbl&gt;   &lt;dbl&gt;
-## 1   0.232  0.0738
+## 1   0.231  0.0719
 ```
 
 
@@ -2568,7 +2935,7 @@ Die *Fehlerrate* ist definiert als der Anteil für den eine der beiden folgenden
 - Das Nullmodell ist die Regression ohne Prädiktoren (nur mit Achsenabschnitt).
 - Die Fehlerrate des Nullmodells entspricht dem Anteil `\(p\)` von `\(y_i = 1\)` oder `\(1-p\)` (je nachdem, welcher Wert von beiden kleiner ist).
 
-&lt;a name=cite-gelman_regression_2021&gt;&lt;/a&gt;([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021), S. 255)
+([Gelman, Hill, and Vehtari, 2021](#bib-gelman_regression_2021), S. 255)
 
 
 ---
@@ -2633,23 +3000,23 @@ class: center, middle, inverse
   - Regression and other stories (Kap. 13); Statistical Rethinking (Kap. 10.2)
 
 
-- Dieses Skript wurde erstellt am 2021-12-14 15:13:25. 
+- Dieses Skript wurde erstellt am 2021-12-20 11:06:34. 
 
 - Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
 
 - Autor: Sebastian Sauer.
 
-- Um diese HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+- Um die HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
 
-- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts.
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts für die HTML-Folien.
 
-- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version der Datei. 
+- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version (bzw. HTML-Version) der Datei. 
 
 - Alternativ können Sie im Browser Chrome die Folien als PDF drucken (klicken Sie auf den entsprechenden Menüpunkt).
 
 - Den Quellcode der Skripte finden Sie [hier](https://github.com/sebastiansauer/QM2-Folien/tree/main/Themen).
 
-- Eine PDF-Version kann erzeugt werden, indem man im Chrome-Browser die Webseite druckt (Drucken als PDF).
+- Eine PDF-Version aus den HTML-Folien kann erzeugt werden, indem man im Chrome-Browser die Webseite druckt (Drucken als PDF).
 
 ---
 
@@ -2696,21 +3063,16 @@ name: literatur
 name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman,
 A., J. Hill, and A.
 Vehtari](#cite-gelman_regression_2021)
-(2021). _Regression and
-other stories_. Analytical
-methods for social
-research. Cambridge
-University Press.
+(2021). _Regression and other stories_.
+Analytical methods for social research.
+Cambridge University Press.
 
 &lt;a
 name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
 R.](#cite-mcelreath_statistical_2020)
-(2020). _Statistical
-rethinking: a Bayesian
-course with examples in R
-and Stan_. 2nd ed. CRC
-texts in statistical
-science. Taylor and
+(2020). _Statistical rethinking: a Bayesian
+course with examples in R and Stan_. 2nd ed.
+CRC texts in statistical science. Taylor and
 Francis, CRC Press.
 
 ]

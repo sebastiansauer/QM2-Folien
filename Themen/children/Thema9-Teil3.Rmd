@@ -31,14 +31,14 @@ class: middle, center
 ## Prioris bei den Hallodri
 
 
-```{r}
+```{r echo = TRUE}
 prior_summary(m_hallodri1)
 ```
 
 
 - Unser Prädiktor ist z-standardisiert.
 
-- Ein Prior für $\sigma$ gibt es bei Binomialmodellen nicht.
+- Ein Prior für $\sigma$ gibt es bei Binomialmodellen nicht. Ein Binomialmodell sagt nicht, wie groß die Abweichung vom vorhergesagten Wert ist; es kennt nur "Treffer" oder "daneben".
 
 ---
 
@@ -165,6 +165,11 @@ m_hallodri4 %>%
 
 
 👍 Das sieht gut aus!
+
+Dieser Priori ist konservativer, vorsichtiger. 
+Er hat keine starke Meinung; 
+daher lässt er die Daten stärker zum Sprechen kommen.
+Das ist meist zu bevorzugen.
 
 
 
