@@ -1,0 +1,205 @@
+
+```{r}
+library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+library(nomnoml)
+```
+
+
+
+
+
+
+name: teil-3
+class: middle, center
+
+
+
+# Teil 3
+
+## Kerngedanken Bayes
+
+---
+
+
+## Zentraler Kennwert der Bayes-Statistik: Post-Verteilung
+
+
+```{r echo = TRUE, results ='hide'}
+m3 <- stan_glm(mpg ~ hp, data = mtcars)
+```
+
+.pull-left[
+
+```{r echo = TRUE, fig.asp = .7}
+library(bayesplot)
+mcmc_areas(m3, pars = "hp")
+```
+
+]
+
+.pull-right[
+
+
+- Ein Zusammenfassen der Posterior-Verteilung (z.B. zu einem 95%-PI) ist möglich und oft sinnvoll.
+- Verschiedene Arten des Zusammenfassens der Post-Verteilung sind möglich, z.B. zu Mittelwert oder SD oder einem einem HD-Intervall.
+- Allerdings übermittelt nur die gesamte Post-Verteilung alle Informationen.
+- Daher empfiehlt es sich (oft), die Post-Verteilung zu visualisieren.
+
+]
+
+---
+
+## Posteriori als Produkt von Priori und Likelihood
+
+$$\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}$$
+
+```{r QM2-Thema10-kleineModelle-27, fig.asp = .55}
+source("R-Code/img241.R")
+```
+
+
+---
+
+## Bayes' Theorem
+
+
+
+.box[
+$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
+]
+
+
+
+
+- Bestandteile:
+
+    - Posteriori-Wahrscheinlichkeit: $Pr_{Post}  := Pr(H|D)$
+
+    - Likelihood: $L := Pr(D|H)$
+
+    - Priori-Wahrscheinlichkeit: $Pr_{Priori} := Pr(H)$
+
+    - Evidenz: $E := Pr(D)$
+
+- Bayes' Theorem gibt die $Pr_{Post}$ an, wenn man die Gleichung mit der $Pr_{Priori}$ und dem $L$ füttert.
+
+- Bayes' Theorem wird häufig verwendet, um die $Pr_{Post}$ zu quantifizieren. 
+
+- Die $Pr_{Post}$ ist proportional zu $L \times Pr_{Priori}$.
+
+---
+
+
+## Wissen updaten: Wir füttern Daten in das Modell
+
+
+
+```{r QM2-Thema2-kleineModelle-19, out.width="100%"}
+source("R-Code/img221.R")
+```
+
+
+---
+
+
+## So denkt unser Bayes-Golem
+
+
+```{nomnoml, svg=TRUE}
+[Priori] -> [Daten]
+[Daten] -> [Post]
+
+```
+
+
+
+
+---
+
+## Statistisches Modellieren ist an vielen Stellen subjektiv
+
+- Definition des DAG
+- Wahl der Stichprobe
+- Wahl der Prädiktoren
+- Wahl von Transformationen (z.B. Logarithmus)
+- Wahl von Prioris
+- Wahl von Intervallgrößen und -arten
+
+Dabei meint "subjektiv", dass die Entscheidung nicht datengeleitet, logisch deduziert oder von der Methode diktiert werden.
+
+Subjektive Entscheidungen können z.B. 
+
+- fachlich begründet sein
+- ein Konsensus der Scientific Community ausdrücken
+- auf Vorwissen früherer Studien beruhen
+
+Generell spricht von *Researchers' degrees of Freedom*,
+wenn man (negativ konnotiert) Intransparenz in einem wissenschaftlichen Prozess anprangern (aufzeigen) möchten, vgl. [weiterführende Infos](https://en.wikipedia.org/wiki/Researcher_degrees_of_freedom).
+
+Das Problem ist aber *nicht* "Subjektivität" - sie ist unumgänglich und oft wünschenswert - sondern Intransparenz über "subjektive" Entscheidungen.
+
+
+---
+
+## Learn to be a good Bayesian
+
+
+.pull-left[
+
+```{r}
+knitr::include_graphics("https://f4.bcbits.com/img/a0636800374_16.jpg")
+```
+
+Baba Brinkman
+
+[Quelle](https://music.bababrinkman.com/track/good-bayesian-feat-mc-lars-and-mega-ran)
+
+]
+
+.pull-right[
+### Good Bayesian 
+
+.xsmall[
+Let me show you how to be a good Bayesian
+
+Change your predictions after takin’ information in
+
+And if you’re thinkin’ I’ll be less than amazin’
+
+Let’s adjust those expectations
+
+What’s a Bayesian? It’s someone who cares about evidence
+
+And doesn’t jump to assumptions based on intuitions and prejudice
+
+A Bayesian makes prediction on the best available info
+
+And adjusts the probability, ‘cause every belief is provisional
+
+And when I kick a flow, mostly I’m watchin’ eyes widen
+
+Maybe ‘cause my likeness lowers expectations of tight rhymin’
+
+How would I know, unless I’m rhymin’ in front of a bunch of blind men?
+
+Droppin’ placebo-controlled science like I’m Richard Feynman
+
+...
+]
+
+
+
+from The Rap Guide to Consciousness by Baba Brinkman
+[YouTube Song](https://www.youtube.com/watch?v=qV6Wc_f1Cgo)
+]
+
+
+
+
+---

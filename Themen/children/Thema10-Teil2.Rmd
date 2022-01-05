@@ -1,0 +1,163 @@
+
+```{r}
+library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+```
+
+
+
+
+
+
+name: teil-2
+class: middle, center
+
+
+
+# Teil 2
+
+## Kochrezepte 🍲
+
+---
+
+## Kochrezept: Forschungsfrage untersuchen
+
+*Theoretische Phase*
+1. Staunen über ein Phänomen, $y$, Kausalfrage finden
+2. Literatur wälzen, um mögliche Ursachen $x$ von $y$ zu lernen
+3. Forschungsfrage, Hypothese präzisieren
+4. Modell präzisieren (DAG(s), Prioris)
+*Empirische Phase*
+5. Versuch planen
+6. Daten erheben
+*Analytische Phase*
+7. Daten aufbereiten
+8 Modell berechnen anhand eines oder mehrerer DAGs
+9. Modell prüfen/kritisieren
+10. Forschungsfrage beantworten
+
+
+
+Yeah! Fertig.
+
+---
+
+## Parameter schätzen vs. Hypothesen prüfen
+
+- Quantitative Studien haben oft einen von zwei (formalen) Zielen: Hypothesen testen oder Parameter schätzen.
+- Beispiel Hypothesenprüfung: "Frauen parken im Durchschnitt schneller ein als Männer".
+- Beispiel Parameterschätzung: "Wie groß ist der mittlere Unterschied in der Ausparkzeit zwischen Frauen und Männern?"
+- Je ausgereifter ein Forschungsfeld, desto *kühnere* Hypothesen lassen sich formulieren:
+    - stark ausgereift: Die nächste totale Sonnenfinsternis in Deutschland wird am 27.7.2082 um 14.47h stattfinden, [Quelle](https://www.solar-eclipse.info/de/eclipse/country/DE/)
+    - gering ausgereift: 
+      - Die nächste Sonnenfinsternis wird in den nächsten 100 Jahren stattfinden.
+      - Lernen bringt mehr als Nicht-Lernen für den Klausurerfolg.
+    
+
+
+
+---
+
+## Formalisierung von Forschungsfragen
+
+- Der Mittelwert in Gruppe A ist höher als in Gruppe B (der Unterschied, $d$, im Mittelwert ist größer als Null):
+
+$$\mu_1 > \mu_2 \Leftrightarrow \mu_1 - \mu_2 > 0 \Leftrightarrow \mu_d > 0$$
+
+- Die Korrelation zwischen A und B ist positiv:
+
+$$\rho(A,B) > 0$$
+
+- Das Regressionsgewicht von $x_1$ ist größer als $k$ (nicht vernachlässigbar):
+
+$$\beta_{x_1} > k$$
+
+---
+
+## ROPE als guter Einstieg
+
+Das Rope-Konzept ist ein guter Weg, um eine Theorie bzw. eine Hypothese aus einer Theorie zu prüfen:
+
+1. Leiten Sie aus der Theorie ab, wie groß der Effekt mindestens sein muss, $k$
+2. Prüfen Sie dann, ob der Hauptteil der Post-Verteilung, z.B. das 95%-PI, 
+    - komplett innerhalb, 
+    - komplett außerhalb, 
+    - oder teils innerhalb teils außerhalb 
+  des ROPE liegt.
+3. Auf dieser Basis 
+    - bestätigen Sie die Nullhypothese
+    - verwerfen Sie die Nullhtypothese
+    - enthalten Sie sich einer Entscheidung bzgl. der Nullhypothese
+  
+
+- Nullhypothesen zu testen ist verbreitet in der Frequentistischen Statistik.
+- Das ROPE-Konzept bietet ein analoges Verfahren auf Basis der Bayes-Statistik.
+- Daher ist das ROPE nützlich besonders wenn Anschlussfähigkeit zur Frequentistischen Statistik gefragt ist (z.B. wenn ein Publikum die Frequentistische Statistik gewohnt ist bzw. die Bayes-Statistik nicht kennt).
+- Im Frequentismus benutzt man oft den *p-Wert*, um über eine Nullhypothese zu unterscheiden: $p < .05$ führt zum Verwerfen einer Nullhypothesen, $p \ge .05$ führt zum Beibehalten.
+
+---
+
+## Übersetzung einer Hypothese in ein Regressionsterm
+
+
+Vergleich zweier Gruppenmittelwerte:
+
+$$\mu_1 > \mu_2 \Leftrightarrow \mu_1 - \mu_2 > 0 \Leftrightarrow \mu_d > 0$$
+
+.center[`y ~ b`]
+
+--- 
+
+Vergleich von $g$ Gruppenmittelwerte:
+
+$$\mu_1 \ne \mu_2 \ne \ldots \ne \mu_g$$
+
+.center[`y ~ g`]
+
+--- 
+
+Prüfung auf eine positive Assoziation von $X$ mit $Y$:
+
+$$\beta_x > 0$$
+.center[`y ~ m`]
+
+
+
+Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariable) mit zwei oder mehr Stufen; `y`: metrisches Kriterium der Regression (AV); `x`: Beliebiger Prädiktor einer Regression; `m`: metrischer Prädiktor
+
+
+
+
+
+---
+
+## Übersetzung Frequentistischer Verfahren in Regressionsterme
+
+```{r}
+tibble::tribble(
+   ~Regressionsterm,              ~Freqentistischer.Test,
+            "y ~ b", "t-Test (Vergleich zweier Gruppen)",
+            "y ~ g",                    "Varianzanalyse",
+        "y ~ g + m",                  "Kovarianzanalyse",
+            "b ~ g",                  "Chi-Quadrat-Test",
+        "y_z ~ x_z",                  "Korrelationstest",
+            "y ~ 1",      "Mittelwert schätzen (t-Test)",
+            "b ~ 1",                   "Anteil schätzen",
+  "y ~ x + g + x:g",                       "Interaktion",
+          "y ~ x*g",                       "Interaktion"
+  ) %>% 
+  gt()
+```
+
+
+
+Legende: s. vorherige Seite; `y_z` bzw. `x_z`: z-standardisierte Variable
+
+
+---
+

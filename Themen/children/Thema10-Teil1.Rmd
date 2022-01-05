@@ -1,0 +1,160 @@
+
+```{r}
+library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+```
+
+
+
+
+
+
+name: teil-1
+class: middle, center
+
+
+
+# Teil 1
+
+## Lieblinglingsfehler
+
+---
+
+
+## Lieblingsfehler im Überblick 🤷
+
+
+- Post-Präd-Verteilung (PPV) und Post-Verteilung verwechseln
+- Quantile und Verteilungsfuntion verwechseln
+- Prädiktoren nicht zentrieren, wenn es einen Interaktionsterm gibt
+- Interaktion falsch interpretieren
+- Regressionskoeffizienten kausal interpretieren, wenn es keine kausale Fundierung gibt
+
+
+---
+
+## Post-Präd-Verteilung (PPV) und Post-Verteilung verwechseln 🤷
+
+```{r results = "hide", echo = TRUE}
+m1 <- stan_glm(mpg ~ hp, data = mtcars)
+```
+
+.pull-left[
+Die Post-Verteilung zeigt Stichproben zu den Parameterwerten.
+```{r echo = TRUE}
+post_verteilung <- m1 %>% as_tibble()
+head(post_verteilung)
+```
+
+]
+
+
+.pull-right[
+Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
+```{r echo=FALSE}
+ppv <- posterior_predict(m1) %>% as_tibble()
+
+ppv %>% 
+  pivot_longer(everything()) %>% 
+  slice_head(n=5) %>% 
+  gt() 
+```
+
+
+
+]
+
+
+---
+
+
+## Quantile und Verteilungsfuntion verwechseln 🤷
+
+
+.pull-left[
+### Quantil für $p$
+
+Ein $p$-Quantil teilt eine Verteilung in zwei Teile, 
+und zwar so, dass mind. $p$ kleiner oder gleich dem $p$-Quantil sind.
+```{r}
+funcShaded_low <- function(x, lower_bound) {
+    y = dnorm(x, mean = 0, sd = 1)
+    y[x < lower_bound] <- NA
+    return(y)
+}
+# source: https://stackoverflow.com/questions/48753007/using-stat-function-to-draw-partially-shaded-normal-curve-in-ggplot2
+
+funcShaded_up <- function(x, upper_bound) {
+    y = dnorm(x, mean = 0, sd = 1)
+    y[x > upper_bound] <- NA
+    return(y)
+}
+
+ggplot(tibble(x = -3:3)) +
+  aes(x) + 
+  stat_function(fun = dnorm, n = 100) +
+  stat_function(fun = funcShaded_up, args = list(upper_bound = 0),
+                geom = "area", fill = "grey", alpha = .5) +
+  theme(axis.text.x = element_text(color = "red", size = 20)) +
+  scale_x_continuous(breaks = 0)
+```
+
+Das 50%-Quantil (.5-Quantil) beträgt $x=0$.
+Mind ein Anteil $1-p$ ist größer oder gleich dem $p$-Quantil.
+]
+
+.pull-right[
+### Verteilungsfunktion $F$
+
+$F(x)$ gibt die Wahrscheinlichkeit an der Stelle $x$ an, 
+dass $X$ einen Wert kleiner oder gleich $x$ annimmt.
+
+```{r}
+ggplot(tibble(x = -3:3)) +
+  aes(x) + 
+  stat_function(fun = dnorm, n = 100) +
+  stat_function(fun = funcShaded_up, args = list(upper_bound = 0),
+                geom = "area", fill = "red", alpha = .5) +
+  scale_x_continuous(breaks = 0)
+```
+
+$F(0)=1/2$, die Wahrscheinlichkeit beträgt hier 50%, dass $x$ nicht größer ist als 0.
+]
+
+
+---
+
+
+## Interaktion falsch interpretieren 🤷
+
+
+```{r echo = TRUE, results= "hide"}
+m1 <- stan_glm(mpg ~ hp*vs, data = mtcars)  # mit Interaktionseffekt
+```
+Modellkoeffizienten:
+```{r}
+coef(m1) %>% round(2)
+```
+
+
+.pull-left[
+### Falsch 😈
+Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begrägt ca. -0.11.
+]
+
+
+.pull-right[
+### Richtig 👼
+Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begrägt ca. -0.11 -- *wenn* `hp=0`.
+]
+
+
+
+---
+
+

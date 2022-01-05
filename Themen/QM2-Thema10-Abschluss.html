@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Abschluss</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/es6shim/es6shim.js"></script>
+    <script src="libs/es7shim/es7shim.js"></script>
+    <script src="libs/graphre/graphre.js"></script>
+    <script src="libs/nomnoml/nomnoml.js"></script>
+    <script src="libs/nomnoml-binding/nomnoml.js"></script>
+    <link rel="stylesheet" href="my-css.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: right, bottom, test, title-slide
+
+# Abschluss
+## Kapitel 10
+
+---
+
+
+
+
+
+
+
+&lt;style&gt;
+
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Gliederung
+
+
+&lt;/br&gt;
+&lt;/br&gt;
+
+
+
+
+.xlarge[
+1. [Teil 1: Lieblingsfehler](#teil-1)
+
+2. [Teil 2: Kochrezepte](#teil-2)
+
+3. [Teil 3: Kerngedanken Bayes](#teil-3)
+
+5. [Hinweise](#hinweise)
+]
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+name: teil-1
+class: middle, center
+
+
+
+# Teil 1
+
+## Lieblinglingsfehler
+
+---
+
+
+## Lieblingsfehler im Überblick 🤷
+
+
+- Post-Präd-Verteilung (PPV) und Post-Verteilung verwechseln
+- Quantile und Verteilungsfuntion verwechseln
+- Prädiktoren nicht zentrieren, wenn es einen Interaktionsterm gibt
+- Interaktion falsch interpretieren
+- Regressionskoeffizienten kausal interpretieren, wenn es keine kausale Fundierung gibt
+
+
+---
+
+## Post-Präd-Verteilung (PPV) und Post-Verteilung verwechseln 🤷
+
+
+```r
+m1 &lt;- stan_glm(mpg ~ hp, data = mtcars)
+```
+
+.pull-left[
+Die Post-Verteilung zeigt Stichproben zu den Parameterwerten.
+
+```r
+post_verteilung &lt;- m1 %&gt;% as_tibble()
+head(post_verteilung)
+```
+
+```
+## # A tibble: 6 × 3
+##   `(Intercept)`      hp sigma
+##           &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1          31.6 -0.0718  4.23
+## 2          30.4 -0.0785  3.84
+## 3          29.2 -0.0566  4.44
+## 4          30.7 -0.0755  3.02
+## 5          30.2 -0.0649  4.47
+## 6          32.1 -0.0818  4.06
+```
+
+]
+
+
+.pull-right[
+Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
+<div id="yofxxyyzzh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#yofxxyyzzh .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#yofxxyyzzh .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#yofxxyyzzh .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#yofxxyyzzh .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#yofxxyyzzh .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#yofxxyyzzh .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#yofxxyyzzh .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#yofxxyyzzh .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yofxxyyzzh .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yofxxyyzzh .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#yofxxyyzzh .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#yofxxyyzzh .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#yofxxyyzzh .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#yofxxyyzzh .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yofxxyyzzh .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yofxxyyzzh .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#yofxxyyzzh .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#yofxxyyzzh .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yofxxyyzzh .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#yofxxyyzzh .gt_left {
+  text-align: left;
+}
+
+#yofxxyyzzh .gt_center {
+  text-align: center;
+}
+
+#yofxxyyzzh .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#yofxxyyzzh .gt_font_normal {
+  font-weight: normal;
+}
+
+#yofxxyyzzh .gt_font_bold {
+  font-weight: bold;
+}
+
+#yofxxyyzzh .gt_font_italic {
+  font-style: italic;
+}
+
+#yofxxyyzzh .gt_super {
+  font-size: 65%;
+}
+
+#yofxxyyzzh .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">value</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Mazda RX4</td>
+<td class="gt_row gt_center">20.83856</td></tr>
+    <tr><td class="gt_row gt_left">Mazda RX4 Wag</td>
+<td class="gt_row gt_center">28.13923</td></tr>
+    <tr><td class="gt_row gt_left">Datsun 710</td>
+<td class="gt_row gt_center">24.23531</td></tr>
+    <tr><td class="gt_row gt_left">Hornet 4 Drive</td>
+<td class="gt_row gt_center">25.08622</td></tr>
+    <tr><td class="gt_row gt_left">Hornet Sportabout</td>
+<td class="gt_row gt_center">19.73463</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+
+]
+
+
+---
+
+
+## Quantile und Verteilungsfuntion verwechseln 🤷
+
+
+.pull-left[
+### Quantil für `\(p\)`
+
+Ein `\(p\)`-Quantil teilt eine Verteilung in zwei Teile, 
+und zwar so, dass mind. `\(p\)` kleiner oder gleich dem `\(p\)`-Quantil sind.
+&lt;img src="Kapitel_10_chunk-img/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Das 50%-Quantil (.5-Quantil) beträgt `\(x=0\)`.
+Mind ein Anteil `\(1-p\)` ist größer oder gleich dem `\(p\)`-Quantil.
+]
+
+.pull-right[
+### Verteilungsfunktion `\(F\)`
+
+`\(F(x)\)` gibt die Wahrscheinlichkeit an der Stelle `\(x\)` an, 
+dass `\(X\)` einen Wert kleiner oder gleich `\(x\)` annimmt.
+
+&lt;img src="Kapitel_10_chunk-img/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+`\(F(0)=1/2\)`, die Wahrscheinlichkeit beträgt hier 50%, dass `\(x\)` nicht größer ist als 0.
+]
+
+
+---
+
+
+## Interaktion falsch interpretieren 🤷
+
+
+
+```r
+m1 &lt;- stan_glm(mpg ~ hp*vs, data = mtcars)  # mit Interaktionseffekt
+```
+Modellkoeffizienten:
+
+```
+## (Intercept)          hp          vs       hp:vs 
+##       24.62       -0.04       14.04       -0.11
+```
+
+
+.pull-left[
+### Falsch 😈
+Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begrägt ca. -0.11.
+]
+
+
+.pull-right[
+### Richtig 👼
+Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begrägt ca. -0.11 -- *wenn* `hp=0`.
+]
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+name: teil-2
+class: middle, center
+
+
+
+# Teil 2
+
+## Kochrezepte 🍲
+
+---
+
+## Kochrezept: Forschungsfrage untersuchen
+
+*Theoretische Phase*
+1. Staunen über ein Phänomen, `\(y\)`, Kausalfrage finden
+2. Literatur wälzen, um mögliche Ursachen `\(x\)` von `\(y\)` zu lernen
+3. Forschungsfrage, Hypothese präzisieren
+4. Modell präzisieren (DAG(s), Prioris)
+*Empirische Phase*
+5. Versuch planen
+6. Daten erheben
+*Analytische Phase*
+7. Daten aufbereiten
+8 Modell berechnen anhand eines oder mehrerer DAGs
+9. Modell prüfen/kritisieren
+10. Forschungsfrage beantworten
+
+
+
+Yeah! Fertig.
+
+---
+
+## Parameter schätzen vs. Hypothesen prüfen
+
+- Quantitative Studien haben oft einen von zwei (formalen) Zielen: Hypothesen testen oder Parameter schätzen.
+- Beispiel Hypothesenprüfung: "Frauen parken im Durchschnitt schneller ein als Männer".
+- Beispiel Parameterschätzung: "Wie groß ist der mittlere Unterschied in der Ausparkzeit zwischen Frauen und Männern?"
+- Je ausgereifter ein Forschungsfeld, desto *kühnere* Hypothesen lassen sich formulieren:
+    - stark ausgereift: Die nächste totale Sonnenfinsternis in Deutschland wird am 27.7.2082 um 14.47h stattfinden, [Quelle](https://www.solar-eclipse.info/de/eclipse/country/DE/)
+    - gering ausgereift: 
+      - Die nächste Sonnenfinsternis wird in den nächsten 100 Jahren stattfinden.
+      - Lernen bringt mehr als Nicht-Lernen für den Klausurerfolg.
+    
+
+
+
+---
+
+## Formalisierung von Forschungsfragen
+
+- Der Mittelwert in Gruppe A ist höher als in Gruppe B (der Unterschied, `\(d\)`, im Mittelwert ist größer als Null):
+
+`$$\mu_1 &gt; \mu_2 \Leftrightarrow \mu_1 - \mu_2 &gt; 0 \Leftrightarrow \mu_d &gt; 0$$`
+
+- Die Korrelation zwischen A und B ist positiv:
+
+`$$\rho(A,B) &gt; 0$$`
+
+- Das Regressionsgewicht von `\(x_1\)` ist größer als `\(k\)` (nicht vernachlässigbar):
+
+`$$\beta_{x_1} &gt; k$$`
+
+---
+
+## ROPE als guter Einstieg
+
+Das Rope-Konzept ist ein guter Weg, um eine Theorie bzw. eine Hypothese aus einer Theorie zu prüfen:
+
+1. Leiten Sie aus der Theorie ab, wie groß der Effekt mindestens sein muss, `\(k\)`
+2. Prüfen Sie dann, ob der Hauptteil der Post-Verteilung, z.B. das 95%-PI, 
+    - komplett innerhalb, 
+    - komplett außerhalb, 
+    - oder teils innerhalb teils außerhalb 
+  des ROPE liegt.
+3. Auf dieser Basis 
+    - bestätigen Sie die Nullhypothese
+    - verwerfen Sie die Nullhtypothese
+    - enthalten Sie sich einer Entscheidung bzgl. der Nullhypothese
+  
+
+- Nullhypothesen zu testen ist verbreitet in der Frequentistischen Statistik.
+- Das ROPE-Konzept bietet ein analoges Verfahren auf Basis der Bayes-Statistik.
+- Daher ist das ROPE nützlich besonders wenn Anschlussfähigkeit zur Frequentistischen Statistik gefragt ist (z.B. wenn ein Publikum die Frequentistische Statistik gewohnt ist bzw. die Bayes-Statistik nicht kennt).
+- Im Frequentismus benutzt man oft den *p-Wert*, um über eine Nullhypothese zu unterscheiden: `\(p &lt; .05\)` führt zum Verwerfen einer Nullhypothesen, `\(p \ge .05\)` führt zum Beibehalten.
+
+---
+
+## Übersetzung einer Hypothese in ein Regressionsterm
+
+
+Vergleich zweier Gruppenmittelwerte:
+
+`$$\mu_1 &gt; \mu_2 \Leftrightarrow \mu_1 - \mu_2 &gt; 0 \Leftrightarrow \mu_d &gt; 0$$`
+
+.center[`y ~ b`]
+
+--- 
+
+Vergleich von `\(g\)` Gruppenmittelwerte:
+
+`$$\mu_1 \ne \mu_2 \ne \ldots \ne \mu_g$$`
+
+.center[`y ~ g`]
+
+--- 
+
+Prüfung auf eine positive Assoziation von `\(X\)` mit `\(Y\)`:
+
+`$$\beta_x &gt; 0$$`
+.center[`y ~ m`]
+
+
+
+Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariable) mit zwei oder mehr Stufen; `y`: metrisches Kriterium der Regression (AV); `x`: Beliebiger Prädiktor einer Regression; `m`: metrischer Prädiktor
+
+
+
+
+
+---
+
+## Übersetzung Frequentistischer Verfahren in Regressionsterme
+
+<div id="eptfxcabnd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#eptfxcabnd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#eptfxcabnd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#eptfxcabnd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#eptfxcabnd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#eptfxcabnd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#eptfxcabnd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#eptfxcabnd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#eptfxcabnd .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#eptfxcabnd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#eptfxcabnd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#eptfxcabnd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#eptfxcabnd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#eptfxcabnd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#eptfxcabnd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#eptfxcabnd .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#eptfxcabnd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#eptfxcabnd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#eptfxcabnd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#eptfxcabnd .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#eptfxcabnd .gt_left {
+  text-align: left;
+}
+
+#eptfxcabnd .gt_center {
+  text-align: center;
+}
+
+#eptfxcabnd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#eptfxcabnd .gt_font_normal {
+  font-weight: normal;
+}
+
+#eptfxcabnd .gt_font_bold {
+  font-weight: bold;
+}
+
+#eptfxcabnd .gt_font_italic {
+  font-style: italic;
+}
+
+#eptfxcabnd .gt_super {
+  font-size: 65%;
+}
+
+#eptfxcabnd .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Regressionsterm</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Freqentistischer.Test</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">y ~ b</td>
+<td class="gt_row gt_left">t-Test (Vergleich zweier Gruppen)</td></tr>
+    <tr><td class="gt_row gt_left">y ~ g</td>
+<td class="gt_row gt_left">Varianzanalyse</td></tr>
+    <tr><td class="gt_row gt_left">y ~ g + m</td>
+<td class="gt_row gt_left">Kovarianzanalyse</td></tr>
+    <tr><td class="gt_row gt_left">b ~ g</td>
+<td class="gt_row gt_left">Chi-Quadrat-Test</td></tr>
+    <tr><td class="gt_row gt_left">y_z ~ x_z</td>
+<td class="gt_row gt_left">Korrelationstest</td></tr>
+    <tr><td class="gt_row gt_left">y ~ 1</td>
+<td class="gt_row gt_left">Mittelwert schätzen (t-Test)</td></tr>
+    <tr><td class="gt_row gt_left">b ~ 1</td>
+<td class="gt_row gt_left">Anteil schätzen</td></tr>
+    <tr><td class="gt_row gt_left">y ~ x + g + x:g</td>
+<td class="gt_row gt_left">Interaktion</td></tr>
+    <tr><td class="gt_row gt_left">y ~ x*g</td>
+<td class="gt_row gt_left">Interaktion</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+
+
+Legende: s. vorherige Seite; `y_z` bzw. `x_z`: z-standardisierte Variable
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+name: teil-3
+class: middle, center
+
+
+
+# Teil 3
+
+## Kerngedanken Bayes
+
+---
+
+
+## Zentraler Kennwert der Bayes-Statistik: Post-Verteilung
+
+
+
+```r
+m3 &lt;- stan_glm(mpg ~ hp, data = mtcars)
+```
+
+.pull-left[
+
+
+```r
+library(bayesplot)
+mcmc_areas(m3, pars = "hp")
+```
+
+&lt;img src="Kapitel_10_chunk-img/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+
+- Ein Zusammenfassen der Posterior-Verteilung (z.B. zu einem 95%-PI) ist möglich und oft sinnvoll.
+- Verschiedene Arten des Zusammenfassens der Post-Verteilung sind möglich, z.B. zu Mittelwert oder SD oder einem einem HD-Intervall.
+- Allerdings übermittelt nur die gesamte Post-Verteilung alle Informationen.
+- Daher empfiehlt es sich (oft), die Post-Verteilung zu visualisieren.
+
+]
+
+---
+
+## Posteriori als Produkt von Priori und Likelihood
+
+`$$\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}$$`
+
+&lt;img src="Kapitel_10_chunk-img/QM2-Thema10-kleineModelle-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Bayes' Theorem
+
+
+
+.box[
+`$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$`
+]
+
+
+
+
+- Bestandteile:
+
+    - Posteriori-Wahrscheinlichkeit: `\(Pr_{Post}  := Pr(H|D)\)`
+
+    - Likelihood: `\(L := Pr(D|H)\)`
+
+    - Priori-Wahrscheinlichkeit: `\(Pr_{Priori} := Pr(H)\)`
+
+    - Evidenz: `\(E := Pr(D)\)`
+
+- Bayes' Theorem gibt die `\(Pr_{Post}\)` an, wenn man die Gleichung mit der `\(Pr_{Priori}\)` und dem `\(L\)` füttert.
+
+- Bayes' Theorem wird häufig verwendet, um die `\(Pr_{Post}\)` zu quantifizieren. 
+
+- Die `\(Pr_{Post}\)` ist proportional zu `\(L \times Pr_{Priori}\)`.
+
+---
+
+
+## Wissen updaten: Wir füttern Daten in das Modell
+
+
+
+&lt;img src="Kapitel_10_chunk-img/QM2-Thema2-kleineModelle-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+## So denkt unser Bayes-Golem
+
+
+<div id="htmlwidget-10d279cf64fe0dfd49be" style="width:100%;height:927px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10d279cf64fe0dfd49be">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n[Priori] -> [Daten]\n[Daten] -> [Post]\n","svg":false},"evals":[],"jsHooks":[]}</script>
+
+
+
+
+---
+
+## Statistisches Modellieren ist an vielen Stellen subjektiv
+
+- Definition des DAG
+- Wahl der Stichprobe
+- Wahl der Prädiktoren
+- Wahl von Transformationen (z.B. Logarithmus)
+- Wahl von Prioris
+- Wahl von Intervallgrößen und -arten
+
+Dabei meint "subjektiv", dass die Entscheidung nicht datengeleitet, logisch deduziert oder von der Methode diktiert werden.
+
+Subjektive Entscheidungen können z.B. 
+
+- fachlich begründet sein
+- ein Konsensus der Scientific Community ausdrücken
+- auf Vorwissen früherer Studien beruhen
+
+Generell spricht von *Researchers' degrees of Freedom*,
+wenn man (negativ konnotiert) Intransparenz in einem wissenschaftlichen Prozess anprangern (aufzeigen) möchten, vgl. [weiterführende Infos](https://en.wikipedia.org/wiki/Researcher_degrees_of_freedom).
+
+Das Problem ist aber *nicht* "Subjektivität" - sie ist unumgänglich und oft wünschenswert - sondern Intransparenz über "subjektive" Entscheidungen.
+
+
+---
+
+## Learn to be a good Bayesian
+
+
+.pull-left[
+
+&lt;img src="https://f4.bcbits.com/img/a0636800374_16.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+Baba Brinkman
+
+[Quelle](https://music.bababrinkman.com/track/good-bayesian-feat-mc-lars-and-mega-ran)
+
+]
+
+.pull-right[
+.xsmall[
+Let me show you how to be a good Bayesian
+
+Change your predictions after takin’ information in
+
+And if you’re thinkin’ I’ll be less than amazin’
+
+Let’s adjust those expectations
+
+What’s a Bayesian? It’s someone who cares about evidence
+
+And doesn’t jump to assumptions based on intuitions and prejudice
+
+A Bayesian makes prediction on the best available info
+
+And adjusts the probability, ‘cause every belief is provisional
+
+And when I kick a flow, mostly I’m watchin’ eyes widen
+
+Maybe ‘cause my likeness lowers expectations of tight rhymin’
+
+How would I know, unless I’m rhymin’ in front of a bunch of blind men?
+
+Droppin’ placebo-controlled science like I’m Richard Feynman
+
+...
+]
+
+Good Bayesian (feat. MC Lars and Mega Ran)
+
+from The Rap Guide to Consciousness by Baba Brinkman
+[YouTube Song](https://www.youtube.com/watch?v=qV6Wc_f1Cgo)
+]
+
+]
+
+
+---
+
+
+
+
+name: hinweise
+class: center, middle, inverse
+
+
+
+
+
+
+
+# Hinweise 
+
+---
+
+## Zu diesem Skript
+
+- Dieses Skript bezieht sich auf folgende [Lehrbücher](#literatur): 
+  - Regression and other stories; Statistical Rethinking (jeweils alle behandelten Kapitel)
+
+
+- Dieses Skript wurde erstellt am 2022-01-05 15:09:32. 
+
+- Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
+
+- Autor: Sebastian Sauer.
+
+- Um die HTML-Folien korrekt darzustellen, ist eine Internet-Verbindung nötig.
+
+- Mit der Taste `?` bekommt man eine Hilfe über Shortcuts für die HTML-Folien.
+
+- Wenn Sie die Endung `.html` in der URL mit `.pdf` ersetzen, bekommen Sie die PDF-Version (bzw. HTML-Version) der Datei. 
+
+- Alternativ können Sie im Browser Chrome die Folien als PDF drucken (klicken Sie auf den entsprechenden Menüpunkt).
+
+- Den Quellcode der Skripte finden Sie [hier](https://github.com/sebastiansauer/QM2-Folien/tree/main/Themen).
+
+- Eine PDF-Version aus den HTML-Folien kann erzeugt werden, indem man im Chrome-Browser die Webseite druckt (Drucken als PDF).
+
+---
+
+name: homepage
+background-image: url(https://raw.githubusercontent.com/sebastiansauer/QM2-Folien/main/img/outro/img10.jpg)
+background-size: contain
+background-position: left
+
+
+
+
+.pull-right[
+
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+.right[
+### [Homepage](https://sebastiansauer.github.io/bayes-start/)
+]
+
+
+]
+
+
+
+
+
+&lt;!-- https://github.com/sebastiansauer/QM2-Folien/blob/main/img/outro/img1.jpg?raw=true --&gt;
+&lt;!-- ../img/outro/img --&gt;
+
+---
+
+name: literatur
+
+## Literatur
+
+[Diese](https://sebastiansauer.github.io/QM2-Folien/citations.html) R-Pakete wurden verwendet.
+
+.small[
+NULL
+
+]
+
+
+---
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

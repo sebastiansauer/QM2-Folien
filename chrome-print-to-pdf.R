@@ -4,12 +4,13 @@ thema5 <- "QM2-Thema5-Lineare-Modelle"
 thema6 <- "QM2-Thema6-Deskriptive-Forschungsfragen"
 thema8 <- "QM2-Thema8-Kausalanalyse"
 thema9 <- "QM2-Thema9-Binaere-AV"
+thema10 <- "QM2-Thema10-Abschluss"
 f2 <- "Test2"
 
 
 
-sourcefile <- paste0("Themen/", thema9, ".Rmd")
-outputfile <- paste0("Themen/", thema9, ".pdf")
+sourcefile <- paste0("Themen/", thema10, ".Rmd")
+outputfile <- paste0("Themen/", thema10, ".pdf")
 
 
 pagedown::chrome_print(sourcefile,
