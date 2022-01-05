@@ -9,12 +9,6 @@
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
-    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
-    <script src="libs/es6shim/es6shim.js"></script>
-    <script src="libs/es7shim/es7shim.js"></script>
-    <script src="libs/graphre/graphre.js"></script>
-    <script src="libs/nomnoml/nomnoml.js"></script>
-    <script src="libs/nomnoml-binding/nomnoml.js"></script>
     <link rel="stylesheet" href="my-css.css" type="text/css" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -114,6 +108,8 @@ class: right, bottom, test, title-slide
 
 3. [Teil 3: Kerngedanken Bayes](#teil-3)
 
+4. [Teil 4: Beispiele für Prüfungsaufgaben](#teil-4)
+
 5. [Hinweise](#hinweise)
 ]
 
@@ -150,7 +146,7 @@ class: middle, center
 
 
 - Post-Präd-Verteilung (PPV) und Post-Verteilung verwechseln
-- Quantile und Verteilungsfuntion verwechseln
+- Quantile und Verteilungsfunktion verwechseln
 - Prädiktoren nicht zentrieren, wenn es einen Interaktionsterm gibt
 - Interaktion falsch interpretieren
 - Regressionskoeffizienten kausal interpretieren, wenn es keine kausale Fundierung gibt
@@ -169,7 +165,8 @@ m1 &lt;- stan_glm(mpg ~ hp, data = mtcars)
 Die Post-Verteilung zeigt Stichproben zu den Parameterwerten.
 
 ```r
-post_verteilung &lt;- m1 %&gt;% as_tibble()
+post_verteilung &lt;- m1 %&gt;% 
+  as_tibble()
 head(post_verteilung)
 ```
 
@@ -177,12 +174,12 @@ head(post_verteilung)
 ## # A tibble: 6 × 3
 ##   `(Intercept)`      hp sigma
 ##           &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
-## 1          31.6 -0.0718  4.23
-## 2          30.4 -0.0785  3.84
-## 3          29.2 -0.0566  4.44
-## 4          30.7 -0.0755  3.02
-## 5          30.2 -0.0649  4.47
-## 6          32.1 -0.0818  4.06
+## 1          30.4 -0.0687  4.95
+## 2          29.5 -0.0551  3.90
+## 3          29.6 -0.0597  3.89
+## 4          27.9 -0.0471  3.89
+## 5          28.0 -0.0485  3.79
+## 6          25.8 -0.0481  4.92
 ```
 
 ]
@@ -190,12 +187,12 @@ head(post_verteilung)
 
 .pull-right[
 Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
-<div id="yofxxyyzzh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mdwdcrnzzi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yofxxyyzzh .gt_table {
+#mdwdcrnzzi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -220,7 +217,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-left-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_heading {
+#mdwdcrnzzi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -232,7 +229,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-right-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_title {
+#mdwdcrnzzi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -242,7 +239,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-bottom-width: 0;
 }
 
-#yofxxyyzzh .gt_subtitle {
+#mdwdcrnzzi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -252,13 +249,13 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-top-width: 0;
 }
 
-#yofxxyyzzh .gt_bottom_border {
+#mdwdcrnzzi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_col_headings {
+#mdwdcrnzzi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -273,7 +270,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-right-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_col_heading {
+#mdwdcrnzzi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -293,7 +290,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   overflow-x: hidden;
 }
 
-#yofxxyyzzh .gt_column_spanner_outer {
+#mdwdcrnzzi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -305,15 +302,15 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   padding-right: 4px;
 }
 
-#yofxxyyzzh .gt_column_spanner_outer:first-child {
+#mdwdcrnzzi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yofxxyyzzh .gt_column_spanner_outer:last-child {
+#mdwdcrnzzi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yofxxyyzzh .gt_column_spanner {
+#mdwdcrnzzi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -325,7 +322,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   width: 100%;
 }
 
-#yofxxyyzzh .gt_group_heading {
+#mdwdcrnzzi .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -347,7 +344,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   vertical-align: middle;
 }
 
-#yofxxyyzzh .gt_empty_group_heading {
+#mdwdcrnzzi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -362,15 +359,15 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   vertical-align: middle;
 }
 
-#yofxxyyzzh .gt_from_md > :first-child {
+#mdwdcrnzzi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yofxxyyzzh .gt_from_md > :last-child {
+#mdwdcrnzzi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yofxxyyzzh .gt_row {
+#mdwdcrnzzi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -389,7 +386,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   overflow-x: hidden;
 }
 
-#yofxxyyzzh .gt_stub {
+#mdwdcrnzzi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -401,7 +398,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   padding-left: 12px;
 }
 
-#yofxxyyzzh .gt_summary_row {
+#mdwdcrnzzi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -411,7 +408,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   padding-right: 5px;
 }
 
-#yofxxyyzzh .gt_first_summary_row {
+#mdwdcrnzzi .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -421,7 +418,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-top-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_grand_summary_row {
+#mdwdcrnzzi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -431,7 +428,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   padding-right: 5px;
 }
 
-#yofxxyyzzh .gt_first_grand_summary_row {
+#mdwdcrnzzi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -441,11 +438,11 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-top-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_striped {
+#mdwdcrnzzi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yofxxyyzzh .gt_table_body {
+#mdwdcrnzzi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -454,7 +451,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-bottom-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_footnotes {
+#mdwdcrnzzi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -468,13 +465,13 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-right-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_footnote {
+#mdwdcrnzzi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#yofxxyyzzh .gt_sourcenotes {
+#mdwdcrnzzi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -488,41 +485,41 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   border-right-color: #D3D3D3;
 }
 
-#yofxxyyzzh .gt_sourcenote {
+#mdwdcrnzzi .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#yofxxyyzzh .gt_left {
+#mdwdcrnzzi .gt_left {
   text-align: left;
 }
 
-#yofxxyyzzh .gt_center {
+#mdwdcrnzzi .gt_center {
   text-align: center;
 }
 
-#yofxxyyzzh .gt_right {
+#mdwdcrnzzi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yofxxyyzzh .gt_font_normal {
+#mdwdcrnzzi .gt_font_normal {
   font-weight: normal;
 }
 
-#yofxxyyzzh .gt_font_bold {
+#mdwdcrnzzi .gt_font_bold {
   font-weight: bold;
 }
 
-#yofxxyyzzh .gt_font_italic {
+#mdwdcrnzzi .gt_font_italic {
   font-style: italic;
 }
 
-#yofxxyyzzh .gt_super {
+#mdwdcrnzzi .gt_super {
   font-size: 65%;
 }
 
-#yofxxyyzzh .gt_footnote_marks {
+#mdwdcrnzzi .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -538,15 +535,15 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left">Mazda RX4</td>
-<td class="gt_row gt_center">20.83856</td></tr>
+<td class="gt_row gt_center">13.86275</td></tr>
     <tr><td class="gt_row gt_left">Mazda RX4 Wag</td>
-<td class="gt_row gt_center">28.13923</td></tr>
+<td class="gt_row gt_center">26.47474</td></tr>
     <tr><td class="gt_row gt_left">Datsun 710</td>
-<td class="gt_row gt_center">24.23531</td></tr>
+<td class="gt_row gt_center">20.83696</td></tr>
     <tr><td class="gt_row gt_left">Hornet 4 Drive</td>
-<td class="gt_row gt_center">25.08622</td></tr>
+<td class="gt_row gt_center">21.36368</td></tr>
     <tr><td class="gt_row gt_left">Hornet Sportabout</td>
-<td class="gt_row gt_center">19.73463</td></tr>
+<td class="gt_row gt_center">20.05557</td></tr>
   </tbody>
   
   
@@ -569,7 +566,7 @@ Die PPV zeigt die Vorhersagen, also keine Parameterwerte, sondern Beobachtungen.
 
 Ein `\(p\)`-Quantil teilt eine Verteilung in zwei Teile, 
 und zwar so, dass mind. `\(p\)` kleiner oder gleich dem `\(p\)`-Quantil sind.
-&lt;img src="Kapitel_10_chunk-img/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_10_chunk-img/quantil-plot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Das 50%-Quantil (.5-Quantil) beträgt `\(x=0\)`.
 Mind ein Anteil `\(1-p\)` ist größer oder gleich dem `\(p\)`-Quantil.
@@ -581,7 +578,7 @@ Mind ein Anteil `\(1-p\)` ist größer oder gleich dem `\(p\)`-Quantil.
 `\(F(x)\)` gibt die Wahrscheinlichkeit an der Stelle `\(x\)` an, 
 dass `\(X\)` einen Wert kleiner oder gleich `\(x\)` annimmt.
 
-&lt;img src="Kapitel_10_chunk-img/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_10_chunk-img/f-plot-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 `\(F(0)=1/2\)`, die Wahrscheinlichkeit beträgt hier 50%, dass `\(x\)` nicht größer ist als 0.
 ]
@@ -595,13 +592,13 @@ dass `\(X\)` einen Wert kleiner oder gleich `\(x\)` annimmt.
 
 
 ```r
-m1 &lt;- stan_glm(mpg ~ hp*vs, data = mtcars)  # mit Interaktionseffekt
+m2 &lt;- stan_glm(mpg ~ hp*vs, data = mtcars)  # mit Interaktionseffekt
 ```
 Modellkoeffizienten:
 
 ```
 ## (Intercept)          hp          vs       hp:vs 
-##       24.62       -0.04       14.04       -0.11
+##       24.75       -0.04       13.97       -0.11
 ```
 
 
@@ -615,6 +612,11 @@ Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begr�
 ### Richtig 👼
 Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begrägt ca. -0.11 -- *wenn* `hp=0`.
 ]
+
+
+&lt;/br&gt;
+
+[Gelman, Hill, and Vehtari (2021, Kap. 10)](#bib-gelman_regression_2021), [McElreath (2020, Kap. 8)](#bib-mcelreath_statistical_2020)
 
 
 
@@ -649,10 +651,14 @@ class: middle, center
 2. Literatur wälzen, um mögliche Ursachen `\(x\)` von `\(y\)` zu lernen
 3. Forschungsfrage, Hypothese präzisieren
 4. Modell präzisieren (DAG(s), Prioris)
+
 *Empirische Phase*
+
 5. Versuch planen
 6. Daten erheben
+
 *Analytische Phase*
+
 7. Daten aufbereiten
 8 Modell berechnen anhand eines oder mehrerer DAGs
 9. Modell prüfen/kritisieren
@@ -670,7 +676,8 @@ Yeah! Fertig.
 - Beispiel Hypothesenprüfung: "Frauen parken im Durchschnitt schneller ein als Männer".
 - Beispiel Parameterschätzung: "Wie groß ist der mittlere Unterschied in der Ausparkzeit zwischen Frauen und Männern?"
 - Je ausgereifter ein Forschungsfeld, desto *kühnere* Hypothesen lassen sich formulieren:
-    - stark ausgereift: Die nächste totale Sonnenfinsternis in Deutschland wird am 27.7.2082 um 14.47h stattfinden, [Quelle](https://www.solar-eclipse.info/de/eclipse/country/DE/)
+    - stark ausgereift: 
+      - Die nächste totale Sonnenfinsternis in Deutschland wird am 27.7.2082 um 14.47h stattfinden, [Quelle](https://www.solar-eclipse.info/de/eclipse/country/DE/)
     - gering ausgereift: 
       - Die nächste Sonnenfinsternis wird in den nächsten 100 Jahren stattfinden.
       - Lernen bringt mehr als Nicht-Lernen für den Klausurerfolg.
@@ -755,12 +762,12 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
 
 ## Übersetzung Frequentistischer Verfahren in Regressionsterme
 
-<div id="eptfxcabnd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="kaveheemal" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#eptfxcabnd .gt_table {
+#kaveheemal .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -785,7 +792,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-left-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_heading {
+#kaveheemal .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -797,7 +804,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-right-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_title {
+#kaveheemal .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -807,7 +814,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-bottom-width: 0;
 }
 
-#eptfxcabnd .gt_subtitle {
+#kaveheemal .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -817,13 +824,13 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-top-width: 0;
 }
 
-#eptfxcabnd .gt_bottom_border {
+#kaveheemal .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_col_headings {
+#kaveheemal .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -838,7 +845,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-right-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_col_heading {
+#kaveheemal .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -858,7 +865,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   overflow-x: hidden;
 }
 
-#eptfxcabnd .gt_column_spanner_outer {
+#kaveheemal .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -870,15 +877,15 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   padding-right: 4px;
 }
 
-#eptfxcabnd .gt_column_spanner_outer:first-child {
+#kaveheemal .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eptfxcabnd .gt_column_spanner_outer:last-child {
+#kaveheemal .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eptfxcabnd .gt_column_spanner {
+#kaveheemal .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -890,7 +897,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   width: 100%;
 }
 
-#eptfxcabnd .gt_group_heading {
+#kaveheemal .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -912,7 +919,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   vertical-align: middle;
 }
 
-#eptfxcabnd .gt_empty_group_heading {
+#kaveheemal .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -927,15 +934,15 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   vertical-align: middle;
 }
 
-#eptfxcabnd .gt_from_md > :first-child {
+#kaveheemal .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eptfxcabnd .gt_from_md > :last-child {
+#kaveheemal .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eptfxcabnd .gt_row {
+#kaveheemal .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -954,7 +961,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   overflow-x: hidden;
 }
 
-#eptfxcabnd .gt_stub {
+#kaveheemal .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -966,7 +973,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   padding-left: 12px;
 }
 
-#eptfxcabnd .gt_summary_row {
+#kaveheemal .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -976,7 +983,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   padding-right: 5px;
 }
 
-#eptfxcabnd .gt_first_summary_row {
+#kaveheemal .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -986,7 +993,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-top-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_grand_summary_row {
+#kaveheemal .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -996,7 +1003,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   padding-right: 5px;
 }
 
-#eptfxcabnd .gt_first_grand_summary_row {
+#kaveheemal .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1006,11 +1013,11 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-top-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_striped {
+#kaveheemal .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eptfxcabnd .gt_table_body {
+#kaveheemal .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1019,7 +1026,7 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-bottom-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_footnotes {
+#kaveheemal .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1033,13 +1040,13 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-right-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_footnote {
+#kaveheemal .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#eptfxcabnd .gt_sourcenotes {
+#kaveheemal .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1053,41 +1060,41 @@ Legende: `b`: binäre Variable (0/1); `g`: nominale Variable (Gruppierungsvariab
   border-right-color: #D3D3D3;
 }
 
-#eptfxcabnd .gt_sourcenote {
+#kaveheemal .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#eptfxcabnd .gt_left {
+#kaveheemal .gt_left {
   text-align: left;
 }
 
-#eptfxcabnd .gt_center {
+#kaveheemal .gt_center {
   text-align: center;
 }
 
-#eptfxcabnd .gt_right {
+#kaveheemal .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eptfxcabnd .gt_font_normal {
+#kaveheemal .gt_font_normal {
   font-weight: normal;
 }
 
-#eptfxcabnd .gt_font_bold {
+#kaveheemal .gt_font_bold {
   font-weight: bold;
 }
 
-#eptfxcabnd .gt_font_italic {
+#kaveheemal .gt_font_italic {
   font-style: italic;
 }
 
-#eptfxcabnd .gt_super {
+#kaveheemal .gt_super {
   font-size: 65%;
 }
 
-#eptfxcabnd .gt_footnote_marks {
+#kaveheemal .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1165,13 +1172,7 @@ m3 &lt;- stan_glm(mpg ~ hp, data = mtcars)
 
 .pull-left[
 
-
-```r
-library(bayesplot)
-mcmc_areas(m3, pars = "hp")
-```
-
-&lt;img src="Kapitel_10_chunk-img/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_10_chunk-img/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1191,7 +1192,7 @@ mcmc_areas(m3, pars = "hp")
 
 `$$\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}$$`
 
-&lt;img src="Kapitel_10_chunk-img/QM2-Thema10-kleineModelle-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_10_chunk-img/QM2-Thema10-kleineModelle-27-ref-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1200,9 +1201,9 @@ mcmc_areas(m3, pars = "hp")
 
 
 
-.box[
+
 `$$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$`
-]
+
 
 
 
@@ -1230,7 +1231,7 @@ mcmc_areas(m3, pars = "hp")
 
 
 
-&lt;img src="Kapitel_10_chunk-img/QM2-Thema2-kleineModelle-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Kapitel_10_chunk-img/QM2-Thema2-kleineModelle-19-ref-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1239,8 +1240,7 @@ mcmc_areas(m3, pars = "hp")
 ## So denkt unser Bayes-Golem
 
 
-<div id="htmlwidget-10d279cf64fe0dfd49be" style="width:100%;height:927px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-10d279cf64fe0dfd49be">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n[Priori] -> [Daten]\n[Daten] -> [Post]\n","svg":false},"evals":[],"jsHooks":[]}</script>
+&lt;img src="Kapitel_10_chunk-img/dagbayes-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -1286,7 +1286,11 @@ Baba Brinkman
 ]
 
 .pull-right[
+### Good Bayesian 
+
 .xsmall[
+...
+
 Let me show you how to be a good Bayesian
 
 Change your predictions after takin’ information in
@@ -1314,16 +1318,111 @@ Droppin’ placebo-controlled science like I’m Richard Feynman
 ...
 ]
 
-Good Bayesian (feat. MC Lars and Mega Ran)
+
 
 from The Rap Guide to Consciousness by Baba Brinkman
 [YouTube Song](https://www.youtube.com/watch?v=qV6Wc_f1Cgo)
 ]
 
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+name: teil-4
+class: middle, center
+
+
+
+# Teil 4
+
+## Beispiele für Prüfungsaufgaben
+
+---
+
+## Geben Sie den korrekten Begriff an!
+
+
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+&lt;/br&gt;
+.center[  🌬🚙🙋️👨⬅️Hans 👧⬅️Anna 👩⬅️Lise  ]
+
+
+---
+
+## DAG mit doppelter Konfundierung
+
+
+.pull-left[
+
+&lt;img src="Kapitel_10_chunk-img/dag2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+.pull-right[
+❓Geben Sie die minimale Adjustierungsmenge (minimal adjustment set) an,
+um den totalen (gesamten) Effekt von *E* auf *D* zu bestimmen!
+
+❗ Entweder ist die Menge {A,Z} zu adjustieren oder die Menge {B,Z}.
+
 ]
 
 
 ---
+
+## DAG mit vielen Variablen
+
+
+&lt;img src="Kapitel_10_chunk-img/dag3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Minimale Adjustierungsmenge, um den Effekt von E auf D zu identifizieren: {7}, {8}.
+
+---
+
+## Ein Kausalmodell der Schizophrenie, van Kampen (2014)
+
+*The SSQ model of schizophrenic prodromal unfolding revised:* 
+
+*An analysis of its causal chains based on the language of directed graphs*
+
+D. van Kampen
+
+Lesen Sie [hier den Abstract](https://www.cambridge.org/core/journals/european-psychiatry/article/abs/ssq-model-of-schizophrenic-prodromal-unfolding-revised-an-analysis-of-its-causal-chains-based-on-the-language-of-directed-graphs/F2E7BBFC1B392616DB894AFBFABE7818).
+
+Folgende Symptome der Schizophrenie wurden gemessen:
+
+Social Anxiety (*SAN*), Active Isolation (*AIS*), Affective Flattening (*AFF*), Suspiciousness (*SUS*), Egocentrism (*EGC*), Living in a Fantasy World (*FTW*), Alienation (*ALN*), Apathy (*APA*), Hostility (*HOS*), Cognitive Derailment (*CDR*), Perceptual Aberrations (*PER*), and Delusional Thinking (*DET*)
+
+[van
+Kampen (2014)](https://www.cambridge.org/core/product/identifier/S0924933800244817/type/journal_article)
+
+
+
+---
+
+## DAG von van Kampen (2014) zu den Symptomen der Schizophrenie
+
+
+&lt;img src="Kapitel_10_chunk-img/dag-van-kampen-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+Minimales Adjustment-Set: {AIS, ALN}
+
+---
+
 
 
 
@@ -1347,7 +1446,7 @@ class: center, middle, inverse
   - Regression and other stories; Statistical Rethinking (jeweils alle behandelten Kapitel)
 
 
-- Dieses Skript wurde erstellt am 2022-01-05 15:09:32. 
+- Dieses Skript wurde erstellt am 2022-01-05 21:33:53. 
 
 - Lizenz: [MIT-Lizenz](https://github.com/sebastiansauer/QM2-Folien/blob/main/LICENSE)
 
@@ -1406,7 +1505,26 @@ name: literatur
 [Diese](https://sebastiansauer.github.io/QM2-Folien/citations.html) R-Pakete wurden verwendet.
 
 .small[
-NULL
+&lt;a name=bib-gelman_regression_2021&gt;&lt;/a&gt;[Gelman, A.,
+J. Hill, and A.
+Vehtari](#cite-gelman_regression_2021) (2021).
+_Regression and other stories_. Analytical methods
+for social research. Cambridge University Press.
+
+&lt;a name=bib-van_kampen_ssq_2014&gt;&lt;/a&gt;[Kampen, D.
+van](#cite-van_kampen_ssq_2014) (2014). "The SSQ
+model of schizophrenic prodromal unfolding revised:
+An analysis of its causal chains based on the
+language of directed graphs". In: _European
+Psychiatry_ 29.7, pp. 437-448. DOI:
+[10.1016/j.eurpsy.2013.11.001](https://doi.org/10.1016%2Fj.eurpsy.2013.11.001).
+
+&lt;a
+name=bib-mcelreath_statistical_2020&gt;&lt;/a&gt;[McElreath,
+R.](#cite-mcelreath_statistical_2020) (2020).
+_Statistical rethinking: a Bayesian course with
+examples in R and Stan_. 2nd ed. CRC texts in
+statistical science. Taylor and Francis, CRC Press.
 
 ]
 

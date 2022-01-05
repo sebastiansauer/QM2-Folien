@@ -90,7 +90,8 @@ library(xaringanthemer)
 ```
 
 ```{r source-funs}
-source("R-Code/img.R")
+img_fun_path <- here::here("R-Code", "img.R")
+source(img_fun_path)
 ```
 
 

@@ -30,7 +30,7 @@ class: middle, center
 
 
 - Post-Präd-Verteilung (PPV) und Post-Verteilung verwechseln
-- Quantile und Verteilungsfuntion verwechseln
+- Quantile und Verteilungsfunktion verwechseln
 - Prädiktoren nicht zentrieren, wenn es einen Interaktionsterm gibt
 - Interaktion falsch interpretieren
 - Regressionskoeffizienten kausal interpretieren, wenn es keine kausale Fundierung gibt
@@ -40,14 +40,15 @@ class: middle, center
 
 ## Post-Präd-Verteilung (PPV) und Post-Verteilung verwechseln 🤷
 
-```{r results = "hide", echo = TRUE}
+```{r m1, results = "hide", echo = TRUE}
 m1 <- stan_glm(mpg ~ hp, data = mtcars)
 ```
 
 .pull-left[
 Die Post-Verteilung zeigt Stichproben zu den Parameterwerten.
 ```{r echo = TRUE}
-post_verteilung <- m1 %>% as_tibble()
+post_verteilung <- m1 %>% 
+  as_tibble()
 head(post_verteilung)
 ```
 
@@ -81,7 +82,7 @@ ppv %>%
 
 Ein $p$-Quantil teilt eine Verteilung in zwei Teile, 
 und zwar so, dass mind. $p$ kleiner oder gleich dem $p$-Quantil sind.
-```{r}
+```{r quantil-plot}
 funcShaded_low <- function(x, lower_bound) {
     y = dnorm(x, mean = 0, sd = 1)
     y[x < lower_bound] <- NA
@@ -114,7 +115,7 @@ Mind ein Anteil $1-p$ ist größer oder gleich dem $p$-Quantil.
 $F(x)$ gibt die Wahrscheinlichkeit an der Stelle $x$ an, 
 dass $X$ einen Wert kleiner oder gleich $x$ annimmt.
 
-```{r}
+```{r f-plot}
 ggplot(tibble(x = -3:3)) +
   aes(x) + 
   stat_function(fun = dnorm, n = 100) +
@@ -133,12 +134,12 @@ $F(0)=1/2$, die Wahrscheinlichkeit beträgt hier 50%, dass $x$ nicht größer is
 ## Interaktion falsch interpretieren 🤷
 
 
-```{r echo = TRUE, results= "hide"}
-m1 <- stan_glm(mpg ~ hp*vs, data = mtcars)  # mit Interaktionseffekt
+```{r m2, echo = TRUE, results= "hide"}
+m2 <- stan_glm(mpg ~ hp*vs, data = mtcars)  # mit Interaktionseffekt
 ```
 Modellkoeffizienten:
 ```{r}
-coef(m1) %>% round(2)
+coef(m2) %>% round(2)
 ```
 
 
@@ -150,8 +151,17 @@ Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begr�
 
 .pull-right[
 ### Richtig 👼
-Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` begrägt ca. -0.11 -- *wenn* `hp=0`.
+Der Unterschied im Verbrauch zwischen den beiden Gruppen `vs=0` und `vs=1` beträgt ca. -0.11 -- *wenn* `hp=0`.
 ]
+
+Da `hp=0` kein realistischer Wert ist, 
+ist das Modell schwer zu interpretieren.
+Zentrierte Prädiktoren wären eine Lösugn.
+
+
+</br>
+
+`r RefManageR::Citet(bib, "gelman_regression_2021", after = ", Kap. 10")`, `r RefManageR::Citet(bib, "mcelreath_statistical_2020", after = ", Kap. 8")`
 
 
 

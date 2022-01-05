@@ -7,7 +7,8 @@ library(tidyverse)
 library(rstanarm)
 #library(ggdag)
 library(patchwork)
-library(nomnoml)
+library(ggdag)
+library(dagitty)
 ```
 
 
@@ -30,15 +31,16 @@ class: middle, center
 ## Zentraler Kennwert der Bayes-Statistik: Post-Verteilung
 
 
-```{r echo = TRUE, results ='hide'}
+```{r m3, echo = TRUE, results ='hide'}
 m3 <- stan_glm(mpg ~ hp, data = mtcars)
 ```
 
 .pull-left[
 
-```{r echo = TRUE, fig.asp = .7}
+```{r echo = FALSE, fig.asp = .9}
 library(bayesplot)
-mcmc_areas(m3, pars = "hp")
+mcmc_areas(m3, pars = "hp") +
+  labs(caption = "Median und 90%-PI werden gezeigt")
 ```
 
 ]
@@ -59,8 +61,9 @@ mcmc_areas(m3, pars = "hp")
 
 $$\text{Posteriori} = \frac{\text{Likelihood} \times \text{Priori}}{\text{Evidenz}}$$
 
-```{r QM2-Thema10-kleineModelle-27, fig.asp = .55}
-source("R-Code/img241.R")
+```{r QM2-Thema10-kleineModelle-27-ref, fig.asp = .55}
+p_img <- here::here("R-Code", "img241.R")
+source(p_img)
 ```
 
 
@@ -70,9 +73,9 @@ source("R-Code/img241.R")
 
 
 
-.box[
+
 $$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
-]
+
 
 
 
@@ -100,8 +103,9 @@ $$Pr(H|D) = \frac{Pr(D|H) Pr(H)}{Pr(D)}$$
 
 
 
-```{r QM2-Thema2-kleineModelle-19, out.width="100%"}
-source("R-Code/img221.R")
+```{r QM2-Thema2-kleineModelle-19-ref, out.width="100%"}
+p_img <- here::here("R-Code", "img221.R")
+source(p_img)
 ```
 
 
@@ -111,10 +115,17 @@ source("R-Code/img221.R")
 ## So denkt unser Bayes-Golem
 
 
-```{nomnoml, svg=TRUE}
-[Priori] -> [Daten]
-[Daten] -> [Post]
-
+```{r dagbayes}
+dag_bayes_raw <- 
+  'dag{
+Priori [pos = "0,0" ]
+Daten [pos = "1,0"]
+Post [pos = "2,0"]
+Priori -> Daten 
+Daten -> Post
+}'
+dag_bayes <- dagitty(dag_bayes_raw)
+plot(dag_bayes)
 ```
 
 
@@ -152,7 +163,7 @@ Das Problem ist aber *nicht* "Subjektivität" - sie ist unumgänglich und oft w�
 
 .pull-left[
 
-```{r}
+```{r brinkman-plot}
 knitr::include_graphics("https://f4.bcbits.com/img/a0636800374_16.jpg")
 ```
 
@@ -166,6 +177,8 @@ Baba Brinkman
 ### Good Bayesian 
 
 .xsmall[
+...
+
 Let me show you how to be a good Bayesian
 
 Change your predictions after takin’ information in

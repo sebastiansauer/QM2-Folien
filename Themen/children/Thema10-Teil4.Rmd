@@ -1,0 +1,205 @@
+
+```{r}
+library(gt)
+library(tidyverse)
+#library(dagitty)
+#library(DT)
+library(rstanarm)
+#library(ggdag)
+library(patchwork)
+library(nomnoml)
+```
+
+
+
+
+
+
+name: teil-4
+class: middle, center
+
+
+
+# Teil 4
+
+## Beispiele für Prüfungsaufgaben
+
+---
+
+## Geben Sie den korrekten Begriff an!
+
+
+</br>
+</br>
+</br>
+</br>
+.center[  🌬🚙🙋️👨⬅️Hans 👧⬅️Anna 👩⬅️Lise  ]
+
+
+---
+
+## DAG mit doppelter Konfundierung
+
+
+.pull-left[
+
+```{r dag2}
+dag2_raw <-
+  'dag {
+A [pos="-2.200,-1.520"]
+B [pos="1.400,-1.460"]
+D [outcome,pos="1.400,1.621"]
+E [exposure,pos="-2.200,1.597"]
+Z [pos="-0.300,-0.082"]
+A -> E
+A -> Z
+B -> D
+B -> Z
+E -> D
+Z -> D
+Z -> E
+}
+'
+
+dag2_raw %>% dagitty() %>% plot()
+```
+
+]
+
+
+
+.pull-right[
+❓Geben Sie die minimale Adjustierungsmenge (minimal adjustment set) an,
+um den totalen (gesamten) Effekt von *E* auf *D* zu bestimmen!
+
+❗ Entweder ist die Menge {A,Z} zu adjustieren oder die Menge {B,Z}.
+
+]
+
+
+---
+
+## DAG mit vielen Variablen
+
+
+```{r dag3, fig.asp = .5}
+dag3_raw <-
+  'dag {
+1 [pos="-5.600,2.115"]
+10 [pos="4.955,-4.447"]
+11 [pos="7.152,-1.901"]
+12 [pos="7.424,1.256"]
+13 [pos="5.971,3.498"]
+14 [pos="4.225,5.936"]
+15 [pos="1.634,7.468"]
+2 [pos="-7.120,-0.603"]
+3 [pos="-7.138,-3.731"]
+4 [pos="-5.395,-6.348"]
+5 [pos="-2.468,-6.074"]
+6 [pos="-2.179,-2.682"]
+7 [pos="-1.049,-0.238"]
+8 [pos="1.043,0.916"]
+9 [pos="2.654,-2.614"]
+D [outcome,pos="-1.510,6.789"]
+E [exposure,pos="-3.728,5.092"]
+1 -> E
+10 -> 9
+11 -> 10
+12 -> 11
+13 -> 12
+14 -> 13
+15 -> 14
+15 -> D
+2 -> 1
+3 -> 2
+4 -> 3
+5 -> 4
+6 -> 5
+7 -> 6
+7 -> E
+8 -> 7
+8 -> D
+9 -> 8
+E -> D
+}
+'
+
+dag3_raw %>% dagitty() %>% plot()
+```
+
+Minimale Adjustierungsmenge, um den Effekt von E auf D zu identifizieren: {7}, {8}.
+
+---
+
+## Ein Kausalmodell der Schizophrenie, van Kampen (2014)
+
+*The SSQ model of schizophrenic prodromal unfolding revised:* 
+
+*An analysis of its causal chains based on the language of directed graphs*
+
+D. van Kampen
+
+Lesen Sie [hier den Abstract](https://www.cambridge.org/core/journals/european-psychiatry/article/abs/ssq-model-of-schizophrenic-prodromal-unfolding-revised-an-analysis-of-its-causal-chains-based-on-the-language-of-directed-graphs/F2E7BBFC1B392616DB894AFBFABE7818).
+
+Folgende Symptome der Schizophrenie wurden gemessen:
+
+Social Anxiety (*SAN*), Active Isolation (*AIS*), Affective Flattening (*AFF*), Suspiciousness (*SUS*), Egocentrism (*EGC*), Living in a Fantasy World (*FTW*), Alienation (*ALN*), Apathy (*APA*), Hostility (*HOS*), Cognitive Derailment (*CDR*), Perceptual Aberrations (*PER*), and Delusional Thinking (*DET*)
+
+`r RefManageR::Citet(bib, "van_kampen_ssq_2014")`
+
+
+
+---
+
+## DAG von van Kampen (2014) zu den Symptomen der Schizophrenie
+
+
+```{r dag-van-kampen, fig.asp=.5}
+dad_van_kampen_raw <-
+  'dag {
+AFF [pos="0.262,0.477"]
+AIS [pos="0.123,0.736"]
+ALN [pos="0.438,0.506"]
+APA [pos="0.376,0.147"]
+CDR [pos="0.628,0.332"]
+DET [pos="0.920,0.561"]
+EGC [outcome,pos="0.916,1.016"]
+FTW [pos="0.667,0.639"]
+HOS [pos="0.886,0.727"]
+PER [pos="0.920,0.382"]
+SAN [pos="0.031,0.371"]
+SUS [exposure,pos="0.295,1.003"]
+AFF -> ALN
+AFF -> APA
+AFF -> CDR
+AIS -> AFF
+AIS -> EGC
+AIS -> SUS
+ALN -> APA
+ALN -> DET
+ALN -> FTW
+ALN -> PER
+ALN -> SUS
+CDR -> DET
+EGC -> HOS
+FTW -> DET
+FTW -> EGC
+PER -> DET
+SAN -> AFF
+SAN -> AIS
+SAN -> ALN
+SAN -> APA
+SAN -> CDR
+SUS -> EGC
+SUS -> FTW
+SUS -> HOS
+}
+'
+
+dad_van_kampen_raw %>% dagitty() %>% plot()
+```
+
+
+Minimales Adjustment-Set: {AIS, ALN}
+
+---

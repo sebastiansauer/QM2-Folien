@@ -32,10 +32,14 @@ class: middle, center
 2. Literatur wälzen, um mögliche Ursachen $x$ von $y$ zu lernen
 3. Forschungsfrage, Hypothese präzisieren
 4. Modell präzisieren (DAG(s), Prioris)
+
 *Empirische Phase*
+
 5. Versuch planen
 6. Daten erheben
+
 *Analytische Phase*
+
 7. Daten aufbereiten
 8 Modell berechnen anhand eines oder mehrerer DAGs
 9. Modell prüfen/kritisieren
@@ -53,7 +57,8 @@ Yeah! Fertig.
 - Beispiel Hypothesenprüfung: "Frauen parken im Durchschnitt schneller ein als Männer".
 - Beispiel Parameterschätzung: "Wie groß ist der mittlere Unterschied in der Ausparkzeit zwischen Frauen und Männern?"
 - Je ausgereifter ein Forschungsfeld, desto *kühnere* Hypothesen lassen sich formulieren:
-    - stark ausgereift: Die nächste totale Sonnenfinsternis in Deutschland wird am 27.7.2082 um 14.47h stattfinden, [Quelle](https://www.solar-eclipse.info/de/eclipse/country/DE/)
+    - stark ausgereift: 
+      - Die nächste totale Sonnenfinsternis in Deutschland wird am 27.7.2082 um 14.47h stattfinden, [Quelle](https://www.solar-eclipse.info/de/eclipse/country/DE/)
     - gering ausgereift: 
       - Die nächste Sonnenfinsternis wird in den nächsten 100 Jahren stattfinden.
       - Lernen bringt mehr als Nicht-Lernen für den Klausurerfolg.

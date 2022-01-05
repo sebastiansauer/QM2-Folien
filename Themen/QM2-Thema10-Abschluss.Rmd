@@ -56,6 +56,8 @@ knitr::opts_chunk$set(
 
 3. [Teil 3: Kerngedanken Bayes](#teil-3)
 
+4. [Teil 4: Beispiele für Prüfungsaufgaben](#teil-4)
+
 5. [Hinweise](#hinweise)
 ]
 
@@ -75,6 +77,10 @@ knitr::opts_chunk$set(
 
 ```{r QM2-Thema10-Teil3, eval = TRUE, child="children/Thema10-Teil3.Rmd"}
 ```
+
+```{r QM2-Thema10-Teil4, eval = TRUE, child="children/Thema10-Teil4.Rmd"}
+```
+
 
 
 ```{r QM2-Thema10-Hinweise, eval = TRUE, child="children/Hinweise.Rmd"}
