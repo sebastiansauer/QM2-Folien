@@ -147,7 +147,11 @@ Social Anxiety (*SAN*), Active Isolation (*AIS*), Affective Flattening (*AFF*), 
 
 `r RefManageR::Citet(bib, "van_kampen_ssq_2014")`
 
+UV: *SUS*, AV: *EGC*
 
+
+Berechnen Sie die minimale Adjustierungsmenge, 
+um den kausalen Effekt der UV auf die AV zu identifizieren!
 
 ---
 
@@ -200,6 +204,6 @@ dad_van_kampen_raw %>% dagitty() %>% plot()
 ```
 
 
-Minimales Adjustment-Set: {AIS, ALN}
+Minimales Adjustment-Set für den totalen Kausaleffekt: {AIS, ALN}
 
 ---

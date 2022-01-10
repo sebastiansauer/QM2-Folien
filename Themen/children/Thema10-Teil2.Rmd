@@ -41,7 +41,7 @@ class: middle, center
 *Analytische Phase*
 
 7. Daten aufbereiten
-8 Modell berechnen anhand eines oder mehrerer DAGs
+8. Modell berechnen anhand eines oder mehrerer DAGs
 9. Modell prüfen/kritisieren
 10. Forschungsfrage beantworten
 
@@ -62,8 +62,7 @@ Yeah! Fertig.
     - gering ausgereift: 
       - Die nächste Sonnenfinsternis wird in den nächsten 100 Jahren stattfinden.
       - Lernen bringt mehr als Nicht-Lernen für den Klausurerfolg.
-    
-
+- Kühne Hypothesen sind wünschenswert.
 
 
 ---
