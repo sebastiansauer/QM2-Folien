@@ -24,6 +24,10 @@ class: middle, center
 
 ## Beispiele für Prüfungsaufgaben
 
+
+
+.left[.footnote[[Gliederung](#gliederung)]]
+
 ---
 
 ## Geben Sie den korrekten Begriff an!

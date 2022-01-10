@@ -23,6 +23,16 @@ class: middle, center
 
 ## Lieblinglingsfehler
 
+
+</br>
+</br>
+</br>
+</br>
+</br>
+
+.left[.footnote[[Gliederung](#gliederung)]]
+
+
 ---
 
 

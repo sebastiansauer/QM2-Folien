@@ -25,20 +25,11 @@ output:
 ```{r QM2-Thema10-1, child="children/Setup.Rmd", eval = TRUE}
 ```
 
-
-```{r}
-book <- "Regression and other stories; Statistical Rethinking (jeweils alle behandelten Kapitel)"
-```
-
-
-```{r}
-knitr::opts_chunk$set(
-   fig.path = paste0("Kapitel_", params$kapitel_nr,"_chunk-img/")
-   )
-```
+---
 
 
 
+name: gliederung
 
 ## Gliederung
 

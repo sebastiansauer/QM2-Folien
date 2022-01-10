@@ -23,6 +23,11 @@ class: middle, center
 
 ## Kochrezepte 🍲
 
+
+
+.left[.footnote[[Gliederung](#gliederung)]]
+
+
 ---
 
 ## Kochrezept: Forschungsfrage untersuchen

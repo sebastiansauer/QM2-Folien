@@ -25,6 +25,12 @@ class: middle, center
 
 ## Kerngedanken Bayes
 
+
+.left[.footnote[[Gliederung](#gliederung)]]
+
+
+
+
 ---
 
 
