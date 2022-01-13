@@ -199,7 +199,7 @@ Das hatten wir schon mit `posterior_interval()` gesehen, das ein 95%-PI ausgegeb
 
 ```{r echo = TRUE}
 posterior_linpred(m92, newdata = tibble(height_c = 10)) %>%
-  mean()  # `invlogit()` rechnet in Pr. um
+  mean() 
 ```
 
 

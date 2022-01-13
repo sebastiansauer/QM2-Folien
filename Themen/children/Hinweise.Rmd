@@ -57,12 +57,15 @@ background-position: left
 </br>
 </br>
 .right[
-### [Homepage](https://sebastiansauer.github.io/bayes-start/)
-]
+
+### 
+.content-box-blue[[Homepage](https://sebastiansauer.github.io/bayes-start/)]
 
 
 ]
 
+
+]
 
 
 
@@ -84,6 +87,13 @@ RefManageR::PrintBibliography(bib)
 ```
 
 ]
+
+
+---
+
+
+
+.left[.footnote[[Gliederung](#gliederung)]]
 
 
 ---

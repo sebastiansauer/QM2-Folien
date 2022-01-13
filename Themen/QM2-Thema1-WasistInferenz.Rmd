@@ -19,7 +19,7 @@ output:
     # fonttheme: "structurebold"
     keep_tex: false 
     includes:
-      in_header: ../libs/preamble.tex    
+      in_header: ../latex/preamble.tex    
 editor_options: 
   chunk_output_type: console
   
@@ -1249,7 +1249,7 @@ tibble::tribble(
 
 Randwahrscheinlichkeit: $Pr(B) = 48/78 \approx 0.61 \quad Pr(l) = 42/78 \approx 0.54$
 
-Bedingte Wahrscheinlichkeit: $Pr(B|l) = 36/42 \approx \frac{0.46}{0.54} \approx 0.86 \quad Pr(l|B) = 42/48 \approx 0.88$
+Bedingte Wahrscheinlichkeit: $Pr(B|l) = 36/42 \approx \frac{0.46}{0.54} \approx 0.86 \quad Pr(l|B) = 36/48 = 0.75$
 
 
 
