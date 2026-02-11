@@ -21,8 +21,8 @@ output:
     includes:
       in_header: ../latex/preamble.tex    
 editor_options: 
-  chunk_output_type: console
   
+  chunk_output_type: console
 #numbersections: yes
 csquotes: TRUE     
 ---
@@ -1244,7 +1244,6 @@ tibble::tribble(
 
 ```
 
-\vspace{1cm}
 
 
 Randwahrscheinlichkeit: $Pr(B) = 48/78 \approx 0.61 \quad Pr(l) = 42/78 \approx 0.54$

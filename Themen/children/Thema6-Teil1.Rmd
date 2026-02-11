@@ -38,7 +38,7 @@ m10.1 <- stan_glm(
   data = kidiq)
 ```
 
-Alternativ können Sie die Daten [hier](https://raw.githubusercontent.com/avehtari/ROS-Examples/master/KidIQ/data/child_iq.csv) herunterladen.
+Alternativ können Sie die Daten [hier](https://raw.githubusercontent.com/sebastiansauer/Lehre/main/data/kidiq.csv) herunterladen.
 
 ```{r echo = TRUE}
 coef(m10.1)
@@ -55,7 +55,8 @@ ggplot(kidiq) +
   aes(x = mom_hs, y = kid_score) +
   geom_jitter(width = 0.1, alpha = .5) +
   geom_abline(slope = coef(m10.1)[2],
-              intercept = coef(m10.1)[1]) 
+              intercept = coef(m10.1)[1])  +
+  scale_x_continuous(breaks = c(0, 1))
 ```
 
 ]

@@ -46,5 +46,8 @@ d %>%
   facet_wrap(~ size_group, nrow = 1, labeller = as_labeller(size_group_labs)) +
   labs(title = "Hauspreis als Funktion von Zimmerzahl und Quadratmeter",
        caption = "Facetten zeigen Quartile der Variable 'Quadratmeter'")
+
+
+#ggsave(filename = "img/hauspreis1.png", width = 12, height = 8)
 ```
 

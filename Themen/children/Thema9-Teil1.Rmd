@@ -245,6 +245,7 @@ $$
 Diese Funktion nennt man auch *inverser Logit*, $\text{logit}^{-1}, \mathcal{L}^{-1}$.
 
 ---
+
 ## Logit und Inverser Logit
 .pull-left[
 #### Logit
